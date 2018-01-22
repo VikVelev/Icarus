@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+}
+
+.optionBox{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
