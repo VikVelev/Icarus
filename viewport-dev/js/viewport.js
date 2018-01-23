@@ -51,7 +51,7 @@ function init() {
 	);
 	
 	geometry = new THREE.CubeGeometry(0.4, 0.4, 0.4)
-	var cube = new THREE.Mesh(new THREE.CubeGeometry(0.4, 0.4, 0.4), new THREE.MeshNormalMaterial());
+	cube = new THREE.Mesh(new THREE.CubeGeometry(0.4, 0.4, 0.4), new THREE.MeshNormalMaterial());
 	cube.position.x = 0;
 	cube.position.y = 0;
 	cube.position.z = 0;
@@ -98,6 +98,10 @@ function toggleWireframe(){
 
 function toggleTextures(){
 
+}
+
+function toggleMesh(){
+	cube.visible = !cube.visible
 }
 
 function onWindowResize() {
