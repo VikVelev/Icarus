@@ -8,11 +8,23 @@
     <title>viewport.dev</title>
  </head>
  <body>
-    <div class="optionBox">
-        <input type="text" name="model"/>
-        <input type="radio" name="normals"/>
-        <input type="radio" name="texture"/>
-    </div>
+    <form class="optionBox">
+        <div class="chooseFile element">
+            <input type="file" name="model" accept=".obj"/>
+        </div>
+        <div class="element">
+            <input type="radio" class="radio" name="normals" onclick="toggleFaceNormals()"/><label>Face Normals</label>
+        </div>
+        <div class="element">
+                <input type="radio" class="radio" name="normals" onclick="toggleVertexNormals()"/><label>Vert. Normals</label>
+            </div>
+        <div class="element">
+                <input type="radio" class="radio" name="texture" onclick="toggleWireframe()"/><label>Wireframe</label>
+            </div>
+        <div class="element">
+            <input type="radio" class="radio" name="texture"/><label>Textures</label>
+        </div>
+    </form>
  </body>
  <script src="js/libs/three/three.min.js"></script>
  <script src="js/libs/jquery.min.js"></script>
@@ -20,4 +32,5 @@
  <script src="js/libs/three/OrbitControls.js"></script>
  <script src="js/libs/three/OBJLoader.js"></script> 
  <script src="js/viewport.js"></script>
+ <script src="js/options.js"></script> 
  </html>

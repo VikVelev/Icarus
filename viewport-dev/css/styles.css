@@ -3,10 +3,24 @@ body {
 }
 
 .optionBox{
+    border: 5px;
+    border-color: rgba(19, 100, 200, 0.4);
+    padding: 10px;
     position: absolute;
     top: 0;
     right: 0;
     display: flex;
+    width: 200px;
     flex-direction: column;
     z-index: 1000;
+    background-color: rgba(19, 100, 176, 0.4)
+}
+
+label{
+    margin-left: 5px;
+}
+
+.element{
+    color: white;
+    margin-bottom: 10px
 }
