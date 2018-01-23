@@ -1,69 +1,82 @@
-var camera, scene, renderer;
-var geometry, material, mesh;
+let camera, controls, scene, renderer;
+let gridHelper;
+let	loader, geometry, material, mesh;
+let objectsInScene = [];
 
 init();
 animate();
 
 function init() {
-
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 100 );
+	//Initialising camera
+	camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 100);
 	camera.position.z = 1;
 	camera.position.y = 0.5;
 	camera.position.x = 0.5;
-	controls = new THREE.OrbitControls( camera );
 
+	//Initialising misc.
+	controls = new THREE.OrbitControls(camera);
 	scene = new THREE.Scene();
-
-	var loader = new THREE.OBJLoader();
+	loader = new THREE.OBJLoader();
 	
-	objectsInScene = []
-	
-	loader.load(
-		'../model.obj',
-		function ( object ) {
-			object.name = "model"
-			object.traverse(function(child){
-				if(child instanceof THREE.Mesh){
-					child.material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-				}
-			})
-
-			objectsInScene.push(object)
-			scene.add( object );
-		},
-		// called when loading is in progresses
-		function ( xhr ) {
-			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-		},
-		// called when loading has errors
-		function (error) {
-			console.log('An error happened' + error);
-		}
-	);
-
-	var gridHelper = new THREE.GridHelper(10, 10, 0x00ff00, 0x808080 );
-	gridHelper.position.y = 0;
+	gridHelper = new THREE.GridHelper(10, 10, 0x00ff00, 0x808080);
 	gridHelper.position.x = 0;
-	scene.add( gridHelper );
+	gridHelper.position.y = 0;
+	gridHelper.position.z = 0;	
+	
+	scene.add(gridHelper);
 
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	//Initialising objects	
+	// loader.load(
+	// 	'../model.obj',
+	// 	function (object) {
+			
+	// 		object.name = "model"
+	// 		object.traverse(function(child){
+	// 			if(child instanceof THREE.Mesh){
+	// 				child.material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+	// 			}
+	// 		})
+	// 		objectsInScene.push(object)
+	// 		scene.add(object);
 
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	document.body.appendChild( renderer.domElement );
+	// 	},
+	// 	function (xhr) {
+			
+	// 		console.log((xhr.loaded / xhr.total * 100 ) + '% loaded');
+		
+	// 	},
+	// 	function (error) {
+		
+	// 		console.log('An error happened' + error);
+		
+	// 	}
+	// );
+	
+	var cube = new THREE.Mesh(new THREE.CubeGeometry(0.5, 0.5, 0.5), new THREE.MeshNormalMaterial());
+	cube.position.x = 0;
+	cube.position.y = 0;
+	cube.position.z = 0;
 
-	window.addEventListener( 'resize', onWindowResize, false );
+	scene.add(cube);
+
+	//Initialising canvas/renderer
+	renderer = new THREE.WebGLRenderer({antialias: true});
+
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	window.addEventListener('resize', onWindowResize, false);
 
 }
 
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-
+	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 function animate() {
-	requestAnimationFrame( animate );
-	renderer.render( scene, camera );
+	requestAnimationFrame(animate);
+	renderer.render(scene,camera);
 
 }
