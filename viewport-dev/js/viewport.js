@@ -1,35 +1,22 @@
+//THIS FILE IS ONLY FOR TESTING
+//Not final, after everything is working it will be reimplemented.
+
 let camera, controls, scene, renderer;
 let gridHelper;
-let	loader, geometry, material, mesh, cube;
+let	loader, geometry, material, mesh, mesh2, cube;
 let objectsInScene = [];
+let faceNormals, vertexNormals, wireframe;
 
 init();
 animate();
 
+//TODO: Make the toggability of wireframe and normals global.
+
 function createCube(){
 	geometry = new THREE.CubeGeometry(0.4, 0.4, 0.4)
 	cube = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
-	cube.position.x = 0;
-	cube.position.y = 0;
-	cube.position.z = 0;
-	scene.add(cube);
-
-	faceNormals = new THREE.FaceNormalsHelper(cube,0.15);
-	scene.add(faceNormals);
-
-	vertexNormals = new THREE.VertexNormalsHelper(cube,0.15);
-	scene.add(vertexNormals);
-
-	var geo = new THREE.WireframeGeometry(geometry);
-	var mat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
-	wireframe = new THREE.LineSegments(geo, mat);
-
-	scene.add(wireframe);
-
-	faceNormals.visible = false;
-	vertexNormals.visible = false;
-	wireframe.visible = false;
-
+	mesh = new Model3D(cube, scene, {active: true, type: "before"})
+	//TODO: implement opacity if it's in diff mode
 }
 
 function init() {
@@ -63,27 +50,6 @@ function init() {
 
 }
 
-function toggleVertexNormals(){
-	vertexNormals.visible = !vertexNormals.visible
-}
-
-function toggleFaceNormals(){
-	faceNormals.visible = !faceNormals.visible
-	
-}
-
-function toggleWireframe(){
-	wireframe.visible = !wireframe.visible	
-}
-
-function toggleTextures(){
-
-}
-
-function toggleMesh(){
-	cube.visible = !cube.visible
-}
-
 function onWindowResize() {
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
@@ -95,4 +61,3 @@ function animate() {
 	renderer.render(scene,camera);
 
 }
-
