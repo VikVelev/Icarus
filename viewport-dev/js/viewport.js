@@ -1,10 +1,36 @@
 let camera, controls, scene, renderer;
 let gridHelper;
-let	loader, geometry, material, mesh;
+let	loader, geometry, material, mesh, cube;
 let objectsInScene = [];
 
 init();
 animate();
+
+function createCube(){
+	geometry = new THREE.CubeGeometry(0.4, 0.4, 0.4)
+	cube = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
+	cube.position.x = 0;
+	cube.position.y = 0;
+	cube.position.z = 0;
+	scene.add(cube);
+
+	faceNormals = new THREE.FaceNormalsHelper(cube,0.15);
+	scene.add(faceNormals);
+
+	vertexNormals = new THREE.VertexNormalsHelper(cube,0.15);
+	scene.add(vertexNormals);
+
+	var geo = new THREE.WireframeGeometry(geometry);
+	var mat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
+	wireframe = new THREE.LineSegments(geo, mat);
+
+	scene.add(wireframe);
+
+	faceNormals.visible = false;
+	vertexNormals.visible = false;
+	wireframe.visible = false;
+
+}
 
 function init() {
 	//Initialising camera
@@ -24,54 +50,8 @@ function init() {
 	gridHelper.position.z = 0;	
 	scene.add(gridHelper);
 
-	//Initialising objects	
-	loader.load(
-		'../model.obj',
-		function (object) {
-			
-			object.name = "model"
-			object.traverse(function(child){
-				if(child instanceof THREE.Mesh){
-					child.material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-				}
-			})
-			objectsInScene.push(object)
-			//scene.add(object);
-		},
-		function (xhr) {
-			
-			console.log((xhr.loaded / xhr.total * 100 ) + '% loaded');
-		
-		},
-		function (error) {
-		
-			console.log('An error happened' + error);
-		
-		}
-	);
-	
-	geometry = new THREE.CubeGeometry(0.4, 0.4, 0.4)
-	cube = new THREE.Mesh(new THREE.CubeGeometry(0.4, 0.4, 0.4), new THREE.MeshNormalMaterial());
-	cube.position.x = 0;
-	cube.position.y = 0;
-	cube.position.z = 0;
-
-	scene.add(cube)
-
-	faceNormals = new THREE.FaceNormalsHelper(cube,0.1);
-	scene.add( faceNormals );
-
-	vertexNormals = new THREE.VertexNormalsHelper(cube,0.1);
-	scene.add( vertexNormals );
-
-	var geo = new THREE.WireframeGeometry(geometry);
-	var mat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
-	wireframe = new THREE.LineSegments( geo, mat );
-	scene.add(wireframe);
-
-	faceNormals.visible = false;
-	vertexNormals.visible = false;
-	wireframe.visible = false;
+	//Initialising objects
+	createCube()
 	
 	//Initialising canvas/renderer
 	renderer = new THREE.WebGLRenderer({antialias: true});
@@ -115,3 +95,4 @@ function animate() {
 	renderer.render(scene,camera);
 
 }
+
