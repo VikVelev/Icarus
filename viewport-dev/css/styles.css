@@ -25,6 +25,19 @@ label{
     margin-bottom: 10px
 }
 
-input[type="radio"]{
+.index {
+    height: 200px;
+    width: 200px;
+}
 
+#lol {
+    height: 200px;
+    width: 200px;
+}
+body {
+    display: flex;
+    flex-direction: row;
+}
+.viewport{
+    margin: 10px;
 }

@@ -1,127 +1,40 @@
 //THIS FILE IS ONLY FOR TESTING
 //Not final, after everything is working it will be reimplemented.
+var geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
+var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+var cube = new THREE.Mesh( geometry, material );
 
-let camera, controls, scene, renderer;
-let gridHelper;
-let	loader, geometry, material, mesh, mesh2, cube;
-let objectsInScene = [];
-let faceNormals, vertexNormals, wireframe;
+var geometry2 = new THREE.BoxGeometry( 0.6, 0.2, 0.4 );
+var material2 = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
+var cube2 = new THREE.Mesh( geometry2, material2 );
 
-init();
+var model = new Model3D( cube );
+var model2 = new Model3D( cube2 );
+
+var viewport = new Viewport( 1, model );
+var viewport2 = new Viewport( 2, model2 );
+
+viewport.init();
+viewport2.init();
+window.addEventListener( 'resize', onWindowResize, false );
+
 animate();
 
-//TODO: Implement selection.
-//TODO: OOP -> Viewport class, so I can run multiple instances of viewports
-function createCube(){
-	geometry = new THREE.CubeGeometry( 0.4, 0.4, 0.4 )
-	cube = new THREE.Mesh( geometry, new THREE.MeshNormalMaterial() );
-	mesh = new Model3D(cube, scene, {active: true, type: "before"})
+function animate(){
 
-	geometry = new THREE.CubeGeometry( 0.45, 0.45, 0.45 )
-	cube = new THREE.Mesh( geometry, new THREE.MeshNormalMaterial() );
-	mesh2 = new Model3D( cube, scene, {active: true, type: "after"} )
-	mesh2.moveModel( 1, 0, 0 )
-
-	mesh.toggleDiffMode()
-	mesh2.toggleDiffMode()
-
-
-	//TODO: implement opacity if it's in diff mode
-}
-
-function createHelpers(){
-	gridHelper = new THREE.GridHelper( 10, 10, 0xffffff, 0x808080 );
-	gridHelper.position.x = 0;
-	gridHelper.position.y = 0;
-	gridHelper.position.z = 0;
-
-	var axes =  new THREE.AxesHelper( 10 )
-	scene.add( axes );
-	scene.add( new THREE.AmbientLight( 0x222222 ) );
-
-	scene.add( gridHelper );
-}
-
-function init() {
-	//Initialising camera
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 100/*set this to the mesh's size*/ );
-	camera.position.x = 0.5;
-	camera.position.y = 0.5;
-	camera.position.z = 1;
-
-	//Initialising misc.
-	controls = new THREE.OrbitControls( camera );
-	controls.minDistance = 0; 
-	controls.maxDistance = 20; //set this to the mesh's size
-	controls.maxPolarAngle = Math.PI;
-
-	scene = new THREE.Scene();
-	loader = new THREE.OBJLoader();
-
-	createHelpers()
-	//Initialising objects
-	createCube()
-
-	//Initialising canvas/renderer
-	renderer = new THREE.WebGLRenderer( {antialias: true} );
-
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	document.body.appendChild( renderer.domElement );
-
-	window.addEventListener( 'resize', onWindowResize, false );
-
+	requestAnimationFrame( animate );
+	//render all viewports here
+	viewport.renderer.render( viewport.scene, viewport.camera );
+	viewport2.renderer.render( viewport2.scene, viewport2.camera );
 }
 
 function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-}
 
-function animate() {
-	requestAnimationFrame( animate );
-	renderer.render( scene, camera );
+	viewport.camera.aspect = window.innerWidth / window.innerHeight;
+	viewport.camera.updateProjectionMatrix();
+	viewport.renderer.setSize( window.innerWidth, window.innerHeight );
 
-}
-
-function toggleVertexNormals(){
-	
-	scene.traverse ( function( object )
-	{
-		if ( object.name == 'vnormals' ){
-			object.visible = !object.visible
-		}
-	});
-
-}
-
-function toggleFaceNormals(){
-	scene.traverse (function (object)
-	{
-		if (object.name == 'fnormals'){
-			object.visible = !object.visible
-		}
-	});
-}
-
-function toggleWireframe(){
-	scene.traverse (function (object)
-	{
-		if (object.name == 'wireframe'){
-			object.visible = !object.visible
-		}
-	});	
-}
-
-function toggleTextures(){
-	//TODO: Implement this
-}
-
-function toggleMesh(){
-	scene.traverse (function (object)
-	{
-		if (object.name == 'mesh'){
-			object.visible = !object.visible
-		}
-	});
+	viewport2.camera.aspect = window.innerWidth / window.innerHeight;
+	viewport2.camera.updateProjectionMatrix();
+	viewport2.renderer.setSize( window.innerWidth, window.innerHeight );
 }

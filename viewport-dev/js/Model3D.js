@@ -1,11 +1,9 @@
 class Model3D {
     //model = 3D THREE.js Geometry Object
     //constructor TOTHINK does name matter?
-    constructor( model, scene, diffmode ){
-        //diffmode indicates the following - { active: false, type: "before"}
-        this.diffmode = diffmode;
+    //Abstract more - remove the scene
+    constructor( model ){
         this.selected = false;
-        this.scene = scene;
         this.model = model;
         this.vertexNormals  = new THREE.VertexNormalsHelper( cube, 0.15 );
         this.faceNormals = new THREE.FaceNormalsHelper( cube, 0.15 );
@@ -16,21 +14,11 @@ class Model3D {
                                 color: 0xffffff,
                                 linewidth: 2
                             }));
+
         //every model starts at the center, you can move it using the moveModel() method.
         this.model.position.x = 0;
         this.model.position.y = 0;
         this.model.position.z = 0;
-
-        THREE.SceneUtils.detach( this.faceNormals, this.model, this.scene );
-        THREE.SceneUtils.attach( this.faceNormals, this.scene, this.model );
-
-        THREE.SceneUtils.detach( this.vertexNormals, this.model, this.scene );
-        THREE.SceneUtils.attach( this.vertexNormals, this.scene, this.model );
-
-        this.scene.add(this.model);
-        this.scene.add(this.wireframe);
-        this.scene.add(this.vertexNormals);
-        this.scene.add(this.faceNormals);
     
         //These names are there so I can address all of these objects alter.
         this.model.name = "mesh"
@@ -41,30 +29,6 @@ class Model3D {
         this.faceNormals.visible = false;
         this.vertexNormals.visible = false;
         this.wireframe.visible = false;
-    }
-
-    toggleDiffMode(){
-        if ( this.diffmode.active ){
-            if( this.diffmode.type == "before" ){
-
-                this.wireframe.material = new THREE.LineBasicMaterial(
-                {
-                    color: 0xff1212,
-                    linewidth: 4.5
-                });
-                this.wireframe.visible = true;
-
-
-            } else if ( this.diffmode.type == "after" ){
-
-                this.wireframe.material = new THREE.LineBasicMaterial(
-                {
-                    color: 0x12ff12,
-                    linewidth: 4.5
-                });
-                this.wireframe.visible = true;
-            }
-        }
     }
 
     moveModel( x, y, z ){
