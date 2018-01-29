@@ -1,5 +1,15 @@
 //THIS FILE IS ONLY FOR TESTING
 //Not final, after everything is working it will be reimplemented.
+
+//TODO: Add optionBoxes to each and every viewport,
+//      Make options working, global and local,
+//		Eventually implement selection
+//      Implement Diff class
+//		Implement OBJ Loader (Later 3ds max and others)
+//      Dynamic rendering optimization
+//		
+
+
 var geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
 var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 var cube = new THREE.Mesh( geometry, material );
@@ -30,11 +40,11 @@ function animate(){
 
 function onWindowResize() {
 
-	viewport.camera.aspect = window.innerWidth / window.innerHeight;
+	viewport.camera.aspect = window.innerWidth / window.innerHeight*2;
 	viewport.camera.updateProjectionMatrix();
-	viewport.renderer.setSize( window.innerWidth, window.innerHeight );
+	viewport.renderer.setSize( window.innerWidth, window.innerHeight/2 );
 
-	viewport2.camera.aspect = window.innerWidth / window.innerHeight;
+	viewport2.camera.aspect = window.innerWidth / window.innerHeight*2 ;
 	viewport2.camera.updateProjectionMatrix();
-	viewport2.renderer.setSize( window.innerWidth, window.innerHeight );
+	viewport2.renderer.setSize( window.innerWidth, window.innerHeight/2 );
 }
