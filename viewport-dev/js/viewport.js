@@ -2,8 +2,8 @@
 //Not final, after everything is working it will be reimplemented.
 
 //TODO: Add optionBoxes to each and every viewport,
-//      Make options working, global and local,
 //		Eventually implement selection
+//      Make options working, global(for the whole viewport) and local(for the selected object),
 //      Implement Diff class
 //		Implement OBJ Loader (Later 3ds max and others)
 //      Dynamic rendering optimization
@@ -21,30 +21,41 @@ var cube2 = new THREE.Mesh( geometry2, material2 );
 var model = new Model3D( cube );
 var model2 = new Model3D( cube2 );
 
+
 var viewport = new Viewport( 1, model );
 var viewport2 = new Viewport( 2, model2 );
 
 viewport.init();
 viewport2.init();
+
+
 window.addEventListener( 'resize', onWindowResize, false );
 
 animate();
 
 function animate(){
 
-	requestAnimationFrame( animate );
+	requestAnimationFrame( animate )
 	//render all viewports here
-	viewport.renderer.render( viewport.scene, viewport.camera );
-	viewport2.renderer.render( viewport2.scene, viewport2.camera );
+	renderCurrentViewport()
+
 }
 
 function onWindowResize() {
 
-	viewport.camera.aspect = window.innerWidth / window.innerHeight*2;
+	viewport.camera.aspect = window.innerWidth / window.innerHeight;
 	viewport.camera.updateProjectionMatrix();
-	viewport.renderer.setSize( window.innerWidth, window.innerHeight/2 );
+	viewport.renderer.setSize( window.innerWidth / 2.2, window.innerHeight / 2.2 );
 
-	viewport2.camera.aspect = window.innerWidth / window.innerHeight*2 ;
+	viewport2.camera.aspect = window.innerWidth / window.innerHeight ;
 	viewport2.camera.updateProjectionMatrix();
-	viewport2.renderer.setSize( window.innerWidth, window.innerHeight/2 );
+	viewport2.renderer.setSize( window.innerWidth / 2.2, window.innerHeight / 2.2 );
+}
+
+function renderCurrentViewport() {
+	//if clicked on current:
+	viewport.renderer.render( viewport.scene, viewport.camera );
+	//if clicked on this:	
+	viewport2.renderer.render( viewport2.scene, viewport2.camera );
+	
 }

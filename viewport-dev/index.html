@@ -8,35 +8,13 @@
     <title>viewport.dev</title>
  </head>
  <body>
-    <form class="optionBox">
-        <div class="chooseFile element">
-            <input type="file" name="model" accept=".obj"/>
-        </div>
-        <div class="element">
-            <input type="radio" class="radio" name="fnormals" onclick="toggleFaceNormals()"/><label>Face Normals</label>
-        </div>
-        <div class="element">
-                <input type="radio" class="radio" name="vnormals" onclick="toggleVertexNormals()"/><label>Vert. Normals</label>
-        </div>
-        <div class="element">
-                <input type="radio" class="radio" name="wireframe" onclick="toggleWireframe()"/><label>Wireframe</label>
-            </div>
-        <div class="element">
-            <input type="radio" class="radio" name="texture"/><label>Textures</label>
-        </div>
-        <div class="element">
-            <input type="radio" class="radio" name="mesh" onclick="toggleMesh()"/><label>Mesh</label>
-        </div>
-    </form>
  </body>
  <script src="js/libs/three/three.min.js"></script>
- <script src="js/libs/jquery.min.js"></script>
- <script src="js/libs/three/OrbitControls.js"></script>
+ <script src="js/libs/dat.gui.js"></script>
  <script src="js/libs/three/OrbitControls.js"></script>
  <script src="js/libs/three/OBJLoader.js"></script> 
  <script src="js/Model3D.js"></script>
  <script src="js/Diff.js"></script> 
  <script src="js/Viewport.js"></script>  
  <script src="js/viewport.js"></script>
- <script src="js/options.js"></script> 
  </html>

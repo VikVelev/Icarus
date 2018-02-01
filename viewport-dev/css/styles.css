@@ -1,43 +1,58 @@
 body {
+
     margin: 0;
+
 }
 
-.optionBox{
-    border: 5px;
-    border-color: rgba(19, 100, 200, 0.4);
-    padding: 15px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    width: 200px;
-    flex-direction: column;
-    z-index: 1000;
-    background-color: rgba(19, 100, 176, 0.4)
-}
+label {
 
-label{
     margin-left: 5px;
+
 }
 
-.element{
+.element {
+
     color: white;
     margin-bottom: 10px
+
 }
 
 .index {
+
     height: 200px;
     width: 200px;
+
 }
 
 #lol {
+
     height: 200px;
     width: 200px;
+
 }
+
 body {
+
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
 }
-.viewport{
-    margin: 10px;
+
+.viewport {
+
+    margin: auto;
+    margin-bottom: 5px;
+    
+}
+
+.optionBox{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.dg.main.a{
+    position: absolute;
 }

@@ -13,7 +13,7 @@ function toggleVertexNormals(){
 function toggleFaceNormals(){
 	scene.traverse (function (object)
 	{
-		if (object.name == 'fnormals'){
+		if ( object.name == 'fnormals' ){
 			object.visible = !object.visible
 		}
 	});
@@ -22,7 +22,7 @@ function toggleFaceNormals(){
 function toggleWireframe(){
 	scene.traverse (function (object)
 	{
-		if (object.name == 'wireframe'){
+		if ( object.name == 'wireframe' ){
 			object.visible = !object.visible
 		}
 	});	
@@ -35,7 +35,7 @@ function toggleTextures(){
 function toggleMesh(){
 	scene.traverse (function (object)
 	{
-		if (object.name == 'mesh'){
+		if ( object.name == 'mesh' ){
 			object.visible = !object.visible
 		}
 	});

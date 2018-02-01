@@ -2,11 +2,12 @@ class Model3D {
     //model = 3D THREE.js Geometry Object
     //constructor TOTHINK does name matter?
     //Abstract more - remove the scene
-    constructor( model ){
+    constructor( model ) {
+
         this.selected = false;
         this.model = model;
-        this.vertexNormals  = new THREE.VertexNormalsHelper( cube, 0.15 );
-        this.faceNormals = new THREE.FaceNormalsHelper( cube, 0.15 );
+        this.vertexNormals  = new THREE.VertexNormalsHelper( this.model, 0.15 );
+        this.faceNormals = new THREE.FaceNormalsHelper( this.model, 0.15 );
 
         this.wireframe = new THREE.LineSegments(
                             new THREE.WireframeGeometry( this.model.geometry ),
@@ -29,9 +30,11 @@ class Model3D {
         this.faceNormals.visible = false;
         this.vertexNormals.visible = false;
         this.wireframe.visible = false;
+
     }
 
-    moveModel( x, y, z ){
+    moveModel( x, y, z ) {
+
         this.model.position.x = x
         this.vertexNormals.position.x = x
         this.faceNormals.position.x = x
@@ -46,26 +49,38 @@ class Model3D {
         this.vertexNormals.position.z = z
         this.faceNormals.position.z = z
         this.wireframe.position.z = z
+
     }
     //there are global toggle methods and local, these are the local ones.
     toggleVertexNormals(){
+
         this.vertexNormals.visible = !this.vertexNormals.visible
+
     }
 
     toggleFaceNormals(){
+
         this.faceNormals.visible = !this.faceNormals.visible
+
     }
 
     toggleWireframe(){
+
         this.wireframe.visible = !this.wireframe.visible	
+
     }
 
     toggleTextures(){
+
         //TODO: Implement this
+        console.log("stub!")
+
     }
 
     toggleMesh(){
+
         this.model.visible = !this.model.visible
+        
     }
 
 }

@@ -10,8 +10,9 @@ class Viewport {
         this.scene;
         this.renderer;
         this.gridHelper;
-        //implement this
-        this.optionBar;
+        this.active = false;
+        // implement this
+        this.optionBox;
 
     }
 
@@ -29,20 +30,58 @@ class Viewport {
         this.gridHelper.position.y = 0;
         this.gridHelper.position.z = 0;
 
-        this.renderer = new THREE.WebGLRenderer( {antialiasing: true});
-        this.renderer.setSize( window.innerWidth/2, window.innerHeight/2 );
+        this.renderer = new THREE.WebGLRenderer( { antialiasing: true } );
+        this.renderer.setSize( window.innerWidth / 2.2, window.innerHeight / 2.2 );
         
-        this.renderer.domElement.className = "viewport";
         this.renderer.domElement.id = this.index;
 
-        document.body.appendChild(this.renderer.domElement)
+        let divWrapper = document.createElement( "div" )
+        
+        divWrapper.id = "viewport" + this.index;
+        divWrapper.className = "viewport";
 
-        this.controls = new THREE.OrbitControls( this.camera, document.getElementById(this.index) );
+        this.optionBox = new dat.GUI( { autoplace: false } );
+        this.optionBox.domElement.id = 'gui' + this.index;
+
+        let params = {
+
+            vNormals: false,
+            fNormals: false,
+            textures: false,
+            wireframe: false,
+        
+        };
+
+        let ref = this;
+    
+        this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( function( value ) {
+            // refresh based on the new value
+            ref.objectToRender.toggleVertexNormals();
+        });
+        this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( function( value ) {
+            // refresh based on the new value
+            ref.objectToRender.toggleFaceNormals();          
+        });
+        this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( function( value ) {
+            // refresh based on the new value
+            ref.objectToRender.toggleTextures();
+        });
+        this.optionBox.add( params, "wireframe" ).name( "Wireframe" ).onFinishChange( function( value ) {
+            // refresh based on the new value
+            ref.objectToRender.toggleWireframe();       
+        });
+
+        divWrapper.appendChild( this.optionBox.domElement );
+        divWrapper.appendChild( this.renderer.domElement );
+
+        document.body.appendChild( divWrapper );
+
+        this.controls = new THREE.OrbitControls( this.camera, document.getElementById( this.index ) );
         this.controls.minDistance = 0; 
-        this.controls.maxDistance = 20; //set this to the mesh's size * 5
+        this.controls.maxDistance = 20; // set this to the mesh's size * 5
         this.controls.maxPolarAngle = Math.PI;
 
-        //check if it's diff object or not and then   
+        // check if it's diff object or not and then
         this.scene.add( this.gridHelper );
         this.scene.add( this.objectToRender.model );
         this.scene.add( this.objectToRender.wireframe );
@@ -50,5 +89,4 @@ class Viewport {
         this.scene.add( this.objectToRender.faceNormals );
         
     }
-
 }
