@@ -1,9 +1,9 @@
 class Diff {
-    //Three js. objects - _before and _after
-    constructor( _brefore, _after ) {
-
-        this.modelBefore = _before;
-        this.modelAfter = _after;
+    //Model3D objects - _before and _after
+    constructor( _before, _after ) {
+        
+        this.before = _before;
+        this.after = _after;
         //TODO: Implement those
         this.normalDifference;
         this.vertexDifference;

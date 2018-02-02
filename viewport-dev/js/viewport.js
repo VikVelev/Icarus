@@ -7,11 +7,12 @@
 //      Implement Diff class
 //		Implement OBJ Loader (Later 3ds max and others)
 //      Dynamic rendering optimization
+// 		To make Diff functionality for N number of versions
 //		
 
 
 var geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
-var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+var material = new THREE.MeshBasicMaterial( {color: 0xff6600} );
 var cube = new THREE.Mesh( geometry, material );
 
 var geometry2 = new THREE.BoxGeometry( 0.6, 0.2, 0.4 );
@@ -21,12 +22,11 @@ var cube2 = new THREE.Mesh( geometry2, material2 );
 var model = new Model3D( cube );
 var model2 = new Model3D( cube2 );
 
+var diff = new Diff( model, model2 );
 
-var viewport = new Viewport( 1, model );
-var viewport2 = new Viewport( 2, model2 );
+var viewport = new Viewport( 1, diff );
 
 viewport.init();
-viewport2.init();
 
 
 window.addEventListener( 'resize', onWindowResize, false );
@@ -36,7 +36,6 @@ animate();
 function animate(){
 
 	requestAnimationFrame( animate )
-	//render all viewports here
 	renderCurrentViewport()
 
 }
@@ -46,16 +45,11 @@ function onWindowResize() {
 	viewport.camera.aspect = window.innerWidth / window.innerHeight;
 	viewport.camera.updateProjectionMatrix();
 	viewport.renderer.setSize( window.innerWidth / 2.2, window.innerHeight / 2.2 );
-
-	viewport2.camera.aspect = window.innerWidth / window.innerHeight ;
-	viewport2.camera.updateProjectionMatrix();
-	viewport2.renderer.setSize( window.innerWidth / 2.2, window.innerHeight / 2.2 );
 }
 
 function renderCurrentViewport() {
 	//if clicked on current:
 	viewport.renderer.render( viewport.scene, viewport.camera );
 	//if clicked on this:	
-	viewport2.renderer.render( viewport2.scene, viewport2.camera );
 	
 }

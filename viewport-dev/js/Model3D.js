@@ -15,7 +15,9 @@ class Model3D {
                                 color: 0xffffff,
                                 linewidth: 2
                             }));
-
+        // this is so, when I'm importing them in the scene I don't need to write all this.
+        this.import = [ this.wireframe, this.vertexNormals, this.faceNormals, this.model ]
+        
         //every model starts at the center, you can move it using the moveModel() method.
         this.model.position.x = 0;
         this.model.position.y = 0;
@@ -80,7 +82,7 @@ class Model3D {
     toggleMesh(){
 
         this.model.visible = !this.model.visible
-        
+
     }
 
 }
