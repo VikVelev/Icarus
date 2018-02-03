@@ -13,11 +13,14 @@ class Model3D {
                             new THREE.WireframeGeometry( this.model.geometry ),
                             new THREE.LineBasicMaterial({
                                 color: 0xffffff,
-                                linewidth: 2
+                                linewidth: 3.5
                             }));
-        // this is so, when I'm importing them in the scene I don't need to write all this.
+
+        this.model.material.transparent = true;
+                            
+        // this is so, when I'm importing them in the scene I don't need to write all this separately.
         this.import = [ this.wireframe, this.vertexNormals, this.faceNormals, this.model ]
-        
+
         //every model starts at the center, you can move it using the moveModel() method.
         this.model.position.x = 0;
         this.model.position.y = 0;
@@ -85,4 +88,7 @@ class Model3D {
 
     }
 
+    setOpacity(value){
+        this.model.material.opacity = value;
+    }
 }

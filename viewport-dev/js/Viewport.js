@@ -7,26 +7,34 @@ class Viewport {
         this.index = _index;
         this.camera;
         this.controls;
+
+        /* this is for adding selections in the future */
+        this.INTERSECTED;
+        this.mouse;
+        this.raycaster;
+        /* this is for adding selections in the future */
+    
         this.scene;
         this.renderer;
         this.gridHelper;
         this.optionBox;
         this.active = false; // for the future dynamic rendering
+        this.state;
 
-        if (this.objectToRender instanceof Model3D) {
+        if ( this.objectToRender instanceof Model3D ) {
 
             this.state = "normal"
 
-        } else if ( this.objectToRender instanceof Diff) {
+        } else if ( this.objectToRender instanceof Diff ) {
 
             this.state = "diff"
-
         }
     }
 
     init() {
 
         this.scene = new THREE.Scene();
+        this.mouse = new THREE.Vector2();
 
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 100/*set this to the mesh's size*/ );
         this.camera.position.x = 0.5;
@@ -61,93 +69,132 @@ class Viewport {
         this.controls.maxDistance = 20; // set this to the mesh's size * 5
         this.controls.maxPolarAngle = Math.PI;
 
-        if (this.state == "normal" ) {
+        let params = {
 
-            let params = {
-
-                vNormals: false,
-                fNormals: false,
-                textures: false,
-                wireframe: false,
-            
-            };
-
-            let ref = this; //reference to the main object
+            vNormals: false,
+            fNormals: false,
+            textures: false,
+            mesh: true,
+            wireframe: false,
+            opacity: 1.01,
         
-            this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( function( value ) {
-                ref.objectToRender.toggleVertexNormals();
-            });
+        };
 
-            this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( function( value ) {
-                ref.objectToRender.toggleFaceNormals();          
-            });
+        let ref = this; //reference to the main object
 
-            this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( function( value ) {
-                ref.objectToRender.toggleTextures();
-            });
-
-            this.optionBox.add( params, "wireframe" ).name( "Wireframe" ).onFinishChange( function( value ) {
-                ref.objectToRender.toggleWireframe();       
-            });
+        this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( function( value ) {
             
-            this.scene.add( this.gridHelper );
+            if ( ref.state == "diff" ) {
+                
+                for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
+                    ref.objectToRender.objectsToCompare[ i ].toggleVertexNormals()
+                }
 
+            } else if ( ref.state == "normal" ) {
+
+                ref.objectToRender.toggleVertexNormals();
+            }
+                
+        }); 
+
+        this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( function( value ) {
+            
+            if ( ref.state == "diff" ) {
+                
+                for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
+                    ref.objectToRender.objectsToCompare[ i ].toggleFaceNormals()
+                }
+
+            } else if ( ref.state == "normal" ) {
+
+                ref.objectToRender.toggleFaceNormals();
+            }
+                
+        }); 
+
+        this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( function( value ) {
+            
+            if ( ref.state == "diff" ) {
+                
+                for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
+                    ref.objectToRender.objectsToCompare[ i ].toggleTextures()
+                }
+
+            } else if ( ref.state == "normal" ) {
+
+                ref.objectToRender.toggleTextures();
+            }
+                
+        });
+
+        this.optionBox.add( params, "wireframe" ).name( "Wireframe" ).onFinishChange( function( value ) {
+
+            if ( ref.state == "diff" ) {
+                
+                for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
+                    ref.objectToRender.objectsToCompare[ i ].toggleWireframe()
+                }
+
+            } else if ( ref.state == "normal" ) {
+
+                ref.objectToRender.toggleWireframe();
+            }
+
+        }); 
+
+        this.optionBox.add( params, "mesh" ).name( "Mesh" ).onFinishChange( function( value ) {
+
+            if ( ref.state == "diff" ) {
+                
+                for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
+                    ref.objectToRender.objectsToCompare[ i ].toggleMesh()
+                }
+
+            } else if ( ref.state == "normal" ) {
+
+                ref.objectToRender.toggleMesh();
+            }
+
+        });
+
+        
+        this.scene.add( this.gridHelper );
+        
+        if ( this.state == "normal" ) {
+    
             this.objectToRender.import.forEach(element => {
                 this.scene.add( element );
             });
             
-
         } else if ( this.state == "diff" ) {
-            //TODO A LOT
-            // OPACITY, DIFFERENT COLORS, IMPLEMENT FOR N NUMBER OF VERSIONS,
-            // IMPLEMENT GLOBAL AND LOCAL + SELECTIONS
+            // TODO A LOT
+            // OPACITY, DIFFERENT COLORS, IMPLEMENT FOR N NUMBER OF VERSIONS
             // THIS SHOULD BE ENOUGH FOR THE DEMO
-            
-            let params = {
-
-                vNormals: false,
-                fNormals: false,
-                textures: false,
-                wireframe: false,
-                selected: "None",
-                global: false,
-            
-            };
-            let ref = this;
-
-            this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( function( value ) {
-                ref.objectToRender.after.toggleVertexNormals();
+            this.optionBox.add(params, 'opacity', 0.00, 1.00).name("Mesh Opacity").onFinishChange( function( value ) {
+                for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
+                    ref.objectToRender.objectsToCompare[ i ].setOpacity(value);
+                }
             });
 
-            this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( function( value ) {
-                ref.objectToRender.after.toggleFaceNormals();          
+            this.objectToRender.objectsToCompare.forEach( model => {
+                model.import.forEach( element => {
+                    this.scene.add( element );
+                });
             });
-
-            this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( function( value ) {
-                ref.objectToRender.after.toggleTextures();
-            });
-
-            this.optionBox.add( params, "wireframe" ).name( "Wireframe" ).onFinishChange( function( value ) {
-                ref.objectToRender.after.toggleWireframe();       
-            });
-
-            this.optionBox.add( params, "global" ).name( "Global" ).onFinishChange( function( value ) {
-                
-            });
-            
-            this.optionBox.add( params, "selected" ).name( "Selected" )
-            
-            this.scene.add( this.gridHelper );
-
-            this.objectToRender.before.import.forEach(element => {
-                this.scene.add( element );
-            });
-
-            this.objectToRender.after.import.forEach(element => {
-                this.scene.add( element );
-            });
-
-
         }
+    }
+
+    render() {
+
+        this.renderer.render( this.scene, this.camera );
+
+    }
+
+    onResize() {
+    
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth / 2.2, window.innerHeight / 2.2 );
+
     }
 }
