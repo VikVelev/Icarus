@@ -1,7 +1,7 @@
 class Model3D {
     //model = 3D THREE.js Geometry Object
     //constructor TOTHINK does name matter?
-    //Abstract more - remove the scene
+    // TODO: Add support for obj
     constructor( model ) {
 
         this.selected = false;

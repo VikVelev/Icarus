@@ -29,6 +29,12 @@ class Viewport {
 
             this.state = "diff"
         }
+
+        if ( document.getElementById(this.index) != null ){
+
+            console.log("REPEATING INDICES BECAREFUL!", _index)
+
+        }
     }
 
     init() {
@@ -76,7 +82,7 @@ class Viewport {
             textures: false,
             mesh: true,
             wireframe: false,
-            opacity: 1.01,
+            opacity: 0.7,
         
         };
 
@@ -167,9 +173,6 @@ class Viewport {
             });
             
         } else if ( this.state == "diff" ) {
-            // TODO A LOT
-            // OPACITY, DIFFERENT COLORS, IMPLEMENT FOR N NUMBER OF VERSIONS
-            // THIS SHOULD BE ENOUGH FOR THE DEMO
             this.optionBox.add(params, 'opacity', 0.00, 1.00).name("Mesh Opacity").onFinishChange( function( value ) {
                 for ( let i = 0; i < ref.objectToRender.objectsToCompare.length; i++ ) {
                     ref.objectToRender.objectsToCompare[ i ].setOpacity(value);
@@ -177,6 +180,8 @@ class Viewport {
             });
 
             this.objectToRender.objectsToCompare.forEach( model => {
+                
+                model.setOpacity(params.opacity);
                 model.import.forEach( element => {
                     this.scene.add( element );
                 });
