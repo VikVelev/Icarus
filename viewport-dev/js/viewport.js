@@ -6,6 +6,7 @@
 //		UNSURE: Implement OBJ Loader (Later 3ds max and others)
 //      SURE  : Dynamic rendering optimization
 //		SURE  : ISOLATE EACH MODEL, AND ALLOW THE SAME MODEL TO BE IN DIFFERENT VIEWPORTS WITHOUT PROBLEM
+//      SURE  : Create a 'Commit' class which stores date, time, model, vertices, etc. 
 
 
 //The render loop will be the following:

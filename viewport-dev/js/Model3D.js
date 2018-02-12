@@ -1,7 +1,7 @@
 class Model3D {
-    //model = 3D THREE.js Geometry Object
-    //constructor TOTHINK does name matter?
-    // TODO: Add support for obj
+    // model = 3D THREE.js Geometry Object
+    // constructor TOTHINK does name matter?
+    // TODO: Add support for obj, but later
     constructor( model ) {
 
         this.selected = false;

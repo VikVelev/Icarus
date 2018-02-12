@@ -62,7 +62,7 @@ class Viewport {
         divWrapper.id = "viewport" + this.index;
         divWrapper.className = "viewport";
 
-        this.optionBox = new dat.GUI( { autoplace: false } );
+        this.optionBox = new dat.GUI( { autoplace: false, width: 200, resizable: false } );
         this.optionBox.domElement.id = 'gui' + this.index;
 
         divWrapper.appendChild( this.optionBox.domElement );
