@@ -34,8 +34,14 @@
 }
 
 .carousel-inner>.item>img {
-    max-height: 700px;
+    max-height: 500px;
     object-fit: scale-down;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+        color: #fff;
+    }
 }
 
 /* TODO FUCKING REWRITE ALL OF THIS INTO A FINE PROJECT: */
@@ -50,11 +56,11 @@
 }
 
 .secondSection {
-    background-color: #AAA;    
+    background-color: #DDD;    
 }
 
 .sectionTitle {
-    margin:auto;
+    margin: auto;
     margin-top: 50px;
     font-size: 2.5em;
 }

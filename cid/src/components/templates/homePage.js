@@ -39,17 +39,18 @@ export default class HomePage extends Component {
                 </Carousel>
 
                 <section className="section firstSection">
-                    <div class="sectionTitle">Hello</div>
+                    <div className="sectionTitle">Hello</div>
                 </section>
 
                 <section className="section secondSection">
-                    <div class="sectionTitle">Hello</div>
+                    <div className="sectionTitle">Hello</div>
                 </section>
 
                 <section className="section thirdSection">
-                    <div class="sectionTitle">Hello</div>
+                    <div className="sectionTitle">Hello</div>
                 </section>
             </div>
         );
     }
 }
+
