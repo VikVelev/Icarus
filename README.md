@@ -4,13 +4,13 @@ Version control web platform for 3D models. Making collaborating in 3D design ea
 viewport-dev contains the currently working viewport implemented with three.js.
 cid folder contains the react frontend.
 frontend structure is as following (wip)
-```
+```js
 Main component {
     Head {
         Navbar{
             Home,
             Posts,
-            Log in,
+            Login,
             Register,
         }
         Content {}
