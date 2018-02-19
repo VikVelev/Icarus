@@ -18,6 +18,6 @@ Main component {
     Footer{}
 }
 ```
-cid-api folder contains the django api.
+cidAPI folder contains the django api.
 
 Will merge later all of them and put everything in a docker.
