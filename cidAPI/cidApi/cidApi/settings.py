@@ -13,10 +13,13 @@ SECRET_KEY = 'b4&w)ctfr)jbyt-=^o(js=g7+t!0c%gw+eu^b+&&ur$*)$&f_q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'fortress88.servebeer.com',
+    '192.168.0.106',
+]
 
 # Application definition
+APPEND_SLASH = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,9 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main_auth',
     'rest_framework',
     'rest_framework.authtoken',
+    'main_auth',
 ]
 
 MIDDLEWARE = [
@@ -96,10 +99,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ]
 }
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/

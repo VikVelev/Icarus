@@ -2,10 +2,12 @@ from django.db import models
 from django.utils import timezone
 
 class Post(models.Model):
+    # if a User is deleted all his Posts will be deleted
     posted_by = models.ForeignKey("User", related_name='posts', on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
 
-    content = models.TextField(blank=True, null=True) #FOREIGN KEY TO 3D MODELS
+    # if Model3D is deleted all posts corresponding to it will be deleted
+    content = models.ForeignKey("Model3D", on_delete=models.CASCADE, null=True)
 
     is_relevant = models.BooleanField()
     is_recent = models.BooleanField()
