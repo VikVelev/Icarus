@@ -1,5 +1,7 @@
-from user.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
+from .models.user import Profile
 from .models.post import Post
 from .models.comment import Comment
 from .models.commit import Commit
@@ -8,19 +10,6 @@ from .models.models_3d import Model3D
 from rest_framework import serializers
 
 ### Serializers are used to translate python/django objects into whatever I want - json/xml etc. ###
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = (
-            'id',
-            'first_name', 
-            'last_name',
-            'username', 
-            'profile_picture',
-            'description',
-            'date_created',
-        )
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,6 +20,46 @@ class CommentSerializer(serializers.ModelSerializer):
             'date_posted',
             'content',
         )
+
+
+class PostSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True)
+
+    class Meta:
+        model = Post
+        fields = (
+            'id',
+            'posted_by',
+            'description',
+            'content',
+            'is_relevant',
+            'is_recent',
+            'comments',
+            'likes',
+        )
+    
+    def create(self, validated_data):
+
+        comments_data = validated_data.pop('comments')
+        post = Post.objects.create(**validated_data)
+
+        for comment_data in comments_data:
+            Comment.objects.create(post=post, **comment_data)
+        
+        return album
+
+
+class CommitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Commit
+        fields = (
+            'belongs_to_model',
+            'commited_by',
+            'details',
+            'date',
+            'polygons_changed'
+        )
+
 
 class Model3DSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,26 +73,45 @@ class Model3DSerializer(serializers.ModelSerializer):
             'polygons',
         )
 
-class CommitSerializer(serializers.ModelSerializer):
+## USER
+
+class ProfileSerializer(serializers.ModelSerializer):
+    
     class Meta:
-        model = Commit
+        model = Profile
         fields = (
-            'belongs_to_model',
-            'commited_by',
-            'details',
-            'date',
-            'polygons_changed'
+            'country', 
+            'birth_date',
+            'profile_picture',
+            'description',
         )
 
-class PostSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+
+    profile = ProfileSerializer(required=False)
+    # add models somehow or maybe a get models method
     class Meta:
-        model = Post
+        model = User
         fields = (
             'id',
-            'posted_by',
-            'description',
-            'content',
-            'is_relevant',
-            'is_recent',
-            'likes',
+            'username',
+            #'password',
+            'email',
+            'first_name',
+            'last_name',
+            'profile',
         )
+
+    def create(self, validated_data):
+        #Look into set_passwords
+        user = User.objects.create(**validated_data)
+
+        return user
+
+    def update(self, instance, validated_data):
+        instance.profile_data = validated_data.pop('profile').pop('password')
+
+        instance.user = User.objects.update(**validated_data)
+        Profile.objects.update(user=instance.user, **instance.profile_data)
+
+        return instance

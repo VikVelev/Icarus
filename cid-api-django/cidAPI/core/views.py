@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
-from .models.user import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 from .models.post import Post
 from .models.comment import Comment
 from .models.commit import Commit

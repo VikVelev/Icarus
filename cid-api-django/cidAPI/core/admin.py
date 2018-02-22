@@ -1,16 +1,17 @@
 from django.contrib import admin
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
-from user.models import User
-
+from .models.user import Profile
 from .models.post import Post
 from .models.comment import Comment
 from .models.commit import Commit
 from .models.models_3d import Model3D
 
 # Register your models here.
-admin.site.register(User)
+admin.site.register(Profile)
 admin.site.register(Post)
 admin.site.register(Model3D)
 admin.site.register(Comment)
