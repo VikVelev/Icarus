@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from rest_framework.response import Response
 User = get_user_model()
 
 from .models.user import Profile
@@ -122,13 +123,14 @@ class RegisterUser(serializers.ModelSerializer):
             'email',
             'first_name',
             'last_name',
-            'password'
+            'password',
         )
     
     def create(self, validated_data):
 
-        password = validated_data.pop("password")
+        password = validated_data.get("password")
 
+        #GOTTA FIX THIS SO PASSWORD VALIDATION WORKS
         created_user = User.objects.create(**validated_data)
         created_user.set_password(password)
         created_user.save()
