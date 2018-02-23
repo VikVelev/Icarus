@@ -86,6 +86,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'description',
         )
 
+
 class UserSerializer(serializers.ModelSerializer):
 
     profile = ProfileSerializer(required=False)
@@ -110,6 +111,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         return instance
 
+
 class RegisterUser(serializers.ModelSerializer):
 
     class Meta:
@@ -130,8 +132,6 @@ class RegisterUser(serializers.ModelSerializer):
         created_user = User.objects.create(**validated_data)
         created_user.set_password(password)
         created_user.save()
-
-        Profile.objects.create(user=created_user)
 
         return created_user
 

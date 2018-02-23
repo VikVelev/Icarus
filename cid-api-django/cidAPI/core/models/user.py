@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     birth_date = models.DateField(null=True, blank=True)
@@ -13,11 +12,10 @@ class Profile(models.Model):
     profile_picture = models.ImageField(null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
 
-# I am not sure if I need this or not. Only time will tell.
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created and not registering:
-#         Profile.objects.create(user=instance)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
