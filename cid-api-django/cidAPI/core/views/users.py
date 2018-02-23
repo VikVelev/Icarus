@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from ..serializers import *
+from ..serializers import UserSerializer, RegisterUser
 
 ## Not sure if pseudo-code or python :thinking:
 
