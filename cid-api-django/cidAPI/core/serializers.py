@@ -73,7 +73,7 @@ class Model3DSerializer(serializers.ModelSerializer):
             'polygons',
         )
 
-## USER
+################### User Serializers for all kinds of things ############
 
 class ProfileSerializer(serializers.ModelSerializer):
     
@@ -95,23 +95,43 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'username',
-            #'password',
             'email',
             'first_name',
             'last_name',
             'profile',
         )
 
-    def create(self, validated_data):
-        #Look into set_passwords
-        user = User.objects.create(**validated_data)
-
-        return user
-
     def update(self, instance, validated_data):
-        instance.profile_data = validated_data.pop('profile').pop('password')
+
+        instance.profile_data = validated_data.pop('profile')
 
         instance.user = User.objects.update(**validated_data)
         Profile.objects.update(user=instance.user, **instance.profile_data)
 
         return instance
+
+class RegisterUser(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'password'
+        )
+    
+    def create(self, validated_data):
+
+        password = validated_data.pop("password")
+
+        created_user = User.objects.create(**validated_data)
+        created_user.set_password(password)
+        created_user.save()
+
+        Profile.objects.create(user=created_user)
+
+        return created_user
+

@@ -19,7 +19,7 @@ from ..serializers import *
 
 class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = RegisterUser
 
     
 class Users(generics.RetrieveUpdateDestroyAPIView):
