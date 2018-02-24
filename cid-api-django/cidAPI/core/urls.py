@@ -4,7 +4,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from .views.users import Users, ListAllUsers, RegisterUser
 from .views.posts import ListAllPosts
-from .views.models import Models3D
+from .views.models_3d import Models3D
 
 urlpatterns = [
     # Main URIs
