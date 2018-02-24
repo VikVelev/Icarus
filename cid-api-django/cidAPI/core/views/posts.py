@@ -11,3 +11,13 @@ from ..serializers import PostSerializer
 class ListAllPosts(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+# Gotta do something to differentiate a user's posts and such
+
+class CreatePost(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+class Posts(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer

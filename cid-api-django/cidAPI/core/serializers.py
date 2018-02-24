@@ -12,6 +12,10 @@ from rest_framework import serializers
 
 ### Serializers are used to translate python/django objects into whatever I want - json/xml etc. ###
 
+###### TODO Look into better structuring for serializers
+
+#### Post Serializers
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
@@ -49,6 +53,9 @@ class PostSerializer(serializers.ModelSerializer):
         
         return album
 
+#### End of Post Serializers
+
+#### 3D model serializers
 
 class CommitSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,6 +70,8 @@ class CommitSerializer(serializers.ModelSerializer):
 
 
 class Model3DSerializer(serializers.ModelSerializer):
+    commits = CommitSerializer(many=True)
+
     class Meta:
         model = Model3D
         fields = (
@@ -74,7 +83,9 @@ class Model3DSerializer(serializers.ModelSerializer):
             'polygons',
         )
 
-################### User Serializers for all kinds of things ############
+#### End of 3D Models Serializers
+
+#### User Serializers
 
 class ProfileSerializer(serializers.ModelSerializer):
     
@@ -91,7 +102,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 
     profile = ProfileSerializer(required=False)
-    # add models somehow or maybe a get models method
+    # add models somehow or maybe a get models view
     class Meta:
         model = User
         fields = (
@@ -130,10 +141,11 @@ class RegisterUser(serializers.ModelSerializer):
 
         password = validated_data.get("password")
 
-        #GOTTA FIX THIS SO PASSWORD VALIDATION WORKS
+        # TODO FIX THIS SO PASSWORD VALIDATION WORKS
         created_user = User.objects.create(**validated_data)
         created_user.set_password(password)
         created_user.save()
 
         return created_user
 
+### End of User Serializers
