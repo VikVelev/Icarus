@@ -1,0 +1,11 @@
+appdirs
+django
+djangorestframework
+django_extensions
+django-spa
+psycopg2-binary
+packaging
+pyparsing
+pytz
+Pillow
+six

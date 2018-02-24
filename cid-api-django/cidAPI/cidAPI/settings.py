@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [    
     'fortress88.servebeer.com',
-    '192.168.0.106',
+    'localhost',
+    '0.0.0.0'
     'main',
     ]
 
@@ -85,11 +86,11 @@ WSGI_APPLICATION = 'cidAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cid',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT':'',
+        'PASSWORD': 'db_password',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
