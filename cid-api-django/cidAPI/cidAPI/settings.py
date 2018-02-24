@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [    
     'fortress88.servebeer.com',
     'localhost',
-    '0.0.0.0'
+    '0.0.0.0',
     'main',
     ]
 
@@ -134,6 +134,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static/static'),
+    os.path.join(BASE_DIR, 'static/media'),
+    os.path.join(BASE_DIR, 'static/src'),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
