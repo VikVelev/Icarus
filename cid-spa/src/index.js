@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import Head from './components/navbar.js';
+import Head from './components/head.js';
 import Footer from './components/footer.js';
 
 import './index.css';

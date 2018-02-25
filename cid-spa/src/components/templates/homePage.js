@@ -2,9 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import { Button, Container, Divider, Grid, Header, Sidebar } from 'semantic-ui-react'
-import { Icon, Image, Menu, Responsive, Segment, Visibility } from 'semantic-ui-react'
-
-import img1 from '../../img/trex.png'
+import { Icon, Image, Menu, Responsive, Segment } from 'semantic-ui-react'
 
 const HomepageHeading = ({ mobile }) => (
 	<Container text>
@@ -49,17 +47,14 @@ class DesktopContainer extends Component {
 		const { fixed } = this.state
 
 		return (
-		<Responsive {...Responsive.onlyComputer}>
-			<Visibility once={false} onBottomPassed={this.showFixedMenu} onBottomPassedReverse={this.hideFixedMenu}>
+		<Responsive {...Responsive.onlyComputer} minWidth={768}>
 				<Segment inverted textAlign='center' style={{ minHeight: 700, padding: '1em 0em' }} vertical>
 					
 					<Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size='large'>
 						<Container>
 
 							<Menu.Item as='a' active>Home</Menu.Item>
-							<Menu.Item as='a'>Work</Menu.Item>
-							<Menu.Item as='a'>Company</Menu.Item>
-							<Menu.Item as='a'>Careers</Menu.Item>
+							<Menu.Item as='a'>About</Menu.Item>
 							<Menu.Item position='right'>
 								<Button as='a' inverted={!fixed}>Log in</Button>
 								<Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
@@ -70,7 +65,6 @@ class DesktopContainer extends Component {
 
 					<HomepageHeading />
 				</Segment>
-			</Visibility>
 			{children}
 		</Responsive>
 		);
@@ -91,15 +85,15 @@ class MobileContainer extends Component {
 		const { sidebarOpened } = this.state
 
 		return (
-		<Responsive {...Responsive.onlyMobile}>
+		<Responsive {...Responsive.onlyMobile} minWidth={0}>
 			<Sidebar.Pushable>
 				<Sidebar as={Menu} animation='uncover' inverted vertical visible={sidebarOpened}>
 					<Menu.Item as='a' active>Home</Menu.Item>
-					<Menu.Item as='a'>Work</Menu.Item>
-					<Menu.Item as='a'>Company</Menu.Item>
-					<Menu.Item as='a'>Careers</Menu.Item>
+					<Menu.Item as='a'>Feed</Menu.Item>
+					<Menu.Item as='a'>About</Menu.Item>
+
 					<Menu.Item as='a'>Log in</Menu.Item>
-					<Menu.Item as='a' primary>Sign Up</Menu.Item>
+					<Menu.Item as='a'>Sign Up</Menu.Item>
 				</Sidebar>
 
 				<Sidebar.Pusher dimmed={sidebarOpened} onClick={this.handleToggle} style={{ minHeight: '100vh' }}>
@@ -224,7 +218,7 @@ const HomepageLayout = () => (
 
 			{/*------------------------------------------------------------*/}
 			<Divider as='h4' className='header' horizontal style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
-		  		<a href='#'>More amazing stuff</a>
+		  		<a href='/'>More amazing stuff</a>
 			</Divider>
 			{/*------------------------------------------------------------*/}
 
