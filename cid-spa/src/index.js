@@ -6,6 +6,7 @@ import Head from './components/navbar.js';
 import Footer from './components/footer.js';
 
 import './index.css';
+import 'semantic-ui-css/semantic.min.css'
 
 class Main extends Component {
     render(){

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import HomePage from './templates/homePage.js';
-import RelatedPage from './templates/relatedPage.js';
+import RelatedPage from './templates/feed.js';
+import Authentication from './templates/userAuth.js';
 
 export default class Content extends Component {
     render(){
@@ -12,6 +13,7 @@ export default class Content extends Component {
                     <Route exact path="/" component={routes.Home} />
                     <Route exact path="/posts" component={routes.Posts} />
                     <Route exact path="/trending" component={routes.Trending} />
+                    <Route exact path="/login" component={routes.Login} />                    
                 </Switch>
             </div>
         );
@@ -21,6 +23,7 @@ export default class Content extends Component {
 const routes = {
     Home: () => <HomePage/>,
     Posts: () => <RelatedPage/>,
-    Trending: () => <div>hi</div>
+    Trending: () => <div>test</div>,
+    Login: () => <Authentication/>
     //Add more routes here
 }
