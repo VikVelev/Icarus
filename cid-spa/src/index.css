@@ -3,3 +3,27 @@ body > div > div,
 body > div > div > div.login-form {
     height: 100%;
 }
+
+.ui.vertical.segment {
+    background-color: white !important;
+}
+
+.ui.inverted.vertical.segment {
+    background-color: black !important;
+}
+
+.hero-video {
+    margin-top: -100px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    filter: blur(15%)
+}
+
+#hero {
+    background: rgba(0,0,0,0) !important;
+}

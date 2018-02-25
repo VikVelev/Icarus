@@ -15,6 +15,7 @@ const HomepageHeading = ({ mobile }) => (
 				fontWeight: 'normal',
 				marginBottom: 0,
 				marginTop: mobile ? '1.5em' : '3em',
+				zIndex: 100,
 			}}
 		/>
 
@@ -26,7 +27,7 @@ const HomepageHeading = ({ mobile }) => (
 			}}
 		/>
 
-		<Button primary size='huge'>
+		<Button as={ Link } to="login" primary size='huge'>
 			Get Started
 			<Icon name='right arrow' />
 		</Button>
@@ -50,14 +51,19 @@ class DesktopContainer extends Component {
 
 		return (
 		<Responsive {...Responsive.onlyComputer} minWidth={768}>
-				<Segment inverted textAlign='center' style={{ minHeight: 700, padding: '1em 0em' }} vertical className="hero-video">
-					
+
+				<video autoPlay muted loop preload="auto" className="hero-video">
+					<source src="/img/hero.mp4" type="video/mp4"/>
+				</video>
+				<Segment id="hero" textAlign='center' style={{ minHeight: 678, padding: '1em 0em', zIndex: 1}} vertical>
 					<Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size='large'
 						style={{
 							borderWidth: 0,
 							borderColor: 'none',
+							zIndex: '1',
 						}}>
-						
+						<script>
+						</script>
 						<Container>
 
 							<Menu.Item as='a' active>Home</Menu.Item>
@@ -148,7 +154,6 @@ ResponsiveContainer.propTypes = {
 
 const HomepageLayout = () => (
   <ResponsiveContainer>
-
 	<Segment style={{ padding: '8em 0em' }} vertical>
 	  	<Grid container stackable verticalAlign='middle'>
 			<Grid.Row>
