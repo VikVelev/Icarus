@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Button, Container, Divider, Grid, Header, Sidebar } from 'semantic-ui-react'
 import { Icon, Image, Menu, Responsive, Segment, Visibility } from 'semantic-ui-react'
 
+import img1 from '../../img/trex.png'
 
 const HomepageHeading = ({ mobile }) => (
 	<Container text>
@@ -54,14 +55,16 @@ class DesktopContainer extends Component {
 					
 					<Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size='large'>
 						<Container>
+
 							<Menu.Item as='a' active>Home</Menu.Item>
 							<Menu.Item as='a'>Work</Menu.Item>
 							<Menu.Item as='a'>Company</Menu.Item>
 							<Menu.Item as='a'>Careers</Menu.Item>
 							<Menu.Item position='right'>
-							<Button as='a' inverted={!fixed}>Log in</Button>
-							<Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+								<Button as='a' inverted={!fixed}>Log in</Button>
+								<Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 							</Menu.Item>
+							
 						</Container>
 					</Menu>
 
@@ -104,13 +107,13 @@ class MobileContainer extends Component {
 
 						<Container>
 							<Menu inverted pointing secondary size='large'>
-							<Menu.Item onClick={this.handleToggle}>
-								<Icon name='sidebar' />
-							</Menu.Item>
-							<Menu.Item position='right'>
-								<Button as='a' inverted>Log in</Button>
-								<Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-							</Menu.Item>
+								<Menu.Item onClick={this.handleToggle}>
+									<Icon name='sidebar' />
+								</Menu.Item>
+								<Menu.Item position='right'>
+									<Button as='a' inverted>Log in</Button>
+									<Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+								</Menu.Item>
 							</Menu>
 						</Container>
 						<HomepageHeading mobile />
@@ -147,22 +150,23 @@ const HomepageLayout = () => (
 			<Grid.Row>
 
 				<Grid.Column width={8}>
-					<Header as='h3' style={{ fontSize: '2em' }}>We Help Companies and Companions</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>We Do Amazing Stuff</Header>
 					<p style={{ fontSize: '1.33em' }}>
-					We can give your company superpowers to do things that they never thought possible. Let us delight
-					your customers and empower your needs... through pure data analytics.
+						Eiusmod ut excepteur adipisicing id est minim adipisicing.
+						Eiusmod ut excepteur adipisicing id est minim adipisicing.						
 					</p>
 
-					<Header as='h3' style={{ fontSize: '2em' }}>We Make Bananas That Can Dance</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>We Do Other Amazing Stuff</Header>
 					<p style={{ fontSize: '1.33em' }}>
-					Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
+						Adipisicing laborum irure deserunt commodo nostrud est est.
+						Lorem veniam cillum eu nulla officia.
 					</p>
 				</Grid.Column>
 
 				<Grid.Column floated='right' width={6}>
-					<Image bordered rounded
+					<Image rounded
 					size='large'
-					src='/assets/images/wireframe/white-image.png'
+					src='../../../img/trex.png'
 					/>
 				</Grid.Column>
 
@@ -171,7 +175,7 @@ const HomepageLayout = () => (
 			<Grid.Row>
 
 				<Grid.Column textAlign='center'>
-					<Button size='huge'>Check Them Out</Button>
+					<Button size='huge'>Do I Even Care?</Button>
 				</Grid.Column>
 
 			</Grid.Row>
@@ -183,17 +187,16 @@ const HomepageLayout = () => (
 			<Grid.Row textAlign='center'>
 
 		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-					<Header as='h3' style={{ fontSize: '2em' }}>"What a Company"</Header>
-					<p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+					<Header as='h3' style={{ fontSize: '2em' }}>"Meshes everywhere"</Header>
+					<p style={{ fontSize: '1.33em' }}>That is the problem.</p>
 		  		</Grid.Column>
 
 		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
 
-					<Header as='h3' style={{ fontSize: '2em' }}>"I shouldn't have gone with their competitor."</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>"I can do meth now."</Header>
 					
 					<p style={{ fontSize: '1.33em' }}>
-			  			<Image avatar src='/assets/images/avatar/large/nan.jpg' />
-			  			<b>Nan</b> Chief Fun Officer Acme Toys
+						<b>IGN</b> 10/10
 					</p>
 
 		  		</Grid.Column>
@@ -201,36 +204,41 @@ const HomepageLayout = () => (
 			</Grid.Row>
 	  	</Grid>
 	</Segment>
-
+	
+	<Segment style={{padding: '8em 0em'}} vertical>
+		<Container>
+			<Header as='h3' style={{ fontSize: '3em', align: 'center' }}>Amazing Demo Of The Viewport Here</Header>
+		</Container>
+	</Segment>
+	
 	<Segment style={{ padding: '8em 0em' }} vertical>
 		<Container text>
 
-			<Header as='h3' style={{ fontSize: '2em' }}>Breaking The Grid, Grabs Your Attention</Header>
+			<Header as='h3' style={{ fontSize: '2em' }}>Amazing Title 2</Header>
 
 			<p style={{ fontSize: '1.33em' }}>
-				Instead of focusing on content creation and hard work, we have learned how to master the art of doing
-				nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic
-				and worth your attention.
+				Anim sint velit proident Lorem. Ipsum consequat dolore reprehenderit Lorem adipisicing dolore id in. Commodo qui id ut occaecat occaecat aute ipsum Lorem. Nostrud sit ex id velit ea.
 			</p>
 
 			<Button as='a' size='large'>Read More</Button>
+
 			{/*------------------------------------------------------------*/}
 			<Divider as='h4' className='header' horizontal style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
-		  		<a href='#'>Case Studies</a>
+		  		<a href='#'>More amazing stuff</a>
 			</Divider>
 			{/*------------------------------------------------------------*/}
-			<Header as='h3' style={{ fontSize: '2em' }}>Did We Tell You About Our Bananas?</Header>
+
+			<Header as='h3' style={{ fontSize: '2em' }}>Amazing Title 2</Header>
 
 			<p style={{ fontSize: '1.33em' }}>
-				Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but it's really
-				true.
-				It took years of gene splicing and combinatory DNA research, but our bananas can really dance.
+				Culpa dolore qui eiusmod magna ad occaecat Lorem minim sunt nisi deserunt occaecat. Ex ipsum proident irure velit incididunt pariatur dolor. Nisi pariatur cupidatat quis aliquip dolor culpa sunt aliqua deserunt excepteur ad. Reprehenderit irure nulla fugiat Lorem eu anim commodo ullamco veniam ullamco.
 			</p>
 
-			<Button as='a' size='large'>I'm Still Quite Interested</Button>
+			<Button as='a' size='large'>Read More</Button>
 
 	  </Container>
 	</Segment>
   </ResponsiveContainer>
 )
+
 export default HomepageLayout
