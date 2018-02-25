@@ -18,9 +18,7 @@ export default class Head extends Component {
     render(){
         return(
             <Router>
-                <div className="head">
-                    <Content/>
-                </div>
+                <Content/>
             </Router>
         );
     }

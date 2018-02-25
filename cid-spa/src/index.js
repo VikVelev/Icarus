@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import Head from './components/head.js';
-import Footer from './components/footer.js';
 
 import './index.css';
 import 'semantic-ui-css/semantic.min.css'
@@ -11,11 +10,7 @@ import 'semantic-ui-css/semantic.min.css'
 class Main extends Component {
     render(){
         return(
-            <div className="main">
-                <Head/>
-                {/* Head contains both the nav bar and the content */}
-                <Footer/>
-            </div>
+            <Head/>
         );
     }
 }

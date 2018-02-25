@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import HomePage from './templates/homePage.js';
 import RelatedPage from './templates/feed.js';
-import Authentication from './templates/userAuth.js';
+import LoginForm from './templates/userAuth.js';
 
 export default class Content extends Component {
     render(){
@@ -24,6 +24,6 @@ const routes = {
     Home: () => <HomePage/>,
     Posts: () => <RelatedPage/>,
     Trending: () => <div>test</div>,
-    Login: () => <Authentication/>
+    Login: () => <LoginForm/>
     //Add more routes here
 }

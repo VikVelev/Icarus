@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
+import { Link }  from 'react-router-dom'
+
 import { Button, Container, Divider, Grid, Header, Sidebar } from 'semantic-ui-react'
-import { Icon, Image, Menu, Responsive, Segment } from 'semantic-ui-react'
+import { Icon, Image, Menu, Responsive, Segment, List } from 'semantic-ui-react'
 
 const HomepageHeading = ({ mobile }) => (
 	<Container text>
@@ -48,16 +50,21 @@ class DesktopContainer extends Component {
 
 		return (
 		<Responsive {...Responsive.onlyComputer} minWidth={768}>
-				<Segment inverted textAlign='center' style={{ minHeight: 700, padding: '1em 0em' }} vertical>
+				<Segment inverted textAlign='center' style={{ minHeight: 700, padding: '1em 0em' }} vertical className="hero-video">
 					
-					<Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size='large'>
+					<Menu fixed={fixed ? 'top' : null} inverted={!fixed} pointing={!fixed} secondary={!fixed} size='large'
+						style={{
+							borderWidth: 0,
+							borderColor: 'none',
+						}}>
+						
 						<Container>
 
 							<Menu.Item as='a' active>Home</Menu.Item>
 							<Menu.Item as='a'>About</Menu.Item>
 							<Menu.Item position='right'>
-								<Button as='a' inverted={!fixed}>Log in</Button>
-								<Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+								<Button as={ Link } to="login" inverted={!fixed}>Log in</Button>
+								<Button as={ Link } to="login" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 							</Menu.Item>
 							
 						</Container>
@@ -101,13 +108,16 @@ class MobileContainer extends Component {
 
 						<Container>
 							<Menu inverted pointing secondary size='large'>
+
 								<Menu.Item onClick={this.handleToggle}>
 									<Icon name='sidebar' />
 								</Menu.Item>
+
 								<Menu.Item position='right'>
 									<Button as='a' inverted>Log in</Button>
 									<Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 								</Menu.Item>
+
 							</Menu>
 						</Container>
 						<HomepageHeading mobile />
@@ -160,7 +170,7 @@ const HomepageLayout = () => (
 				<Grid.Column floated='right' width={6}>
 					<Image rounded
 					size='large'
-					src='../../../img/trex.png'
+					src='/img/trex.png'
 					/>
 				</Grid.Column>
 
@@ -232,6 +242,31 @@ const HomepageLayout = () => (
 
 	  </Container>
 	</Segment>
+
+	<Responsive>
+            <Segment inverted vertical style={{ padding: '5em 0em' }}>
+                    <Container>
+                        <Grid divided inverted stackable>
+                            <Grid.Row>
+
+                                <Grid.Column width={3}>
+                                    <Header inverted as='h4' content='About' />
+                                    <List link inverted>
+                                        <List.Item as='a'>Sitemap</List.Item>
+                                        <List.Item as='a'>Contact Us</List.Item>
+                                    </List>
+                                </Grid.Column>
+
+                                <Grid.Column width={7}>
+                                    <Header as='h4' inverted>CiD</Header>
+                                    <p>CiD - 3D Collaboration Made Easier.</p>
+                                </Grid.Column>
+
+                            </Grid.Row>
+                        </Grid>
+                    </Container>
+                </Segment>
+            </Responsive>
   </ResponsiveContainer>
 )
 
