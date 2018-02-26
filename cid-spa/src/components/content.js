@@ -16,7 +16,7 @@ export default class Content extends Component {
         return(
             <Router>
                 <div className="content">
-                    <Navbar/>
+                    {/* <Navbar/> */}
                     <Switch>
                         <Route exact path="/" component={routes.Home} />
                         <Route exact path="/feed" component={routes.Posts} />
