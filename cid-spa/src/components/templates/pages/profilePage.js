@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import { Segment, Image, Header, Tab, Message } from 'semantic-ui-react'
+import { Segment, Image, Header, Tab } from 'semantic-ui-react'
 
-import Feed from './feed'
-import InDevelopment from './indev'
+import Feed from '../feed.js'
+import InDevelopment from '../indev.js'
 
 var models = {
     image: "/img/logo.png",
