@@ -4,23 +4,35 @@ import { Route, Switch } from 'react-router-dom';
 import { Navbar } from './navbar.js'
 
 import HomePage from './templates/homePage.js';
-import RelatedPage from './templates/feed.js';
+import Feed from './templates/feed.js';
 
-import LoginForm from './templates/loginForm.js';
+import{ LoginForm, LoggedIn } from './templates/loginForm.js';
 import RegisterForm from './templates/registerForm.js';
 
 import { BrowserRouter as Router } from "react-router-dom";
+
+var noNavbar = [ 'homepage', 'login', 'register', ]
+var state = { currentPage: 'feed' }
+
+const RenderNavbar = () => {
+    for (let i = 0; i < noNavbar.length; i++) {
+        if (state.currentPage === noNavbar[i]) {
+            return null
+        }
+    }
+    return <Navbar/>
+}
 
 export default class Content extends Component {
     render(){
         return(
             <Router>
                 <div className="content">
-                    {/* <Navbar/> */}
+                    <RenderNavbar/>
                     <Switch>
                         <Route exact path="/" component={routes.Home} />
-                        <Route exact path="/feed" component={routes.Posts} />
-                        <Route exact path="/login" component={routes.Login} />                    
+                        <Route exact path="/login" component={routes.Login} />
+                        <Route exact path="/trending" component={routes.Trending} />                                                          
                         <Route exact path="/register" component={routes.SignUp} />                                                   
                     </Switch>
                 </div>
@@ -29,10 +41,35 @@ export default class Content extends Component {
     }
 }
 
+var dataFeed = {
+    image: "/img/trex.png",
+    user: {
+        name: "viktorv",
+        id: "user/10"
+    },
+    date: "26th Feb",
+    description: "Voluptate consequat aliquip non irure laboris. Et sunt duis magna sunt irure labore Lorem ea dolor consectetur aliqua laborum. Proident sint sunt in Lorem deserunt. Labore est sit labore duis Lorem voluptate adipisicing voluptate eiusmod qui elit aliquip. Sit tempor ex veniam sunt aute officia Lorem excepteur nisi ad amet. Fugiat minim irure voluptate irure exercitation consequat consequat quis.",
+}
+
+var dataFeedTrending = {
+    image: "/img/logo.png",
+    user: {
+        name: "Bill Gates",
+        id: "user/666"
+    },
+    date: "30th Feb",
+    description: "Voluptate consequat aliquip non irure laboris. Et sunt duis magna sunt irure labore Lorem ea dolor consectetur aliqua laborum. Proident sint sunt in Lorem deserunt. Labore est sit labore duis Lorem voluptate adipisicing voluptate eiusmod qui elit aliquip. Sit tempor ex veniam sunt aute officia Lorem excepteur nisi ad amet. Fugiat minim irure voluptate irure exercitation consequat consequat quis.",
+}
+
+var loggedIn = true
+
 const routes = {
-    Home: () => <HomePage/>,
-    Posts: () => <RelatedPage/>,
-    Login: () => <LoginForm/>,
-    SignUp: () => <RegisterForm/>
+    Home: () => ( loggedIn ? <Feed feedData={dataFeed} /> : <HomePage/> ),
+    Login: () =>  ( loggedIn ? <LoggedIn/> : <LoginForm/> ) ,
+    SignUp: () => ( loggedIn ? <LoggedIn/> : <RegisterForm/> ),
+    Trending: () => ( loggedIn ? <Feed feedData={dataFeedTrending} /> : null ),
+    // TODO: IMPLEMENT THIS
+    //Profile: () => ( loggedIn ? <Profile loggedUser={state.id}/> : <LoginForm message="You are not logged in"/> )
+    
     //Add more routes here
 }

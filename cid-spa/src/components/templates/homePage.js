@@ -52,7 +52,7 @@ class DesktopContainer extends Component {
 		return (
 		<Responsive {...Responsive.onlyComputer} minWidth={768}>
 
-				<video autoPlay muted loop preload="auto" className="hero-video">
+				<video style={{ minHeight: 700 }} autoPlay muted loop preload="auto" className="hero-video">
 					<source src="/img/hero.mp4" type="video/mp4"/>
 				</video>
 				<Segment id="hero" textAlign='center' style={{ minHeight: 678, padding: '1em 0em', zIndex: 1}} vertical>

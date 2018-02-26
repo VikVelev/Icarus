@@ -26,5 +26,17 @@ body > div > div > div.login-form {
 
 #hero {
     background: rgba(0,0,0,0) !important;
+    border-bottom: none;
 }
 
+.post {
+    display:flex;
+}
+
+.dropdown.icon {
+    display: none !important;
+}
+
+.post-container:hover{
+    background-color: #EEE !important;
+}

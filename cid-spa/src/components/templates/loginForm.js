@@ -3,7 +3,7 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 
 import { Link }  from 'react-router-dom'
 
-const LoginForm = () => (
+export const LoginForm = () => (
 	<div className='login-form'>
 		<Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
 			<Grid.Column style={{ maxWidth: 450 }}>
@@ -40,4 +40,6 @@ const LoginForm = () => (
 	</div>
 )
 
-export default LoginForm
+export const LoggedIn = () => (
+	<div>Already logged in</div>
+)
