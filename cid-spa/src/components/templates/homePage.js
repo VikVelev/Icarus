@@ -66,11 +66,11 @@ class DesktopContainer extends Component {
 						</script>
 						<Container>
 
-							<Menu.Item as='a' active>Home</Menu.Item>
-							<Menu.Item as='a'>About</Menu.Item>
+							<Menu.Item as='a'>Home</Menu.Item>
+							<Menu.Item as='a' href="#demo">Demo</Menu.Item>
 							<Menu.Item position='right'>
 								<Button as={ Link } to="login" inverted={!fixed}>Log in</Button>
-								<Button as={ Link } to="login" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+								<Button as={ Link } to="register" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 							</Menu.Item>
 							
 						</Container>
@@ -102,11 +102,8 @@ class MobileContainer extends Component {
 			<Sidebar.Pushable>
 				<Sidebar as={Menu} animation='uncover' inverted vertical visible={sidebarOpened}>
 					<Menu.Item as='a' active>Home</Menu.Item>
-					<Menu.Item as='a'>Feed</Menu.Item>
-					<Menu.Item as='a'>About</Menu.Item>
-
-					<Menu.Item as='a'>Log in</Menu.Item>
-					<Menu.Item as='a'>Sign Up</Menu.Item>
+					<Menu.Item as='a' href="/login">Log in</Menu.Item>
+					<Menu.Item as='a' href="/register">Sign Up</Menu.Item>
 				</Sidebar>
 
 				<Sidebar.Pusher dimmed={sidebarOpened} onClick={this.handleToggle} style={{ minHeight: '100vh' }}>
@@ -120,8 +117,8 @@ class MobileContainer extends Component {
 								</Menu.Item>
 
 								<Menu.Item position='right'>
-									<Button as='a' inverted>Log in</Button>
-									<Button as='a' inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+									<Button as={Link} to="login" inverted>Log in</Button>
+									<Button as={Link} to="register" inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 								</Menu.Item>
 
 							</Menu>
@@ -214,7 +211,7 @@ const HomepageLayout = () => (
 	  	</Grid>
 	</Segment>
 	
-	<Segment style={{padding: '8em 0em'}} vertical>
+	<Segment style={{padding: '8em 0em'}} vertical id="demo">
 		<Container>
 			<Header as='h3' style={{ fontSize: '3em', align: 'center' }}>Amazing Demo Of The Viewport Here</Header>
 		</Container>

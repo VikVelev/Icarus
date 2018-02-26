@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+import { Navbar } from './navbar.js'
+
 import HomePage from './templates/homePage.js';
 import RelatedPage from './templates/feed.js';
-import LoginForm from './templates/userAuth.js';
+
+import LoginForm from './templates/loginForm.js';
+import RegisterForm from './templates/registerForm.js';
+
+import { BrowserRouter as Router } from "react-router-dom";
 
 export default class Content extends Component {
     render(){
         return(
-            <div className="content">
-                <Switch>
-                    <Route exact path="/" component={routes.Home} />
-                    <Route exact path="/posts" component={routes.Posts} />
-                    <Route exact path="/trending" component={routes.Trending} />
-                    <Route exact path="/login" component={routes.Login} />                    
-                </Switch>
-            </div>
+            <Router>
+                <div className="content">
+                    <Navbar/>
+                    <Switch>
+                        <Route exact path="/" component={routes.Home} />
+                        <Route exact path="/feed" component={routes.Posts} />
+                        <Route exact path="/login" component={routes.Login} />                    
+                        <Route exact path="/register" component={routes.SignUp} />                                                   
+                    </Switch>
+                </div>
+            </Router>
         );
     }
 }
@@ -23,7 +32,7 @@ export default class Content extends Component {
 const routes = {
     Home: () => <HomePage/>,
     Posts: () => <RelatedPage/>,
-    Trending: () => <div>test</div>,
-    Login: () => <LoginForm/>
+    Login: () => <LoginForm/>,
+    SignUp: () => <RegisterForm/>
     //Add more routes here
 }
