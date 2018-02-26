@@ -5,6 +5,8 @@ import { Navbar } from './navbar.js'
 
 import HomePage from './templates/homePage.js';
 import Feed from './templates/feed.js';
+import Profile from './templates/profilePage.js'
+import Upload from './templates/upload.js'
 
 import{ LoginForm, LoggedIn } from './templates/loginForm.js';
 import RegisterForm from './templates/registerForm.js';
@@ -33,7 +35,9 @@ export default class Content extends Component {
                         <Route exact path="/" component={routes.Home} />
                         <Route exact path="/login" component={routes.Login} />
                         <Route exact path="/trending" component={routes.Trending} />                                                          
-                        <Route exact path="/register" component={routes.SignUp} />                                                   
+                        <Route exact path="/register" component={routes.SignUp} />
+                        <Route exact path="/profile" component={routes.MyProfile} />
+                        <Route exact path="/upload" component={routes.Upload} />                                                                                                                                                
                     </Switch>
                 </div>
             </Router>
@@ -68,6 +72,8 @@ const routes = {
     Login: () =>  ( loggedIn ? <LoggedIn/> : <LoginForm/> ) ,
     SignUp: () => ( loggedIn ? <LoggedIn/> : <RegisterForm/> ),
     Trending: () => ( loggedIn ? <Feed feedData={dataFeedTrending} /> : null ),
+    MyProfile: () => ( loggedIn ? <Profile loggedUser={1}/> : <LoginForm/> ),
+    Upload: () => ( loggedIn ? <Upload/> : <LoginForm/> )
     // TODO: IMPLEMENT THIS
     //Profile: () => ( loggedIn ? <Profile loggedUser={state.id}/> : <LoginForm message="You are not logged in"/> )
     

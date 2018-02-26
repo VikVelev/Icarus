@@ -1,6 +1,7 @@
 body > div,
 body > div > div,
-body > div > div > div.login-form {
+body > #app > .content,
+body > #app > .content > .login-form {
     height: 100%;
 }
 
@@ -40,3 +41,47 @@ body > div > div > div.login-form {
 .post-container:hover{
     background-color: #EEE !important;
 }
+
+.profileDetails{
+    width: 80%;
+    padding: 5%;
+}
+
+.userHeader {
+    border: 0px !important;
+    box-shadow: none !important;
+}
+
+.ui.bottom.attached.segment.active.tab {
+    border: 0px;
+}
+
+#holder {
+    display: table;
+    border: 4px dashed white;
+    width: 150px;
+    height: 150px;
+    font-size: 1.3em;
+    transition: border 0.4s, color 0.4s;
+  }
+  #holder.hover {
+    border-color: black;
+    color: black;
+  }
+  .ui.modal {
+    width: 230px;
+    border: 3px solid white;
+  }
+  #holder i {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+  #output {
+    display: none;
+  }
+
+  #profileFeed{
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+  }

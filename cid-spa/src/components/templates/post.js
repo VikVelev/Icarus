@@ -30,7 +30,7 @@ export default class Post extends Component {
         this.panels = [{
             title: {
                 content: <PostTemplate {...this.props.feedData}/>,
-                key: "unique",
+                key: "title",
             },
             content: {
                 content: (
@@ -38,7 +38,7 @@ export default class Post extends Component {
                     what
                     </Segment>
                 ),
-                key: "unique2"
+                key: "content"
             },
         }]
     }

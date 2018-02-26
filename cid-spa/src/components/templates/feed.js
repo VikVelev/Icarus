@@ -17,9 +17,9 @@ export default class Feed extends Component {
 
     render(){
         return(
-            <Repeat numTimes={100}>         
+            <Repeat numTimes={this.props.times ? this.props.times : 10}>         
                 {(index) => (
-                    <Segment key={index} className="post-container" style={{
+                    <Segment key={index}id={this.props.elId} className="post-container" style={{
                             marginTop: '5px',
                             marginLeft: '20%',
                             marginRight: '20%',  
