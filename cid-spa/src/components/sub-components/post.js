@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Accordion, Item, Segment } from 'semantic-ui-react'
 
+import Canvas3D from '../viewport/canvas3d.js'
+
 class PostTemplate extends Component {
     render () {
         return(
@@ -34,8 +36,8 @@ export default class Post extends Component {
             },
             content: {
                 content: (
-                    <Segment style={{width:'100%', height: "500px"}}>
-                    what
+                    <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
+                        <Canvas3D/>
                     </Segment>
                 ),
                 key: "content"

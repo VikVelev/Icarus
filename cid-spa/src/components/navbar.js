@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Input } from 'semantic-ui-react'
 
 import { Link } from 'react-router-dom'
-import Logout from './templates/logout.js'
+import Logout from './sub-components/logout.js'
 
 export class Navbar extends Component {
     state = { activeItem: 'home' }

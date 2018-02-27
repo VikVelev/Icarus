@@ -8,16 +8,18 @@ from rest_framework import status, permissions, generics
 from ..models.post import Post
 from ..serializers import PostSerializer
 
-class ListAllPosts(generics.ListAPIView):
+
+class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 # Gotta do something to differentiate a user's posts and such
 
-class CreatePost(generics.CreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+
 
 class Posts(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
+    def get_queryset(self):
+        user_pk = self.kwargs["pk"]
+        return Post.objects.filter(posted_by=user_pk)
+
     serializer_class = PostSerializer

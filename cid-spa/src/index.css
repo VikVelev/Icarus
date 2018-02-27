@@ -63,25 +63,40 @@ body > #app > .content > .login-form {
     height: 150px;
     font-size: 1.3em;
     transition: border 0.4s, color 0.4s;
-  }
-  #holder.hover {
+}
+
+#holder.hover {
     border-color: black;
     color: black;
-  }
-  .ui.modal {
+}
+
+.ui.modal {
     width: 230px;
     border: 3px solid white;
-  }
-  #holder i {
+}
+
+#holder i {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-  }
-  #output {
-    display: none;
-  }
+}
 
-  #profileFeed{
-      margin-right: 0 !important;
-      margin-left: 0 !important;
-  }
+#output {
+    display: none;
+}
+
+#profileFeed{
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.viewport {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.dg.main.a {
+    position:absolute;
+    top: 0;
+    left: 0;
+}

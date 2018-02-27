@@ -3,13 +3,13 @@ import { Route, Switch } from 'react-router-dom';
 
 import { Navbar } from './navbar.js'
 
-import HomePage from './templates/pages/homePage.js';
-import Feed from './templates/feed.js';
-import Profile from './templates/pages/profilePage.js'
-import Upload from './templates/upload.js'
+import HomePage from './sub-components/pages/homePage.js';
+import Feed from './sub-components/feed.js';
+import Profile from './sub-components/pages/profilePage.js'
+import Upload from './sub-components/upload.js'
 
-import{ LoginForm, LoggedIn } from './templates/pages/loginForm.js';
-import RegisterForm from './templates/pages/registerForm.js';
+import{ LoginForm, LoggedIn } from './sub-components/pages/loginForm.js';
+import RegisterForm from './sub-components/pages/registerForm.js';
 
 import { BrowserRouter as Router } from "react-router-dom";
 

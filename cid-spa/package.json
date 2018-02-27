@@ -5,6 +5,7 @@
   "dependencies": {
     "better-console": "^1.0.1",
     "css-loader": "^0.28.10",
+    "dat.gui": "^0.7.1",
     "del": "^3.0.0",
     "ext": "^0.6.1",
     "extend": "^3.0.1",
@@ -44,6 +45,9 @@
     "semantic-ui-css": "^2.3.0",
     "semantic-ui-react": "^0.78.2",
     "style-loader": "^0.20.2",
+    "three": "^0.90.0",
+    "three-js": "^79.0.0",
+    "three-orbitcontrols": "^2.0.0",
     "yamljs": "^0.3.0"
   },
   "scripts": {

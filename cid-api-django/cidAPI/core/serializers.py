@@ -28,7 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -43,47 +43,17 @@ class PostSerializer(serializers.ModelSerializer):
             'likes',
         )
     
-    def create(self, validated_data):
+    # def create(self, validated_data):
 
-        comments_data = validated_data.pop('comments')
-        post = Post.objects.create(**validated_data)
+    #     comments_data = validated_data.pop('comments')
+    #     post = Post.objects.create(**validated_data)
 
-        for comment_data in comments_data:
-            Comment.objects.create(post=post, **comment_data)
+    #     for comment_data in comments_data:
+    #         Comment.objects.create(post=post, **comment_data)
         
-        return album
+    #     return album
 
 #### End of Post Serializers
-
-#### 3D model serializers
-
-class CommitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Commit
-        fields = (
-            'belongs_to_model',
-            'commited_by',
-            'details',
-            'date',
-            'polygons_changed'
-        )
-
-
-class Model3DSerializer(serializers.ModelSerializer):
-    commits = CommitSerializer(many=True)
-
-    class Meta:
-        model = Model3D
-        fields = (
-            'id',
-            'filename',
-            'owners',
-            'date_uploaded',
-            'favorited_by',
-            'polygons',
-        )
-
-#### End of 3D Models Serializers
 
 #### User Serializers
 
@@ -149,3 +119,42 @@ class RegisterUser(serializers.ModelSerializer):
         return created_user
 
 ### End of User Serializers
+
+#### 3D model serializers
+
+class CommitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Commit
+        fields = (
+            'belongs_to_model',
+            'commited_by',
+            'details',
+            'date',
+            'polygons_changed'
+        )
+
+from django.contrib.auth import get_user_model
+
+class Model3DSerializer(serializers.ModelSerializer):
+
+
+    User = get_user_model()
+
+    commits = CommitSerializer(many=True, required=False,read_only=True)
+    favorited_by = UserSerializer(many=True, required=False, read_only=True)
+    date_uploaded = serializers.DateTimeField(read_only=True)
+    owners = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Model3D
+        fields = (
+            'id',
+            'filename',
+            'owners',
+            'date_uploaded',
+            'favorited_by',
+            'polygons',
+            'commits'
+        )
+
+#### End of 3D Models Serializers
