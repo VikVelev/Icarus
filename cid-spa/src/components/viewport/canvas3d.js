@@ -34,10 +34,8 @@ export default class Canvas3D extends Component {
 
         //FIX THE COMPONENT MOUNTING SO ONLY ONE COMPONENT SHOULD BE MOUNTED AT A TIME
         this.rootElement = document.getElementById(this.canvasId)     
+        window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
         
-        window.addEventListener( 'resize', this.onWindowResize.bind(this), false );        
-        this.rootElement.addEventListener( 'resize', this.onWindowResize.bind(this), false );
-
         this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
         this.viewport.init()
         this.onWindowResize()
