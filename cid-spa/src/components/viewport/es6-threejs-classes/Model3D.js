@@ -1,5 +1,5 @@
 import { VertexNormalsHelper, LineSegments, LineBasicMaterial, } from 'three'
-import { WireframeGeometry, Geometry }  from 'three'
+import { WireframeGeometry, Geometry, Group, MeshStandardMaterial }  from 'three'
 
 
 //import FaceNormalsHelper from 'three'
@@ -10,34 +10,30 @@ export default class Model3D {
 
         this.selected = false;
         this.model = model;
-        
+        this.state = {
+            toggledWireframe: false,
+            toggledVertexNormals: false,
+            toggledFaceNormals: false,
+            toggledMesh: true,
+            toggledTextures: true,
+        }
+
         if ( this.model.children[0].name === "Plane") {
             this.model.children.splice(0, 1);
         }
-        this.extractedGeometry = this.extractGeometry( this.model )
 
+        this.textures = []
+        this.model.children.forEach(element => {
+            this.textures.push(element.material);
+        })
+        this.extractedGeometry = this.extractGeometry( this.model )
         this.vertexNormals = new VertexNormalsHelper( this.model, 0.15 );
 
         //Work out the issue with facenormals
         //this.faceNormals = new FaceNormalsHelper( this.model, 0.15 );
 
-        //Work out the issue with vertexnormals
-
-        var mat = new LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
-        this.wireframeLines = []
-        //Work out the issue with the Wireframe not entirely working.        
-        //IMPORTANT NOTE FOR FURTHER DEBUGGING, the Wireframes that are not showing, were showing before as meshes only,
-        //before the meshes magic fix by disabling the visibility.
-        this.wireframeLines.numOf = 'multiple'  // This is needed for the Viewport class to recognize and add its elements.     
-
-        this.extractedGeometry.forEach(edge => {
-            var line = new LineSegments( edge, mat );
-            this.wireframeLines.push(line)
-        });
-
-
         // this is so, when I'm importing them in the scene I don't need to write all this separately.
-        this.import = [ this.wireframeLines, this.vertexNormals/*, this.faceNormals,*/, this.model ]
+        this.import = [this.vertexNormals/*, this.faceNormals,*/, this.model ]
 
         //every model starts at the center, you can move it using the moveModel() method.
         this.model.position.x = 0;
@@ -45,23 +41,23 @@ export default class Model3D {
         this.model.position.z = 0;
 
         //this.faceNormals.visible = false;
-        this.vertexNormals.visible = false;
+        this.vertexNormals.visible = this.state.toggledVertexNormals;
 
-        this.wireframeLines.forEach(element => {
-            element.visible = false;
-        });
 
     }
 
     extractGeometry(model){
 
-        let allEdges = []
+        let mat = new LineBasicMaterial( { color: 0x2185d0, linewidth: 1.5 } );            
+        let allLines = new Group()
+
         model.children.forEach(mesh => {
             var edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
-            allEdges.push(edge)
+            var line = new LineSegments( edge, mat );
+            allLines.add(line)
         });
 
-        return allEdges
+        return allLines
     }
     
     moveModel( x, y, z ) {
@@ -95,18 +91,33 @@ export default class Model3D {
 
     }
 
-    toggleWireframe(){
-        this.wireframeLines.forEach(line => {
-            line.visible = !line.visible
-        });
+    toggleWireframe(optional){
+        console.log(optional)
+        if (optional !== undefined) {
+            this.state.toggledWireframe = optional
+        } else {
+            this.state.toggledWireframe = !this.state.toggledWireframe
+        }
 
+        this.model.children.forEach(element => {
+            element.material.wireframe = this.state.toggledWireframe
+        });
     }
 
     toggleTextures(){
-
-        //TODO: Implement this
-        console.log("stub!")
-
+        if (!this.state.toggledTextures) {
+            for (let i = 0; i < this.textures.length; i++) {
+                this.model.children[i].material = this.textures[i]
+            }
+            this.state.toggledTextures = true;
+            this.toggleWireframe(this.state.toggledWireframe)        
+        } else {
+            this.model.children.forEach(element => {
+                element.material = new MeshStandardMaterial(0xffffff)
+            });
+            this.state.toggledTextures = false;
+            this.toggleWireframe(this.state.toggledWireframe)
+        }
     }
 
     toggleMesh(){
@@ -116,6 +127,8 @@ export default class Model3D {
     }
 
     setOpacity(value){
+
         this.model.material.opacity = value;
+
     }
 }

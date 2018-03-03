@@ -46,7 +46,7 @@ export default class Canvas3D extends Component {
         this.texLoader.load(
             this.texturePath,
             (function ( materials ) {
-
+                
                 materials.preload();
                 this.loader.setMaterials(materials);
 
@@ -60,7 +60,7 @@ export default class Canvas3D extends Component {
                     this.animate()
 
                 }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
-                
+
             }).bind(this), this.onProgress, this.onError);
     }
 
