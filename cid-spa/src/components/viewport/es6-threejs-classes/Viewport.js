@@ -63,7 +63,7 @@ export default class Viewport {
         // but I think it is smarter just to scale the model down :TODO
         this.sizeRef = sizeRef.getSize();
         
-        this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, this.sizeRef.x*this.sizeRef.z*5);
+        this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, this.sizeRef.x*this.sizeRef.z);
         
         this.camera.position.x = -this.sizeRef.y*2;
         this.camera.position.y = this.sizeRef.y;

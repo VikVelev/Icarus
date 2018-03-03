@@ -215,7 +215,7 @@ const HomepageLayout = () => (
 	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
 	
 	<Segment style={{ height: "600px"}} vertical id="demo">
-
+		{/*always end the modelPath with /*/}
 		<Canvas3D modelPath="/models/aventador/" modelName="Avent"/>
 
 	</Segment>

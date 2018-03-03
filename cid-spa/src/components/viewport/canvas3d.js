@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-//import { BoxGeometry, MeshBasicMaterial, Mesh,}  from 'three'
+import { Progress } from 'semantic-ui-react'
 
 import OBJLoader from 'three-react-obj-loader'
 import MTLLoader from 'three-react-mtl-loader'
@@ -16,12 +16,14 @@ export default class Canvas3D extends Component {
         this.meshPath = this.props.modelName + ".obj"
         this.texturePath = this.props.modelName + ".mtl"
 
+        this.handleChildUnmount = this.handleChildUnmount.bind(this);
         //Make this dynamic
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
      
         this.state = {
-            
+            loading: true,
+            precent: 0,
         }
     }
 
@@ -38,6 +40,7 @@ export default class Canvas3D extends Component {
 
         //FIX THE COMPONENT MOUNTING SO ONLY ONE COMPONENT SHOULD BE MOUNTED AT A TIME
         this.rootElement = document.getElementById(this.canvasId)
+
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
         this.texLoader.setPath(this.props.modelPath)
@@ -46,13 +49,12 @@ export default class Canvas3D extends Component {
         this.texLoader.load(
             this.texturePath,
             (function ( materials ) {
-                
+
                 materials.preload();
                 this.loader.setMaterials(materials);
 
                 this.loader.load(this.meshPath, (function ( object ) {
 
-                    object.scale.x = object.scale.y = object.scale.z = 1 
                     this.model3D = new Model3D ( object )
                     this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
                     this.viewport.init()
@@ -61,11 +63,16 @@ export default class Canvas3D extends Component {
 
                 }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
 
-            }).bind(this), this.onProgress, this.onError);
+            }).bind(this));
     }
 
-    onProgress( xhr ){ 
-        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded ' + xhr.currentTarget.responseURL);
+    onProgress( xhr ){       
+        this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
+
+        if (this.state.precent === 100) {
+            this.setState({ loading: false });
+            console.log("done")
+        }
     }
 
     onError( error ){
@@ -77,9 +84,29 @@ export default class Canvas3D extends Component {
         console.log("Unmounting")
     }
 
+    handleChildUnmount(){
+
+    }
+
+    Loading = () => {
+        if (!this.state.loading) {
+            return null
+        } else {
+            return ( 
+                <div className="loading">
+                    <Progress percent={this.state.precent} indicating></Progress>            
+                </div>
+            )
+        }
+    }
+
     render(){
+        console.log(this.state.precent)
         return(
-            <div id={this.canvasId} className="viewport"></div>
+            <div id={this.canvasId} className="viewport">
+               {this.Loading()}
+            </div>
         )
     }
 }
+

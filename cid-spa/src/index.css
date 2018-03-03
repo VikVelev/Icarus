@@ -118,3 +118,26 @@ body > #app > .content > .login-form {
     height: 70px;
     width: 100%;
 }
+
+.dg.main.taller-than-window {
+     overflow-y: unset !important;
+}
+
+.loading {
+    height: 100%;
+    width: 100%;
+    background-color: #2185d0;
+}
+
+.bar {
+    margin: auto;
+    width: 100%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.ui.active.indicating.progress {
+
+    height: 100%;
+    display: flex;
+}
