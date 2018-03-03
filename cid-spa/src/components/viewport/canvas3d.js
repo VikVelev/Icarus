@@ -15,8 +15,7 @@ export default class Canvas3D extends Component {
         typeof(this.props.canvasId) ? this.canvasId = Math.round(Math.random()*100) : this.canvasId = this.props.canvasId
         this.meshPath = this.props.modelName + ".obj"
         this.texturePath = this.props.modelName + ".mtl"
-
-        this.handleChildUnmount = this.handleChildUnmount.bind(this);
+        
         //Make this dynamic
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
@@ -71,7 +70,6 @@ export default class Canvas3D extends Component {
 
         if (this.state.precent === 100) {
             this.setState({ loading: false });
-            console.log("done")
         }
     }
 
@@ -81,11 +79,7 @@ export default class Canvas3D extends Component {
 
     componentWillUnmount(){
         // TODO Utilize this.
-        console.log("Unmounting")
-    }
-
-    handleChildUnmount(){
-
+        console.log("Unmounting" + this)
     }
 
     Loading = () => {
@@ -101,7 +95,6 @@ export default class Canvas3D extends Component {
     }
 
     render(){
-        console.log(this.state.precent)
         return(
             <div id={this.canvasId} className="viewport">
                {this.Loading()}

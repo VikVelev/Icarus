@@ -114,8 +114,7 @@ body > #app > .content > .login-form {
     text-align: center;
     vertical-align: center;
     margin: auto;
-    font-size: 200%;
-    height: 70px;
+    font-size: 1.5em !important;
     width: 100%;
 }
 
@@ -126,7 +125,7 @@ body > #app > .content > .login-form {
 .loading {
     height: 100%;
     width: 100%;
-    background-color: #2185d0;
+    background-color: #fff;
 }
 
 .bar {

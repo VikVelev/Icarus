@@ -215,14 +215,14 @@ const HomepageLayout = () => (
 	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
 	
 	<Segment style={{ height: "600px"}} vertical id="demo">
-		{/*always end the modelPath with /*/}
+		{/*always end the modelPath with a slash*/}
 		<Canvas3D modelPath="/models/aventador/" modelName="Avent"/>
 
 	</Segment>
 	
 	<Grid centered style={{padding: '2em'}}>
 	<Segment style={{ padding: '8em' }} vertical>
-		<Button id="get_started" as={ Link } to="login" primary size='huge' text-align="center">
+		<Button id="get_started" as={ Link } to="login" primary size='huge'>
 			Get Started
 			<Icon name='right arrow' />
 		</Button>
