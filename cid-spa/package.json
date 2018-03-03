@@ -50,6 +50,7 @@
     "three-obj": "^0.6.5",
     "three-obj-loader": "^1.1.3",
     "three-orbitcontrols": "^2.0.0",
+    "three-react-mtl-loader": "^1.0.3",
     "three-react-obj-loader": "^1.0.4",
     "yamljs": "^0.3.0"
   },

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 //import { BoxGeometry, MeshBasicMaterial, Mesh,}  from 'three'
 
 import OBJLoader from 'three-react-obj-loader'
+import MTLLoader from 'three-react-mtl-loader'
 
 import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
@@ -12,10 +13,12 @@ export default class Canvas3D extends Component {
         super(props)
         //TODO Fix this
         typeof(this.props.canvasId) ? this.canvasId = Math.round(Math.random()*100) : this.canvasId = this.props.canvasId
-
+        this.meshPath = this.props.modelName + ".obj"
+        this.texturePath = this.props.modelName + ".mtl"
 
         //Make this dynamic
         this.loader = new OBJLoader()
+        this.texLoader = new MTLLoader()
      
         this.state = {
             
@@ -34,27 +37,39 @@ export default class Canvas3D extends Component {
     componentDidMount(){
 
         //FIX THE COMPONENT MOUNTING SO ONLY ONE COMPONENT SHOULD BE MOUNTED AT A TIME
-        this.rootElement = document.getElementById(this.canvasId)     
+        this.rootElement = document.getElementById(this.canvasId)
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
-        this.loader.load(
-            // resource URL
-            this.props.model,
-            (function ( object ) {
-                this.model3D = new Model3D ( object )
-                this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
-                this.viewport.init()
-                this.onWindowResize()
-                this.animate()
-            }).bind(this),
-            function ( xhr ) {
-                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-            },
-            function ( error ) {
-                console.log( 'An error happened' + error );
-            }
-        );
+        this.texLoader.setPath(this.props.modelPath)
+        this.loader.setPath(this.props.modelPath)
+        
+        this.texLoader.load(
+            this.texturePath,
+            (function ( materials ) {
 
+                materials.preload();
+                this.loader.setMaterials(materials);
+
+                this.loader.load(this.meshPath, (function ( object ) {
+
+                    object.scale.x = object.scale.y = object.scale.z = 1 
+                    this.model3D = new Model3D ( object )
+                    this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
+                    this.viewport.init()
+                    this.onWindowResize()
+                    this.animate()
+
+                }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
+                
+            }).bind(this), this.onProgress, this.onError);
+    }
+
+    onProgress( xhr ){ 
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded ' + xhr.currentTarget.responseURL);
+    }
+
+    onError( error ){
+        console.log("An error: " + error)
     }
 
     componentWillUnmount(){

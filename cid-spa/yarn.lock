@@ -7957,6 +7957,10 @@ three-orbitcontrols@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/three-orbitcontrols/-/three-orbitcontrols-2.0.0.tgz#4a0ce4c790bd85febb20de2ea4521c21c573794c"
 
+three-react-mtl-loader@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/three-react-mtl-loader/-/three-react-mtl-loader-1.0.3.tgz#8a979f2f7ed5b99427c25a809ec0d25db1d7bbf8"
+
 three-react-obj-loader@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/three-react-obj-loader/-/three-react-obj-loader-1.0.4.tgz#6542dfbc96f565e4bf9e333699bf1abed0840def"

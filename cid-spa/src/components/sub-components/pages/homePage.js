@@ -213,9 +213,13 @@ const HomepageLayout = () => (
 	
 
 	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
+	
 	<Segment style={{ height: "600px"}} vertical id="demo">
-		<Canvas3D model="/models/tire/Tire.obj"/>
+
+		<Canvas3D modelPath="/models/aventador/" modelName="Avent"/>
+
 	</Segment>
+	
 	<Grid centered style={{padding: '2em'}}>
 	<Segment style={{ padding: '8em' }} vertical>
 		<Button id="get_started" as={ Link } to="login" primary size='huge' text-align="center">
@@ -224,7 +228,6 @@ const HomepageLayout = () => (
 		</Button>
 	</Segment>
 	</Grid>
-	
 
 	<Responsive>
             <Segment inverted vertical style={{ padding: '5em 0em' }}>

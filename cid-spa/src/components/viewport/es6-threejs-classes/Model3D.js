@@ -1,5 +1,5 @@
 import { VertexNormalsHelper, LineSegments, LineBasicMaterial, } from 'three'
-import { EdgesGeometry, /*WireframeGeometry*/ }  from 'three'
+import { WireframeGeometry, Geometry }  from 'three'
 
 
 //import FaceNormalsHelper from 'three'
@@ -14,11 +14,10 @@ export default class Model3D {
         if ( this.model.children[0].name === "Plane") {
             this.model.children.splice(0, 1);
         }
-        this.extractedGeometry = this.extractGeometry(this.model)
+        this.extractedGeometry = this.extractGeometry( this.model )
 
         this.vertexNormals = new VertexNormalsHelper( this.model, 0.15 );
 
-        console.log(this.vertexNormals)
         //Work out the issue with facenormals
         //this.faceNormals = new FaceNormalsHelper( this.model, 0.15 );
 
@@ -58,7 +57,7 @@ export default class Model3D {
 
         let allEdges = []
         model.children.forEach(mesh => {
-            var edge = new EdgesGeometry(mesh.geometry, 0xffffff);
+            var edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
             allEdges.push(edge)
         });
 

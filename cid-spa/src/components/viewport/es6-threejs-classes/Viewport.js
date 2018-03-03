@@ -49,38 +49,41 @@ export default class Viewport {
         this.mouse = new Vector2();
 
         this.light = new PointLight( 0xffffff, 1, 1000);
-        this.ambient = new AmbientLight( 0xeeeeee, 0.2 );
+        this.ambient = new AmbientLight( 0xeeeeee, 0.5 );
         
         this.scene.add( this.ambient );
         this.scene.add( this.light );
+        
         
         let sizeRef = new Box3().setFromObject( this.objectToRender.model );
         
         //used for a size refference so I can scale up camera as big as the model,
         // but I think it is smarter just to scale the model down :TODO
         this.sizeRef = sizeRef.getSize();
-
+        
         this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, this.sizeRef.x*this.sizeRef.z*5);
         
-        this.camera.position.x = this.sizeRef.y;
-        this.camera.position.y = this.sizeRef.y + 1;
-        this.camera.position.z = this.sizeRef.y;
-        this.light.position.set( 0, this.sizeRef.y, 0);
-
+        this.camera.position.x = -this.sizeRef.y*2;
+        this.camera.position.y = this.sizeRef.y;
+        this.camera.position.z = this.sizeRef.y*2;
+        
+        this.light.position.set( 0, this.sizeRef.y*3, 0);
+        
         this.gridHelper = new GridHelper( this.sizeRef.x*2, this.sizeRef.z*2, 0xffffff, 0x808080 );
         this.gridHelper.position.x = 0;
         this.gridHelper.position.y = 0;
         this.gridHelper.position.z = 0;
-
+        
         this.divWrapper = document.createElement('div')
-
+        
         this.divWrapper.id += " " + this.index;
         this.divWrapper.className += "viewport";
         
         this.renderer = new WebGLRenderer( { antialiasing: true } );
-
+        
         this.renderer.setSize( this.divWrapper.clientWidth,  this.divWrapper.clientHeight);
-
+        this.renderer.setClearColor(0xffffff, 1)
+        
         this.renderer.domElement.id = this.index;
         
         this.optionBox = new dat.GUI( { autoplace: false, width: 200, resizable: false } );
@@ -90,7 +93,7 @@ export default class Viewport {
         this.divWrapper.appendChild( this.renderer.domElement );
         
         this.objectToAppendTo.appendChild( this.divWrapper );
-
+        
         this.controls = new OrbitControls( this.camera, document.getElementById( this.index ) );
         this.controls.enableDamping = true;
         this.controls.minDistance = 0; 
@@ -211,7 +214,13 @@ export default class Viewport {
                 
                 model.setOpacity(params.opacity);
                 model.import.forEach( element => {
-                    this.scene.add( element );
+                    if (element.numOf === 'multiple') {
+                        element.forEach(item => {
+                            this.scene.add(item)
+                        });
+                    } else {
+                        this.scene.add( element );
+                    }
                 });
             });
         }
