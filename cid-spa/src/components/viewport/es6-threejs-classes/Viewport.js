@@ -59,7 +59,7 @@ export default class Viewport {
         
         let sizeRef = new Box3().setFromObject( this.objectToRender.model );
         
-        //used for a size refference so I can scale up camera as big as the model,
+        //used for a size refference so I can scale up camera and grids as big as the model,
         // but I think it is smarter just to scale the model down :TODO
         this.sizeRef = sizeRef.getSize();
         
@@ -106,7 +106,7 @@ export default class Viewport {
 
             vNormals: false,
             fNormals: false,
-            textures: false,
+            textures: true,
             mesh: true,
             wireframe: false,
             opacity: 0.7,

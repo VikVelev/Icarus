@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Accordion, Item, Segment } from 'semantic-ui-react'
+import { Item, Segment } from 'semantic-ui-react'
 
 import Canvas3D from '../viewport/canvas3d.js'
 
 class PostTemplate extends Component {
     render () {
         return(
-            <Item className="post">
+            <Item className="post" onClick={this.props.onClick}>
                 <Item.Image size='small' src={this.props.image} style={{
                     padding: '20px'    
                 }} />
@@ -29,26 +29,35 @@ class PostTemplate extends Component {
 export default class Post extends Component {
     constructor(props){
         super(props)
-        this.panels = [{
-            title: {
-                content: <PostTemplate {...this.props.feedData}/>,
-                key: "title",
-            },
-            content: {
-                content: (
-                    <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                        <Canvas3D model="/models/aventador/Avent.obj"/>
-                    </Segment>
-                ),
-                key: "content"
-            },
-        }]
+
+        this.state = {
+            rendering: true,
+
+        }
     }
     
-    
+    mountCanvas = () => {
+        if (this.state.rendering){
+            return(
+                <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
+                    <Canvas3D modelPath={this.props.feedData.modelPath} modelName={this.props.feedData.modelName}/>
+                </Segment>
+            )
+        } else {
+            return null
+        }
+    }
+
+    clickHandler() {
+        this.setState({ rendering: !this.state.rendering })
+    }
+
     render(){
         return(
-            <Accordion panels={this.panels}/>
+            <div className="postWrapper">
+                <PostTemplate {...this.props.feedData} onClick={this.clickHandler.bind(this)}/>
+                {this.mountCanvas()}
+            </div>
         )
     }
 

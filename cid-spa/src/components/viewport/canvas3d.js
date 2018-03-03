@@ -15,7 +15,7 @@ export default class Canvas3D extends Component {
         typeof(this.props.canvasId) ? this.canvasId = Math.round(Math.random()*100) : this.canvasId = this.props.canvasId
         this.meshPath = this.props.modelName + ".obj"
         this.texturePath = this.props.modelName + ".mtl"
-        
+
         //Make this dynamic
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
@@ -69,7 +69,7 @@ export default class Canvas3D extends Component {
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
 
         if (this.state.precent === 100) {
-            this.setState({ loading: false });
+            setTimeout(this.setState({ loading: false }), 2000);
         }
     }
 
@@ -79,7 +79,6 @@ export default class Canvas3D extends Component {
 
     componentWillUnmount(){
         // TODO Utilize this.
-        console.log("Unmounting" + this)
     }
 
     Loading = () => {
@@ -88,7 +87,7 @@ export default class Canvas3D extends Component {
         } else {
             return ( 
                 <div className="loading">
-                    <Progress percent={this.state.precent} indicating></Progress>            
+                    <Progress inverted percent={this.state.precent} indicating></Progress>            
                 </div>
             )
         }

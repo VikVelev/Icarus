@@ -14,7 +14,7 @@ import RegisterForm from './sub-components/pages/registerForm.js';
 import { BrowserRouter as Router } from "react-router-dom";
 
 var noNavbar = [ 'homepage', 'login', 'register', ]
-var state = { currentPage: 'homepage' }
+var state = { currentPage: 'feed' }
 
 const RenderNavbar = () => {
     for (let i = 0; i < noNavbar.length; i++) {
@@ -53,7 +53,9 @@ var dataFeed = {
         id: "user/10"
     },
     date: "26th Feb",
-    description: "Pretty cool model I made"
+    description: "Pretty cool model I made",
+    modelPath: "/models/aventador/",
+    modelName: "Avent"  
 }
 
 var dataFeedTrending = {
@@ -64,9 +66,11 @@ var dataFeedTrending = {
     },
     date: "30th Feb",
     description: "Voluptate consequat aliquip non irure laboris. Et sunt duis magna sunt irure labore Lorem ea dolor consectetur aliqua laborum. Proident sint sunt in Lorem deserunt. Labore est sit labore duis Lorem voluptate adipisicing voluptate eiusmod qui elit ",
+    modelPath: "/models/aventador/",
+    modelName: "Avent"
 }
 
-var loggedIn = false
+var loggedIn = true
 
 const routes = {
     Home: () => ( loggedIn ? <Feed feedData={dataFeed} /> : <HomePage/> ),
