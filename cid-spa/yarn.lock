@@ -1349,6 +1349,10 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
+bufferpack@x:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/bufferpack/-/bufferpack-0.0.6.tgz#fb3d8738a0e1e4e03bcff99f9a75f9ec18a9d73e"
+
 builtin-modules@^1.0.0, builtin-modules@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
@@ -7938,9 +7942,34 @@ three-js@^79.0.0:
   version "79.0.0"
   resolved "https://registry.yarnpkg.com/three-js/-/three-js-79.0.0.tgz#0318eaacab286ddcf88fa3e1977e8a6ee6957b59"
 
+three-obj-loader@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/three-obj-loader/-/three-obj-loader-1.1.3.tgz#4d540a256fcf2a59a6c6e0cd51a623efd76fd87d"
+
+three-obj@^0.6.5:
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/three-obj/-/three-obj-0.6.5.tgz#36dc588fc6525f53f3d77fd6affc5c9606c7088b"
+  dependencies:
+    bufferpack x
+    three "0.56.x"
+
 three-orbitcontrols@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/three-orbitcontrols/-/three-orbitcontrols-2.0.0.tgz#4a0ce4c790bd85febb20de2ea4521c21c573794c"
+
+three-react-obj-loader@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/three-react-obj-loader/-/three-react-obj-loader-1.0.4.tgz#6542dfbc96f565e4bf9e333699bf1abed0840def"
+  dependencies:
+    three "^0.87.1"
+
+three@0.56.x:
+  version "0.56.7"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.56.7.tgz#73cf4878daf85097ca3d28da8f07e84200374df1"
+
+three@^0.87.1:
+  version "0.87.1"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.87.1.tgz#466a34edc4543459ced9b9d7d276b65216fe2ba8"
 
 three@^0.90.0:
   version "0.90.0"

@@ -7,13 +7,13 @@ class PostTemplate extends Component {
     render () {
         return(
             <Item className="post">
-                <Item.Image size='medium' src={this.props.image} style={{
+                <Item.Image size='small' src={this.props.image} style={{
                     padding: '20px'    
                 }} />
 
                 <Item.Content>
 
-                    <Item.Header style={{ fontSize: '1.3em' }}>Cute Dog</Item.Header>
+                    <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                     <Item.Meta as='p'>Posted by {<a href={this.props.user.id}>{this.props.user.name}</a>}</Item.Meta>
                     <Item.Meta as='p'>{this.props.date}</Item.Meta>
                     <Item.Description>
@@ -37,7 +37,7 @@ export default class Post extends Component {
             content: {
                 content: (
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                        <Canvas3D/>
+                        <Canvas3D model="/models/aventador/Avent.obj"/>
                     </Segment>
                 ),
                 key: "content"

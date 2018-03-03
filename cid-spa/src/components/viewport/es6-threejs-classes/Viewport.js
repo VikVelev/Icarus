@@ -1,5 +1,5 @@
 import { Scene, Vector2, PerspectiveCamera, GridHelper } from 'three'
-import  { WebGLRenderer } from 'three'
+import  { WebGLRenderer, PointLight, AmbientLight, Box3 } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 
 import dat from 'dat.gui'
@@ -28,7 +28,8 @@ export default class Viewport {
         // this.renderer;
         // this.gridHelper;
         // this.optionBox;
-        this.active = false; // for the future dynamic rendering
+        this.active = false; 
+        // for the future dynamic rendering
         // this.state;
 
         if ( this.objectToRender instanceof Model3D ) {
@@ -47,12 +48,26 @@ export default class Viewport {
         this.scene = new Scene();
         this.mouse = new Vector2();
 
-        this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 100/*set this to the mesh's size*/ );
-        this.camera.position.x = 0.5;
-        this.camera.position.y = 0.5;
-        this.camera.position.z = 1;
+        this.light = new PointLight( 0xffffff, 1, 1000);
+        this.ambient = new AmbientLight( 0xeeeeee, 0.2 );
+        
+        this.scene.add( this.ambient );
+        this.scene.add( this.light );
+        
+        let sizeRef = new Box3().setFromObject( this.objectToRender.model );
+        
+        //used for a size refference so I can scale up camera as big as the model,
+        // but I think it is smarter just to scale the model down :TODO
+        this.sizeRef = sizeRef.getSize();
 
-        this.gridHelper = new GridHelper( 10, 10, 0xffffff, 0x808080 );
+        this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, this.sizeRef.x*this.sizeRef.z*5);
+        
+        this.camera.position.x = this.sizeRef.y;
+        this.camera.position.y = this.sizeRef.y + 1;
+        this.camera.position.z = this.sizeRef.y;
+        this.light.position.set( 0, this.sizeRef.y, 0);
+
+        this.gridHelper = new GridHelper( this.sizeRef.x*2, this.sizeRef.z*2, 0xffffff, 0x808080 );
         this.gridHelper.position.x = 0;
         this.gridHelper.position.y = 0;
         this.gridHelper.position.z = 0;
@@ -77,8 +92,9 @@ export default class Viewport {
         this.objectToAppendTo.appendChild( this.divWrapper );
 
         this.controls = new OrbitControls( this.camera, document.getElementById( this.index ) );
+        this.controls.enableDamping = true;
         this.controls.minDistance = 0; 
-        this.controls.maxDistance = 20; // set this to the mesh's size * 5
+        this.controls.maxDistance = this.sizeRef.y*5; // set this to the mesh's size * 5
         this.controls.maxPolarAngle = Math.PI;
 
         let params = {
@@ -175,7 +191,13 @@ export default class Viewport {
         if ( this.state === "normal" ) {
     
             this.objectToRender.import.forEach(element => {
-                this.scene.add( element );
+                if (element.numOf === 'multiple') {
+                    element.forEach(item => {
+                        this.scene.add(item)
+                    });
+                } else {
+                    this.scene.add( element );
+                }
             });
             
         } else if ( this.state === "diff" ) {
@@ -193,6 +215,12 @@ export default class Viewport {
                 });
             });
         }
+    }
+
+    addModel(model3d){
+        model3d.import.forEach( element => {
+            this.scene.add( element );
+        })
     }
 
     render() {

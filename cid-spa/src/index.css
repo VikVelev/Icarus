@@ -100,3 +100,21 @@ body > #app > .content > .login-form {
     top: 0;
     left: 0;
 }
+
+#demo{
+    padding: 0 !important;
+}
+
+#demo_header{
+    padding: 1em !important;
+    text-align: center !important;
+}
+
+#get_started{
+    text-align: center;
+    vertical-align: center;
+    margin: auto;
+    font-size: 200%;
+    height: 70px;
+    width: 100%;
+}

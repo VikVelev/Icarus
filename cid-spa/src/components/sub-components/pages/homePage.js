@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 
 import { Link }  from 'react-router-dom'
 
-import { Button, Container, Divider, Grid, Header, Sidebar } from 'semantic-ui-react'
+import { Button, Container, Grid, Header, Sidebar } from 'semantic-ui-react'
 import { Icon, Image, Menu, Responsive, Segment, List } from 'semantic-ui-react'
+
+import Canvas3D from './../../viewport/canvas3d.js'
 
 const HomepageHeading = ({ mobile }) => (
 	<Container text>
@@ -62,12 +64,11 @@ class DesktopContainer extends Component {
 							borderColor: 'none',
 							zIndex: '1',
 						}}>
-						<script>
-						</script>
+
 						<Container>
 
 							<Menu.Item as='a'>Home</Menu.Item>
-							<Menu.Item as='a' href="#demo">Demo</Menu.Item>
+							<Menu.Item as='a' href="#demo_header">Demo</Menu.Item>
 							<Menu.Item position='right'>
 								<Button as={ Link } to="login" inverted={!fixed}>Log in</Button>
 								<Button as={ Link } to="register" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
@@ -156,16 +157,15 @@ const HomepageLayout = () => (
 			<Grid.Row>
 
 				<Grid.Column width={8}>
-					<Header as='h3' style={{ fontSize: '2em' }}>We Do Amazing Stuff</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>Keep in track of your changes</Header>
 					<p style={{ fontSize: '1.33em' }}>
-						Eiusmod ut excepteur adipisicing id est minim adipisicing.
-						Eiusmod ut excepteur adipisicing id est minim adipisicing.						
+						Be able to keep track of every change made to every model with the provided version control system.
+						One of the first dedicated specifically to the 3D industry.					
 					</p>
 
-					<Header as='h3' style={{ fontSize: '2em' }}>We Do Other Amazing Stuff</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>Accessible and fast</Header>
 					<p style={{ fontSize: '1.33em' }}>
-						Adipisicing laborum irure deserunt commodo nostrud est est.
-						Lorem veniam cillum eu nulla officia.
+						Providing fast, reliable and responsive viewport for viewing your 3D models in the web, on the go from your phone or anywhere you want.
 					</p>
 				</Grid.Column>
 
@@ -181,7 +181,7 @@ const HomepageLayout = () => (
 			<Grid.Row>
 
 				<Grid.Column textAlign='center'>
-					<Button size='huge'>Do I Even Care?</Button>
+					<Button size='huge'>Read more</Button>
 				</Grid.Column>
 
 			</Grid.Row>
@@ -193,16 +193,16 @@ const HomepageLayout = () => (
 			<Grid.Row textAlign='center'>
 
 		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-					<Header as='h3' style={{ fontSize: '2em' }}>"Meshes everywhere"</Header>
-					<p style={{ fontSize: '1.33em' }}>That is the problem.</p>
+					<Header as='h3' style={{ fontSize: '2em' }}>"Untitled000001a.obj"</Header>
+					<p style={{ fontSize: '1.33em' }}>We've experienced it too.</p>
 		  		</Grid.Column>
 
 		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
 
-					<Header as='h3' style={{ fontSize: '2em' }}>"I can do meth now."</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>"This is what I needed."</Header>
 					
 					<p style={{ fontSize: '1.33em' }}>
-						<b>IGN</b> 10/10
+						<b>CGMEETUP</b>
 					</p>
 
 		  		</Grid.Column>
@@ -211,39 +211,20 @@ const HomepageLayout = () => (
 	  	</Grid>
 	</Segment>
 	
-	<Segment style={{padding: '8em 0em'}} vertical id="demo">
-		<Container>
-			<Header as='h3' style={{ fontSize: '3em', align: 'center' }}>Amazing Demo Of The Viewport Here</Header>
-		</Container>
+
+	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
+	<Segment style={{ height: "600px"}} vertical id="demo">
+		<Canvas3D model="/models/tire/Tire.obj"/>
 	</Segment>
+	<Grid centered style={{padding: '2em'}}>
+	<Segment style={{ padding: '8em' }} vertical>
+		<Button id="get_started" as={ Link } to="login" primary size='huge' text-align="center">
+			Get Started
+			<Icon name='right arrow' />
+		</Button>
+	</Segment>
+	</Grid>
 	
-	<Segment style={{ padding: '8em 0em' }} vertical>
-		<Container text>
-
-			<Header as='h3' style={{ fontSize: '2em' }}>Amazing Title 2</Header>
-
-			<p style={{ fontSize: '1.33em' }}>
-				Anim sint velit proident Lorem. Ipsum consequat dolore reprehenderit Lorem adipisicing dolore id in. Commodo qui id ut occaecat occaecat aute ipsum Lorem. Nostrud sit ex id velit ea.
-			</p>
-
-			<Button as='a' size='large'>Read More</Button>
-
-			{/*------------------------------------------------------------*/}
-			<Divider as='h4' className='header' horizontal style={{ margin: '3em 0em', textTransform: 'uppercase' }}>
-		  		<a href='/'>More amazing stuff</a>
-			</Divider>
-			{/*------------------------------------------------------------*/}
-
-			<Header as='h3' style={{ fontSize: '2em' }}>Amazing Title 2</Header>
-
-			<p style={{ fontSize: '1.33em' }}>
-				Culpa dolore qui eiusmod magna ad occaecat Lorem minim sunt nisi deserunt occaecat. Ex ipsum proident irure velit incididunt pariatur dolor. Nisi pariatur cupidatat quis aliquip dolor culpa sunt aliqua deserunt excepteur ad. Reprehenderit irure nulla fugiat Lorem eu anim commodo ullamco veniam ullamco.
-			</p>
-
-			<Button as='a' size='large'>Read More</Button>
-
-	  </Container>
-	</Segment>
 
 	<Responsive>
             <Segment inverted vertical style={{ padding: '5em 0em' }}>
