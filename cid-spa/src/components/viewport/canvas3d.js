@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import { Progress } from 'semantic-ui-react'
 
+/* Not written by me */
 import OBJLoader from 'three-react-obj-loader'
 import MTLLoader from './es6-threejs-classes/MTLLoader.js'
+/* Not written by me */
 
+/* Written by me 100% */
 import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
+/* Written by me 100% */
 
 export default class Canvas3D extends Component {
 
@@ -62,7 +66,8 @@ export default class Canvas3D extends Component {
 
                 }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
 
-            }).bind(this));
+            }).bind(this)
+        );
     }
 
     onProgress( xhr ){       

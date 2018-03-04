@@ -31,7 +31,7 @@ export default class Post extends Component {
         super(props)
 
         this.state = {
-            rendering: true,
+            rendering: false,
 
         }
     }

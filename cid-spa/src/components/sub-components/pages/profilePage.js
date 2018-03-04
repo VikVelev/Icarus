@@ -13,6 +13,8 @@ var models = {
     },
     date: "30th Feb",
     description: "Voluptate consequat aliquip non irure laboris. Et sunt duis magna sunt irure labore Lorem ea dolor consectetur aliqua laborum. Proident sint sunt in Lorem deserunt. Labore est sit labore duis Lorem voluptate adipisicing voluptate eiusmod qui elit aliquip. Sit tempor ex veniam sunt aute officia Lorem excepteur nisi ad amet. Fugiat minim irure voluptate irure exercitation consequat consequat quis.",
+    modelPath: "/models/aventador/",
+    modelName: "Avent"
 }
 
 export default class Profile extends Component {
