@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Progress } from 'semantic-ui-react'
 
 import OBJLoader from 'three-react-obj-loader'
-import MTLLoader from 'three-react-mtl-loader'
+import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 
 import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
