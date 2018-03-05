@@ -10,7 +10,13 @@ import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
 /* Written by me 100% */
+import { connect } from 'react-redux';
 
+@connect((store) => {
+    return {
+        page: store.pageManagement
+    }
+})
 export default class Canvas3D extends Component {
 
     constructor(props){
@@ -41,6 +47,7 @@ export default class Canvas3D extends Component {
 
     componentDidMount(){
 
+        this.props.dispatch({type: "RENDERING_CANVAS3D"})
         //FIX THE COMPONENT MOUNTING SO ONLY ONE COMPONENT SHOULD BE MOUNTED AT A TIME
         this.rootElement = document.getElementById(this.canvasId)
 
@@ -84,6 +91,7 @@ export default class Canvas3D extends Component {
 
     componentWillUnmount(){
         // TODO Utilize this.
+        this.props.dispatch({type: "STOPPING_CANVAS3D"})
     }
 
     Loading = () => {

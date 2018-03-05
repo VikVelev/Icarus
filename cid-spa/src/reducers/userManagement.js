@@ -1,7 +1,9 @@
 let defaultState = {}
 
-if(window.localStorage.getItem("userManagement")){
-    defaultState = JSON.parse(window.localStorage.getItem("userManagement"))
+const myStorage = window.localStorage
+
+if(myStorage.getItem("userManagement")){
+    defaultState = JSON.parse(myStorage.getItem("userManagement"))
     defaultState = {
         ...defaultState, 
         fetching: false,
@@ -44,8 +46,7 @@ const userManagement = (state=defaultState, action) => {
                 error: action.payload,
             }
         case 'LOG_IN_FULFILLED':
-            window.localStorage.setItem("userManagement", 
-            JSON.stringify({
+            myStorage.setItem("userManagement", JSON.stringify({
                 ...state,
                 currentlyLoggedUser: { username: action.payload.username },
                 logged: true,
