@@ -5,8 +5,12 @@ import { Link }  from 'react-router-dom'
 
 import { Button, Container, Grid, Header, Sidebar } from 'semantic-ui-react'
 import { Icon, Image, Menu, Responsive, Segment, List } from 'semantic-ui-react'
+import { Visibility } from 'semantic-ui-react'
+
+import { changePages } from '../../../actions/pageManagementActions.js'
 
 import Canvas3D from './../../viewport/canvas3d.js'
+import { connect } from 'react-redux';
 
 const HomepageHeading = ({ mobile }) => (
 	<Container text>
@@ -41,11 +45,21 @@ HomepageHeading.propTypes = {
 	mobile: PropTypes.bool,
 }
 
+@connect((store) => {
+	return{
+		page: store.pageManagement,
+	}
+})
 class DesktopContainer extends Component {
+
 	state = {}
 
 	hideFixedMenu = () => this.setState({ fixed: false })
 	showFixedMenu = () => this.setState({ fixed: true })
+
+	clickHandler(object) {
+		this.props.dispatch(changePages(object.target.name))
+	}
 
 	render() {
 		const { children } = this.props
@@ -70,8 +84,21 @@ class DesktopContainer extends Component {
 							<Menu.Item as='a'>Home</Menu.Item>
 							<Menu.Item as='a' href="#demo_header">Demo</Menu.Item>
 							<Menu.Item position='right'>
-								<Button as={ Link } to="login" inverted={!fixed}>Log in</Button>
-								<Button as={ Link } to="register" inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+
+								<Button as={ Link }
+										to="login"
+										name="login"										
+										inverted={!fixed}
+										>Log in</Button>
+
+								<Button as={ Link } 
+										to="register"
+										name="register"										
+										inverted={!fixed} 
+										primary={fixed} 									
+										style={{ marginLeft: '0.5em' }}
+										>Sign Up</Button>
+
 							</Menu.Item>
 							
 						</Container>
@@ -89,6 +116,11 @@ DesktopContainer.propTypes = {
 	children: PropTypes.node,
 }
 
+@connect((store) => {
+	return{
+		page: store.pageManagement,
+	}
+})
 class MobileContainer extends Component {
 	state = {}
 
@@ -102,9 +134,9 @@ class MobileContainer extends Component {
 		<Responsive {...Responsive.onlyMobile} minWidth={0}>
 			<Sidebar.Pushable>
 				<Sidebar as={Menu} animation='uncover' inverted vertical visible={sidebarOpened}>
-					<Menu.Item as='a' active>Home</Menu.Item>
-					<Menu.Item as='a' href="/login">Log in</Menu.Item>
-					<Menu.Item as='a' href="/register">Sign Up</Menu.Item>
+					<Menu.Item as={Link} to="/" active>Home</Menu.Item>
+					<Menu.Item as={Link} to="login" name="login">Log in</Menu.Item>
+					<Menu.Item as={Link} to="register" name="register" >Sign Up</Menu.Item>
 				</Sidebar>
 
 				<Sidebar.Pusher dimmed={sidebarOpened} onClick={this.handleToggle} style={{ minHeight: '100vh' }}>
@@ -216,8 +248,9 @@ const HomepageLayout = () => (
 	
 	<Segment style={{ height: "600px"}} vertical id="demo">
 		{/*always end the modelPath with a slash*/}
-		<Canvas3D modelPath="/models/aventador/" modelName="Avent"/>
-
+		<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
+			<Canvas3D modelPath="/models/aventador/" modelName="Avent"/>
+		</Visibility>
 	</Segment>
 	
 	<Grid centered style={{padding: '2em'}}>

@@ -1,12 +1,30 @@
+let defaultState = {}
 
-
-const defaultState = {
-
+if(window.localStorage.getItem("userManagement")){
+    defaultState = JSON.parse(window.localStorage.getItem("userManagement"))
+    defaultState = {
+        ...defaultState, 
+        fetching: false,
+        fetchedUser: {},
+        fetched: false,
+        error: {},
+    }
+} else {
+    defaultState = {
+        currentlyLoggedUser: {},
+        logged: false,
+        fetching: false,
+        fetched: false,
+        token: "",
+        fetchedUser: {},
+        error: {},
+    }
 }
 
 const userManagement = (state=defaultState, action) => {
     switch (action.type) {
-        case 'FETCH_ALL_USERS':
+        case 'LOG_IN': case 'FETCH_USER': 
+        case 'FETCH_ALL_USERS': case 'REGISTER_USER':
             return {
                 ...state,
                 fetching: true,
@@ -24,6 +42,61 @@ const userManagement = (state=defaultState, action) => {
                 fetching: false,
                 fetched: false,
                 error: action.payload,
+            }
+        case 'LOG_IN_FULFILLED':
+            window.localStorage.setItem("userManagement", 
+            JSON.stringify({
+                ...state,
+                currentlyLoggedUser: { username: action.payload.username },
+                logged: true,
+                fetching: false,
+                fetched: true,
+                token: action.payload.token.token
+            }))
+        
+            return {
+                ...state,
+                currentlyLoggedUser: { username: action.payload.username },
+                logged: true,
+                fetching: false,
+                fetched: true,
+                token: action.payload.token.token
+            }
+        case 'LOG_IN_REJECTED': 
+            return {
+                ...state,
+                logged: false,
+                fetching: false,
+                fetched: false,
+                error: action.payload,
+            }
+        case 'LOG_OUT':
+            window.localStorage.setItem("userManagement", 
+            JSON.stringify({
+                ...state,
+                logged: false,
+                currentlyLoggedUser: {},
+                token: "",
+            }))
+            return {
+                ...state,
+                logged: false,
+                currentlyLoggedUser: {},
+                token: "",
+            }
+        case 'REGISTER_USER_FULFILLED':
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+            }
+        case 'REGISTER_USER_REJECTED':
+            return {
+                ...state,
+                logged: false,
+                fetching: false,
+                fetched: false,
+                error: action.payload
             }
         default: 
             return state

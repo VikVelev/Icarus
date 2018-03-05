@@ -30,7 +30,15 @@ ALLOWED_HOSTS = [
     'localhost',
     '0.0.0.0',
     'main',
-    ]
+]
+
+CORS_ORIGIN_WHITELIST = (
+    'google.com',
+    'localhost:3000',
+    'main:3000',
+    'localhost:8000',
+    '127.0.0.1:9000'
+)
 
 # Application definition
 
@@ -44,10 +52,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
+    'corsheaders',
     'core',    
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

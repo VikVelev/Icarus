@@ -5,6 +5,10 @@ body > #app > .content > .login-form {
     height: 100%;
 }
 
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .ui.vertical.segment {
     background-color: white !important;
 }
@@ -71,7 +75,7 @@ body > #app > .content > .login-form {
 }
 
 .ui.modal {
-    width: 230px;
+    width: 100%;
     border: 3px solid white;
 }
 
@@ -139,4 +143,10 @@ body > #app > .content > .login-form {
 
     height: 100%;
     display: flex;
+}
+
+
+.ui.small.basic.modal {
+    margin: auto !important;
+    height: auto;
 }

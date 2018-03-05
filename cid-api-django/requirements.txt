@@ -2,6 +2,7 @@ appdirs
 django
 djangorestframework
 django_extensions
+django-cors-headers
 django-spa
 psycopg2-binary
 packaging
