@@ -17,11 +17,7 @@ import { connect } from 'react-redux';
 var noNavbar = [ 'homepage', 'login', 'register', ]
 var state = { currentPage: 'feed' }
 
-@connect((store) => {
-    return {
-        
-    }
-})
+
 
 const RenderNavbar = () => {
     for (let i = 0; i < noNavbar.length; i++) {
@@ -31,7 +27,11 @@ const RenderNavbar = () => {
     }
     return <Navbar/>
 }
-
+@connect((store) => {
+    return {
+        
+    }
+})
 export default class Content extends Component {
     render(){
         return(
