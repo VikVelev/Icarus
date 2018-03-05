@@ -12,9 +12,16 @@ import{ LoginForm, LoggedIn } from './sub-components/pages/loginForm.js';
 import RegisterForm from './sub-components/pages/registerForm.js';
 
 import { BrowserRouter as Router } from "react-router-dom";
+import { connect } from 'react-redux';
 
 var noNavbar = [ 'homepage', 'login', 'register', ]
 var state = { currentPage: 'feed' }
+
+@connect((store) => {
+    return {
+        
+    }
+})
 
 const RenderNavbar = () => {
     for (let i = 0; i < noNavbar.length; i++) {

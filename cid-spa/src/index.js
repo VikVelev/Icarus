@@ -10,7 +10,6 @@ import store from './store'
 import './index.css';
 import 'semantic-ui-css/semantic.min.css'
 
-
 class Main extends Component {
     render(){
         return(
