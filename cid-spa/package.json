@@ -43,6 +43,8 @@
     "react-sparklines": "^1.6.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^5.0.0",
+    "redux-thunk": "^2.2.0",
     "require-dot-file": "^0.4.0",
     "run-sequence": "^2.2.1",
     "semantic-ui-css": "^2.3.0",
