@@ -11,10 +11,8 @@ from .views.customObtainAuthToken import CustomObtainAuthToken
 
 urlpatterns = [
     # Main URIs
-    path('login/', obtain_auth_token),
     path('accounts/login/', CustomObtainAuthToken.as_view()),
-    path('accounts/', include('rest_registration.api.urls')),
-    path('register/', RegisterUser.as_view()),    
+    path('accounts/', include('rest_registration.api.urls')),    
     path('posts/', ListCreatePosts.as_view()),
     path('3d-models/', ListAllModels3D.as_view()),
     
