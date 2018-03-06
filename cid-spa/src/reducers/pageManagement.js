@@ -6,7 +6,6 @@ let defaultState = {
 
 //const myStorage = window.localStorage
 
-
 const pageManagement = (state=defaultState, action) => {
     switch (action.type) {
         case "CHANGE_PAGE":

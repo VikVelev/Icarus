@@ -46,6 +46,12 @@ body {
     background-color: #EEE !important;
 }
 
+.post-container {
+    margin-top: 5px !important;
+    margin-left: 20% !important;
+    margin-right: 20% !important;
+}
+
 .profileDetails{
     width: 80%;
     padding: 5%;
@@ -149,4 +155,10 @@ body {
 .ui.small.basic.modal {
     margin: auto !important;
     height: auto;
+}
+
+.profile-post-containter{
+    width: 99%;
+    margin-left: 1% !important;
+    margin-right: 1% !important;
 }

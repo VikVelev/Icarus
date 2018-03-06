@@ -2,25 +2,13 @@ import React, { Component } from 'react'
 
 import { Segment, Image, Header, Tab } from 'semantic-ui-react'
 
-import Feed from '../feed.js'
+import ProfileModelsFeed from '../../profile-components/profileModels.js'
 import InDevelopment from '../indev.js'
-
-var models = {
-    image: "/img/logo.png",
-    user: {
-        name: "viktorv",
-        id: "user/666"
-    },
-    date: "30th Feb",
-    description: "Voluptate consequat aliquip non irure laboris. Et sunt duis magna sunt irure labore Lorem ea dolor consectetur aliqua laborum. Proident sint sunt in Lorem deserunt. Labore est sit labore duis Lorem voluptate adipisicing voluptate eiusmod qui elit aliquip. Sit tempor ex veniam sunt aute officia Lorem excepteur nisi ad amet. Fugiat minim irure voluptate irure exercitation consequat consequat quis.",
-    modelPath: "/models/aventador/",
-    modelName: "Avent"
-}
 
 export default class Profile extends Component {
 
     panes = [
-        { menuItem: '3D Models', render: () => <Tab.Pane><Feed elId="profileFeed" feedData={models}/></Tab.Pane> },
+        { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
         { menuItem: 'Contributions', render: () => <Tab.Pane><InDevelopment/></Tab.Pane> },
         { menuItem: 'Favorites', render: () => <Tab.Pane><InDevelopment/></Tab.Pane> },
       ]
@@ -37,8 +25,6 @@ export default class Profile extends Component {
             description: "Dolor et elit velit sunt Lorem dolor ullamco nisi amet occaecat labore non nisi ex. Laboris enim tempor in Lorem eiusmod amet elit pariatur dolor Lorem do eiusmod sint magna. Nostrud fugiat anim anim quis ea ipsum nulla laborum. Anim cupidatat occaecat proident mollit proident adipisicing magna et esse laboris enim. In enim commodo cupidatat magna anim nostrud ipsum. Nulla ex dolor deserunt nisi.",            
         }
 
-        this.modelFeed = props.modelFeed
-        this.favoritesFeed = props.favoritesFeed
     }
 
     render(){

@@ -66,7 +66,7 @@ const profileManagement = (state=defaultState, action) => {
         case "FETCH_CONTRIBUTIONS_FULFILLED":
             return {
                 ...state,
-                contributions: actions.payload,
+                contributions: action.payload,
                 fetched: true,                
                 fetching: false, 
             }      
@@ -80,7 +80,7 @@ const profileManagement = (state=defaultState, action) => {
         case "FETCH_FAVORITES_FULFILLED":      
             return {
                 ...state,
-                favorites: actions.payload,
+                favorites: action.payload,
                 fetched: true,                
                 fetching: false, 
             } 

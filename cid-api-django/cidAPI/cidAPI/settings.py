@@ -38,6 +38,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     'main:3000',
     'localhost:8000',
+    '0.0.0.0:3000',
     '127.0.0.1:9000',
     'cid-platform.myddns.me:3000',
     'cid-platform.myddns.me:8000'
