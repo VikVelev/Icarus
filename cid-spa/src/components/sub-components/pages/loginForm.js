@@ -31,7 +31,6 @@ export class LoginForm extends Component {
 		const { username, password } = this.state
 		this.setState({ name: username, password: password })
 		this.props.dispatch(login(username, password))
-		this.props.dispatch(changePages("/"))
 	}
 
 	registerSuccess(){

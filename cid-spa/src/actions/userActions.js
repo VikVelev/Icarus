@@ -1,4 +1,5 @@
 import axios from "axios"
+import { changePages } from './pageActions.js'
 
 var url = "http://localhost:8000"
 
@@ -46,6 +47,7 @@ export function register(username, email, password, password2) {
             password: password,
             password_confirm: password2
         }).then((response) => {
+		    dispatch(changePages("login#successful"))            
             dispatch({ type: "REGISTER_USER_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "REGISTER_USER_REJECTED", payload: error.response })
