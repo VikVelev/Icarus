@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Checkbox } from 'semantic-ui-react'
 
-import { Link }  from 'react-router-dom'
+import { Link, Redirect }  from 'react-router-dom'
 import { register } from '../../../actions/userActions';
 import { connect } from 'react-redux';
 
@@ -25,36 +25,16 @@ class RegisterForm extends Component {
 
     }
 
-    handleCustomErrors(){
-        var errorString = ""
-
-        if (this.state.password !== this.state.password2){
-            errorString += "Passwords are not matching. \n"
+    handleErrors(type) {
+        if (this.props.user.error.data !== undefined) {
+            if (this.props.user.error.data[type] !== undefined) {
+                return (
+                    <Message attached="bottom" color="red">
+                        {this.props.user.error.data[type]}
+                    </Message>
+                )
+            }
         }
-        if (this.state.email === "") {
-            errorString += " Email may not be blank."
-        }
-        console.log(errorString)
-
-        return errorString
-    }
-    
-    handleErrors() {
-        // TODO: Fix the validation
-		if(Object.keys(this.props.user.error).length !== 0) {
-			return (
-				<Message error>
-					{ this.props.user.error.non_field_errors ? this.props.user.error.non_field_errors : null }
-					{ this.props.user.error.username ? this.props.user.error.username : null }
-                    { this.props.user.error.email ? <br/> : null } 
-					{ this.props.user.error.email ? this.props.user.error.email : null }
-                    { this.props.user.error.password ? <br/> : null }    
-                    { this.props.user.error.password ? "Password: " + this.props.user.error.password : null }
-                    { this.handleCustomErrors ? <br/> : null }                        
-                    { this.handleCustomErrors ? this.handleCustomErrors() : null } 			
-				</Message>
-			)
-		}
 	}
 
     handleChange = (e, { name, value}) => {
@@ -64,11 +44,13 @@ class RegisterForm extends Component {
     handleSubmit = () => {
         const { username, email, password, password2 } = this.state
         //check for custom validation here
-        this.setState({ name: username, email: email, password1: password, password2: password2 })
+        this.setState({ name: username, email: email, password: password, password2: password2 })
         this.props.dispatch(register(username, email, password, password2))
     }
 
     render() {
+        console.log(this.handleErrors("username"))
+        
         return(
             <div className='login-form'>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
@@ -84,44 +66,48 @@ class RegisterForm extends Component {
                                 <Form.Input
                                     fluid
                                     icon='user'
-                                    error={this.props.user.error.username !== undefined}
+                                    error={this.handleErrors("username") !== undefined}
                                     name="username"
 									value={this.state.username}
 									onChange={this.handleChange}
                                     iconPosition='left'
                                     placeholder='Enter username'
                                 />
+                                {this.handleErrors("username")}                    
                                 <Form.Input
                                     fluid
                                     icon='at'
-                                    error={this.props.user.error.email !== undefined}
+                                    error={this.handleErrors("email") !== undefined}
                                     name="email"
 									value={this.state.email}
 									onChange={this.handleChange}
                                     iconPosition='left'
                                     placeholder='Enter e-mail'
-                                />					
+                                />
+                                {this.handleErrors("email")}                                 
                                 <Form.Input
                                     fluid
                                     icon='lock'
                                     name="password"
-                                    error={this.props.user.error.password !== undefined}                           
+                                    error={this.handleErrors("password") !== undefined}                           
 									value={this.state.password}
 									onChange={this.handleChange}
                                     iconPosition='left'
                                     placeholder='Enter password'
                                 />
+                                {this.handleErrors("password")}                                 
                                 <Form.Input
                                     fluid
                                     icon='lock'
                                     iconPosition='left'
-                                    error={this.props.user.error.password !== undefined}                                                                        
+                                    error={this.handleErrors("password_confirm") !== undefined}                                                                        
                                     name="password2"
 									value={this.state.password2}
 									onChange={this.handleChange}
                                     placeholder='Confirm password'
                                     type='password'
                                 />
+                                {this.handleErrors("password_confirm")}                                 
                                 <Form.Field>
                                     <Checkbox 
                                         toggle={this.state.agreed} 
@@ -131,8 +117,8 @@ class RegisterForm extends Component {
                                 </Form.Field>
                                 <Button type='submit 'color='blue' fluid size='large'>Sign up</Button>
                             </Segment>
+                            { this.props.user.redirecting ? <Redirect to="/login#successful"/> : null }
                         </Form>
-                        {this.handleErrors()}
                         <Message>
                             Already have an account? <Link to="login">Log in</Link>
                         </Message>

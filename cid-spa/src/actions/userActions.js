@@ -16,13 +16,13 @@ export function fetchAllUsers() {
 export function login(username, password,) {
     return function(dispatch) {
         dispatch({ type: "LOG_IN" })
-        axios.post(url + "/api/login/", {
+        axios.post(url + "/api/accounts/login/", {
             username: username,
             password: password
         }).then((response) => {
             let sendResponse = {
+                ...response.data,
                 username: username,
-                token: response.data
             }
             dispatch({ type: "LOG_IN_FULFILLED", payload: sendResponse })
         }).catch((error) => {
@@ -40,11 +40,11 @@ export function logout() {
 export function register(username, email, password, password2) {
     return function(dispatch) {
         dispatch({ type: "REGISTER_USER" })
-        axios.post(url + "/api/register/", {
+        axios.post(url + "/api/accounts/register/", {
             username: username,
             email: email,
             password: password,
-            password2: password2
+            password_confirm: password2
         }).then((response) => {
             dispatch({ type: "REGISTER_USER_FULFILLED", payload: response.data })
         }).catch((error) => {

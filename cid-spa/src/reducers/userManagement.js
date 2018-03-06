@@ -17,8 +17,8 @@ if(myStorage.getItem("userManagement")){
         logged: false,
         fetching: false,
         fetched: false,
-        token: "",
         fetchedUser: {},
+        redirecting: false,
         error: {},
     }
 }
@@ -48,20 +48,18 @@ const userManagement = (state=defaultState, action) => {
         case 'LOG_IN_FULFILLED':
             myStorage.setItem("userManagement", JSON.stringify({
                 ...state,
-                currentlyLoggedUser: { username: action.payload.username },
+                currentlyLoggedUser: { username: action.payload },
                 logged: true,
                 fetching: false,
                 fetched: true,
-                token: action.payload.token.token
             }))
         
             return {
                 ...state,
-                currentlyLoggedUser: { username: action.payload.username },
+                currentlyLoggedUser: { username: action.payload },
                 logged: true,
                 fetching: false,
                 fetched: true,
-                token: action.payload.token.token
             }
         case 'LOG_IN_REJECTED': 
             return {
@@ -77,7 +75,6 @@ const userManagement = (state=defaultState, action) => {
                 ...state,
                 logged: false,
                 currentlyLoggedUser: {},
-                token: "",
             }))
             return {
                 ...state,
@@ -90,6 +87,7 @@ const userManagement = (state=defaultState, action) => {
                 ...state,
                 fetching: false,
                 fetched: true,
+                redirecting: true,
             }
         case 'REGISTER_USER_REJECTED':
             return {

@@ -8,6 +8,7 @@ import { changePages } from '../../../actions/pageActions';
 
 @connect((store) => {
 	return {
+		page: store.pageManagement,
 		user: store.userManagement
 	}
 })
@@ -19,6 +20,7 @@ export class LoginForm extends Component {
 			username: "",
 			password: ""
 		}
+
 	}
 
 	handleChange = (e, { name, value }) => {
@@ -28,20 +30,23 @@ export class LoginForm extends Component {
 	handleSubmit = () => {
 		const { username, password } = this.state
 		this.setState({ name: username, password: password })
-		this.props.dispatch(changePages("/"))
 		this.props.dispatch(login(username, password))
+		this.props.dispatch(changePages("/"))
 	}
 
-	handleErrors() {
-		if(Object.keys(this.props.user.error).length !== 0) {
+	registerSuccess(){
+		return <Message positive>Your registration has been successful. You can now log in.</Message>
+	}
+
+    handleErrors(type) {
+        if (this.props.user.error[type] !== undefined) {
+			console.log(this.props.user.error)
 			return (
-				<Message error>
-					{this.props.user.error.non_field_errors ? this.props.user.error.non_field_errors[0] : null }
-					{this.props.user.error.username ? "Username: " + this.props.user.error.username : null }<br/>
-					{this.props.user.error.password ? "Password: " + this.props.user.error.password : null }					
+				<Message attached="bottom" color="red">
+					{this.props.user.error[type]}
 				</Message>
 			)
-		}
+        }
 	}
 
 	render() {
@@ -60,7 +65,7 @@ export class LoginForm extends Component {
 						<Form size='large' onSubmit={this.handleSubmit}>
 							<Segment stacked>
 								<Form.Input
-									error={this.props.user.error.username !== undefined}
+									error={this.handleErrors("username") !== undefined}
 									fluid
 									icon='user'
 									name="username"
@@ -68,9 +73,10 @@ export class LoginForm extends Component {
 									onChange={this.handleChange}
 									iconPosition='left'
 									placeholder='Username'
-								/>
+								/>	
+								{this.handleErrors("username")}
 								<Form.Input
-									error={this.props.user.error.password !== undefined}								
+									error={this.handleErrors("password") !== undefined}								
 									fluid
 									icon='lock'
 									name="password"
@@ -80,14 +86,18 @@ export class LoginForm extends Component {
 									placeholder='Password'
 									type='password'
 								/>
-
+								{this.handleErrors("password")}
 								<Button type='submit' color='blue' fluid size='large'>Log in</Button>
 							</Segment>
 						</Form>
-						{this.handleErrors()}
-						<Message>
-							Don't have an account? <Link to="register">Sign up</Link>
-						</Message>
+						{this.handleErrors("non_field_errors")}
+						{
+							this.props.page.currentPage === 'login#successful' ? 
+							this.registerSuccess() : 
+							<Message>
+								Don't have an account? <Link to="register">Sign up</Link>
+							</Message> 
+						}
 					</Grid.Column>
 				</Grid>
 			</div>
