@@ -119,7 +119,7 @@ class RegisterUser(serializers.ModelSerializer):
 class CommitSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(read_only=True)
     commited_by = serializers.PrimaryKeyRelatedField(read_only=True)
-    
+    ### TODO: THINK of a way to store version numbers
     class Meta:
         model = Commit
         fields = (

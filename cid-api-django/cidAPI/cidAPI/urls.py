@@ -16,7 +16,6 @@ urlpatterns = [
     url(r'^$', serve,
         kwargs={'path': 'index.html'}),
 
-    # TODO SHOULD WRITE SCRIPT that moves everything from REACT to the static folder
     url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$', RedirectView.as_view(url='/static/%(path)s', permanent=True)),
     ###
 ]

@@ -3,6 +3,7 @@ django
 djangorestframework
 django_extensions
 django-cors-headers
+django-rest-registration
 django-spa
 psycopg2-binary
 packaging

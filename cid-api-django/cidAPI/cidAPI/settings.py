@@ -55,10 +55,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_registration',
     'django_extensions',
     'corsheaders',
     'core',    
 ]
+
+REST_REGISTRATION = {
+    'REGISTER_VERIFICATION_ENABLED': False,
+
+    'RESET_PASSWORD_VERIFICATION_URL': 'https://localhost:3000/reset-password/',
+
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+
+    'VERIFICATION_FROM_EMAIL': 'no-reply@cid.com',
+    'LOGIN_RETRIEVE_TOKEN': True,
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -74,6 +86,45 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'cidAPI.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'  # noqa
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'sharedlinks': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'links': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
 
 TEMPLATES = [
     {
@@ -140,10 +191,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
@@ -154,6 +201,3 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#STATIC_ROOT = '/'
-
-#STATICFILES_STORAGE = 'spa.storage.SPAStaticFilesStorage'
