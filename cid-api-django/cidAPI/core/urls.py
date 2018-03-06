@@ -5,6 +5,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from .views.users import Users, ListAllUsers, RegisterUser
 from .views.posts import ListCreatePosts, Posts
 from .views.models_3d import Models3D, ListAllModels3D
+from .views.contributions import Contributions
 
 urlpatterns = [
     # Main URIs
@@ -17,8 +18,7 @@ urlpatterns = [
     path('users/', ListAllUsers.as_view()),
     re_path(r'^user/(?P<pk>[0-9]+)/$', Users.as_view()),
     re_path(r'^user/(?P<pk>[0-9]+)/posts/$', Posts.as_view()),
-    re_path(r'^user/(?P<pk>[0-9]+)/3d-models/$', Models3D.as_view())
-    # user/id/posts
-    # user/id/commits
-    # re_path(r'^user/(?P<pk>[0-9]+)/$', )
+    re_path(r'^user/(?P<pk>[0-9]+)/3d-models/$', Models3D.as_view()),
+    re_path(r'^user/(?P<pk>[0-9]+)/contributions/$', Contributions.as_view()),
+    
 ]

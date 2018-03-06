@@ -13,6 +13,7 @@ export default class Post extends Component {
     
     mountCanvas = () => {
         if (this.state.rendering){
+            console.log(this.props.content)
             return(
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
                     <Canvas3D modelPath={this.props.content.modelPath} modelName={this.props.content.modelName}/>

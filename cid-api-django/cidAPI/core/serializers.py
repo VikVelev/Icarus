@@ -29,7 +29,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
-
+    date_posted = serializers.DateTimeField(read_only=True)
+    
     class Meta:
         model = Post
         fields = (
@@ -45,16 +46,6 @@ class PostSerializer(serializers.ModelSerializer):
             'comments',
             'likes',
         )
-    
-    # def create(self, validated_data):
-
-    #     comments_data = validated_data.pop('comments')
-    #     post = Post.objects.create(**validated_data)
-
-    #     for comment_data in comments_data:
-    #         Comment.objects.create(post=post, **comment_data)
-        
-    #     return album
 
 #### End of Post Serializers
 
@@ -75,7 +66,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 
     profile = ProfileSerializer(required=False)
-    # add models somehow or maybe a get models view
+
     class Meta:
         model = User
         fields = (
@@ -114,7 +105,7 @@ class RegisterUser(serializers.ModelSerializer):
 
         password = validated_data.get("password")
 
-        # TODO FIX THIS SO PASSWORD VALIDATION WORKS
+        # TODO FIX THIS SO PASSWORD VALIDATION WORKS // USE django-rest-registration
         created_user = User.objects.create(**validated_data)
         created_user.set_password(password)
         created_user.save()
@@ -126,25 +117,29 @@ class RegisterUser(serializers.ModelSerializer):
 #### 3D model serializers
 
 class CommitSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(read_only=True)
+    commited_by = serializers.PrimaryKeyRelatedField(read_only=True)
+    
     class Meta:
         model = Commit
         fields = (
             'belongs_to_model',
+            'old_version',
+            'new_version',
             'commited_by',
             'details',
             'date',
-            'polygons_changed'
         )
 
 from django.contrib.auth import get_user_model
 
 class Model3DSerializer(serializers.ModelSerializer):
 
-
     User = get_user_model()
 
     commits = CommitSerializer(many=True, required=False,read_only=True)
     favorited_by = UserSerializer(many=True, required=False, read_only=True)
+    
     date_uploaded = serializers.DateTimeField(read_only=True)
     owners = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
