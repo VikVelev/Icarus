@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 //import Logout from './sub-components/logout.js'
 import { connect } from 'react-redux';
 
-import { changePages } from '../actions/pageManagementActions'
-import { logout } from '../actions/userManagementActions'
+import { changePages } from '../actions/pageActions'
+import { logout } from '../actions/userActions'
 
 @connect((store) => {
     return {

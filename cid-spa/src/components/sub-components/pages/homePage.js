@@ -7,7 +7,7 @@ import { Button, Container, Grid, Header, Sidebar } from 'semantic-ui-react'
 import { Icon, Image, Menu, Responsive, Segment, List } from 'semantic-ui-react'
 import { Visibility } from 'semantic-ui-react'
 
-import { changePages } from '../../../actions/pageManagementActions.js'
+import { changePages } from '../../../actions/pageActions.js'
 
 import Canvas3D from './../../viewport/canvas3d.js'
 import { connect } from 'react-redux';

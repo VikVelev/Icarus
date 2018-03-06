@@ -3,7 +3,7 @@ import { Header, Modal, Button, Icon } from 'semantic-ui-react'
 
 import { connect } from 'react-redux';
 
-import { logout } from '../../actions/userManagementActions.js'
+import { logout } from '../../actions/userActions.js'
 
 @connect((store) => {
     return {

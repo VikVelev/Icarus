@@ -48,7 +48,7 @@ export function register(username, email, password, password2) {
         }).then((response) => {
             dispatch({ type: "REGISTER_USER_FULFILLED", payload: response.data })
         }).catch((error) => {
-            dispatch({ type: "REGISTER_USER_REJECTED", payload: error.response.data })
+            dispatch({ type: "REGISTER_USER_REJECTED", payload: error.response })
         })
     }
 

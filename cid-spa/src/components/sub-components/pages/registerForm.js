@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Checkbox } from 'semantic-ui-react'
 
 import { Link }  from 'react-router-dom'
-import { register } from '../../../actions/userManagementActions';
+import { register } from '../../../actions/userActions';
 import { connect } from 'react-redux';
 
 @connect((store) => {

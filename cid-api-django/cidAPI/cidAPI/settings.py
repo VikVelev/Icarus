@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [    
     'fortress88.servebeer.com',
+    'cid-platform.myddns.me',
     'localhost',
     '0.0.0.0',
     'main',
@@ -37,7 +38,9 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     'main:3000',
     'localhost:8000',
-    '127.0.0.1:9000'
+    '127.0.0.1:9000',
+    'cid-platform.myddns.me:3000',
+    'cid-platform.myddns.me:8000'
 )
 
 # Application definition

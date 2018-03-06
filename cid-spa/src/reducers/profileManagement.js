@@ -1,12 +1,16 @@
+// I know this is a reaaaally bad structured file, but I decided that
+// it's better to have 1 bad file which I will never touch probably, since all the actions are separated
+// than have unnecessary abstractions that will make the use of the profileReducer harder.
+
 let defaultState = {}
 
-const myStorage = window.localStorage
+//const myStorage = window.localStorage
 
 // if(myStorage.getItem("profileManagement")){
 //     defaultState = JSON.parse(myStorage.getItem("profileManagement"))
 // } else {
     defaultState = {
-        loggedUser: {}, //some kind of a way to identify
+        loggedUser: {}, //some kind of a way to identify, maybe store this only from the localstorage
         userData: {},
         models: {},
         posts: {},
@@ -14,7 +18,7 @@ const myStorage = window.localStorage
         contributions: {},
         error: {},
         fetching: false,
-        fetched: true,
+        fetched: false,
     }
 // }
 
@@ -22,46 +26,150 @@ const profileManagement = (state=defaultState, action) => {
     switch (action.type) {
         case "FETCH_MODELS": case "FETCH_POSTS":
         case "FETCH_CONTRIBUTIONS": case "FETCH_FAVORITES":
-        case "SET_DESCRIPTION": case "SET_PROFILE_PIC": 
-        case "SET_FIRST_NAME": case "SET_LAST_NAME":
-        case "SET_EMAIL": case "SET_NEW_PASSWORD":
         case "ADD_POST": case "DELETE_POST":
         case "ADD_MODEL": case "DELETE_MODEL":
-        case "ADD_COMMIT":
+        case "ADD_COMMIT": case "SET_USER_DATA": //do the same thing for all these cases
+        case "FETCH_USER_DATA":
             return {
                 ...state,
-                fetching: true
-            }              
+                fetching: true, 
+                fetched: false,
+            }
         case "FETCH_MODELS_FULFILLED":
+            return {
+                ...state,
+                models: action.payload,
+                fetching: false,
+                fetched: true,                
+            }
         case "FETCH_MODELS_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,   
+                fetched: false, 
+            }
         case "FETCH_POSTS_FULFILLED":
+            return {
+                ...state,
+                posts: action.payload,
+                fetched: true,                
+                fetching: false, 
+            }
         case "FETCH_POSTS_REJECTED":
-        case "FETCH_CONTRIBUTIONS_FULFILLED":        
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            }
+        case "FETCH_CONTRIBUTIONS_FULFILLED":
+            return {
+                ...state,
+                contributions: actions.payload,
+                fetched: true,                
+                fetching: false, 
+            }      
         case "FETCH_CONTRIBUTIONS_REJECTED":
-        case "FETCH_FAVORITES_FULFILLED":        
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            }
+        case "FETCH_FAVORITES_FULFILLED":      
+            return {
+                ...state,
+                favorites: actions.payload,
+                fetched: true,                
+                fetching: false, 
+            } 
         case "FETCH_FAVORITES_REJECTED":
-        case "SET_DESCRIPTION_FULFILLED":                         
-        case "SET_DESCRIPTION_REJECTED":
-        case "SET_PROFILE_PIC_FULFILLED":
-        case "SET_PROFILE_PIC_REJECTED":
-        case "SET_FIRST_NAME_FULFILLED":        
-        case "SET_FIRST_NAME_REJCETED":
-        case "SET_LAST_NAME_FULFILLED":                
-        case "SET_LAST_NAME_REJECTED":
-        case "SET_EMAIL_FULFILLED":                        
-        case "SET_EMAIL_REJECTED":
-        case "SET_NEW_PASSWORD_FULFILLED":                       
-        case "SET_NEW_PASSWORD_FULFILLED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            } 
+        case "SET_USER_DATA_FULFILLED":
+            return {
+                ...state,
+                userData: action.payload,
+                fetched: true, 
+                fetching: false, 
+            } 
+        case "SET_USER_DATA_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            } 
         case "ADD_POST_FULFILLED":                                
+            return {
+                ...state,
+                fetched: true,                
+                fetching: false, 
+            } 
         case "ADD_POST_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            } 
         case "DELETE_POST_FULFILLED":                                
+            return {
+                ...state,
+                fetched: true,                
+                fetching: false, 
+            } 
         case "DELETE_POST_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetched: false,
+                fetching: false, 
+            } 
         case "ADD_MODEL_FULFILLED":               
+            return {
+                ...state,
+                fetched: true,            
+                fetching: false, 
+            } 
         case "ADD_MODEL_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            } 
         case "DELETE_MODEL_FULFILLED":               
+            return {
+                ...state,
+                fetched: true,                
+                fetching: false, 
+            } 
         case "DELETE_MODEL_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
+            } 
         case "ADD_COMMIT_FULFILLED":                       
+            return {
+                ...state,
+                fetched: false,                
+                fetching: false, 
+            } 
         case "ADD_COMMIT_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false, 
+                fetched: false,    
+            } 
         default:
             return state;                       
     }

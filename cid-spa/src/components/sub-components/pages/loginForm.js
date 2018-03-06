@@ -3,8 +3,8 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 
 import { Link }  from 'react-router-dom'
 import { connect } from 'react-redux';
-import { login } from '../../../actions/userManagementActions'
-import { changePages } from '../../../actions/pageManagementActions';
+import { login } from '../../../actions/userActions'
+import { changePages } from '../../../actions/pageActions';
 
 @connect((store) => {
 	return {
