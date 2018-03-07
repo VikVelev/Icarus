@@ -8,14 +8,15 @@ import { fetchTrendingPosts } from '../../../actions/trendingActions.js'
 
 @connect((store)=>{
     return {
-        trending: store.trendingManagement
+        user: store.userManagement,
+        trending: store.trendingManagement,
     }
 })
 export default class TrendingFeed extends Component {
     
     constructor(props) {
         super(props);
-        this.props.dispatch(fetchTrendingPosts())
+        this.props.dispatch(fetchTrendingPosts(this.props.user.currentlyLoggedUser.username.token))
     }
 
     renderPost(object, i){

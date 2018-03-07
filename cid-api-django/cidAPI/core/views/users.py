@@ -13,6 +13,8 @@ User = get_user_model()
 
 from ..serializers import UserSerializer
 
+from rest_framework.permissions import IsAuthenticated
+
 ## Not sure if pseudo-code or python :thinking:
 
 ### Props to django <3
@@ -21,11 +23,11 @@ class Users(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer  
-    #permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (IsAuthenticated, )
 
 class ListAllUsers(generics.ListAPIView):
 
-   # permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (IsAuthenticated, )
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

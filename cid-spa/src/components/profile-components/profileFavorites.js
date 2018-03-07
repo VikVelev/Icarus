@@ -16,7 +16,7 @@ export default class ProfileFavorites extends Component {
     
     constructor(props) {
         super(props);
-        this.props.dispatch(fetchFavorites(this.props.user.currentlyLoggedUser.username.id))
+        this.props.dispatch(fetchFavorites(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
     }
 
     renderPost(object, i){

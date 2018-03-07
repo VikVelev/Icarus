@@ -17,7 +17,7 @@ export default class ProfileContributionsFeed extends Component {
     
     constructor(props) {
         super(props);
-        this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id), changeSubpage("profile_contributions"))
+        this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token), changeSubpage("profile_contributions"))
         this.props.dispatch(changeSubpage("profile_contributions"))
     }
 

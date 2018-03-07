@@ -18,7 +18,7 @@ export default class ProfileModelsFeed extends Component {
     
     constructor(props) {
         super(props);
-        this.props.dispatch(fetch3DModels(this.props.user.currentlyLoggedUser.username.id))
+        this.props.dispatch(fetch3DModels(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
         this.props.dispatch(changeSubpage("profile_models"))
     }
 

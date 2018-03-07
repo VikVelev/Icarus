@@ -86,8 +86,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
-        print(instance.id)
-        print(Profile.objects.filter(pk=instance.id))
         Profile.objects.filter(pk=instance.id).update(user=instance, **instance.profile_data)
 
 

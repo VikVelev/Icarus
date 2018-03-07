@@ -20,7 +20,7 @@ export default class ProfileSettings extends Component {
 
     constructor(props){
         super(props)
-        this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id))
+        this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
         this.state = {
             profile: false,
         }
