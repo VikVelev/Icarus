@@ -3,31 +3,25 @@ from django.http import Http404
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions, generics
+from rest_framework import status, permissions, generics, mixins
 
-#from ..permissions import IsAdminOrReadOnly
+from ..permissions import IsAdminOrReadOnly
 
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from ..serializers import UserSerializer, RegisterUser
+from ..serializers import UserSerializer
 
 ## Not sure if pseudo-code or python :thinking:
 
 ### Props to django <3
-
-class RegisterUser(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterUser
-
     
 class Users(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
-   # permission_classes = (IsAdminOrReadOnly, )
-
+    serializer_class = UserSerializer  
+    #permission_classes = (IsAdminOrReadOnly, )
 
 class ListAllUsers(generics.ListAPIView):
 

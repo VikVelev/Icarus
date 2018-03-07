@@ -12,6 +12,7 @@ class Profile(models.Model):
     profile_picture = models.ImageField(null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

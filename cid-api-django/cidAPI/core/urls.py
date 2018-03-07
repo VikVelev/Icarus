@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import path, re_path, include
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views.users import Users, ListAllUsers, RegisterUser
+from .views.users import Users, ListAllUsers
 from .views.posts import ListCreatePosts, Posts
 from .views.models_3d import Models3D, ListAllModels3D
 from .views.contributions import Contributions

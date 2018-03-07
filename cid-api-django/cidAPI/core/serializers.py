@@ -65,6 +65,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
 
+    id = serializers.IntegerField(read_only=True)
     profile = ProfileSerializer(required=False)
 
     class Meta:
@@ -82,36 +83,18 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance.profile_data = validated_data.pop('profile')
 
-        instance.user = User.objects.update(**validated_data)
-        Profile.objects.update(user=instance.user, **instance.profile_data)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        print(instance.id)
+        print(Profile.objects.filter(pk=instance.id))
+        Profile.objects.filter(pk=instance.id).update(user=instance, **instance.profile_data)
+
+
+        instance.save()
 
         return instance
-
-
-class RegisterUser(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = (
-            'id',
-            'username',
-            'email',
-            'first_name',
-            'last_name',
-            'password',
-        )
-    
-    def create(self, validated_data):
-
-        password = validated_data.get("password")
-
-        # TODO FIX THIS SO PASSWORD VALIDATION WORKS // USE django-rest-registration
-        created_user = User.objects.create(**validated_data)
-        created_user.set_password(password)
-        created_user.save()
-
-        return created_user
-
+        
 ### End of User Serializers
 
 #### 3D model serializers
