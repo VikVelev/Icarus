@@ -59,6 +59,7 @@
     "jest": "20.0.4",
     "lodash": "^4.17.5",
     "map-stream": "^0.0.7",
+    "moment": "^2.21.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",

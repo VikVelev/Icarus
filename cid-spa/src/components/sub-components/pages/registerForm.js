@@ -48,9 +48,7 @@ class RegisterForm extends Component {
         this.props.dispatch(register(username, email, password, password2))
     }
 
-    render() {
-        console.log(this.handleErrors("username"))
-        
+    render() {     
         return(
             <div className='login-form'>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>

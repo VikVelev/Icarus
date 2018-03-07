@@ -90,6 +90,20 @@ const profileManagement = (state=defaultState, action) => {
                 error: action.payload,
                 fetching: false,  
                 fetched: false,
+            }         
+        case "FETCH_USER_DATA_FULFILLED":
+            return {
+                ...state,
+                userData: action.payload,
+                fetched: true, 
+                fetching: false, 
+            } 
+        case "FETCH_USER_DATA_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,  
+                fetched: false,
             } 
         case "SET_USER_DATA_FULFILLED":
             return {

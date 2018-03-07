@@ -92,7 +92,6 @@ export default class Model3D {
     }
 
     toggleWireframe(optional){
-        console.log(optional)
         if (optional !== undefined) {
             this.state.toggledWireframe = optional
         } else {

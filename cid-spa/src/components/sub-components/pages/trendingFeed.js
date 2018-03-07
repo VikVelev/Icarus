@@ -15,7 +15,6 @@ export default class TrendingFeed extends Component {
     
     constructor(props) {
         super(props);
-        console.log(this.props)
         this.props.dispatch(fetchTrendingPosts())
     }
 

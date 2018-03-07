@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import Post from '../sub-components/post.js'
+import ModelPost from './modelPost.js'
 import { fetch3DModels } from '../../actions/profileActions.js'
+import { changeSubpage } from '../../actions/pageActions.js'
+
 
 @connect((store)=>{
     return {
@@ -16,14 +18,14 @@ export default class ProfileModelsFeed extends Component {
     
     constructor(props) {
         super(props);
-        console.log(this.props.user)
-        this.props.dispatch(fetch3DModels())
+        this.props.dispatch(fetch3DModels(this.props.user.currentlyLoggedUser.username.id))
+        this.props.dispatch(changeSubpage("profile_models"))
     }
 
     renderPost(object, i){
         return (          
             <Segment id={object.id} key={i} className="profile-post-container">
-                <Post {...object}/>
+                <ModelPost {...object}/>
             </Segment>
         )
     }

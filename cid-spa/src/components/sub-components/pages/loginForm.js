@@ -40,7 +40,6 @@ export class LoginForm extends Component {
 
     handleErrors(type) {
         if (this.props.user.error[type] !== undefined) {
-			console.log(this.props.user.error)
 			return (
 				<Message attached="bottom" color="red">
 					{this.props.user.error[type]}
@@ -50,8 +49,6 @@ export class LoginForm extends Component {
 	}
 
 	render() {
-
-		console.log()
 		return (
 			<div className='login-form'>
 				<Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>

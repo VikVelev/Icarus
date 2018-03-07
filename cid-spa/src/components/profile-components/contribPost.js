@@ -3,7 +3,7 @@ import { Item, Segment } from 'semantic-ui-react'
 
 import Canvas3D from '../viewport/canvas3d.js'
 
-export default class Post extends Component {
+export default class ContribPost extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -14,8 +14,9 @@ export default class Post extends Component {
     mountCanvas = () => {
         if (this.state.rendearing){
             return(
+                //RETURN COMMIT DIFF Canvas with the same camera controls
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.content.modelPath} modelName={this.props.content.modelName}/>
+                    <Canvas3D modelPath={this.props.filename} modelName={this.props.content.modelName}/>
                 </Segment>
             )
         } else {
@@ -29,7 +30,7 @@ export default class Post extends Component {
 
     render(){
         return(
-            <div className="postWrapper">
+            <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
                     <Item.Image size='small' src={this.props.image} style={{
                         padding: '20px'    
@@ -37,11 +38,8 @@ export default class Post extends Component {
 
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
-                        <Item.Meta as='p'>Posted by {<a>{this.props.posted_by}</a>}</Item.Meta>
-                        <Item.Meta as='p'>{this.props.date_posted}</Item.Meta>
-                        <Item.Description>
-                            <p>{this.props.description}</p>
-                        </Item.Description>
+                        <Item.Meta as='p'>{this.props.date}</Item.Meta>
+                        <Item.Meta as='p'>Version 1.0.0{/*think of a way to keep track of this*/}</Item.Meta>
                     </Item.Content>
                 </Item>
                 {this.mountCanvas()}

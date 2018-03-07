@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
 
 import { Segment, Image, Header, Tab, Icon } from 'semantic-ui-react'
+
+//import ProfileFavorites from '../../profile-components/profileFavorites.js'
+import { fetchUserData } from '../../actions/profileActions.js'
 import { Redirect } from 'react-router-dom'
 
-
-import ProfileModelsFeed from '../../profile-components/profileModels.js'
-import ProfileContributions from '../../profile-components/profileContributions.js'
-import ProfileSettings from '../../profile-components/profileSettings.js'
-
-import { fetchUserData } from '../../../actions/profileActions.js'
-//import ProfileFavorites from '../../profile-components/profileFavorites.js'
 
 import { connect } from 'react-redux';
 
@@ -21,27 +17,21 @@ import { connect } from 'react-redux';
         page: store.pageManagement,
     }
 })
-export default class Profile extends Component {
-
-    panes = [
-        { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
-        { menuItem: 'Contributions', render: () => <Tab.Pane><ProfileContributions/></Tab.Pane> },
-        // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
-      ]
+export default class ProfileSettings extends Component {
 
     constructor(props){
         super(props)
         this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id))
         this.state = {
-            settings: false,
+            profile: false,
         }
     }
 
-    renderSettings() {
-        this.setState({ settings: !this.state.settings })
+    renderProfile() {
+        this.setState({ profile: !this.state.settings })
     }
 
-    renderProfileOnFetch(){
+    renderSettingsOnFetch(){
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
                 return(
@@ -51,7 +41,7 @@ export default class Profile extends Component {
                         marginLeft: '20%',
                         marginRight: '20%',  
                     }}>
-
+                    <Header size="huge">Settings</Header>                    
                     <Segment className="userHeader" style={{ display: 'flex' }}>
                         <div className="profileImage">
                             <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
@@ -62,12 +52,12 @@ export default class Profile extends Component {
                             <Header size="medium">Uploaded models </Header>                    
                             {this.props.profile.userData.profile.description}
                         </div>
-                        <div className="settings_button" onClick={this.renderSettings.bind(this)}>
-                            <Icon size='big' name='settings'></Icon>
+                        <div className="settings_button" onClick={this.renderProfile.bind(this)}>
+                            <Icon size='big' name='user'></Icon>
                         </div>
                     </Segment>
                     <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
-                    {this.state.settings ? <Redirect to="/profile/settings"/> : null}
+                    {this.state.profile ? <Redirect to="/profile"/> : null}                    
                     </Segment>
                 )
             }
@@ -77,6 +67,6 @@ export default class Profile extends Component {
     }
 
     render(){
-        return <div>{this.renderProfileOnFetch()} </div>
+        return <div>{this.renderSettingsOnFetch()}</div>
     }
 }

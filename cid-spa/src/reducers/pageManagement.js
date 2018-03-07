@@ -16,7 +16,7 @@ const pageManagement = (state=defaultState, action) => {
         case "CHANGE_SUB_PAGE":
             return {
                 ...state,
-                currentPage: action.payload
+                subPage: action.payload
             }
         case "RENDERING_CANVAS3D":
             return {

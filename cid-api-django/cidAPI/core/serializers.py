@@ -123,6 +123,7 @@ class CommitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Commit
         fields = (
+            'title',
             'belongs_to_model',
             'old_version',
             'new_version',
@@ -137,7 +138,7 @@ class Model3DSerializer(serializers.ModelSerializer):
 
     User = get_user_model()
 
-    commits = CommitSerializer(many=True, required=False,read_only=True)
+    commits = CommitSerializer(many=True, required=False, read_only=True)
     favorited_by = UserSerializer(many=True, required=False, read_only=True)
     
     date_uploaded = serializers.DateTimeField(read_only=True)
@@ -148,6 +149,7 @@ class Model3DSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'filename',
+            'title',
             'owners',
             'date_uploaded',
             'favorited_by',
