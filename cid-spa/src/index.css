@@ -165,8 +165,8 @@ body {
 
 .settings_button{
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 1%;
+    top: 3%;
     padding: 5px;
     border-radius: 5px;
 }

@@ -41,7 +41,7 @@ export default class ProfileSettings extends Component {
                         marginLeft: '20%',
                         marginRight: '20%',  
                     }}>
-                    <Header size="huge">Settings</Header>                    
+                    <Header size="huge">Settings</Header>                 
                     <Segment className="userHeader" style={{ display: 'flex' }}>
                         <div className="profileImage">
                             <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
@@ -52,11 +52,10 @@ export default class ProfileSettings extends Component {
                             <Header size="medium">Uploaded models </Header>                    
                             {this.props.profile.userData.profile.description}
                         </div>
-                        <div className="settings_button" onClick={this.renderProfile.bind(this)}>
+                    </Segment>
+                    <div className="settings_button" onClick={this.renderProfile.bind(this)}>
                             <Icon size='big' name='user'></Icon>
                         </div>
-                    </Segment>
-                    <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
                     {this.state.profile ? <Redirect to="/profile"/> : null}                    
                     </Segment>
                 )

@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import { Segment, Image, Header, Tab, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 
-
 import ProfileModelsFeed from '../../profile-components/profileModels.js'
 import ProfileContributions from '../../profile-components/profileContributions.js'
 import ProfileSettings from '../../profile-components/profileSettings.js'
@@ -62,10 +61,10 @@ export default class Profile extends Component {
                             <Header size="medium">Uploaded models </Header>                    
                             {this.props.profile.userData.profile.description}
                         </div>
-                        <div className="settings_button" onClick={this.renderSettings.bind(this)}>
-                            <Icon size='big' name='settings'></Icon>
-                        </div>
                     </Segment>
+                    <div className="settings_button" onClick={this.renderSettings.bind(this)}>
+                        <Icon size='big' name='settings'></Icon>
+                    </div>
                     <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
                     {this.state.settings ? <Redirect to="/profile/settings"/> : null}
                     </Segment>
