@@ -4,6 +4,8 @@
 # If you don't have lolcat just remove it. It's just for fun
 echo Deploying... | lolcat -a -d 20
 
+yarn install
+yarn build
 cp -r build/* ../cid-api-django/cidAPI/static/
 
 echo Deployed | lolcat -a -d 20
