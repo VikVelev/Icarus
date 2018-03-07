@@ -48,3 +48,14 @@ export function fetchUserData(id) {
         })
     }
 }
+
+export function setUserData(id, userData){
+    return function(dispatch) {
+        dispatch({ type: "SET_USER_DATA" })
+        axios.post(url + "/api/user/" + id + "/").then((response) => {
+            dispatch({ type: "SET_USER_DATA_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "SET_USER_DATA_REJECTED", payload: error })          
+        })
+    }
+} 

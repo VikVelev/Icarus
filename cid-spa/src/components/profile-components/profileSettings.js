@@ -3,9 +3,8 @@ import React, { Component } from 'react'
 import { Segment, Image, Header, Tab, Icon } from 'semantic-ui-react'
 
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
-import { fetchUserData } from '../../actions/profileActions.js'
+import { fetchUserData, setUserData } from '../../actions/profileActions.js'
 import { Redirect } from 'react-router-dom'
-
 
 import { connect } from 'react-redux';
 
