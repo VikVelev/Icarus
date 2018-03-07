@@ -17,7 +17,7 @@ import RegisterForm from './sub-components/pages/registerForm.js';
 import { BrowserRouter as Router } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import { changePages, changeSubpage } from '../actions/pageActions.js'
+import { changePages } from '../actions/pageActions.js'
 
 
 @connect((store) => {

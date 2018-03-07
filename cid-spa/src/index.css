@@ -35,7 +35,7 @@ body {
 }
 
 .post {
-    display:flex;
+    display: flex;
 }
 
 .dropdown.icon {
@@ -58,6 +58,10 @@ body {
 }
 
 .userHeader {
+    display: flex;
+}
+.userHeader, .settingsHeader {
+
     border: 0px !important;
     box-shadow: none !important;
 }
@@ -182,4 +186,11 @@ body {
     background-color: #DDD;
     box-shadow: inset 0.5px 0.5px 1px #666;
     height: auto;
+}
+
+.userContainer, .settingsContainer {
+    height: auto;
+    margin-top: 5px;
+    margin-left: 20%;
+    margin-right: 20%;  
 }

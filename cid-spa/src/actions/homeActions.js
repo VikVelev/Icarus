@@ -7,7 +7,7 @@ export function fetchPersonalizedPosts(token){
         dispatch({type: "FETCH_PERSONALIZED_POSTS"})
         axios.get(url + "/api/posts/", {
             headers: {
-                'Authorization': 'Token ' + token
+                'Authorization': 'Token ' + token,
             }
         }).then((response) => {
             dispatch({ type: "FETCH_PERSONALIZED_POSTS_FULFILLED", payload: response.data })

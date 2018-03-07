@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom'
 
 import ProfileModelsFeed from '../../profile-components/profileModels.js'
 import ProfileContributions from '../../profile-components/profileContributions.js'
-import ProfileSettings from '../../profile-components/profileSettings.js'
 
 import { fetchUserData } from '../../../actions/profileActions.js'
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
@@ -26,7 +25,8 @@ export default class Profile extends Component {
         { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
         { menuItem: 'Contributions', render: () => <Tab.Pane><ProfileContributions/></Tab.Pane> },
         // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
-      ]
+        // { menuItem: 'Posts', render: () => <Tab.Pane><Profile/></Tab.Pane> },      
+    ]
 
     constructor(props){
         super(props)
@@ -44,21 +44,14 @@ export default class Profile extends Component {
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
                 return(
-                    <Segment  color="blue" className="userContainer" style={{
-                        height: 'auto',
-                        marginTop: '5px',
-                        marginLeft: '20%',
-                        marginRight: '20%',  
-                    }}>
-
-                    <Segment className="userHeader" style={{ display: 'flex' }}>
+                    <Segment color="blue">
+                    <Segment className="userHeader">
                         <div className="profileImage">
                             <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
                         </div>
                         <div className="profileDetails">
                             <Header size="huge">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name}</Header>
-                            <Header size="medium">@{this.props.profile.userData.username}</Header>
-                            <Header size="medium">Uploaded models </Header>                    
+                            <Header size="medium">@{this.props.profile.userData.username}</Header>                   
                             {this.props.profile.userData.profile.description}
                         </div>
                     </Segment>
@@ -76,6 +69,6 @@ export default class Profile extends Component {
     }
 
     render(){
-        return <div>{this.renderProfileOnFetch()} </div>
+        return <div className="userContainer">{this.renderProfileOnFetch()} </div>
     }
 }

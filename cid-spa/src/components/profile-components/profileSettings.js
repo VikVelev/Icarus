@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Image, Header, Tab, Icon } from 'semantic-ui-react'
+import { Segment, Image, Header, Icon } from 'semantic-ui-react'
 
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
 import { fetchUserData, setUserData } from '../../actions/profileActions.js'
@@ -34,14 +34,9 @@ export default class ProfileSettings extends Component {
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
                 return(
-                    <Segment  color="blue" className="userContainer" style={{
-                        height: 'auto',
-                        marginTop: '5px',
-                        marginLeft: '20%',
-                        marginRight: '20%',  
-                    }}>
+                    <Segment color="blue">
                     <Header size="huge">Settings</Header>                 
-                    <Segment className="userHeader" style={{ display: 'flex' }}>
+                    <Segment className="settingsHeader">
                         <div className="profileImage">
                             <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
                         </div>
@@ -52,7 +47,7 @@ export default class ProfileSettings extends Component {
                             {this.props.profile.userData.profile.description}
                         </div>
                     </Segment>
-                    <div className="settings_button" onClick={this.renderProfile.bind(this)}>
+                        <div className="settings_button" onClick={this.renderProfile.bind(this)}>
                             <Icon size='big' name='user'></Icon>
                         </div>
                     {this.state.profile ? <Redirect to="/profile"/> : null}                    
@@ -65,6 +60,6 @@ export default class ProfileSettings extends Component {
     }
 
     render(){
-        return <div>{this.renderSettingsOnFetch()}</div>
+        return <div className="settingsContainer">{this.renderSettingsOnFetch()}</div>
     }
 }
