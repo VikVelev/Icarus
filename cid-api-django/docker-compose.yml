@@ -20,3 +20,13 @@ services:
         command: ["./cidAPI/manage.py","runserver","0.0.0.0:8000"]
         environment:
             IN_DOCKER: 1
+    minio:
+        image: minio/minio
+        volumes:
+            - ../data:/export
+        ports:
+            - "9001:9000"
+        environment:
+            MINIO_ACCESS_KEY: test_access
+            MINIO_SECRET_KEY: test_secret
+        command: server /export

@@ -60,6 +60,7 @@ body {
 .userHeader {
     display: flex;
 }
+
 .userHeader, .settingsHeader {
 
     border: 0px !important;
@@ -193,4 +194,16 @@ body {
     margin-top: 5px;
     margin-left: 20%;
     margin-right: 20%;  
+}
+
+.profileSettingsImage {
+    height: 300px;
+    width: 300px;
+}
+
+.submitButton {
+    width: 200px !important;
+    font-size: 1.3em !important;
+    height: 60px;
+    margin: auto !important;
 }

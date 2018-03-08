@@ -11,3 +11,4 @@ pyparsing
 pytz
 Pillow
 six
+django-minio-storage

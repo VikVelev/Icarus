@@ -1,14 +1,16 @@
 from django.http import HttpResponse
 from django.http import Http404
+from django.http import FileResponse
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics, mixins
 
 from ..models.models_3d import Model3D
+from ..models.commit import Commit
 from ..serializers import Model3DSerializer
 import pprint
-
+import mimetypes
 
 class ListAllModels3D(generics.ListAPIView):
     queryset = Model3D.objects.all()
@@ -36,3 +38,10 @@ class Models3D(mixins.ListModelMixin,
 
         serializer.save()
 
+class CommitFile(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        model_id = self.kwargs["pk"]
+        file = Commit.objects.get(id=model_id).old_version
+        print(file)
+        file_mime = mimetypes.guess_type(str(file))
+        return FileResponse(file, content_type=file_mime[0])

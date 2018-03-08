@@ -53,12 +53,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'minio_storage',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_registration',
     'django_extensions',
     'corsheaders',
-    'core',    
+    'core',   
 ]
 
 REST_REGISTRATION = {
@@ -127,6 +128,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
         },
+        'minio_storage': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
     },
 }
 
@@ -205,3 +210,10 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
+MINIO_STORAGE_ENDPOINT = "minio:9000"
+MINIO_STORAGE_ACCESS_KEY = "test_access"
+MINIO_STORAGE_SECRET_KEY = "test_secret"
+MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"
+MINIO_STORAGE_USE_HTTPS = False
