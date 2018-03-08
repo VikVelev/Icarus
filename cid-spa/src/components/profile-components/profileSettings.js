@@ -22,25 +22,42 @@ export default class ProfileSettings extends Component {
         this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
         this.state = {
             profile: false,
-            first_name: "",
-            last_name: "",
-            email: "",
-            country: "",
-            birth_date: "",
-            description: "",                                                             
         }
     }
 
     handleChange = (e, { name, value}) => {
         console.log([name],value)
-		this.setState({ [name]: value })
+        this.setState({ [name]: value })
 	}
 
     handleSubmit = () => {
-        const { username, email, password, password2 } = this.state
+        const { username, first_name, last_name, email, country, birth_date, description } = this.state
         //check for custom validation here
-        this.setState({ name: username, email: email, password: password, password2: password2 })
-        this.props.dispatch(setUserData(username, email, password, password2))
+        this.setState({
+            first_name: first_name,
+            last_name: last_name, 
+            email: email,
+            country: country,
+            birth_date: birth_date,
+            description: description,
+        })
+        // FIXME COMPLETE UTTETR BULSHIT
+        this.props.dispatch(setUserData(
+            this.props.user.currentlyLoggedUser.username.id,
+            {
+                username: this.props.profile.userData.username,
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                profile: {
+                    country: country,
+                    birth_date: birth_date,
+                    description: description, 
+                }
+            },
+            this.props.user.currentlyLoggedUser.username.token
+        )
+    )
     }
 
     renderProfile() {
@@ -50,6 +67,9 @@ export default class ProfileSettings extends Component {
     renderSettingsOnFetch(){
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
+                if (this.state.email === undefined) {
+                    this.state = {...this.props.profile.userData, ...this.props.profile.userData.profile, profile: false}
+                }
                 return(
                     <Segment color="blue">
                         <Header size="huge">Settings</Header>                 
@@ -63,8 +83,8 @@ export default class ProfileSettings extends Component {
                                         <Form.Input
                                                 fluid
                                                 icon='user'
-                                                name="first_name"                        
-                                                value={this.props.profile.userData.first_name}
+                                                name="first_name"      
+                                                value={this.state.first_name}
                                                 onChange={this.handleChange}
                                                 iconPosition='left'
                                                 placeholder='First Name'
@@ -73,7 +93,7 @@ export default class ProfileSettings extends Component {
                                             fluid
                                             icon='user'
                                             name="last_name"
-                                            value={this.props.profile.userData.last_name}
+                                            value={this.state.last_name}
                                             onChange={this.handleChange}
                                             iconPosition='left'
                                             placeholder='Enter username'
@@ -82,7 +102,7 @@ export default class ProfileSettings extends Component {
                                             fluid
                                             icon='at'
                                             name="email"
-                                            value={this.props.profile.userData.email}
+                                            value={this.state.email}
                                             onChange={this.handleChange}
                                             iconPosition='left'
                                             placeholder='Enter e-mail'
@@ -93,7 +113,7 @@ export default class ProfileSettings extends Component {
                                             icon='world'
                                             iconPosition='left'                                                                       
                                             name="country"
-                                            value={this.props.profile.userData.profile.country}
+                                            value={this.state.country}
                                             onChange={this.handleChange}
                                             placeholder='Country'
                                             type='text'
@@ -104,7 +124,7 @@ export default class ProfileSettings extends Component {
                                             icon='clock'
                                             iconPosition='left'                                                                   
                                             name="birth_date"
-                                            value={this.props.profile.userData.profile.birth_date}
+                                            value={this.state.birth_date}
                                             onChange={this.handleChange}
                                             placeholder='Country'
                                             type='datetime'
@@ -117,7 +137,7 @@ export default class ProfileSettings extends Component {
                                             name="description"
                                             type="textarea"
                                             onChange={this.handleChange}                                            
-                                            value={this.props.profile.userData.profile.description}                                            
+                                            value={this.state.description}                                            
                                             placeholder="Write your description..."
                                         />                         
                                     </Segment>

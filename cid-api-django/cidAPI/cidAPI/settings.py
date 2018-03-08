@@ -93,9 +93,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
 }
 
 LOGGING = {
@@ -212,7 +212,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-MINIO_STORAGE_ENDPOINT = "minio:9000"
+MINIO_STORAGE_ENDPOINT = "172.18.0.3:9000"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_SECRET_KEY = "test_secret"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"

@@ -10,8 +10,7 @@ let defaultState = {}
 //     defaultState = JSON.parse(myStorage.getItem("profileManagement"))
 // } else {
     defaultState = {
-        loggedUser: {}, //some kind of a way to identify, maybe store this only from the localstorage
-        userData: {},
+        userData: {},  //gotta do api optimizations
         models: {},
         posts: {},
         favorites: {},

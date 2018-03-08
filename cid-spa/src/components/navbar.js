@@ -60,15 +60,23 @@ export class Navbar extends Component {
 
                 <Menu.Item 
                     as={Link} 
-                    to="/upload"
-                    icon="upload"
-                    name='upload'
-                    active={this.props.currentPage === 'upload'} 
+                    to="/create-post"
+                    icon="write"
+                    name='create_post'
+                    active={this.props.currentPage === 'create_post'} 
                     onClick={this.handleItemClick}/>
 
-                <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%"}}>
+                <Menu.Item 
+                    as={Link} 
+                    to="/create-model"
+                    icon="world"
+                    name='create_model'
+                    active={this.props.currentPage === 'create_model'} 
+                    onClick={this.handleItemClick}/>
+
+                {/* <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%"}}>
                     <Input disabled icon='search' placeholder='Search...' />
-                </Menu.Item>
+                </Menu.Item> */}
 
                 <Menu.Menu position='right'>
                     <Menu.Item as={Link} onClick={this.handleLogout.bind(this)} icon="log out" to="#" name='logout' />

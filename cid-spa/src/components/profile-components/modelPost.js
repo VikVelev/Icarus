@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment } from 'semantic-ui-react'
+import { Item, Segment, Button } from 'semantic-ui-react'
 
 import Canvas3D from '../viewport/canvas3d.js'
 
@@ -40,6 +40,7 @@ export default class ModelPost extends Component {
                         <Item.Meta as='p'>Created by {<a>{this.props.owners[0]}</a>}</Item.Meta>
                         <Item.Meta as='p'>{this.props.date_uploaded}</Item.Meta>
                     </Item.Content>
+                    <Button className="addContrib" color="blue">Add commit</Button>
                 </Item>
                 {this.mountCanvas()}
             </div>

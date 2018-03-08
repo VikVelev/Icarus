@@ -129,7 +129,6 @@ class Model3DSerializer(serializers.ModelSerializer):
         model = Model3D
         fields = (
             'id',
-            'filename',
             'title',
             'owners',
             'date_uploaded',

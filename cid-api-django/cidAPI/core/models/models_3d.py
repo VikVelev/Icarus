@@ -7,7 +7,6 @@ User = get_user_model()
 from .user import Profile
 
 class Model3D(models.Model):
-    filename = models.FileField()
     title = models.CharField(max_length=64)
     # Many models many owners, seems reasonable to me
     owners = models.ManyToManyField(User, related_name='owners')

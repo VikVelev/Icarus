@@ -2,6 +2,9 @@ import axios from 'axios'
 
 var url = "http://localhost:8000"
 
+//TODO Find a smarter way to get Headers in there.
+
+
 export function fetch3DModels(id, token){
     return function(dispatch) {
         dispatch({type: "FETCH_MODELS"})
@@ -65,10 +68,20 @@ export function fetchUserData(id, token) {
     }
 }
 
-export function setUserData(id, userData){
+//FIXME COMPLETE BULSHIT FIX PLS
+export function setUserData(id, userData, token){
     return function(dispatch) {
         dispatch({ type: "SET_USER_DATA" })
-        axios.post(url + "/api/user/" + id + "/").then((response) => {
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token
+            },
+        })
+        saxios.patch(url + "/api/user/" + id + "/", {
+            data: {
+                ...userData,
+            },
+        }).then((response) => {
             dispatch({ type: "SET_USER_DATA_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "SET_USER_DATA_REJECTED", payload: error })          

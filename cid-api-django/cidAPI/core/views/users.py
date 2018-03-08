@@ -23,11 +23,11 @@ class Users(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer  
-    permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
 
 class ListAllUsers(generics.ListAPIView):
 
-    permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

@@ -189,11 +189,11 @@ body {
     height: auto;
 }
 
-.userContainer, .settingsContainer {
+.userContainer, .settingsContainer, .addPostContainer {
     height: auto;
-    margin-top: 5px;
-    margin-left: 20%;
-    margin-right: 20%;  
+    margin-top: 5px !important;
+    margin-left: 20% !important;
+    margin-right: 20% !important;  
 }
 
 .profileSettingsImage {
@@ -206,4 +206,37 @@ body {
     font-size: 1.3em !important;
     height: 60px;
     margin: auto !important;
+}
+
+.profileSettingsForm>.ui.large.form>.ui.stacked.segment {
+    border: 0 !important;
+    box-shadow: unset !important;
+
+}
+
+.profileSettingsForm>.ui.large.form>.ui.stacked.segment::after {
+    content: none;
+}
+
+.addContrib {
+    margin:auto !important;
+    margin-right: 10px !important;
+    right: 0 !important;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-upload {
+    background-color: #2185d0;
+    color: #fff;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.file-upload:hover {
+    background-color: #0e65a7;    
 }
