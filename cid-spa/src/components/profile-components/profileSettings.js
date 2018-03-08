@@ -53,17 +53,20 @@ export default class ProfileSettings extends Component {
         console.log()
 
         const formData = new FormData();
-
+        
         formData.append('email', email)
         formData.append('first_name', first_name)
         formData.append('last_name', last_name)
         formData.append('profile.country', country)
         formData.append('profile.birth_date', birth_date)
-        formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
-        formData.append('description', birth_date)                       
         
-        
-        console.log(formData)
+
+        if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
+            console.log("lol")
+            formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
+        }
+
+        formData.append('profile.description', description)                       
 
         this.props.dispatch(setUserData(
             this.props.user.currentlyLoggedUser.username.id,

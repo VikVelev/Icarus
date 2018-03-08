@@ -22,7 +22,6 @@ class RegisterForm extends Component {
             password2: "",
             agreed: false,
 		}
-
     }
 
     handleErrors(type) {

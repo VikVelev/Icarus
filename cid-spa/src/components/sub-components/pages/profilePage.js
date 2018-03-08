@@ -50,8 +50,8 @@ export default class Profile extends Component {
                             <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
                         </div>
                         <div className="profileDetails">
-                            <Header size="huge">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name}</Header>
-                            <Header size="medium">@{this.props.profile.userData.username}</Header>                   
+                            <Header size="huge">{this.props.profile.userData.username}</Header>
+                            <Header size="medium">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name}</Header>                   
                             {this.props.profile.userData.profile.description}
                         </div>
                     </Segment>

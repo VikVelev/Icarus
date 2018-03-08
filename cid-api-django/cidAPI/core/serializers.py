@@ -81,18 +81,24 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
-        print("data:",validated_data)
-        instance.profile_data = validated_data.pop('profile')
+            instance.profile_data = validated_data.pop('profile')
+            serializer = ProfileSerializer(Profile.objects.get(pk=instance.id), data=instance.profile_data)
+            
+            # serializer = self.get_serializer(ProfileSerializer, data=instance.profile_data, partial=True)
+            
+            serializer.is_valid()
 
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.email = validated_data.get('email', instance.email)
-        Profile.objects.filter(pk=instance.id).update(user=instance, **instance.profile_data)
+            print(instance.profile_data)
+            instance.first_name = validated_data.get('first_name', instance.first_name)
+            instance.last_name = validated_data.get('last_name', instance.last_name)
+            instance.email = validated_data.get('email', instance.email)
+            # Profile.objects.filter(pk=instance.id).update(user=instance, **instance.profile_data)
 
-        instance.save()
+            instance.save()
+            serializer.save()
 
-        return instance
-        
+            return instance
+
 ### End of User Serializers
 
 #### 3D model serializers
