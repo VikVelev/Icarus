@@ -91,6 +91,7 @@ class RegisterForm extends Component {
 									value={this.state.password}
 									onChange={this.handleChange}
                                     iconPosition='left'
+                                    type='password'                                    
                                     placeholder='Enter password'
                                 />
                                 {this.handleErrors("password")}                                 

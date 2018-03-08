@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-var url = "http://localhost:8000"
+var url = "http://cid-platform.myddns.me:8000"
 
 export function fetchTrendingPosts(token){
     return function(dispatch) {

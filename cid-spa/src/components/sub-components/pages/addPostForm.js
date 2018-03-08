@@ -10,7 +10,7 @@ export default class AddPost extends Component{
         return (
             <Segment className="addPostContainer profileSettingsForm">
             <Header size="huge">Add post</Header>
-                <Form size='large' onSubmit={this.handleSubmit}>
+                <Form size='large' name="add_model" onSubmit={this.handleSubmit}>
                     <Segment stacked>
                         <Header>Title:</Header>
                         <Form.Input
@@ -21,7 +21,7 @@ export default class AddPost extends Component{
                         <Header>Select a 3D Model:</Header>                    
                         <Select placeholder='Select a 3D Model' options={[{key: "1", value:"nc", text:"nice"}]} />
                         <Header>Select a thumbnail:</Header>                                                
-                        <UploadButton/>
+                        <UploadButton form="add_model"/>
                         <Header>Description:</Header>                                    
                         <textarea rows='5' cols='50' style={{
                             minHeight: '100px',
@@ -38,9 +38,9 @@ export default class AddPost extends Component{
     }
 }
 
-const UploadButton = () => (
+export const UploadButton = (props) => (
     <div>
-        <label for="file-upload" class="file-upload">
+        <label for="file-upload" className="file-upload">
             <i className="fa fa-cloud-upload"></i> Upload picture
             </label>
         <input id="file-upload" type="file"/>

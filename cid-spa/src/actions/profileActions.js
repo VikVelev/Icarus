@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-var url = "http://localhost:8000"
+var url = "http://cid-platform.myddns.me:8000"
 
 //TODO Find a smarter way to get Headers in there.
 
@@ -74,14 +74,12 @@ export function setUserData(id, userData, token){
         dispatch({ type: "SET_USER_DATA" })
         var saxios = axios.create({
             headers: {
-                'Authorization': 'Token ' + token
+                'Authorization': 'Token ' + token,
+                'Content-Type': 'multipart/form-data'
             },
         })
-        saxios.patch(url + "/api/user/" + id + "/", {
-            data: {
-                ...userData,
-            },
-        }).then((response) => {
+        console.log(userData)
+        saxios.patch(url + "/api/user/" + id + "/", userData).then((response) => {
             dispatch({ type: "SET_USER_DATA_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "SET_USER_DATA_REJECTED", payload: error })          

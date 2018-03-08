@@ -1,7 +1,7 @@
 import axios from "axios"
 import { changePages } from './pageActions.js'
 
-var url = "http://localhost:8000"
+var url = "http://cid-platform.myddns.me:8000"
 
 export function fetchAllUsers(token) {
     return function(dispatch) {

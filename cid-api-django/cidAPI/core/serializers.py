@@ -81,13 +81,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
+        print("data:",validated_data)
         instance.profile_data = validated_data.pop('profile')
 
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.email = validated_data.get('email', instance.email)
         Profile.objects.filter(pk=instance.id).update(user=instance, **instance.profile_data)
-
 
         instance.save()
 
