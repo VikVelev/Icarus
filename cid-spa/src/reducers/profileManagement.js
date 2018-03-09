@@ -108,6 +108,7 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 userData: action.payload,
+                error: {},
                 fetched: true, 
                 fetching: false, 
             } 

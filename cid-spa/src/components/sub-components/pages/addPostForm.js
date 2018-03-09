@@ -23,13 +23,7 @@ export default class AddPost extends Component{
                         <Header>Select a thumbnail:</Header>                                                
                         <UploadButton form="add_model"/>
                         <Header>Description:</Header>                                    
-                        <textarea rows='5' cols='50' style={{
-                            minHeight: '100px',
-                            maxHeight: '500px',                       
-                            minWidth: '100%', 
-                            maxWidth: '100%' 
-                        }} name="description"
-                        placeholder="Write a description"/>
+                        <textarea id="description" rows='5' cols='50' name="description" placeholder="Write a description"/>
                     </Segment>
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Add post</Button>
                 </Form>
@@ -40,9 +34,9 @@ export default class AddPost extends Component{
 
 export const UploadButton = (props) => (
     <div>
-        <label for="file-upload" className="file-upload">
+        <label htmlFor="file-upload" className="file-upload">
             <i className="fa fa-cloud-upload"></i> Upload picture
-            </label>
+        </label>
         <input id="file-upload" type="file"/>
     </div>
 )

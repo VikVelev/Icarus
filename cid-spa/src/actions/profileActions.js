@@ -78,11 +78,10 @@ export function setUserData(id, userData, token){
                 'Content-Type': 'multipart/form-data'
             },
         })
-        console.log(userData)
         saxios.patch(url + "/api/user/" + id + "/", userData).then((response) => {
             dispatch({ type: "SET_USER_DATA_FULFILLED", payload: response.data })
         }).catch((error) => {
-            dispatch({ type: "SET_USER_DATA_REJECTED", payload: error })          
+            dispatch({ type: "SET_USER_DATA_REJECTED", payload: error.response })          
         })
     }
 } 

@@ -197,8 +197,9 @@ body {
 }
 
 .profileSettingsImage {
-    height: 300px;
-    width: 300px;
+    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
 }
 
 .submitButton {
@@ -211,7 +212,6 @@ body {
 .profileSettingsForm>.ui.large.form>.ui.stacked.segment {
     border: 0 !important;
     box-shadow: unset !important;
-
 }
 
 .profileSettingsForm>.ui.large.form>.ui.stacked.segment::after {
@@ -240,3 +240,11 @@ input[type="file"] {
 .file-upload:hover {
     background-color: #0e65a7;    
 }
+
+#description {
+    min-height: 100px;
+    max-height: 500px;                     
+    min-width: 100%;
+    max-width: 100%; 
+}
+

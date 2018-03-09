@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Image, Header, Icon, Form, /*Message,*/ Button } from 'semantic-ui-react'
+import { Segment, Image, Header, Icon, Form, Message, Button } from 'semantic-ui-react'
 
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
 import { fetchUserData, setUserData } from '../../actions/profileActions.js'
@@ -21,6 +21,7 @@ export default class ProfileSettings extends Component {
         super(props)
         this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
         this.state = {
+            success: false,
             profile: false,
             first_name: "",
             last_name: "", 
@@ -33,12 +34,15 @@ export default class ProfileSettings extends Component {
     }
 
     handleChange = (e, { name, value}) => {
-        console.log([name],value)
         this.setState({ [name]: value })
-	}
+    }
+    
+    renderSuccess() {
+        return(<Message success attached="bottom" style={{ display: "block" }}> Your profile was updated successfully. </Message>)
+    }
 
     handleSubmit = () => {
-        const { username, first_name, last_name, email, country, profile_picture, birth_date, description } = this.state
+        const { first_name, last_name, email, country, profile_picture, birth_date, description } = this.state
         //check for custom validation here
         this.setState({
             first_name: first_name,
@@ -50,7 +54,6 @@ export default class ProfileSettings extends Component {
             description: description,
         })
         // FIXME COMPLETE UTTETR BULSHIT
-        console.log()
 
         const formData = new FormData();
         
@@ -62,7 +65,6 @@ export default class ProfileSettings extends Component {
         
 
         if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
-            console.log("lol")
             formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
         }
 
@@ -72,9 +74,20 @@ export default class ProfileSettings extends Component {
             this.props.user.currentlyLoggedUser.username.id,
             formData,
             this.props.user.currentlyLoggedUser.username.token
-        ))
+        ))    
     }
 
+    handleErrors(type) {
+        if (this.props.profile.error.data !== undefined) {
+            if (this.props.profile.error.data[type] !== undefined) {
+                return (
+                    <Message attached="bottom" color="red">
+                        {this.props.profile.error.data[type]}
+                    </Message>
+                )
+            }
+        }
+	}
     
     renderProfile() {
         this.setState({ profile: !this.state.settings })
@@ -85,7 +98,8 @@ export default class ProfileSettings extends Component {
             if (this.props.profile.userData.profile !== undefined ) {
                 if (this.state.email === "") {
                     this.state = {...this.props.profile.userData, ...this.props.profile.userData.profile, profile: false}
-                    
+
+
                     if(this.state.country === null) {
                         this.state.country = ""
                     }
@@ -128,7 +142,7 @@ export default class ProfileSettings extends Component {
                                         type="file"
                                         onChange={this.handleChange} 
                                     />
-                                           
+                                    
                                     <Form.Input
                                             fluid
                                             icon='user'
@@ -137,7 +151,7 @@ export default class ProfileSettings extends Component {
                                             onChange={this.handleChange}
                                             iconPosition='left'
                                             placeholder='Enter first name'
-                                        />
+                                    />
 
                                     <Form.Input
                                         fluid
@@ -147,18 +161,21 @@ export default class ProfileSettings extends Component {
                                         onChange={this.handleChange}
                                         iconPosition='left'
                                         placeholder='Enter last name'
-                                    />
+                                        />
 
+                                    
                                     <Form.Input
                                         fluid
                                         icon='at'
                                         name="email"
+                                        error={this.handleErrors("email") !== undefined}
                                         value={this.state.email}
                                         onChange={this.handleChange}
                                         iconPosition='left'
                                         placeholder='Enter e-mail'
                                     />                                
-                        
+                                    {this.handleErrors("email")}
+
                                     <Form.Input
                                         fluid
                                         icon='world'
@@ -175,11 +192,13 @@ export default class ProfileSettings extends Component {
                                         icon='clock'
                                         iconPosition='left'                                                                   
                                         name="birth_date"
+                                        error={this.handleErrors("birth_date") !== undefined}
                                         value={this.state.birth_date}
                                         onChange={this.handleChange}
                                         placeholder='Birth date'
                                         type='datetime'
                                     />
+                                    {this.handleErrors("birth_date")}
 
                                     <Form.Input
                                         fluid
@@ -190,11 +209,15 @@ export default class ProfileSettings extends Component {
                                         onChange={this.handleChange}                                            
                                         value={this.state.description}                                            
                                         placeholder="Write your description..."
-                                    />                         
+                                    /> 
+
+                                    {this.state.success ? this.renderSuccess() : null}              
+                                    
                                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Save changes</Button>
                                 </Form>
                             </div>
                         </Segment>
+
                         <div className="settings_button" onClick={this.renderProfile.bind(this)}>
                             <Icon size='big' name='user'></Icon>
                         </div>
