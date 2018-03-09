@@ -110,7 +110,7 @@ export default class Add3DModel extends Component{
                             </div>
                         : null}
                         </div>
-                        
+                        {/*TODO VALIDATION*/}
                     </Segment>
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Create</Button>
                 </Form>

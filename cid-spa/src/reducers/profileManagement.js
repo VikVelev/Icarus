@@ -17,6 +17,8 @@ let defaultState = {}
         contributions: {},
         currentModel: {},
         error: {},
+        commitFetched: false,
+        modelFetched: false,
         fetching: false,
         fetched: false,
     }
@@ -149,14 +151,14 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_MODEL_FULFILLED":               
             return {
                 ...state,
-                fetched: true,            
+                modelFetched: true,       
                 fetching: false, 
             } 
         case "ADD_MODEL_REJECTED":
             return {
                 ...state,
                 error: action.payload,
-                fetching: false,  
+                modelFetched: false, 
                 fetched: false,
             } 
         case "DELETE_MODEL_FULFILLED":               
@@ -175,13 +177,14 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_COMMIT_FULFILLED":                       
             return {
                 ...state,
-                fetched: false,                
+                commitFetched: true,               
                 fetching: false, 
             } 
         case "ADD_COMMIT_REJECTED":
             return {
                 ...state,
                 error: action.payload,
+                commitFetched: false,                
                 fetching: false, 
                 fetched: false,    
             }

@@ -134,7 +134,7 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
         saxios.post(url + "/api/user/" + id + "/3d-models/", modelData).then((response) => {
             dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })
             if (initialCommit) {
-                console.log(commitData)
+                commitData.append("belongs_to_model", response.data.id)
                 dispatch(addCommit(id, commitData, token))
             }
         }).catch((error) => {

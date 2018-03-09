@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Item, Segment } from 'semantic-ui-react'
 
+import * as moment from 'moment'
+
 import Canvas3D from '../viewport/canvas3d.js'
 import { getModelbyID } from '../../actions/profileActions.js';
 import { connect } from 'react-redux';
@@ -43,6 +45,7 @@ export default class Post extends Component {
     }
 
     render(){
+        this.date_posted = moment(this.props.date_posted)._d.toString().substring(0, moment(this.props.date_posted)._d.toString().length - 14)        
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
@@ -53,7 +56,7 @@ export default class Post extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>Posted by {<a>{this.props.posted_by}</a>}</Item.Meta>
-                        <Item.Meta as='p'>{this.props.date_posted}</Item.Meta>
+                        <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
                             <p>{this.props.description}</p>
                         </Item.Description>

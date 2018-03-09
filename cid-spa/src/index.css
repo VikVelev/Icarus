@@ -248,3 +248,8 @@ input[type="file"] {
     max-width: 100%; 
 }
 
+.ui.modal.transition.visible.active {
+    margin-top: 5% !important;
+    margin: auto;
+    height: auto;
+}

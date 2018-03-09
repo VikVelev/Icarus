@@ -52,6 +52,13 @@ export default class Canvas3D extends Component {
         this.viewport.render();
     }
 
+    linkCheck(url){
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        return http.status !== 404;
+    }
+
     onWindowResize() {
         this.viewport.onResize();
     }
@@ -66,27 +73,41 @@ export default class Canvas3D extends Component {
 
         this.texLoader.setPath(this.modelPath)
         this.loader.setPath(this.modelPath)
-        console.log(this.texturePath)
         
-        this.texLoader.load(
-            this.textureName,
-            (function ( materials ) {
+        console.log(this.texturePath)
+        if(this.linkCheck(this.modelPath + this.textureName)){
 
-                materials.preload();
-                this.loader.setMaterials(materials);
-                this.loader.load(this.meshName, (function ( object ) {
+            this.texLoader.load(
+                this.textureName,
+                (function ( materials ) {
+    
+                    materials.preload();
+                    this.loader.setMaterials(materials);
+                    this.loader.load(this.meshName, (function ( object ) {
+    
+                        this.model3D = new Model3D ( object )
+                        this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
+                        this.viewport.init()
+                        this.onWindowResize()
+                        this.animate()
+    
+                    }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
+    
+                }).bind(this)
+            );
+        } else {
+            this.loader.load(this.meshName, (function ( object ) {
+    
+                this.model3D = new Model3D ( object )
+                this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
+                this.viewport.init()
+                this.onWindowResize()
+                this.animate()
 
-                    this.model3D = new Model3D ( object )
-                    this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
-                    this.viewport.init()
-                    this.onWindowResize()
-                    this.animate()
-
-                }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
-
-            }).bind(this)
-        );
+            }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
+        }
     }
+        
 
     onProgress( xhr ){       
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
