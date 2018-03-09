@@ -23,7 +23,6 @@ class Contributions(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print(request.data, kwargs)
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):

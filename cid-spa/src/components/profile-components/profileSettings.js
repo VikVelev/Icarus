@@ -43,7 +43,7 @@ export default class ProfileSettings extends Component {
 
     handleSubmit = () => {
         const { first_name, last_name, email, country, profile_picture, birth_date, description } = this.state
-        //check for custom validation here
+        
         this.setState({
             first_name: first_name,
             last_name: last_name, 
@@ -53,7 +53,6 @@ export default class ProfileSettings extends Component {
             birth_date: birth_date,
             description: description,
         })
-        // FIXME COMPLETE UTTETR BULSHIT
 
         const formData = new FormData();
         
@@ -79,10 +78,10 @@ export default class ProfileSettings extends Component {
 
     handleErrors(type) {
         if (this.props.profile.error.data !== undefined) {
-            if (this.props.profile.error.data[type] !== undefined) {
+            if (this.props.profile.error.data[type] !== undefined || this.props.profile.error.data.profile[type] !== undefined) {
                 return (
                     <Message attached="bottom" color="red">
-                        {this.props.profile.error.data[type]}
+                        {this.props.profile.error.data[type] ? this.props.profile.error.data[type] : this.props.profile.error.data.profile[type] }
                     </Message>
                 )
             }
@@ -97,32 +96,33 @@ export default class ProfileSettings extends Component {
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
                 if (this.state.email === "") {
-                    this.state = {...this.props.profile.userData, ...this.props.profile.userData.profile, profile: false}
-
-
-                    if(this.state.country === null) {
-                        this.state.country = ""
+                    var state = {...this.props.profile.userData, ...this.props.profile.userData.profile, profile: false}
+                    
+                    if(state.country === null) {
+                        state.country = ""
                     }
                     
-                    if(this.state.first_name === null) {
-                        this.state.first_name = ""
+                    if(state.first_name === null) {
+                        state.first_name = ""
                     }
 
-                    if(this.state.last_name === null) {
-                        this.state.last_name = ""
+                    if(state.last_name === null) {
+                        state.last_name = ""
                     }
 
-                    if(this.state.birth_date === null) {
-                        this.state.birth_date = ""
+                    if(state.birth_date === null) {
+                        state.birth_date = ""
                     }
 
-                    if(this.state.description === null) {
-                        this.state.description = ""
+                    if(state.description === null) {
+                        state.description = ""
                     }
 
-                    if(this.state.profile_picture === null) {
-                        this.state.profile_picture = ""
+                    if(state.profile_picture === null) {
+                        state.profile_picture = ""
                     }
+
+                    this.state = state
                 }
                 return(
                     <Segment color="blue">

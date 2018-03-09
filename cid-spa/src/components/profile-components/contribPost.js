@@ -32,10 +32,6 @@ export default class ContribPost extends Component {
         return(
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
-                    <Item.Image size='small' src={this.props.image} style={{
-                        padding: '20px'    
-                    }} />
-
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.props.date}</Item.Meta>

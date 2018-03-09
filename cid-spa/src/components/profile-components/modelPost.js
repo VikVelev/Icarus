@@ -31,10 +31,6 @@ export default class ModelPost extends Component {
         return(
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
-                    <Item.Image size='small' src={this.props.image} style={{
-                        padding: '20px'    
-                    }} />
-
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>Created by {<a>{this.props.owners[0]}</a>}</Item.Meta>

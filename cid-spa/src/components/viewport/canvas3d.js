@@ -23,13 +23,24 @@ export default class Canvas3D extends Component {
         super(props)
         //TODO Fix this
         typeof(this.props.canvasId) ? this.canvasId = Math.round(Math.random()*100) : this.canvasId = this.props.canvasId
-        this.meshPath = this.props.modelName + ".obj"
-        this.texturePath = this.props.modelName + ".mtl"
+
+        this.corePath = this.props.modelPath.substring(0, this.props.modelPath.length - 4)
+        
+        var path = this.corePath.split("/");
+        this.modelName = path.pop()
+
+        this.modelPath = path.join("/") + "/"; //CORE
+        this.texturePath = this.modelPath
+        
+        this.meshName = this.modelName + ".obj"
+        this.textureName = this.modelName + ".mtl"
+        
+        console.log(this.meshPath, this.modelPath)
 
         //Make this dynamic
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
-     
+        
         this.state = {
             loading: true,
             precent: 0,
@@ -48,22 +59,22 @@ export default class Canvas3D extends Component {
     componentDidMount(){
 
         this.props.dispatch({type: "RENDERING_CANVAS3D"})
-        //FIX THE COMPONENT MOUNTING SO ONLY ONE COMPONENT SHOULD BE MOUNTED AT A TIME
+        
         this.rootElement = document.getElementById(this.canvasId)
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
-        this.texLoader.setPath(this.props.modelPath)
-        this.loader.setPath(this.props.modelPath)
+        this.texLoader.setPath(this.modelPath)
+        this.loader.setPath(this.modelPath)
+        console.log(this.texturePath)
         
         this.texLoader.load(
-            this.texturePath,
+            this.textureName,
             (function ( materials ) {
 
                 materials.preload();
                 this.loader.setMaterials(materials);
-
-                this.loader.load(this.meshPath, (function ( object ) {
+                this.loader.load(this.meshName, (function ( object ) {
 
                     this.model3D = new Model3D ( object )
                     this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )

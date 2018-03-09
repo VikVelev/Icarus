@@ -10,7 +10,7 @@ import TrendingFeed from './sub-components/pages/trendingFeed.js';
 import Profile from './sub-components/pages/profilePage.js'
 import ProfileSettings from './profile-components/profileSettings.js'
 import AddPost from './sub-components/pages/addPostForm.js'
-import Upload from './sub-components/upload.js'
+import Add3DModel from './sub-components/pages/add3DModelForm.js'
 
 import{ LoginForm } from './sub-components/pages/loginForm.js';
 import RegisterForm from './sub-components/pages/registerForm.js';
@@ -73,7 +73,7 @@ export default class Content extends Component {
             </Router>
         );
     }
-    
+
     routes = {
         Home: () => ( this.props.user.logged ? <Feed/> : <HomePage/> ),
         Login: () =>  ( this.props.user.logged ? <Redirect to="/"/> : <LoginForm/> ),
@@ -81,7 +81,7 @@ export default class Content extends Component {
         Trending: () => ( this.props.user.logged ? <TrendingFeed/> : <Redirect to="login"/> ),
         MyProfile: () => ( this.props.user.logged ? <Profile/> : <Redirect to="login"/> ),
         ProfileSettings: () => ( this.props.user.logged ? <ProfileSettings/> : <Redirect to="login"/> ),
-        Upload: () => ( this.props.user.logged ? <Upload/> : <Redirect to="login"/> ),
+        Upload: () => ( this.props.user.logged ? <Add3DModel/> : <Redirect to="login"/> ),
         CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="login"/> ),
         // TODO: IMPLEMENT THIS
         //Profile: () => ( loggedIn ? <Profile loggedUser={state.id}/> : <LoginForm message="You are not logged in"/> )

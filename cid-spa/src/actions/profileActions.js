@@ -85,3 +85,78 @@ export function setUserData(id, userData, token){
         })
     }
 } 
+
+export function addPost(id, userData, token) {
+    return function(dispatch) {
+        dispatch({ type: "ADD_POST" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        saxios.patch(url + "/api/user/" + id + "/", userData).then((response) => {
+            dispatch({ type: "ADD_POST_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "ADD_POST_REJECTED", payload: error.response })          
+        })
+        
+    }
+}
+
+export function getModelbyID(id, token){
+    return function(dispatch) {
+        dispatch({ type: "GET_MODEL_BY_ID" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        saxios.get(url + "/api/3d-models/?id=" + id).then((response) => {
+            dispatch({ type: "GET_MODEL_BY_ID_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "GET_MODEL_BY_ID_REJECTED", payload: error })          
+        })
+        
+    }
+}
+
+export function add3DModel(id, token, modelData, initialCommit, commitData) {
+    return function(dispatch) {
+        dispatch({ type: "ADD_MODEL" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        saxios.post(url + "/api/user/" + id + "/3d-models/", modelData).then((response) => {
+            dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })
+            if (initialCommit) {
+                console.log(commitData)
+                dispatch(addCommit(id, commitData, token))
+            }
+        }).catch((error) => {
+            dispatch({ type: "ADD_MODEL_REJECTED", payload: error })          
+        })
+        
+    }
+}
+
+export function addCommit(id, commitData, token) {
+    return function(dispatch) {
+        dispatch({ type: "ADD_COMMIT" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        saxios.post(url + "/api/user/" + id + "/contributions/", commitData).then((response) => {
+            dispatch({ type: "ADD_COMMIT_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "ADD_COMMIT_REJECTED", payload: error })          
+        })
+    }
+}

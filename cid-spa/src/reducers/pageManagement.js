@@ -2,6 +2,7 @@ let defaultState = {
     currentPage: "",
     subPage: "",
     canvasRendering: false,
+    currentModel: {},
 }
 
 //const myStorage = window.localStorage
@@ -27,6 +28,21 @@ const pageManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 canvasRendering: false,
+                //currentModel: {},
+            }
+        case "GET_MODEL_BY_ID_FULFILLED":
+            return {
+                ...state,
+                currentModel: action.payload,
+                fetching: false, 
+                fetched: false,    
+            }
+        case "GET_MODEL_BY_ID_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false, 
+                fetched: false,    
             }
         default: 
             return state

@@ -225,7 +225,7 @@ const HomepageLayout = () => (
 			<Grid.Row textAlign='center'>
 
 		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-					<Header as='h3' style={{ fontSize: '2em' }}>"Untitled000001a.obj"</Header>
+					<Header as='h3' style={{ fontSize: '2em' }}>"MyProject000001a.obj"</Header>
 					<p style={{ fontSize: '1.33em' }}>We've experienced it too.</p>
 		  		</Grid.Column>
 
@@ -249,7 +249,7 @@ const HomepageLayout = () => (
 	<Segment style={{ height: "600px"}} vertical id="demo">
 		{/*always end the modelPath with a slash*/}
 		<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
-			<Canvas3D modelPath="/models/aventador/" modelName="Avent"/>
+			<Canvas3D modelPath="/models/aventador/Avent.obj"/>
 		</Visibility>
 	</Segment>
 	

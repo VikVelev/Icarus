@@ -43,7 +43,6 @@ class RegisterForm extends Component {
     handleSubmit = () => {
         const { username, email, password, password2 } = this.state
         //check for custom validation here
-        this.setState({ name: username, email: email, password: password, password2: password2 })
         this.props.dispatch(register(username, email, password, password2))
     }
 

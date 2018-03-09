@@ -28,6 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+
     comments = CommentSerializer(many=True, read_only=True)
     date_posted = serializers.DateTimeField(read_only=True)
     
@@ -112,14 +113,11 @@ class CommitSerializer(serializers.ModelSerializer):
         fields = (
             'title',
             'belongs_to_model',
-            'old_version',
             'new_version',
             'commited_by',
             'details',
             'date',
         )
-
-from django.contrib.auth import get_user_model
 
 class Model3DSerializer(serializers.ModelSerializer):
 
@@ -137,9 +135,9 @@ class Model3DSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'owners',
+            'description',
             'date_uploaded',
             'favorited_by',
-            'polygons',
             'commits'
         )
 

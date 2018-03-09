@@ -2,28 +2,43 @@ import React, { Component } from 'react'
 import { Item, Segment } from 'semantic-ui-react'
 
 import Canvas3D from '../viewport/canvas3d.js'
+import { getModelbyID } from '../../actions/profileActions.js';
+import { connect } from 'react-redux';
 
+@connect((store) => {
+    return {
+        profile: store.profileManagement,
+        page: store.pageManagement,
+        user: store.userManagement,
+    }
+})
 export default class Post extends Component {
     constructor(props){
         super(props)
+        this.props.dispatch(getModelbyID(this.props.content, this.props.user.currentlyLoggedUser.username.token))        
         this.state = {
             rendering: false,
         }
     }
     
     mountCanvas = () => {
-        if (this.state.rendearing){
-            return(
-                <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.content.modelPath} modelName={this.props.content.modelName}/>
-                </Segment>
-            )
+        if (this.state.rendering){
+            if(this.props.page.currentModel !== undefined){
+                    return(
+                        <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
+                            <Canvas3D modelPath={this.props.page.currentModel[0].commits[0].new_version}/>
+                        </Segment>
+                    )
+                } else {
+                    return null
+                }
         } else {
             return null
         }
     }
 
     clickHandler() {
+        console.log(this.state)
         this.setState({ rendering: !this.state.rendering })
     }
 

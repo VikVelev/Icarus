@@ -15,6 +15,7 @@ let defaultState = {}
         posts: {},
         favorites: {},
         contributions: {},
+        currentModel: {},
         error: {},
         fetching: false,
         fetched: false,
@@ -119,7 +120,7 @@ const profileManagement = (state=defaultState, action) => {
                 fetching: false,  
                 fetched: false,
             } 
-        case "ADD_POST_FULFILLED":                                
+        case "ADD_POST_FULFILLED":                             
             return {
                 ...state,
                 fetched: true,                
@@ -183,7 +184,7 @@ const profileManagement = (state=defaultState, action) => {
                 error: action.payload,
                 fetching: false, 
                 fetched: false,    
-            } 
+            }
         default:
             return state;                       
     }

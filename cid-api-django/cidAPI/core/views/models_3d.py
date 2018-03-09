@@ -13,12 +13,21 @@ import pprint
 import mimetypes
 
 class ListAllModels3D(generics.ListAPIView):
-    queryset = Model3D.objects.all()
+
     serializer_class = Model3DSerializer
 
+    def get_queryset(self):
+        queryset = Model3D.objects.all()
+        model_id = self.request.query_params.get('id', None)
+
+        if model_id is not None:
+            queryset = queryset.filter(pk=model_id)
+
+        return queryset
+
 class Models3D(mixins.ListModelMixin,
-                  mixins.CreateModelMixin,
-                  generics.GenericAPIView):
+                mixins.CreateModelMixin,
+                generics.GenericAPIView):
     serializer_class = Model3DSerializer
     def get_queryset(self):
         user_pk = self.kwargs["pk"]
@@ -28,7 +37,6 @@ class Models3D(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print(request.data, kwargs)
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -42,6 +50,5 @@ class CommitFile(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         model_id = self.kwargs["pk"]
         file = Commit.objects.get(id=model_id).old_version
-        print(file)
         file_mime = mimetypes.guess_type(str(file))
         return FileResponse(file, content_type=file_mime[0])
