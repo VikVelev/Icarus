@@ -12,11 +12,12 @@ export default class ContribPost extends Component {
     }
     
     mountCanvas = () => {
-        if (this.state.rendearing){
+        if (this.state.rendering){
+            console.log(this.props)
             return(
                 //RETURN COMMIT DIFF Canvas with the same camera controls
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.filename} modelName={this.props.content.modelName}/>
+                    <Canvas3D modelPath={this.props.new_version}/>
                 </Segment>
             )
         } else {
