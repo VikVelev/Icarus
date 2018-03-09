@@ -105,7 +105,7 @@ export default class Add3DModel extends Component{
                                 <label htmlFor="file-upload" className="file-upload">
                                     Choose a model
                                 </label>
-                                <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} />
+                                <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj"  />
                                 <Message color="yellow">Currently supporting only .obj models.</Message>
                             </div>
                         : null}
