@@ -110,6 +110,10 @@ export default class Add3DModel extends Component{
                             </div>
                         : null}
                         </div>
+                        {this.props.profile.error.response !== undefined ? <Message color="red" > Error </Message> : null }
+                        {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                            
+                        {this.props.profile.modelFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
+                        
                         {/*TODO VALIDATION*/}
                     </Segment>
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Create</Button>

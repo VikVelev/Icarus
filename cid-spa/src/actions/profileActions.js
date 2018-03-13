@@ -95,7 +95,7 @@ export function addPost(id, userData, token) {
                 'Content-Type': 'multipart/form-data',
             },
         })
-        saxios.patch(url + "/api/user/" + id + "/", userData).then((response) => {
+        saxios.post(url + "/api/posts/", userData).then((response) => {
             dispatch({ type: "ADD_POST_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "ADD_POST_REJECTED", payload: error.response })          

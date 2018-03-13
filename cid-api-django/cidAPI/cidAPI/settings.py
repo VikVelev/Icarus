@@ -41,7 +41,8 @@ CORS_ORIGIN_WHITELIST = (
     '0.0.0.0:3000',
     '127.0.0.1:9000',
     'cid-platform.myddns.me:3000',
-    'cid-platform.myddns.me:8000'
+    'cid-platform.myddns.me:8000',
+    'cid-platform.myddns.me',    
 )
 
 # Application definition

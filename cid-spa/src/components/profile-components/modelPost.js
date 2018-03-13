@@ -19,7 +19,7 @@ export default class ModelPost extends Component {
         if (this.state.rendering){
             return(
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.commits[this.props.commits-1].new_version}/>
+                    <Canvas3D modelPath={this.props.commits[this.props.commits.length-1].new_version}/>
                 </Segment>
             )
         } else {
