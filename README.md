@@ -1,8 +1,7 @@
 # Currently hosted at: nowhere, currently working on it
 
 # How to run on your machine
-It is wrapped in a docker container. A minio docker will be added soon.
-Requires a build first. If you haven't built it before it will start automatically with 'up' but if you have and you just updated you should rebuild.
+It is wrapped in a docker container. Requires a build first. If you haven't built it before it will start automatically with 'up' but if you have and you just updated you should rebuild.
 
 ```bash
     git clone https://github.com/VikVelev/CiD-Platform
@@ -17,9 +16,13 @@ After that's done you should be able to run the container with:
 ```bash
     sudo docker-compose up
 ```
-The website + db should be up on 0.0.0.0:8000
+So to get this properly working locally on your machine you should also change the file in cid-api-django/cidAPI/cidAPI/settings.py.
+Just rename settings.local to just settings.
+
+The website + db + local minio storage should be up on 0.0.0.0:8000
 
 If you want to run the frontend only in developer mode:
+
 ```shell
     #After cloning the repository
     cd CiD-Platform/cid-spa
