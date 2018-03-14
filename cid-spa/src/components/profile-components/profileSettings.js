@@ -37,6 +37,15 @@ export default class ProfileSettings extends Component {
         this.setState({ [name]: value })
     }
     
+    renderProcessing() {
+        // TODO: Make a cool loading animation
+        return(
+            <Message info>
+                Processing...
+            </Message>
+        )
+    }
+
     renderSuccess() {
         return(<Message success attached="bottom" style={{ display: "block" }}> Your profile was updated successfully. </Message>)
     }
@@ -61,13 +70,11 @@ export default class ProfileSettings extends Component {
         formData.append('last_name', last_name)
         formData.append('profile.country', country)
         formData.append('profile.birth_date', birth_date)
-        
 
         if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
             formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
         }
-
-        formData.append('profile.description', description)                       
+        formData.append('profile.description', description)        
 
         this.props.dispatch(setUserData(
             this.props.user.currentlyLoggedUser.username.id,
@@ -81,7 +88,11 @@ export default class ProfileSettings extends Component {
             if (this.props.profile.error.data[type] !== undefined || this.props.profile.error.data.profile[type] !== undefined) {
                 return (
                     <Message attached="bottom" color="red">
-                        {this.props.profile.error.data[type] ? this.props.profile.error.data[type] : this.props.profile.error.data.profile[type] }
+                        {
+                            this.props.profile.error.data[type] ? 
+                            this.props.profile.error.data[type] : 
+                            this.props.profile.error.data.profile[type] 
+                        }
                     </Message>
                 )
             }
@@ -118,10 +129,6 @@ export default class ProfileSettings extends Component {
                         state.description = ""
                     }
 
-                    if(state.profile_picture === null) {
-                        state.profile_picture = ""
-                    }
-
                     this.state = state
                 }
                 return(
@@ -142,6 +149,7 @@ export default class ProfileSettings extends Component {
                                         type="file"
                                         onChange={this.handleChange} 
                                     />
+                                    {this.handleErrors("profile_picture")}
                                     
                                     <Form.Input
                                             fluid
@@ -211,7 +219,8 @@ export default class ProfileSettings extends Component {
                                         placeholder="Write your description..."
                                     /> 
 
-                                    {this.state.success ? this.renderSuccess() : null}              
+                                    {this.props.profile.userDataSet ? this.renderSuccess() : null}
+                                    {this.props.profile.fetching ? this.renderProcessing() : null}                                    
                                     
                                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Save changes</Button>
                                 </Form>

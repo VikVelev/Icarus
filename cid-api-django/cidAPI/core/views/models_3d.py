@@ -49,6 +49,6 @@ class Models3D(mixins.ListModelMixin,
 class CommitFile(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         model_id = self.kwargs["pk"]
-        file = Commit.objects.get(id=model_id).old_version
+        file = Commit.objects.get(id=model_id).new_version
         file_mime = mimetypes.guess_type(str(file))
         return FileResponse(file, content_type=file_mime[0])

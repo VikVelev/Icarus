@@ -13,14 +13,14 @@ import { fetchPersonalizedPosts } from '../../../actions/homeActions.js'
     }
 })
 export default class Feed extends Component {
-    
+
     constructor(props) {
         super(props);
         this.props.dispatch(fetchPersonalizedPosts(this.props.user.currentlyLoggedUser.username.token))
     }
 
     renderPost(object, i){
-        return (          
+        return (     
             <Segment  id={object.id} key={i} className="post-container">
                 <Post {...object}/>
             </Segment>

@@ -18,7 +18,7 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 # Gotta implement permissions so no one can edit everyone's posts
 
 class Posts(generics.RetrieveUpdateDestroyAPIView):
-    
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)    
     serializer_class = PostSerializer
 
     def get_queryset(self):

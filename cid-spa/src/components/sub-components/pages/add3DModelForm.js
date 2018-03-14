@@ -48,10 +48,10 @@ export default class Add3DModel extends Component{
 
             formDataCommit.append( "title", "Initial commit." )
             formDataCommit.append( "new_version", document.getElementById("file-upload").files[0] )
+            formDataCommit.appned( "new_textures", document.getElementById("textures-upload").files[0] )
             formDataCommit.append( "details", "Initial commit" )
         }
 
-        console.log(this.props.user.currentlyLoggedUser.username.token)
         this.props.dispatch(add3DModel(this.props.user.currentlyLoggedUser.username.id, 
                                         this.props.user.currentlyLoggedUser.username.token,
                                         formDataModel,
@@ -106,7 +106,13 @@ export default class Add3DModel extends Component{
                                     Choose a model
                                 </label>
                                 <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj"  />
-                                <Message color="yellow">Currently supporting only .obj models.</Message>
+                                
+                                <Header>Select textures</Header>
+                                <label htmlFor="texture-upload" className="file-upload">
+                                    Choose textures
+                                </label>
+                                <Form.Input type="file" id="textures-upload" name="textures" onChange={this.handleChange} accept=".mtl"  />
+                                <Message color="yellow">Currently supporting only .obj models and .mtl textures.</Message>
                             </div>
                         : null}
                         </div>

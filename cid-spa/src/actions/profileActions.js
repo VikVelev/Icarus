@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-var url = "http://cid-platform.myddns.me:8000"
+var url = "http://0.0.0.0:8000"
+
 
 //TODO Find a smarter way to get Headers in there.
 

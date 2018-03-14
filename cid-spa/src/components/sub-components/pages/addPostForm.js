@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Header, Form, /*Message,*/ Button, Select, Message } from 'semantic-ui-react'
+import { Segment, Header, Form, /*Message,*/ Button, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 
 import { addPost } from '../../../actions/profileActions.js'
@@ -27,7 +27,7 @@ export default class AddPost extends Component{
     handleChange = (e, { name, value }) => {
         
         if (name === "content") {
-            value = value.replace(/[^\d]/,'')
+            value = parseInt(value.replace(/[^\d]/,''), 10)
         }
         
         this.setState({ [name]: value })
@@ -40,7 +40,7 @@ export default class AddPost extends Component{
         formData.append("title", this.state.title)
         formData.append("image", document.getElementById("file-upload").files[0])               
         formData.append("description", this.state.description)
-        formData.append("content", parseInt(this.state.content))
+        formData.append("content", this.state.content)
         formData.append("is_relevant", this.state.is_relevant)
         formData.append("is_recent", this.state.is_recent)                                
 
@@ -83,18 +83,19 @@ export default class AddPost extends Component{
                         <Header>Description:</Header>  
 
                         <Form.Input 
-                                    type="text"
-                                    name="description" 
-                                    value={this.state.description}
-                                    onChange={this.handleChange}
-                                    id="description"
-                                    rows='5' 
-                                    cols='50' 
-                                    placeholder="Write a description"/>
+                            type="text"
+                            name="description" 
+                            value={this.state.description}
+                            onChange={this.handleChange}
+                            id="description"
+                            rows='5' 
+                            cols='50' 
+                            placeholder="Write a description"/>
                     </Segment>
+
                     {this.props.profile.error.response !== undefined ? <Message color="red" > Error </Message> : null }
-                    {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                            
-                    {this.props.profile.fetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
+                    {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                       
+                    {this.props.profile.postFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
 
 
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Add post</Button>

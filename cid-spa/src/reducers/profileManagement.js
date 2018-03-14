@@ -4,25 +4,21 @@
 
 let defaultState = {}
 
-//const myStorage = window.localStorage
-
-// if(myStorage.getItem("profileManagement")){
-//     defaultState = JSON.parse(myStorage.getItem("profileManagement"))
-// } else {
-    defaultState = {
-        userData: {},  //gotta do api optimizations
-        models: {},
-        posts: {},
-        favorites: {},
-        contributions: {},
-        currentModel: {},
-        error: {},
-        commitFetched: false,
-        modelFetched: false,
-        fetching: false,
-        fetched: false,
-    }
-// }
+defaultState = {
+    userData: {},  // TODO api optimizations
+    models: {},
+    posts: {},
+    favorites: {},
+    contributions: {},
+    currentModel: {},
+    error: {},
+    postFetched: false,
+    commitFetched: false,
+    modelFetched: false,
+    userDataSet: false,
+    fetching: false,
+    fetched: false,
+}
 
 const profileManagement = (state=defaultState, action) => {
     switch (action.type) {
@@ -30,12 +26,19 @@ const profileManagement = (state=defaultState, action) => {
         case "FETCH_CONTRIBUTIONS": case "FETCH_FAVORITES":
         case "ADD_POST": case "DELETE_POST":
         case "ADD_MODEL": case "DELETE_MODEL":
-        case "ADD_COMMIT": case "SET_USER_DATA": //do the same thing for all these cases
+        case "ADD_COMMIT": //do the same thing for all these cases
         case "FETCH_USER_DATA":
             return {
                 ...state,
                 fetching: true, 
                 fetched: false,
+            }
+        case "SET_USER_DATA":
+            return {
+                ...state,
+                fetching:true,
+                fetched: false,
+                userDataSet: false,
             }
         case "FETCH_MODELS_FULFILLED":
             return {
@@ -111,20 +114,23 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 userData: action.payload,
-                error: {},
                 fetched: true, 
+                userDataSet: true,  
                 fetching: false, 
             } 
         case "SET_USER_DATA_REJECTED":
             return {
                 ...state,
                 error: action.payload,
+                postFetched: false,
+                userDataSet: false,                
                 fetching: false,  
                 fetched: false,
             } 
         case "ADD_POST_FULFILLED":                             
             return {
                 ...state,
+                postFetched: true,
                 fetched: true,                
                 fetching: false, 
             } 
@@ -132,6 +138,7 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 error: action.payload,
+                postFetched: false,
                 fetching: false,  
                 fetched: false,
             } 

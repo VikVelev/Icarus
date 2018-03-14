@@ -114,6 +114,7 @@ class CommitSerializer(serializers.ModelSerializer):
             'title',
             'belongs_to_model',
             'new_version',
+            'new_textures',
             'commited_by',
             'details',
             'date',

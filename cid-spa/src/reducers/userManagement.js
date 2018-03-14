@@ -9,6 +9,7 @@ if(myStorage.getItem("userManagement")){
         fetching: false,
         fetchedUser: {},
         fetched: false,
+        redirecting: false,
         error: {},
     }
 } else {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Modal, Header, Image, Form, Message, Button } from 'semantic-ui-react'
+import { Segment, Modal, Header, Form, Message, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 
 import { addCommit } from '../../actions/profileActions.js'
