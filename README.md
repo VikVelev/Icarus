@@ -32,8 +32,7 @@ If you want to run the frontend only in developer mode:
 # CiD-Platform
 Version control web platform for 3D models. Making collaborating in 3D design easier.
 # Used techonologies:
-Django, DRF, React.js, webpack, bazel, Three.js, Docker, Heroku, Postgres
-
+Django, DRF, React, webpack, babel, Three.js, Docker, Minio, Postgres
 # Structure
 
 # SPA
