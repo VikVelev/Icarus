@@ -3,6 +3,7 @@
 # How to run on your machine
 It is wrapped in a docker container. A minio docker will be added soon.
 Requires a build first. If you haven't built it before it will start automatically with 'up' but if you have and you just updated you should rebuild.
+
 ```bash
     git clone https://github.com/VikVelev/CiD-Platform
     cd CiD-Platform/cid-api-django
@@ -17,6 +18,14 @@ After that's done you should be able to run the container with:
     sudo docker-compose up
 ```
 The website + db should be up on 0.0.0.0:8000
+
+If you want to run the frontend only in developer mode:
+```shell
+    #After cloning the repository
+    cd CiD-Platform/cid-spa
+    yarn install
+    yarn start
+```
 # CiD-Platform
 Version control web platform for 3D models. Making collaborating in 3D design easier.
 # Used techonologies:
@@ -39,7 +48,8 @@ The architecture is as following:
 
 ```js
 storage(filesystem/s3)) ---> db(postgres) ---(django orm)---> Django Backend ---(serves SPA)---> React frontend
-                                                                    |                                    |                 ^------(AJAX Requests)<----(Redux)<---
+                                                                    |                                    |                 
+                                                                    ^------(AJAX Requests)<----(Redux)<---
 //NOTE: Django doest both - serving the SPA and acting like a REST API.
 ```
 # DB

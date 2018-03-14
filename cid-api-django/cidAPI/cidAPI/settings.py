@@ -201,6 +201,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+#TODO Fix Static directories so django can serve the spa properly
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
