@@ -46,8 +46,13 @@ export default class Profile extends Component {
                 return(
                     <Segment color="blue">
                     <Segment className="userHeader">
-                        <div className="profileImage">
-                            <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
+                        <div className="profileImage" style={{
+                                backgroundImage: "url(" + this.props.profile.userData.profile.profile_picture + ")",
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                backgroundColor: '#ccc'
+                            }}>
                         </div>
                         <div className="profileDetails">
                             <Header size="huge">{this.props.profile.userData.username}</Header>

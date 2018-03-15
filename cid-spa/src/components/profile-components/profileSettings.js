@@ -135,9 +135,14 @@ export default class ProfileSettings extends Component {
                     <Segment color="blue">
                         <Header size="huge">Settings</Header>                 
                         <Segment className="settingsHeader">
-                            <div className="profileSettingsImage">
-                                <Image src={this.props.profile.userData.profile.profile_picture} size="medium" circular style={{objectFit: "cover"}}/>
-
+                            <div className="profileImage" style={{
+                                    backgroundImage: "url(" + this.props.profile.userData.profile.profile_picture + ")",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                    backgroundColor: '#ccc',
+                                    marginBottom: "20px"
+                                }}>
                             </div>
                             <div className="profileSettingsForm">
                                 <Form as="form" size='large' id="settings" name="settings" onSubmit={this.handleSubmit}>

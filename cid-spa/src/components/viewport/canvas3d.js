@@ -35,9 +35,7 @@ export default class Canvas3D extends Component {
         this.meshName = this.modelName + ".obj"
         this.textureName = this.modelName + ".mtl"
         
-        console.log(this.meshPath, this.modelPath)
 
-        //Make this dynamic
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
         
@@ -64,7 +62,7 @@ export default class Canvas3D extends Component {
     }
 
     componentDidMount(){
-
+        
         this.props.dispatch({type: "RENDERING_CANVAS3D"})
         
         this.rootElement = document.getElementById(this.canvasId)

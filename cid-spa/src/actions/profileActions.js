@@ -1,6 +1,5 @@
 import axios from 'axios'
-
-var url = "http://0.0.0.0:8000"
+import url from './backendUrl.js'
 
 
 //TODO Find a smarter way to get Headers in there.
@@ -122,6 +121,7 @@ export function getModelbyID(id, token){
         
     }
 }
+
 
 export function add3DModel(id, token, modelData, initialCommit, commitData) {
     return function(dispatch) {

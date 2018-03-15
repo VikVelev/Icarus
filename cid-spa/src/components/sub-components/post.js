@@ -16,43 +16,48 @@ import { connect } from 'react-redux';
 })
 export default class Post extends Component {
     constructor(props){
-        super(props)
-        this.props.dispatch(getModelbyID(this.props.content, this.props.user.currentlyLoggedUser.username.token))        
+        super(props)        
         this.state = {
             rendering: false,
         }
     }
-    
+
     mountCanvas = () => {
         if (this.state.rendering){
             if(this.props.page.currentModel !== undefined){
-                    return(
-                        <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                            <Canvas3D modelPath={this.props.page.currentModel[0].commits[0].new_version}/>
-                        </Segment>
-                    )
-                } else {
-                    return null
-                }
+                return(
+                    <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
+                        <Canvas3D modelPath={this.props.content}/>
+                    </Segment>
+                )
+            } else {
+                return null
+            }
         } else {
             return null
         }
     }
 
     clickHandler() {
-        console.log(this.state)
         this.setState({ rendering: !this.state.rendering })
     }
 
     render(){
         this.date_posted = moment(this.props.date_posted)._d.toString().substring(0, moment(this.props.date_posted)._d.toString().length - 14)        
+        
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
-                    <Item.Image size='small' src={this.props.image} style={{
-                        padding: '20px'    
-                    }} />
-
+                    <Item.Image size='small' style={{
+                        backgroundImage: "url(" + this.props.image + ")",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundColor: '#ccc',
+                        borderRadius: "5px",
+                        margin: '5px',
+                        marginRight: '20px',
+                    }}/>
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>Posted by {<a>{this.props.posted_by}</a>}</Item.Meta>

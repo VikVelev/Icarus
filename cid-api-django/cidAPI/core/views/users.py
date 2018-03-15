@@ -28,6 +28,14 @@ class Users(generics.RetrieveUpdateDestroyAPIView):
 class ListAllUsers(generics.ListAPIView):
 
     #permission_classes = (IsAuthenticated, )
-    queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        user_id = self.request.query_params.get('id', None)
+
+        if user_id is not None:
+            queryset = queryset.filter(pk=user_id)
+
+        return queryset
 

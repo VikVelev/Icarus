@@ -1,6 +1,6 @@
 import axios from 'axios'
+import url from './backendUrl.js'
 
-var url = "http://0.0.0.0:8000"
 
 export function fetchTrendingPosts(token){
     return function(dispatch) {

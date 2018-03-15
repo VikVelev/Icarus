@@ -253,3 +253,10 @@ input[type="file"] {
     margin: auto;
     height: auto;
 }
+
+.profileImage {
+    border-radius: 10px !important;
+    object-fit: fill;
+    height: 250px;
+    width: 250px;
+}

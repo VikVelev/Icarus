@@ -10,7 +10,7 @@ defaultState = {
     posts: {},
     favorites: {},
     contributions: {},
-    currentModel: {},
+    currentModel: [{ id: 0 }],
     error: {},
     postFetched: false,
     commitFetched: false,

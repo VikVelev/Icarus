@@ -1,7 +1,6 @@
 import axios from "axios"
 import { changePages } from './pageActions.js'
-
-var url = "http://0.0.0.0:8000"
+import url from './backendUrl.js'
 
 export function fetchAllUsers(token) {
     return function(dispatch) {
