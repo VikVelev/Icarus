@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Image, Header, Icon, Form, Message, Button } from 'semantic-ui-react'
+import { Segment, Header, Icon, Form, Message, Button } from 'semantic-ui-react'
 
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
 import { fetchUserData, setUserData } from '../../actions/profileActions.js'

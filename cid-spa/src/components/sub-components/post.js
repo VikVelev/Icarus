@@ -4,7 +4,7 @@ import { Item, Segment } from 'semantic-ui-react'
 import * as moment from 'moment'
 
 import Canvas3D from '../viewport/canvas3d.js'
-import { getModelbyID } from '../../actions/profileActions.js';
+//import { getModelbyID } from '../../actions/profileActions.js';
 import { connect } from 'react-redux';
 
 @connect((store) => {

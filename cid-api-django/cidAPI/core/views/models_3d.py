@@ -30,13 +30,13 @@ class RemoveModel3D(generics.DestroyAPIView):
     serializer_class = Model3DSerializer
 
     def get_queryset(self):
-        user_pk = self.kwargs["pk"]
-        print(self.kwargs)
-        # TODO Implement user validation
-        # FIXME
-        print(self.request.user)
-        # END OF TODO
-        return Model3D.objects.filter(owners__in=[user_pk])
+        queryset = Model3D.objects.all()
+        model_id = self.request.query_params.get('id', None)
+
+        if model_id is not None:
+            queryset = queryset.filter(pk=model_id)
+    
+        return queryset
 
 
 class Models3D( mixins.ListModelMixin,
@@ -63,7 +63,7 @@ class Models3D( mixins.ListModelMixin,
     def perform_create(self, serializer):
         # FIXME: this is a bad way to set the value, but ...
         user_id = self.kwargs["pk"]
-        serializer.validated_data['owners'].append(user_id)
+        serializer.validated_data['owners'] = [user_id]
 
         serializer.save()
 

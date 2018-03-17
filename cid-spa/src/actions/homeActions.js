@@ -1,6 +1,6 @@
 import axios from 'axios'
 import url from './backendUrl.js'
-import { getUserByID } from './getById.js'
+//import { getUserByID } from './getById.js'
 
 export function fetchPersonalizedPosts(token){
     return function(dispatch) {
@@ -9,6 +9,7 @@ export function fetchPersonalizedPosts(token){
         let saxios = axios.create(axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
+                'Content-Type': 'application/json',
             }
         }))                   
         // TODO: Fix this giant bullshit in the backend
@@ -34,11 +35,7 @@ export function fetchPersonalizedPosts(token){
             })
 
             arrayRes.forEach(element => {
-                axios.get(url + "/api/3d-models?id=" + element.content , {
-                    headers: {
-                        'Authorization': 'Token ' + token,
-                    }
-                }).then((response) => {
+                saxios.get(url + "/api/3d-models?id=" + element.content).then((response) => {
                     element.content = response.data[0].commits[response.data[0].commits.length - 1].new_version
                     counterContent++;
                     
@@ -47,6 +44,7 @@ export function fetchPersonalizedPosts(token){
                     }
                 })
             })
+
             ///#################################################            
             
         }).catch((error) => {

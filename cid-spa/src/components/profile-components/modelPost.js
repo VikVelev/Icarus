@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment, Button, Icon, Dropdown } from 'semantic-ui-react'
+import { Item, Segment, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
 
 import AddCommit from './addCommitForm.js'
