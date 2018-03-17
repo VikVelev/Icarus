@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment } from 'semantic-ui-react'
+import { Item, Segment, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
 import Canvas3D from '../viewport/canvas3d.js'
 
@@ -39,6 +39,15 @@ export default class ContribPost extends Component {
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
                         <Item.Meta as='p'>Version 1</Item.Meta>
                     </Item.Content>
+
+                    <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
+                        <Dropdown.Menu>
+                            <Dropdown.Header content='Manage'/>
+                            <Dropdown.Item disabled> Delete </Dropdown.Item>
+                            <Dropdown.Header content='Version Control'/>
+                            <Dropdown.Item disabled> View Model </Dropdown.Item>                                                                 
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Item>
                 {this.mountCanvas()}
             </div>

@@ -260,3 +260,27 @@ input[type="file"] {
     height: 250px;
     width: 250px;
 }
+
+.modelPostSettings {
+    margin: auto !important;
+    margin-right: 0px !important;
+    margin-top: 0px  !important;
+    background: unset !important;
+    height: 32px !important;
+}
+
+.modelPostSettings:hover {
+    box-shadow: inset 1px 1px 5px #555 !important;
+}
+
+i.blue.icon:hover {
+    transition: all 0.3s;
+}
+
+.ui.dropdown {
+    display: flex !important;
+}
+
+.ellipsis.horizontal.icon {
+    font-size: 2em !important;
+}

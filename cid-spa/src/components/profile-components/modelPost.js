@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment, Button } from 'semantic-ui-react'
+import { Item, Segment, Button, Icon, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
 
 import AddCommit from './addCommitForm.js'
@@ -48,12 +48,22 @@ export default class ModelPost extends Component {
                         <Item.Meta as='p'>Created by {<a>{this.props.owners[0]}</a>}</Item.Meta>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
                     </Item.Content>
-                    
-                    <AddCommit trigger={<Button name={this.props.id} className="addContrib" color="blue" onClick={this.handleAddCommit.bind(this)}>Add commit</Button>} id={this.state.modelID}/>
+
+                    <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
+                        <Dropdown.Menu>
+                            <Dropdown.Header content='Manage'/>
+                            <Dropdown.Item disabled> View </Dropdown.Item>                            
+                            <Dropdown.Item disabled> Edit </Dropdown.Item>
+                            <Dropdown.Item disabled> Delete </Dropdown.Item>
+                            <Dropdown.Header content='Version Control'/>
+                            <AddCommit trigger={<Dropdown.Item name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/> 
+                            <Dropdown.Item disabled> Add Owner </Dropdown.Item>
+                            <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Item>
                 {this.mountCanvas()}
             </div>
         )
     }
-
 }
