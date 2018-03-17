@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.http import Http404
 from django.http import FileResponse
+from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -41,6 +42,8 @@ class RemoveModel3D(generics.DestroyAPIView):
 
 class Models3D( mixins.ListModelMixin,
                 mixins.CreateModelMixin,
+                mixins.DestroyModelMixin,
+                mixins.UpdateModelMixin,
                 generics.GenericAPIView,
             ):
 
@@ -54,11 +57,29 @@ class Models3D( mixins.ListModelMixin,
         # END OF TODO
         return Model3D.objects.filter(owners__in=[user_pk])
 
+    def get_object(self):
+        queryset = self.get_queryset()
+        pk = self.request.query_params.get('id', None)
+
+        obj = get_object_or_404(queryset, pk=pk)
+
+        self.check_object_permissions(self.request, obj)
+        return obj
+
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         # FIXME: this is a bad way to set the value, but ...

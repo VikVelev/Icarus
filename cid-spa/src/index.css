@@ -189,7 +189,7 @@ body {
     height: auto;
 }
 
-.userContainer, .settingsContainer, .addPostContainer {
+.userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
     height: auto;
     margin-top: 5px !important;
     margin-left: 20% !important;
