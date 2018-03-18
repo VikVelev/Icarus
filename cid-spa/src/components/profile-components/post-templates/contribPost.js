@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Item, Segment, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
-import Canvas3D from '../viewport/canvas3d.js'
+import Canvas3D from '../../viewport/canvas3d.js'
 
 export default class ContribPost extends Component {
     constructor(props){

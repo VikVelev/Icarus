@@ -284,3 +284,9 @@ i.blue.icon:hover {
 .ellipsis.horizontal.icon {
     font-size: 2em !important;
 }
+
+.uploadedBy {
+    display: flex;
+    border: unset !important;
+    box-shadow: unset !important;
+}

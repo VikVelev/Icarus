@@ -107,8 +107,12 @@ export default class ProfileSettings extends Component {
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
                 if (this.state.email === "") {
-                    var state = {...this.props.profile.userData, ...this.props.profile.userData.profile, profile: false}
-                    
+                    var state = {
+                        ...this.props.profile.userData, 
+                        ...this.props.profile.userData.profile, 
+                        profile: false
+                    }
+                    // This is retarded 
                     if(state.country === null) {
                         state.country = ""
                     }
@@ -130,6 +134,8 @@ export default class ProfileSettings extends Component {
                     }
 
                     this.state = state
+
+                    // end of retardation - did this to eliminate warnings.
                 }
                 return(
                     <Segment color="blue">

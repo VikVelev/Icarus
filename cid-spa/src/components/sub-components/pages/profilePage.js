@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 import ProfileModelsFeed from '../../profile-components/profileModels.js'
 import ProfileContributions from '../../profile-components/profileContributions.js'
-
+import ProfilePosts from '../../profile-components/profilePosts.js'
 import { fetchUserData } from '../../../actions/profileActions.js'
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
 
@@ -24,6 +24,7 @@ export default class Profile extends Component {
     panes = [
         { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
         { menuItem: 'Contributions', render: () => <Tab.Pane><ProfileContributions/></Tab.Pane> },
+        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts/></Tab.Pane> },  
         // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
         // { menuItem: 'Posts', render: () => <Tab.Pane><Profile/></Tab.Pane> },      
     ]

@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Item, Segment, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
 
-import AddCommit from './addCommitForm.js'
-import Canvas3D from '../viewport/canvas3d.js'
+import AddCommit from '../addCommitForm.js'
+import Canvas3D from '../../viewport/canvas3d.js'
+import DeleteModal from '../deleteModal.js' 
+
 
 export default class ModelPost extends Component {
     constructor(props){
@@ -11,6 +14,7 @@ export default class ModelPost extends Component {
         this.state = {
             rendering: false,
             addingCommit: false,
+            deletingModel: false,
             modelID: undefined,
         }
     }
@@ -38,8 +42,16 @@ export default class ModelPost extends Component {
         this.setState({ addingCommit: true, modelID: name })        
     }
 
+    handleDeleteModel(e, {name}){
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(name)
+        this.setState({ deletingModel: true, modelID: name })        
+    }
+
     render(){
         this.date_uploaded = moment(this.props.date_uploaded)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)
+        
         return(
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
@@ -52,9 +64,9 @@ export default class ModelPost extends Component {
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content='Manage'/>
-                            <Dropdown.Item disabled> View </Dropdown.Item>                            
+                            <Dropdown.Item disabled={this.props.commits.length === 0 ? true : false} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                            
                             <Dropdown.Item disabled> Edit </Dropdown.Item>
-                            <Dropdown.Item disabled> Delete </Dropdown.Item>
+                            <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeleteModel.bind(this)}> Delete </Dropdown.Item>} type="model" id={this.state.modelID}/>                             
                             <Dropdown.Header content='Version Control'/>
                             <AddCommit trigger={<Dropdown.Item name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/> 
                             <Dropdown.Item disabled> Add Owner </Dropdown.Item>

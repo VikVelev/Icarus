@@ -79,7 +79,7 @@ export class Navbar extends Component {
                 </Menu.Item> */}
 
                 <Menu.Menu position='right'>
-                    <Menu.Item as={Link} onClick={this.handleLogout.bind(this)} icon="log out" to="#" name='logout' />
+                    <Menu.Item as={Link} onClick={this.handleLogout.bind(this)} icon="log out" to="#" name='' />
                 </Menu.Menu>
             </Menu>
         </div>

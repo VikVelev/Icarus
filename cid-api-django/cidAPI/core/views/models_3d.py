@@ -26,20 +26,6 @@ class ListAllModels3D(generics.ListAPIView):
     
         return queryset
 
-class RemoveModel3D(generics.DestroyAPIView):
-
-    serializer_class = Model3DSerializer
-
-    def get_queryset(self):
-        queryset = Model3D.objects.all()
-        model_id = self.request.query_params.get('id', None)
-
-        if model_id is not None:
-            queryset = queryset.filter(pk=model_id)
-    
-        return queryset
-
-
 class Models3D( mixins.ListModelMixin,
                 mixins.CreateModelMixin,
                 mixins.DestroyModelMixin,
@@ -57,6 +43,9 @@ class Models3D( mixins.ListModelMixin,
         # END OF TODO
         return Model3D.objects.filter(owners__in=[user_pk])
 
+
+    #This is because https://stackoverflow.com/questions/49331003/django-drf-delete-retrieve-patch-returns-404-detail-not-found/49340753#49340753
+    # Note - who asked the question? Me - I Wasted 2 days on this crap
     def get_object(self):
         queryset = self.get_queryset()
         pk = self.request.query_params.get('id', None)

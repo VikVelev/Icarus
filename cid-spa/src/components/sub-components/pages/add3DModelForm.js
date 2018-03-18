@@ -20,7 +20,7 @@ export default class Add3DModel extends Component{
             initialCommitObj: {
                 title: "Initial commit.",
                 belongs_to_model: "",
-                new_version: "",
+                new_version: undefined,
                 details: "Initial commit.",
             }
         }
@@ -48,7 +48,7 @@ export default class Add3DModel extends Component{
 
             formDataCommit.append( "title", "Initial commit." )
             formDataCommit.append( "new_version", document.getElementById("file-upload").files[0] )
-            formDataCommit.appned( "new_textures", document.getElementById("textures-upload").files[0] )
+            formDataCommit.append( "new_textures", document.getElementById("textures-upload").files[0] )
             formDataCommit.append( "details", "Initial commit" )
         }
 
@@ -108,7 +108,7 @@ export default class Add3DModel extends Component{
                                 <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj"  />
                                 
                                 <Header>Select textures</Header>
-                                <label htmlFor="texture-upload" className="file-upload">
+                                <label htmlFor="textures-upload" className="file-upload">
                                     Choose textures
                                 </label>
                                 <Form.Input type="file" id="textures-upload" name="textures" onChange={this.handleChange} accept=".mtl"  />
@@ -118,7 +118,7 @@ export default class Add3DModel extends Component{
                         </div>
                         {this.props.profile.error.response !== undefined ? <Message color="red" > Error </Message> : null }
                         {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                            
-                        {this.props.profile.modelFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
+                        {this.props.profile.modelFetched ? <Message color="green" > Successfully created a new model. </Message> : null }
                         
                         {/*TODO VALIDATION*/}
                     </Segment>

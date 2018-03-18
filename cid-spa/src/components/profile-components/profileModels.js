@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import ModelPost from './modelPost.js'
+import ModelPost from './post-templates/modelPost.js'
 import { fetch3DModels } from '../../actions/profileActions.js'
 import { changeSubpage } from '../../actions/pageActions.js'
 
@@ -33,7 +33,8 @@ export default class ProfileModelsFeed extends Component {
     render(){
         return(
             <div className="feed">
-                {Object.keys(this.props.profile.models).length !== 0 ? this.props.profile.models.map((object, i) => this.renderPost(object,i)) : null}
+                { this.props.profile.models.length === 0 ? "Add a model" : null }
+                { Object.keys(this.props.profile.models).length !== 0 ? this.props.profile.models.map((object, i) => this.renderPost(object,i)) : null }
             </div> 
         )
     }

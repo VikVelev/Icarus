@@ -110,7 +110,6 @@ export function getModelbyID(id, token){
         var saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
-                'Content-Type': 'multipart/form-data',
             },
         })
         saxios.get(url + "/api/3d-models/?id=" + id).then((response) => {
@@ -151,13 +150,77 @@ export function addCommit(id, commitData, token) {
         var saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
-                'Content-Type': 'multipart/form-data',
             },
         })
         saxios.post(url + "/api/user/" + id + "/contributions/", commitData).then((response) => {
             dispatch({ type: "ADD_COMMIT_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "ADD_COMMIT_REJECTED", payload: error })          
+        })
+    }
+}
+
+export function deleteModel(id, token, deleteId) {
+    return function(dispatch) {
+        dispatch({ type: "DELETE_MODEL" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+        saxios.delete(url + "/api/user/" + id + "/3d-models/?id=" + deleteId).then((response) => {
+            dispatch({ type: "DELETE_MODEL_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "DELETE_MODEL_REJECTED", payload: error })          
+        })
+    }
+}
+
+
+export function fetchUserPosts(id, token){
+    return function(dispatch) {
+
+        dispatch({type: "FETCH_POSTS"})
+
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.get(url + "/api/posts/?posted_by=" + id).then((response) => {
+
+            let arrayRes = response.data;
+            let counterContent = 0;
+
+            arrayRes.forEach(element => {
+                saxios.get(url + "/api/3d-models?id=" + element.content).then((response) => {
+                    element.content = response.data[0].commits[response.data[0].commits.length - 1].new_version
+                    counterContent++;
+                    
+                    if(counterContent === arrayRes.length) {
+                        dispatch({ type: "FETCH_POSTS_FULFILLED", payload: arrayRes })                                 
+                    }
+                })
+            })
+        }).catch((error) => {
+            dispatch({ type: "FETCH_POSTS_REJECTED", payload: error})
+        })
+    }
+}
+
+export function deletePost(id, token, deleteId) {
+    return function(dispatch) {
+        dispatch({ type: "DELETE_POST" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+        saxios.delete(url + "/api/posts/" + deleteId + "/").then((response) => {
+            dispatch({ type: "DELETE_POST_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "DELETE_POST_REJECTED", payload: error })          
         })
     }
 }
