@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import {LineChart,ResponsiveContainer, Line, AreaChart, Area, Brush, XAxis, YAxis, CartesianGrid, Tooltip} from 'recharts'
-import { Segment } from 'semantic-ui-react';
+import { LineChart,ResponsiveContainer, Line, AreaChart, Area, Brush, XAxis, YAxis, CartesianGrid, Tooltip} from 'recharts'
+import { Segment, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+
+import * as moment from 'moment'
 
 import ContribPost from './post-templates/contribPost.js'
 import { fetchContributions } from '../../actions/profileActions.js'
@@ -17,6 +19,7 @@ export default class ProfileContributionsFeed extends Component {
     
     constructor(props) {
         super(props);
+        this.data = []
         this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token), changeSubpage("profile_contributions"))
         this.props.dispatch(changeSubpage("profile_contributions"))
     }
@@ -29,34 +32,75 @@ export default class ProfileContributionsFeed extends Component {
         )
     }
 
-    isFetched() {
-        return 
+    dataProcessing(data) {
+        const week = [
+            'Mon',
+            'Tue',
+            'Wed',
+            'Thu',
+            'Fri',
+            'Sat',
+            'Sun',
+        ]
+
+        let wholeYear = []
+
+        for (let w = 0; w < parseInt(moment().format("W")); w++) {
+
+            wholeYear[w] = []
+            let days = 7
+            if (w === parseInt(moment().format("W")) - 1) {
+                days = parseInt(moment().format("E"))
+            }
+            for (let d = 0; d < days; d++) {
+                if(moment(((w + 1) + "-" + (d+1)).toString(), 'W-E').toDate() === "Invalid Date") {
+                    continue;
+                }
+                let currentDay = moment(((w + 1) + "-" + (d+1)).toString(), 'W-E')
+                wholeYear[w].push({ name: week[d] + "\n" + currentDay.format("MM.DD"), commits: 0 })
+                
+            }
+        }
+
+        for (let i = 0; i < data.length; i++) {            
+            wholeYear[parseInt(moment(data[i].date).format("W")) - 1][parseInt(moment(data[i].date).format("E")) - 1].commits++  
+        }
+
+        let wholeYearNormalized = []
+        for (let w = 0; w < parseInt(moment().format("W")); w++) {
+            let days = 7
+            if (w === parseInt(moment().format("W")) - 1) {
+                days = parseInt(moment().format("E"))
+            }
+            for (let d = 0; d < days; d++) {
+                if(moment(((w + 1)+ "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
+                    continue;
+                }
+                wholeYearNormalized.push(wholeYear[w][d])
+                
+            }
+        }
+
+        return wholeYearNormalized;
     }
 
     renderStatistics() {
-        const data = [
-            {name: 'Mon', uv: 4000, pv: 9000},
-            {name: 'Tue', uv: 3000, pv: 7222},
-            {name: 'Wed', uv: 2000, pv: 6222},
-            {name: 'Thu', uv: 1223, pv: 5400},
-            {name: 'Fri', uv: 1890, pv: 3200},
-            {name: 'Sat', uv: 2390, pv: 2500},
-            {name: 'Sun', uv: 3490, pv: 1209},
-        ];
+        if (this.data.length === 0 ){
+            this.data = this.dataProcessing(this.props.profile.contributions)
+        }
 
-        let height = '50%'
-        let width = '100%'
+        //Gotta put some data processing in the backend
         
         return (
             <ResponsiveContainer width='100%' height="100%">
-                <AreaChart data={data} syncId="anyId"
+                <AreaChart data={this.data} syncId="anyId"
                         margin={{top: 10, right: 30, left: 0, bottom: 0}}>
                     <XAxis dataKey="name"/>
                     <YAxis/>
-                    <CartesianGrid strokeDasharray="3 3"/>
                     <Tooltip/>
-                    <Area type='monotone' dataKey='pv' stroke='#82ca9d' fill='#82ca9d' />
-                    <Brush />
+                    <Area type='monotone' dataKey='commits' stroke='#82ca9d' fill='#82ca9d' />
+                    {/*7 because I want the last week stats to be by default*/}
+                    <Brush startIndex={this.data.length < 7 ? 0 : this.data.length-7}/>
                 </AreaChart>
             </ResponsiveContainer>
         );
@@ -65,13 +109,14 @@ export default class ProfileContributionsFeed extends Component {
     render(){
         return(
             <div className="feedContainer">
-                <Segment className="contribStatistics" style={{height: "300px"}}>
+                <Header size="huge">Activity</Header>
+                <div className="contribStatistics" style={{height: "300px", marginBottom: '50px'}}>
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? 
                         this.renderStatistics()
                         : "Empty" 
                     }
-                </Segment>
+                </div>
                 <div className="feed">
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? 

@@ -24,14 +24,14 @@ export default class Profile extends Component {
     panes = [
         { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
         { menuItem: 'Contributions', render: () => <Tab.Pane><ProfileContributions/></Tab.Pane> },
-        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts/></Tab.Pane> },  
+        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts/></Tab.Pane> },
         // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
-        // { menuItem: 'Posts', render: () => <Tab.Pane><Profile/></Tab.Pane> },      
     ]
 
     constructor(props){
         super(props)
         this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+        
         this.state = {
             settings: false,
         }
@@ -65,7 +65,9 @@ export default class Profile extends Component {
                         <Icon size='big' name='settings'></Icon>
                     </div>
                     <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
-                    {this.state.settings ? <Redirect to="/profile/settings"/> : null}
+                    
+                    {this.state.settings ? <Redirect to="/profile/settings"/>  : null}
+
                     </Segment>
                 )
             }

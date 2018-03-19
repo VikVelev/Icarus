@@ -30,7 +30,7 @@ export default class ProfileSettings extends Component {
             profile_picture: "",
             birth_date: "",
             description: '',
-        }
+        }      
     }
 
     handleChange = (e, { name, value}) => {
@@ -241,6 +241,7 @@ export default class ProfileSettings extends Component {
                         <div className="settings_button" onClick={this.renderProfile.bind(this)}>
                             <Icon size='big' name='user'></Icon>
                         </div>
+                        {console.log("?" + this.state.profile)}
                         {this.state.profile ? <Redirect to="/profile"/> : null}           
                     </Segment>
                 )
