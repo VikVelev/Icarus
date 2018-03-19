@@ -1,4 +1,4 @@
-# Currently hosted at: nowhere, currently working on it
+# Currently hosted at: cid-platform.myddns.me
 
 # How to run on your machine
 It is wrapped in a docker container. Requires a build first. If you haven't built it before it will start automatically with 'up' but if you have and you just updated you should rebuild.
