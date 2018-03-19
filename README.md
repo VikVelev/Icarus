@@ -1,5 +1,8 @@
 # Currently hosted at: cid-platform.myddns.me
 
+It is WIP so bugs are pretty common, Validation is acting pretty sketchy atm.
+In active development.
+
 # How to run on your machine
 It is wrapped in a docker container. Requires a build first. If you haven't built it before it will start automatically with 'up' but if you have and you just updated you should rebuild.
 
