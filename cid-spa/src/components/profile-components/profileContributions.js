@@ -20,7 +20,13 @@ export default class ProfileContributionsFeed extends Component {
     constructor(props) {
         super(props);
         this.data = []
-        this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token), changeSubpage("profile_contributions"))
+        this.props.profile.contributions = {}
+        if (props.id === undefined) {
+            this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+        } else {
+            this.props.dispatch(fetchContributions(this.props.id, this.props.user.currentlyLoggedUser.username.token))
+            
+        }
         this.props.dispatch(changeSubpage("profile_contributions"))
     }
 
@@ -57,7 +63,7 @@ export default class ProfileContributionsFeed extends Component {
                     continue;
                 }
                 let currentDay = moment(((w + 1) + "-" + (d+1)).toString(), 'W-E')
-                wholeYear[w].push({ name: week[d] + "\n" + currentDay.format("MM.DD"), commits: 0 })
+                wholeYear[w].push({ name: currentDay.format("MM.DD"), commits: 0 })
                 
             }
         }
@@ -85,7 +91,7 @@ export default class ProfileContributionsFeed extends Component {
     }
 
     renderStatistics() {
-        if (this.data.length === 0 ){
+        if (this.data.length === 0){
             this.data = this.dataProcessing(this.props.profile.contributions)
         }
 
@@ -114,7 +120,7 @@ export default class ProfileContributionsFeed extends Component {
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? 
                         this.renderStatistics()
-                        : "Empty" 
+                        : "Empty"
                     }
                 </div>
                 <div className="feed">

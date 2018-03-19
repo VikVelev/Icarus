@@ -34,7 +34,6 @@ export default class DeleteModal extends Component {
             this.props.dispatch(deletePost(this.props.user.currentlyLoggedUser.username.id,
                 this.props.user.currentlyLoggedUser.username.token,
                 this.props.id))
-        
         }
 
         this.handleTrigger()

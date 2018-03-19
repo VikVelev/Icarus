@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Menu, } from 'semantic-ui-react'
+import { Menu, Image, Dropdown } from 'semantic-ui-react'
 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 //import Logout from './sub-components/logout.js'
 import { connect } from 'react-redux';
 
@@ -16,12 +16,64 @@ import { logout } from '../actions/userActions'
 })
 export class Navbar extends Component {
 
+    constructor(props) {
+        super(props)
+        
+        this.state = {
+            profile: false,
+            settings: false,
+        }
+    }
+
     handleItemClick = (e, { name }) => this.props.dispatch(changePages(name))
 
+    handleProfileClick = (e) => {
+        this.setState({ profile: true })
+    }
+
+    handleSettingsClick = (e) => {
+        this.setState({ settings: true })
+    }
+    
     handleLogout() {
         this.props.dispatch(logout())
     }
 
+    handleProfileCallback () {
+        this.setState({ profile: false })                
+        return (
+            <Redirect to="/profile"/>
+        )
+    }
+
+    handleSettingsCallback () {
+        this.setState({ settings: false })                
+        return (
+            <Redirect to="/profile/settings"/>
+        )
+    }
+
+    handleProfile() {
+        const trigger = (
+            <span id="loggedInUser">
+                <Image avatar src="/img/default.jpg"/>  {this.props.manage.currentlyLoggedUser.username.username}
+            </span>
+          )
+          
+          const options = [
+            { key: 'user', text: 'Profile', icon: 'user', onClick: this.handleProfileClick },
+            { key: 'settings', text: 'Settings', icon: 'settings', onClick: this.handleSettingsClick },
+            { key: 'sign-out', text: 'Sign Out', icon: 'sign out', onClick: this.handleLogout.bind(this) },
+          ]
+          
+        
+        return (  
+            <Menu.Item id="profileBadge">
+                <Dropdown trigger={trigger} pointing options={options} />
+            </Menu.Item>
+        )
+    }
+    
     render() {
         return (
         <div>
@@ -51,12 +103,6 @@ export class Navbar extends Component {
                     active={this.props.currentPage === 'trending'} 
                     onClick={this.handleItemClick} />
 
-                <Menu.Item 
-                    as={Link} 
-                    to="/profile"
-                    name='profile' 
-                    active={this.props.currentPage === 'profile'}
-                    onClick={this.handleItemClick} />
 
                 <Menu.Item 
                     as={Link} 
@@ -77,11 +123,15 @@ export class Navbar extends Component {
                 {/* <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%"}}>
                     <Input disabled icon='search' placeholder='Search...' />
                 </Menu.Item> */}
-
+                
                 <Menu.Menu position='right'>
-                    <Menu.Item as={Link} onClick={this.handleLogout.bind(this)} icon="log out" to="#" name='' />
+                    {this.handleProfile()}
                 </Menu.Menu>
             </Menu>
+
+            { this.state.profile ? this.handleProfileCallback() : null }
+            { this.state.settings ? this.handleSettingsCallback() : null }            
+
         </div>
         )
     }

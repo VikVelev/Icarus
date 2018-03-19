@@ -8,6 +8,8 @@ import Feed from './sub-components/pages/homeFeed.js';
 import TrendingFeed from './sub-components/pages/trendingFeed.js';
 
 import Profile from './sub-components/pages/profilePage.js'
+import UserProfile from './sub-components/pages/userPage.js'
+
 import ProfileSettings from './profile-components/profileSettings.js'
 import AddPost from './sub-components/pages/addPostForm.js'
 import Add3DModel from './sub-components/pages/add3DModelForm.js'
@@ -87,7 +89,7 @@ export default class Content extends Component {
         SignUp: () => ( this.props.user.logged ? <Redirect to="/"/> : <RegisterForm/> ),
         Trending: () => ( this.props.user.logged ? <TrendingFeed/> : <Redirect to="login"/> ),
         MyProfile: () => ( this.props.user.logged ? <Profile/> : <Redirect to="login"/> ),
-        UserProfile: () => ( this.props.user.logged ? <Profile/> : <Redirect to="login"/> ),        
+        UserProfile: (data) => ( this.props.user.logged ? <UserProfile id={data.match.params.id}/> : <Redirect to="login"/> ),        
         ProfileSettings: () => ( this.props.user.logged ? <ProfileSettings/> : <Redirect to="login"/> ),
         Upload: () => ( this.props.user.logged ? <Add3DModel/> : <Redirect to="login"/> ),
         CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="login"/> ),

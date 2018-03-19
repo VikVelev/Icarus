@@ -290,3 +290,29 @@ i.blue.icon:hover {
     border: unset !important;
     box-shadow: unset !important;
 }
+
+#profileBadge {
+    padding: 5px !important;
+}
+
+#profileBadge:hover {
+    background-color: #eee
+}
+
+@media (max-width: 768px){
+    .userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
+        margin-left: 2% !important;
+        transition: all 0.1s;
+        margin-right: 2% !important;  
+    }
+
+    .post-container {
+        margin-left: 2% !important;
+        transition: all 0.1s;        
+        margin-right: 2% !important;
+    }
+}
+
+#loggedInUser {
+
+}

@@ -24,7 +24,7 @@ export function fetchPersonalizedPosts(token){
 
             arrayRes.forEach(element => {
                 saxios.get(url + "/api/users?id=" + element.posted_by).then((response) => {
-                    
+                    element.posted_id = element.posted_by
                     element.posted_by = response.data[0].username
                     counterPostedBy++;
                     

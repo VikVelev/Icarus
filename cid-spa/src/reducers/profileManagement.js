@@ -13,6 +13,7 @@ defaultState = {
     error: {},
     postFetched: false,
     commitFetched: false,
+    contributionsFetched: false,
     modelFetched: false,
     userDataSet: false,
     fetching: false,
@@ -32,6 +33,14 @@ const profileManagement = (state=defaultState, action) => {
                 fetching: true, 
                 fetched: false,
             }
+        case "FETCH_CONTRIBUTIONS":
+            return {
+                ...state,
+                contributionsFetched: false,
+                fetching:true,
+                fetched:false,
+            }
+
         case "SET_USER_DATA":
             return {
                 ...state,
@@ -71,6 +80,7 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 contributions: action.payload,
+                contributionsFetched: true,
                 fetched: true,                
                 fetching: false, 
             }      
@@ -78,6 +88,7 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 error: action.payload,
+                contributionsFetched: false,                
                 fetching: false,  
                 fetched: false,
             }

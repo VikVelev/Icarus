@@ -18,14 +18,18 @@ export default class ProfileModelsFeed extends Component {
     
     constructor(props) {
         super(props);
-        this.props.dispatch(fetch3DModels(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+        if (props.id === undefined) {
+            this.props.dispatch(fetch3DModels(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+        } else {
+            this.props.dispatch(fetch3DModels(this.props.id, this.props.user.currentlyLoggedUser.username.token))        
+        }
         this.props.dispatch(changeSubpage("profile_models"))
     }
 
     renderPost(object, i){
         return (          
             <Segment id={object.id} key={i} className="profile-post-container">
-                <ModelPost {...object}/>
+                <ModelPost isUser={true} {...object}/>
             </Segment>
         )
     }

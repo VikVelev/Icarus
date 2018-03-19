@@ -64,12 +64,12 @@ export default class ModelPost extends Component {
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content='Manage'/>
-                            <Dropdown.Item disabled={this.props.commits.length === 0 ? true : false} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                            
-                            <Dropdown.Item disabled> Edit </Dropdown.Item>
-                            <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeleteModel.bind(this)}> Delete </Dropdown.Item>} type="model" id={this.state.modelID}/>                             
+                            <Dropdown.Item disabled={this.props.commits.length === 0 ? true : false} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                         
+                            {!this.props.isUser ? <Dropdown.Item disabled> Edit </Dropdown.Item> : null }
+                            {!this.props.isUser ?  <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeleteModel.bind(this)}> Delete </Dropdown.Item>} type="model" id={this.state.modelID}/> : null }
                             <Dropdown.Header content='Version Control'/>
-                            <AddCommit trigger={<Dropdown.Item name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/> 
-                            <Dropdown.Item disabled> Add Owner </Dropdown.Item>
+                            <AddCommit trigger={<Dropdown.Item disabled={this.props.isUser} name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/>
+                            <Dropdown.Item disabled> Add Commit </Dropdown.Item>                                                                                             
                             <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
                         </Dropdown.Menu>
                     </Dropdown>
