@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { LineChart,ResponsiveContainer, Line, AreaChart, Area, Brush, XAxis, YAxis, CartesianGrid, Tooltip} from 'recharts'
+import { ResponsiveContainer, AreaChart, Area, Brush, XAxis, YAxis, Tooltip} from 'recharts'
 import { Segment, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
@@ -45,12 +45,12 @@ export default class ProfileContributionsFeed extends Component {
 
         let wholeYear = []
 
-        for (let w = 0; w < parseInt(moment().format("W")); w++) {
+        for (let w = 0; w < parseInt(moment().format("W"), 10); w++) {
 
             wholeYear[w] = []
             let days = 7
-            if (w === parseInt(moment().format("W")) - 1) {
-                days = parseInt(moment().format("E"))
+            if (w === parseInt(moment().format("W"), 10) - 1) {
+                days = parseInt(moment().format("E"), 10)
             }
             for (let d = 0; d < days; d++) {
                 if(moment(((w + 1) + "-" + (d+1)).toString(), 'W-E').toDate() === "Invalid Date") {
@@ -63,14 +63,14 @@ export default class ProfileContributionsFeed extends Component {
         }
 
         for (let i = 0; i < data.length; i++) {            
-            wholeYear[parseInt(moment(data[i].date).format("W")) - 1][parseInt(moment(data[i].date).format("E")) - 1].commits++  
+            wholeYear[parseInt(moment(data[i].date).format("W"), 10) - 1][parseInt(moment(data[i].date).format("E"), 10) - 1].commits++  
         }
 
         let wholeYearNormalized = []
-        for (let w = 0; w < parseInt(moment().format("W")); w++) {
+        for (let w = 0; w < parseInt(moment().format("W"), 10); w++) {
             let days = 7
-            if (w === parseInt(moment().format("W")) - 1) {
-                days = parseInt(moment().format("E"))
+            if (w === parseInt(moment().format("W"), 10) - 1) {
+                days = parseInt(moment().format("E"), 10)
             }
             for (let d = 0; d < days; d++) {
                 if(moment(((w + 1)+ "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {

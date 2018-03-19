@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Header, Tab, Icon } from 'semantic-ui-react'
+import { Segment, Header, Tab } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
 import { fetchViewingData } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
