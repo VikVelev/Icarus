@@ -3,6 +3,7 @@ import { Segment, Header, Tab } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
 import { fetchViewingData } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
+import Contributions from '../../profile-components/profileContributions.js'
 
 @connect((store) => {
     return {
@@ -12,22 +13,25 @@ import { connect } from 'react-redux';
         model3d: store.model3DManagement,
     }
 })
-
 export default class ViewModel3D extends Component {
-
+    //TODO FIX inconsistencies with Post profile link
     constructor (props) {
         super(props)
 
-        //Fetch this id
         this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
-        console.log(this.props)
     }
 
+    renderMentions() {
+        return "Empty"
+    }
 
+    renderCommits() {
+        return <Contributions isChain={true} commits={this.props.model3d.model[0].commits}/>
+    }
 
     panes = [
-        { menuItem: 'Commits', render: () => <Tab.Pane>Something</Tab.Pane> },
-        { menuItem: 'Mentions', render: () => <Tab.Pane>Something</Tab.Pane> },  
+        { menuItem: 'Commits', render: () => <Tab.Pane>{this.renderCommits()}</Tab.Pane> },
+        { menuItem: 'Mentions', render: () => <Tab.Pane>{this.renderMentions()}</Tab.Pane> },  
     ]
 
     render() {
@@ -37,7 +41,7 @@ export default class ViewModel3D extends Component {
                     <Segment color="blue">
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
                             <Canvas3D modelPath={
-                                this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length-1].new_version
+                                this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1].new_version
                                 }/>
                         </Segment>
                         <Segment className="uploadedBy">
@@ -64,6 +68,7 @@ export default class ViewModel3D extends Component {
                 </div>
             );
         } else {
+            //TODO Add fancy animations
             return (
                 <div>Loading...</div>
             )

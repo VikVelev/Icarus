@@ -299,6 +299,10 @@ i.blue.icon:hover {
     background-color: #eee
 }
 
+#loggedInUser {
+    font-size: 1.15em;
+}
+
 @media (max-width: 768px){
     .userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
         margin-left: 2% !important;
@@ -311,8 +315,4 @@ i.blue.icon:hover {
         transition: all 0.1s;        
         margin-right: 2% !important;
     }
-}
-
-#loggedInUser {
-
 }

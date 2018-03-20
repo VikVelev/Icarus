@@ -55,8 +55,8 @@ export class Navbar extends Component {
 
     handleProfile() {
         const trigger = (
-            <span id="loggedInUser">
-                <Image avatar src="/img/default.jpg"/>  {this.props.manage.currentlyLoggedUser.username.username}
+            <span>
+                <Image avatar src="/img/default.jpg"/>  <b id="loggedInUser">{this.props.manage.currentlyLoggedUser.username.username}</b>
             </span>
           )
           

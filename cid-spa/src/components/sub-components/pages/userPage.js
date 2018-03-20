@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Header, Tab, Icon } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
+import { Segment, Header, Tab } from 'semantic-ui-react'
 
 import ProfileModelsFeed from '../../profile-components/profileModels.js'
 import ProfileContributions from '../../profile-components/profileContributions.js'

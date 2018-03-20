@@ -29,7 +29,7 @@ export default class ProfileModelsFeed extends Component {
     renderPost(object, i){
         return (          
             <Segment id={object.id} key={i} className="profile-post-container">
-                <ModelPost isUser={true} {...object}/>
+                <ModelPost isUser={this.props.id !== undefined} {...object}/>
             </Segment>
         )
     }

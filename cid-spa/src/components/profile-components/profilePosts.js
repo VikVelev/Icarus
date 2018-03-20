@@ -37,13 +37,13 @@ export default class ProfilePostsFeed extends Component {
     }
 
     render(){
-        console.log(this.props.profile.posts.length)
         return(
             <div className="feed">
                 {
                     Object.keys(this.props.profile.posts).length !== 0 ? 
                     this.props.profile.posts.map((object, i) => this.renderPost(object,i)) : null
                 }
+                
             </div> 
         )
     }

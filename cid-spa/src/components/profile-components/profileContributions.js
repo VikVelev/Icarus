@@ -15,19 +15,26 @@ import { changeSubpage } from '../../actions/pageActions.js'
         profile: store.profileManagement
     }
 })
-export default class ProfileContributionsFeed extends Component {
+export default class ContributionsFeed extends Component {
     
     constructor(props) {
         super(props);
         this.data = []
         this.props.profile.contributions = {}
-        if (props.id === undefined) {
-            this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
-        } else {
-            this.props.dispatch(fetchContributions(this.props.id, this.props.user.currentlyLoggedUser.username.token))
-            
+
+        this.commits = this.props.commits
+
+        if (props.isChain === undefined) {
+            this.commits = {}
+            if (props.id === undefined) {
+                this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+            } else {
+                this.props.dispatch(fetchContributions(this.props.id, this.props.user.currentlyLoggedUser.username.token))
+                
+            }
+            this.props.dispatch(changeSubpage("profile_contributions"))
         }
-        this.props.dispatch(changeSubpage("profile_contributions"))
+
     }
 
     renderPost(object, i){
@@ -39,15 +46,6 @@ export default class ProfileContributionsFeed extends Component {
     }
 
     dataProcessing(data) {
-        const week = [
-            'Mon',
-            'Tue',
-            'Wed',
-            'Thu',
-            'Fri',
-            'Sat',
-            'Sun',
-        ]
 
         let wholeYear = []
 
@@ -55,14 +53,16 @@ export default class ProfileContributionsFeed extends Component {
 
             wholeYear[w] = []
             let days = 7
+
             if (w === parseInt(moment().format("W"), 10) - 1) {
                 days = parseInt(moment().format("E"), 10)
             }
+            
             for (let d = 0; d < days; d++) {
                 if(moment(((w + 1) + "-" + (d+1)).toString(), 'W-E').toDate() === "Invalid Date") {
                     continue;
                 }
-                let currentDay = moment(((w + 1) + "-" + (d+1)).toString(), 'W-E')
+                let currentDay = moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E')
                 wholeYear[w].push({ name: currentDay.format("MM.DD"), commits: 0 })
                 
             }
@@ -75,9 +75,11 @@ export default class ProfileContributionsFeed extends Component {
         let wholeYearNormalized = []
         for (let w = 0; w < parseInt(moment().format("W"), 10); w++) {
             let days = 7
+
             if (w === parseInt(moment().format("W"), 10) - 1) {
                 days = parseInt(moment().format("E"), 10)
             }
+
             for (let d = 0; d < days; d++) {
                 if(moment(((w + 1)+ "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
                     continue;
@@ -91,43 +93,54 @@ export default class ProfileContributionsFeed extends Component {
     }
 
     renderStatistics() {
-        if (this.data.length === 0){
+
+        // TODO: Think
+        if (this.data.length === 0 && this.props.isChain === undefined){
             this.data = this.dataProcessing(this.props.profile.contributions)
         }
 
         //Gotta put some data processing in the backend
-        
-        return (
-            <ResponsiveContainer width='100%' height="100%">
-                <AreaChart data={this.data} syncId="anyId"
-                        margin={{top: 10, right: 30, left: 0, bottom: 0}}>
-                    <XAxis dataKey="name"/>
-                    <YAxis/>
-                    <Tooltip/>
-                    <Area type='monotone' dataKey='commits' stroke='#82ca9d' fill='#82ca9d' />
-                    {/*7 because I want the last week stats to be by default*/}
-                    <Brush startIndex={this.data.length < 7 ? 0 : this.data.length-7}/>
-                </AreaChart>
-            </ResponsiveContainer>
-        );
+
+        // if this is not rendered on a profile page, but on a mdoel page.
+        if (this.props.isChain === undefined) {
+            return (
+                <div>
+                    <Header size="huge">Activity</Header>
+                    <div className="contribStatistics" style={{height: "300px", marginBottom: '50px'}}>
+                        <ResponsiveContainer width='100%' height="100%">
+                            <AreaChart data={this.data} syncId="anyId"
+                                    margin={{top: 10, right: 30, left: 0, bottom: 0}}>
+                                <XAxis dataKey="name"/>
+                                <YAxis/>
+                                <Tooltip/>
+                                <Area type='monotone' dataKey='commits' stroke='#82ca9d' fill='#82ca9d' />
+                                {/*7 because I want the last week stats to be by default*/}
+                                <Brush startIndex={this.data.length < 7 ? 0 : this.data.length-7}/>
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            );
+        }
     }
 
-    render(){
+    render(){   
         return(
             <div className="feedContainer">
-                <Header size="huge">Activity</Header>
-                <div className="contribStatistics" style={{height: "300px", marginBottom: '50px'}}>
+
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? 
                         this.renderStatistics()
-                        : "Empty"
+                        : null
                     }
-                </div>
+
                 <div className="feed">
                     { 
-                        Object.keys(this.props.profile.contributions).length !== 0 ? 
+                        Object.keys(this.props.profile.contributions).length !== 0 ? //if
                         this.props.profile.contributions.map((object, i) => this.renderPost(object,i)) 
-                        : null
+                        : Object.keys(this.commits).length !== 0 ?  //else if
+                        this.commits.map((object, i) => this.renderPost(object,i)) 
+                        : "None" //else
                     }
                 </div> 
             </div>

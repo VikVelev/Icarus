@@ -4,7 +4,7 @@ import { Segment, Header, Tab, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 
 import ProfileModelsFeed from '../../profile-components/profileModels.js'
-import ProfileContributions from '../../profile-components/profileContributions.js'
+import Contributions from '../../profile-components/profileContributions.js'
 import ProfilePosts from '../../profile-components/profilePosts.js'
 import { fetchUserData } from '../../../actions/profileActions.js'
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
@@ -23,7 +23,7 @@ export default class Profile extends Component {
 
     panes = [
         { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
-        { menuItem: 'Contributions', render: () => <Tab.Pane><ProfileContributions/></Tab.Pane> },
+        { menuItem: 'Contributions', render: () => <Tab.Pane><Contributions/></Tab.Pane> },
         { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts/></Tab.Pane> },
         // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
     ]

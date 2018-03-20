@@ -23,11 +23,10 @@ defaultState = {
 const profileManagement = (state=defaultState, action) => {
     switch (action.type) {
         case "FETCH_MODELS": case "FETCH_POSTS":
-        case "FETCH_CONTRIBUTIONS": case "FETCH_FAVORITES":
         case "ADD_POST": case "DELETE_POST":
         case "ADD_MODEL": case "DELETE_MODEL":
-        case "ADD_COMMIT": //do the same thing for all these cases
-        case "FETCH_USER_DATA":
+        case "ADD_COMMIT": case "FETCH_USER_DATA":
+        case "FETCH_FAVORITES": // DO the same thing for all these cases
             return {
                 ...state,
                 fetching: true, 

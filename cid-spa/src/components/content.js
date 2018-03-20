@@ -58,7 +58,6 @@ export default class Content extends Component {
     }
 
     render(){
-        console.log(this.props.user.logged)
         return(
             <Router>
                 <div className="content">
@@ -72,11 +71,12 @@ export default class Content extends Component {
                         <Route exact path="/create-post" component={this.routes.CreatePost} />                        
                         <Route exact path="/create-model" component={this.routes.Upload} />
 
-                        <Route exact path="/profile" component={this.routes.MyProfile} />                        
+                        <Route exact path="/profile/" component={this.routes.MyProfile} />                        
                         <Route exact path="/profile/settings" component={this.routes.ProfileSettings} />
                         <Route exact path="/profile/:id" component={this.routes.UserProfile} />
 
                         <Route exact path="/model/:id" component={this.routes.ViewModel}/>
+                        <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>                        
                     </Switch>
                 </div>
             </Router>
