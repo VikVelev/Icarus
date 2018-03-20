@@ -127,20 +127,18 @@ export default class ContributionsFeed extends Component {
     render(){   
         return(
             <div className="feedContainer">
-
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? 
                         this.renderStatistics()
                         : null
                     }
-
                 <div className="feed">
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? //if
                         this.props.profile.contributions.map((object, i) => this.renderPost(object,i)) 
                         : Object.keys(this.commits).length !== 0 ?  //else if
                         this.commits.map((object, i) => this.renderPost(object,i)) 
-                        : "None" //else
+                        : null
                     }
                 </div> 
             </div>

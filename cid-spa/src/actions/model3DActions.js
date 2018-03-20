@@ -12,16 +12,26 @@ export function fetchViewingData(id, token) {
 
         saxios.get(url + "/api/3d-models/?id=" + id).then((response) => {
             
-            let counter = 0;
+            let counterOwners = 0;
+            
             let responseRef = response
-            console.log(responseRef)
+
             for (let i = 0; i < responseRef.data[0].owners.length; i++) {
                 saxios.get(url + "/api/user/" + responseRef.data[0].owners[i] + "/").then((response) => {
                     responseRef.data[0].owners[i] = response.data        
-                    counter++
+                    counterOwners++
 
-                    if(counter === responseRef.data[0].owners.length){
-                        dispatch({ type: "FETCH_DATA_FULFILLED", payload: responseRef.data })
+                    
+                    if(counterOwners === responseRef.data[0].owners.length){
+                        let responseRefRef = responseRef
+                        saxios.get(url + "/api/posts/?posted_content=" + responseRef.data[0].id + "/").then((response) => {
+                            
+                            responseRefRef.data.mentions = []
+                            for (let i = 0; i < response.data.length; i++) {
+                                responseRefRef.data.mentions.push(response.data[i])
+                            }
+                            dispatch({ type: "FETCH_DATA_FULFILLED", payload: responseRefRef.data })
+                        })
                     }
                 })
             }

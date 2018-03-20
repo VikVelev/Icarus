@@ -3,7 +3,9 @@ import { Segment, Header, Tab } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
 import { fetchViewingData } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
+
 import Contributions from '../../profile-components/profileContributions.js'
+import ProfilePosts from '../../profile-components/profilePosts.js'
 
 @connect((store) => {
     return {
@@ -17,12 +19,11 @@ export default class ViewModel3D extends Component {
     //TODO FIX inconsistencies with Post profile link
     constructor (props) {
         super(props)
-
         this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
     }
 
     renderMentions() {
-        return "Empty"
+        return <ProfilePosts inProfile={false} posts={this.props.model3d.model.mentions}/>
     }
 
     renderCommits() {

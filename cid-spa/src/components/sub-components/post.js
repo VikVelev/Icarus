@@ -20,6 +20,11 @@ export default class Post extends Component {
         super(props)
         this.state = {
             rendering: false,
+            inProfile: false,
+        }
+
+        if(this.props.inProfile !== undefined) {
+            this.state.inProfile = this.props.inProfile
         }
     }
 
@@ -61,7 +66,7 @@ export default class Post extends Component {
                     
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
-                        { !this.props.inProfile ? <Item.Meta>Posted by {<Link to={"/profile/" + this.props.posted_id}>{this.props.posted_by}</Link>}</Item.Meta> : null }
+                        { !this.state.inProfile ? <Item.Meta>Posted by {<Link to={"/profile/" + this.props.posted_id}>{this.props.posted_by}</Link>}</Item.Meta> : null }
                         <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
                             <p>{this.props.description}</p>
