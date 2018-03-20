@@ -18,7 +18,7 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
     def get_queryset(self):
         queryset = Post.objects.all()
         posted_by = self.request.query_params.get('posted_by', None)
-        posted_model = self.request.query_params.get('posted_model', None)        
+        posted_model = self.request.query_params.get('posted_model', None)       
 
         if posted_by is not None:
             queryset = queryset.filter(posted_by=posted_by)

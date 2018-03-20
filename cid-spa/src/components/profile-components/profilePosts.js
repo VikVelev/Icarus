@@ -25,7 +25,7 @@ export default class ProfilePostsFeed extends Component {
 
         this.posts = props.posts
 
-        if (this.posts !== undefined) {
+        if (this.posts === undefined) {
             this.posts = {}
             if (props.id === undefined) {
                 this.props.dispatch(fetchUserPosts(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
@@ -45,6 +45,8 @@ export default class ProfilePostsFeed extends Component {
     }
 
     render(){
+        console.log(this.props.profile.posts)
+        console.log(this.posts)
         return(
             <div className="feed">                  
                 {

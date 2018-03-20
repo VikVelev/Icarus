@@ -24,7 +24,7 @@ export function fetchViewingData(id, token) {
                     
                     if(counterOwners === responseRef.data[0].owners.length){
                         let responseRefRef = responseRef
-                        saxios.get(url + "/api/posts/?posted_content=" + responseRef.data[0].id + "/").then((response) => {
+                        saxios.get(url + "/api/posts/?posted_model=" + responseRef.data[0].id).then((response) => {
                             
                             responseRefRef.data.mentions = []
                             for (let i = 0; i < response.data.length; i++) {
