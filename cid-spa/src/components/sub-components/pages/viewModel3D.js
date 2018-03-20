@@ -4,7 +4,7 @@ import Canvas3D from '../../viewport/canvas3d.js'
 import { fetchViewingData } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
 
-import Contributions from '../../profile-components/profileContributions.js'
+import CommitChain from '../../diff/commitChain.js'
 import ProfilePosts from '../../profile-components/profilePosts.js'
 
 @connect((store) => {
@@ -27,7 +27,7 @@ export default class ViewModel3D extends Component {
     }
 
     renderCommits() {
-        return <Contributions isChain={true} commits={this.props.model3d.model[0].commits}/>
+        return <CommitChain commits={this.props.model3d.model[0].commits}/>
     }
 
     panes = [

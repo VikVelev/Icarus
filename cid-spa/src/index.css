@@ -224,6 +224,11 @@ body {
     right: 0 !important;
 }
 
+.addContrib:hover {
+    background-color: #2185d0 !important;
+    color: white !important;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -315,4 +320,20 @@ i.blue.icon:hover {
         transition: all 0.1s;        
         margin-right: 2% !important;
     }
+}
+
+
+.addContrib.active:hover {
+    background-color: #db2828 !important;
+}
+
+.addContrib::after{
+    content: 'Add to compare';
+}
+
+.addContrib.active::after{
+    content: 'Added';
+}
+.addContrib.active:hover::after{
+    content: 'Remove';
 }
