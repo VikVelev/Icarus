@@ -107,15 +107,19 @@ class UserSerializer(serializers.ModelSerializer):
 class CommitSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(read_only=True)
     commited_by = serializers.PrimaryKeyRelatedField(read_only=True)
-    ### TODO: THINK of a way to store version numbers
+    id = serializers.IntegerField(read_only=True)
+    version_number = serializers.IntegerField(read_only=True)    
+
     class Meta:
         model = Commit
         fields = (
+            'id',
             'title',
             'belongs_to_model',
             'new_version',
             'new_textures',
             'commited_by',
+            'version_number',
             'details',
             'date',
         )
