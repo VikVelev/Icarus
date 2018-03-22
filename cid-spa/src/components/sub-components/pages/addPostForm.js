@@ -99,11 +99,14 @@ export default class AddPost extends Component{
                         <Header>Select a thumbnail:</Header>                                                
                         <label htmlFor="file-upload" className="file-upload">
                             Upload picture
+                        </label>                
+                        <label className="selected_model">
+                            { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
                         </label>
                         <Form.Input id="file-upload" name="image" onChange={this.handleChange} type="file"/>
                         {this.handleErrors("image")}
-                        
-                        
+
+
                         <Header>Description:</Header>  
 
                         <Form.Input 

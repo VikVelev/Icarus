@@ -138,9 +138,14 @@ export default class Add3DModel extends Component{
                                 <label htmlFor="file-upload" className="file-upload">
                                     Choose a model
                                 </label>
+
+                                <label className="selected_model">
+                                        { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
+                                </label>
+
                                 <Form.Input type="file" 
                                             id="file-upload"
-                                            name="thumbnail"
+                                            name=""
                                             onChange={this.handleChange} 
                                             accept=".obj"  />
 
@@ -150,6 +155,11 @@ export default class Add3DModel extends Component{
                                 <label htmlFor="textures-upload" className="file-upload">
                                     Choose textures
                                 </label>
+
+                                <label className="selected_model">
+                                        { document.getElementById("textures-upload") ? document.getElementById("textures-upload").files[0] ? document.getElementById("textures-upload").files[0].name : null : null}
+                                </label>
+                                                
                                 <Form.Input type="file" id="textures-upload" name="textures" onChange={this.handleChange} accept=".mtl"  />
                                 
                                 {this.handleCommitErrors("new_textures")}                                
