@@ -42,7 +42,7 @@ export default class ViewModel3D extends Component {
                     <Segment color="blue">
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
                             <Canvas3D modelPath={
-                                this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1].new_version
+                                this.props.model3d.model[0].commits[0].new_version
                                 }/>
                         </Segment>
                         <Segment className="uploadedBy">

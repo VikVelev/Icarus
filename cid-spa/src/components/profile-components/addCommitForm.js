@@ -34,6 +34,14 @@ export default class AddCommit extends Component {
         formDataCommit.append( "title", this.state.title )
         formDataCommit.append( "belongs_to_model", this.props.id)
         formDataCommit.append( "new_version", document.getElementById("file-upload").files[0] )
+        console.log(document.getElementById("textures-upload").files[0])
+
+        if (document.getElementById("textures-upload").files[0] !== undefined ) {
+            formDataCommit.append( "new_textures", document.getElementById("textures-upload").files[0] )        
+        } else {
+            formDataCommit.append( "new_textures", null )               
+        }
+
         formDataCommit.append( "details", this.state.details )
 
         this.props.dispatch(addCommit(this.props.user.currentlyLoggedUser.username.id, formDataCommit, this.props.user.currentlyLoggedUser.username.token))
@@ -68,12 +76,26 @@ export default class AddCommit extends Component {
                                 rows='5' 
                                 cols='50' 
                                 placeholder="Write a description"/>
-
-                                    <Header>Select a model</Header>
+                                    {/* TODO: Create a component for upload button.*/}
+                                    <Header>Select a new model</Header>
                                     <label htmlFor="file-upload" className="file-upload">
-                                        Choose a model
+                                        Choose a new model
+                                    </label>
+                                    <label className="selected_model">
+                                        { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0].name : null}
                                     </label>
                                     <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
+
+
+                                    <Header>Select new textures</Header>
+                                    <label htmlFor="textures-upload" className="file-upload">
+                                        Choose new textures
+                                    </label>
+                                    <label className="selected_model">
+                                        { document.getElementById("textures-upload") ? document.getElementById("textures-upload").files[0] ? document.getElementById("textures-upload").files[0].name : null : null}
+                                    </label>
+                                    <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
+
                                     <Message color="yellow">Currently supporting only .obj models.</Message>
 
                             {this.props.profile.error.response !== undefined ? <Message color="red" > Error </Message> : null }
