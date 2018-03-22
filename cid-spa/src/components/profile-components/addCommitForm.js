@@ -26,8 +26,7 @@ export default class AddCommit extends Component {
         this.setState({ [name]: value })
 	}
 
-    handleSubmit = (e) => {
-        console.log("Submitting", this.props.user)  
+    handleSubmit = (e) => {  
 
         let formDataCommit = new FormData();        
 
