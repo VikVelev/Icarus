@@ -131,12 +131,16 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
                 'Content-Type': 'multipart/form-data',
             },
         })
+
         saxios.post(url + "/api/user/" + id + "/3d-models/", modelData).then((response) => {
-            dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })
+            
             if (initialCommit) {
                 commitData.append("belongs_to_model", response.data.id)
                 dispatch(addCommit(id, commitData, token))
             }
+
+            dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })
+        
         }).catch((error) => {
             dispatch({ type: "ADD_MODEL_REJECTED", payload: error })          
         })
@@ -155,7 +159,7 @@ export function addCommit(id, commitData, token) {
         saxios.post(url + "/api/user/" + id + "/contributions/", commitData).then((response) => {
             dispatch({ type: "ADD_COMMIT_FULFILLED", payload: response.data })
         }).catch((error) => {
-            dispatch({ type: "ADD_COMMIT_REJECTED", payload: error })          
+            dispatch({ type: "ADD_COMMIT_REJECTED", payload: error })      
         })
     }
 }

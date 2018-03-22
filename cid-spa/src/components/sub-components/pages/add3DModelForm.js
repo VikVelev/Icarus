@@ -34,6 +34,33 @@ export default class Add3DModel extends Component{
         }
 	}
 
+    handleErrors(type) {
+        if (this.props.profile.error.response) {
+            if (this.props.profile.error.response.data[type] !== undefined) {
+                return (
+                    <Message attached="bottom" color="red">
+                        {this.props.profile.error.response.data[type]}
+                    </Message>
+                )
+            }
+        }
+    }
+    
+    handleCommitErrors(type) {
+        console.log(this.props.profile.commitError)
+        if (this.props.profile.commitError !== {}) {
+            if (this.props.profile.commitError.response !== undefined) {            
+                if (this.props.profile.commitError.response.data[type] !== undefined) {
+                    return (
+                        <Message attached="bottom" color="red">
+                            {this.props.profile.commitError.response.data[type]}
+                        </Message>
+                    )
+                }
+            }
+        }
+	}
+
     handleSubmit = (e) => {
         console.log("Submitting", this, e)
         const formDataModel = new FormData();
@@ -73,22 +100,27 @@ export default class Add3DModel extends Component{
                             placeholder='Write a title'
                             value={this.state.title}
                             onChange={this.handleChange}
+                            error={this.handleErrors("title") ? true : false}                            
                             type="text"
                             name="title"
                         />
 
+                        {this.handleErrors("title")}
+
                         <Header>Description:</Header>  
 
                         <Form.Input 
-                                    type="text"
-                                    name="description" 
-                                    value={this.state.description}
-                                    onChange={this.handleChange}
-                                    id="description"
-                                    rows='5' 
-                                    cols='50' 
-                                    placeholder="Write a description"/>
+                            type="text"
+                            name="description" 
+                            value={this.state.description}
+                            onChange={this.handleChange}
+                            id="description"
+                            error={this.handleErrors("description") ? true : false}
+                            rows='5' 
+                            cols='50' 
+                            placeholder="Write a description"/>
 
+                        {this.handleErrors("description")}                        
                         <div>
                         <Form.Checkbox 
                             name="initialCommit"
@@ -96,30 +128,39 @@ export default class Add3DModel extends Component{
                             id="initialCommitCheckbox" 
                             label="Create an initial commit."
                         />
-
+                        
                         <Message info>Initial commit is required if you want to upload a model.</Message>                       
                         {this.state.initialCommit ?
+
                             <div className="initialCommmit">
                                 <Header size="huge">Initial commit</Header> 
                                 <Header>Select a model</Header>
                                 <label htmlFor="file-upload" className="file-upload">
                                     Choose a model
                                 </label>
-                                <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj"  />
-                                
+                                <Form.Input type="file" 
+                                            id="file-upload"
+                                            name="thumbnail"
+                                            onChange={this.handleChange} 
+                                            accept=".obj"  />
+
+                                {this.handleCommitErrors("new_version")}              
+                                        
                                 <Header>Select textures</Header>
                                 <label htmlFor="textures-upload" className="file-upload">
                                     Choose textures
                                 </label>
                                 <Form.Input type="file" id="textures-upload" name="textures" onChange={this.handleChange} accept=".mtl"  />
+                                
+                                {this.handleCommitErrors("new_textures")}                                
+                                
                                 <Message color="yellow">Currently supporting only .obj models and .mtl textures.</Message>
                             </div>
+                        
                         : null}
                         </div>
-                        {this.props.profile.error.response !== undefined ? <Message color="red" > Error </Message> : null }
-                        {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                            
-                        {this.props.profile.modelFetched ? <Message color="green" > Successfully created a new model. </Message> : null }
-                        
+
+                        {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                        
                         {/*TODO VALIDATION*/}
                     </Segment>
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Create</Button>

@@ -11,6 +11,7 @@ defaultState = {
     favorites: {},
     contributions: {},
     error: {},
+    commitError: {},
     postFetched: false,
     commitFetched: false,
     contributionsFetched: false,
@@ -29,6 +30,7 @@ const profileManagement = (state=defaultState, action) => {
         case "FETCH_FAVORITES": // DO the same thing for all these cases
             return {
                 ...state,
+                error: {},
                 fetching: true, 
                 fetched: false,
             }
@@ -167,7 +169,8 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_MODEL_FULFILLED":               
             return {
                 ...state,
-                modelFetched: true,       
+                modelFetched: true,
+                fetched: false,    
                 fetching: false, 
             } 
         case "ADD_MODEL_REJECTED":
@@ -175,6 +178,7 @@ const profileManagement = (state=defaultState, action) => {
                 ...state,
                 error: action.payload,
                 modelFetched: false, 
+                fetching: false,
                 fetched: false,
             } 
         case "DELETE_MODEL_FULFILLED":               
@@ -199,7 +203,7 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_COMMIT_REJECTED":
             return {
                 ...state,
-                error: action.payload,
+                commitError: action.payload,
                 commitFetched: false,                
                 fetching: false, 
                 fetched: false,    

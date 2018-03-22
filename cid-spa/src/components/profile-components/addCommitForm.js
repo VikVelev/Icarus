@@ -26,6 +26,18 @@ export default class AddCommit extends Component {
         this.setState({ [name]: value })
 	}
 
+    handleErrors(type) {
+        if (this.props.profile.error.response) {
+            if (this.props.profile.error.response.data[type] !== undefined) {
+                return (
+                    <Message attached="bottom" color="red">
+                        {this.props.profile.error.response.data[type]}
+                    </Message>
+                )
+            }
+        }
+	}
+
     handleSubmit = (e) => {  
 
         let formDataCommit = new FormData();        
@@ -62,7 +74,9 @@ export default class AddCommit extends Component {
                                 onChange={this.handleChange}
                                 type="text"
                                 name="title"
+                                error={this.handleErrors("title") ? true : false}
                             />
+                            {this.handleErrors("title")}
 
                             <Header>Description:</Header>  
 
@@ -70,34 +84,37 @@ export default class AddCommit extends Component {
                                 type="text"
                                 name="details" 
                                 value={this.state.details}
+                                error={this.handleErrors("details") ? true : false}
                                 onChange={this.handleChange}
                                 id="details"
                                 rows='5' 
                                 cols='50' 
                                 placeholder="Write a description"/>
-                                    {/* TODO: Create a component for upload button.*/}
-                                    <Header>Select a new model</Header>
-                                    <label htmlFor="file-upload" className="file-upload">
-                                        Choose a new model
-                                    </label>
-                                    <label className="selected_model">
-                                        { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0].name : null}
-                                    </label>
-                                    <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
 
+                            {this.handleErrors("details")}                 
+                            {/* TODO: Create a component for upload button.*/}
+                            <Header>Select a new model</Header>
+                            <label htmlFor="file-upload" className="file-upload">
+                                Choose a new model
+                            </label>
+                            <label className="selected_model">
+                                { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
+                            </label>
+                            <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
+                            {this.handleErrors("new_version")}
 
-                                    <Header>Select new textures</Header>
-                                    <label htmlFor="textures-upload" className="file-upload">
-                                        Choose new textures
-                                    </label>
-                                    <label className="selected_model">
-                                        { document.getElementById("textures-upload") ? document.getElementById("textures-upload").files[0] ? document.getElementById("textures-upload").files[0].name : null : null}
-                                    </label>
-                                    <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
+                            <Header>Select new textures</Header>
+                            <label htmlFor="textures-upload" className="file-upload">
+                                Choose new textures
+                            </label>
+                            <label className="selected_model">
+                                { document.getElementById("textures-upload") ? document.getElementById("textures-upload").files[0] ? document.getElementById("textures-upload").files[0].name : null : null}
+                            </label>
+                            <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
+                            {this.handleErrors("new_textures")}               
+                            
+                            <Message color="yellow">Currently supporting only .obj models.</Message>
 
-                                    <Message color="yellow">Currently supporting only .obj models.</Message>
-
-                            {this.props.profile.error.response !== undefined ? <Message color="red" > Error </Message> : null }
                             {this.props.profile.fetching ? <Message info > Uploading model... </Message> : null }                            
                             {this.props.profile.commitFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
                             
