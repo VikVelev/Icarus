@@ -9,7 +9,7 @@ services:
 
     web:
         image: django
-        build: ./web.docker
+        build: .
         volumes: 
             - .:/code
         ports:
