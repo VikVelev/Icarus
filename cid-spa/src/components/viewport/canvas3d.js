@@ -105,6 +105,9 @@ export default class Canvas3D extends Component {
         }
     }
         
+    addModel(model) {
+        console.log("stub")
+    }
 
     onProgress( xhr ){       
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
