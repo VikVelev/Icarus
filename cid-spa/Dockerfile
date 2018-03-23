@@ -1,3 +1,3 @@
 FROM iamfreee/docker-nginx-static-spa:latest
 
-COPY /build /var/www/html
+COPY /docker_build /var/www/html

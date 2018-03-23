@@ -6,6 +6,6 @@ echo Deploying... | lolcat -a -d 20
 
 yarn install
 yarn build
-cp -r build/* ../cid-api-django/cidAPI/static/
+cp -r build/* ./docker_build
 
 echo Deployed | lolcat -a -d 20
