@@ -23,7 +23,6 @@ export default class CommitEntry extends Component {
     }
 
     isLatest() {
-        console.log(this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1])
         if(this.props.id === this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1].id) {
             return true
             this.setState({ isLatest: true })
@@ -38,8 +37,7 @@ export default class CommitEntry extends Component {
     }
 
     render(){
-        this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)        
-        console.log(this.state.isLatest)
+        this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)
         return(
             <div className="profilePostWrapper">
                 <Item className="post">

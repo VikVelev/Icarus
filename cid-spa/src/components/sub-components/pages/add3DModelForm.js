@@ -47,7 +47,7 @@ export default class Add3DModel extends Component{
     }
     
     handleCommitErrors(type) {
-        console.log(this.props.profile.commitError)
+
         if (this.props.profile.commitError !== {}) {
             if (this.props.profile.commitError.response !== undefined) {            
                 if (this.props.profile.commitError.response.data[type] !== undefined) {
@@ -62,7 +62,7 @@ export default class Add3DModel extends Component{
 	}
 
     handleSubmit = (e) => {
-        console.log("Submitting", this, e)
+        
         const formDataModel = new FormData();
 
         formDataModel.append("title",this.state.title)

@@ -19,7 +19,6 @@ export default class DeleteModal extends Component {
             open: false,
             deleted: false
         }
-        console.log(props)
     }
 
     handleDelete() {

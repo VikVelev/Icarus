@@ -45,7 +45,6 @@ export default class AddCommit extends Component {
         formDataCommit.append( "title", this.state.title )
         formDataCommit.append( "belongs_to_model", this.props.id)
         formDataCommit.append( "new_version", document.getElementById("file-upload").files[0] )
-        console.log(document.getElementById("textures-upload").files[0])
 
         if (document.getElementById("textures-upload").files[0] !== undefined ) {
             formDataCommit.append( "new_textures", document.getElementById("textures-upload").files[0] )        
