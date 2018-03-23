@@ -16,7 +16,7 @@ services:
             - "8000:8000"
         depends_on: 
             - db
-        command: bash -c "cd ./cidAPI && ./manage.py migrate && ./cidAPI/manage.py runserver 0.0.0.0:8000" 
+        command: bash -c "cd ./cidAPI && ./manage.py migrate && ./manage.py runserver 0.0.0.0:8000" 
         environment:
             IN_DOCKER: 1
 
