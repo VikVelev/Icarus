@@ -14,7 +14,6 @@ class Contributions(mixins.ListModelMixin,
                 mixins.CreateModelMixin,
                 generics.GenericAPIView):
     serializer_class = CommitSerializer
-    permission_classes = (permissions.IsAuthenticated,)    
     
 
     def get_queryset(self):

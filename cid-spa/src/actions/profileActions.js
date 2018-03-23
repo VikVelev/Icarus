@@ -56,6 +56,7 @@ export function fetchFavorites(id, token){
 export function fetchUserData(id, token) {
     return function(dispatch) {
         dispatch({type: "FETCH_USER_DATA"})
+        console.log(token)
         axios.get(url + "/api/user/" + id + "/", {
             headers: {
                 'Authorization': 'Token ' + token

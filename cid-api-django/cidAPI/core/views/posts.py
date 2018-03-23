@@ -12,7 +12,8 @@ from ..serializers import PostSerializer
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
-    permission_classes = (permissions.IsAuthenticated,)
+
+    #permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -32,7 +33,7 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 # Gotta implement permissions so no one can edit everyone's posts
 
 class Posts(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated,)    
+    #permission_classes = (permissions.IsAuthenticated,)    
     serializer_class = PostSerializer
 
     def get_queryset(self):
