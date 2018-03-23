@@ -21,9 +21,8 @@ services:
             IN_DOCKER: 1
 
     frontend:
-        build: ./frontend.docker
-        volumes:
-            - ./cidAPI/static:/frontend
+        build: 
+            context: ../cid-spa
         ports:
             - "80:80"
         depends_on:

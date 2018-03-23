@@ -16,6 +16,7 @@ import mimetypes
 class ListAllModels3D(generics.ListAPIView):
 
     serializer_class = Model3DSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         queryset = Model3D.objects.all()
@@ -33,6 +34,7 @@ class Models3D( mixins.ListModelMixin,
                 generics.GenericAPIView,
             ):
 
+    permission_classes = (permissions.IsAuthenticated,)    
     serializer_class = Model3DSerializer
 
     def get_queryset(self):
@@ -78,6 +80,8 @@ class Models3D( mixins.ListModelMixin,
         serializer.save()
 
 class CommitFile(generics.GenericAPIView):
+
+    permission_classes = (permissions.IsAuthenticated,)        
     def get(self, request, *args, **kwargs):
         model_id = self.kwargs["pk"]
         file = Commit.objects.get(id=model_id).new_version
