@@ -22,11 +22,8 @@ services:
 
 
     frontend:
-        image: node
-        volumes:
-            - ./cidAPI/static:/frontend
-        working_dir: /frontend
-        command: bash -c "npm install -g serve && serve -p 80"
+        build: 
+            context: ../cid-spa
         ports:
             - "80:80"
         depends_on:
