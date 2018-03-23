@@ -9,7 +9,7 @@ services:
 
     web:
         image: django
-        build: .
+        build: ./web.docker
         volumes: 
             - .:/code
         ports:
@@ -20,13 +20,10 @@ services:
         environment:
             IN_DOCKER: 1
 
-
     frontend:
-        image: node
+        build: ./frontend.docker
         volumes:
             - ./cidAPI/static:/frontend
-        working_dir: /frontend
-        command: bash -c "npm install -g serve && serve -p 80"
         ports:
             - "80:80"
         depends_on:
