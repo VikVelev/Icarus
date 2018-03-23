@@ -1,13 +1,12 @@
-version: '3.2'
+version: '2.0'
 
 services:
     db:
         image: postgres:latest
         environment:
             POSTGRES_PASSWORD: 'db_password'
-        #volumes:
-            #- ./dbdata:/var/lib/postgresql/data
-        
+
+
     web:
         image: django
         build: .
@@ -17,9 +16,25 @@ services:
             - "8000:8000"
         depends_on: 
             - db
-        command: ["./cidAPI/manage.py","runserver","0.0.0.0:8000"]
+        command: bash -c "cd ./cidAPI && ./manage.py migrate && ./manage.py runserver 0.0.0.0:8000" 
         environment:
             IN_DOCKER: 1
+
+
+    frontend:
+        image: node
+        volumes:
+            - ./cidAPI/static:/frontend
+        working_dir: /frontend
+        command: bash -c "npm install -g serve && serve -p 80"
+        ports:
+            - "80:80"
+        depends_on:
+            - db
+            - web
+            - minio
+
+
     minio:
         image: minio/minio
         volumes:

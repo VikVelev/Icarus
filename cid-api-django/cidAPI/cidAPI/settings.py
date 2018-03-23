@@ -38,7 +38,8 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     'main:3000',
     'localhost:8000',
-    'localhost',
+    'localhost:3001',
+    'localhost:3002',  
     '0.0.0.0:3000',
     '127.0.0.1:9000',
     'cid-platform.myddns.me:3000',
@@ -202,6 +203,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+#TODO Fix Static directories so django can serve the spa properly
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
@@ -214,8 +217,9 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-MINIO_STORAGE_ENDPOINT = "172.18.0.2:9000"
+MINIO_STORAGE_ENDPOINT = "cid-platform.myddns.me:9001"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_SECRET_KEY = "test_secret"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"
+
 MINIO_STORAGE_USE_HTTPS = False
