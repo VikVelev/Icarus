@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Segment, Header, Form, /*Message,*/ Button, Message } from 'semantic-ui-react'
+import { Segment, Header, Form, Button, Message, Dropdown, Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 
-import { addPost } from '../../../actions/profileActions.js'
+import { addPost, fetchAll3DModels } from '../../../actions/profileActions.js'
 
 @connect((store) => {
     return {
@@ -13,6 +13,7 @@ import { addPost } from '../../../actions/profileActions.js'
 export default class AddPost extends Component{
     constructor(props) {
         super(props)
+
         this.state = {
             posted_by: this.props.user.currentlyLoggedUser.username.id,
             title: "",
@@ -22,6 +23,10 @@ export default class AddPost extends Component{
             is_relevant: true,
             is_recent: true,
         }
+
+        this.props.dispatch(
+            fetchAll3DModels(this.props.user.currentlyLoggedUser.username.token)
+        )
     }  
 
     handleErrors(type) {
@@ -35,15 +40,16 @@ export default class AddPost extends Component{
             }
         }
 	}
-    
+
     handleChange = (e, { name, value }) => {
-        
-        if (name === "content") {
-            value = parseInt(value.replace(/[^\d]/,''), 10)
-        }
-        
         this.setState({ [name]: value })
-	}
+    }
+    
+    receiveValue(value) {
+        this.setState({
+            content: value
+        })
+    }
 
     handleSubmit = () => {
         
@@ -62,7 +68,9 @@ export default class AddPost extends Component{
         formData.append("is_relevant", this.state.is_relevant)
         formData.append("is_recent", this.state.is_recent)                                
 
-        this.props.dispatch(addPost(this.props.user.currentlyLoggedUser.username.id, formData, this.props.user.currentlyLoggedUser.username.token))
+        this.props.dispatch(
+            addPost(this.props.user.currentlyLoggedUser.username.id, formData, this.props.user.currentlyLoggedUser.username.token)
+        )
     }
 
     render(){
@@ -84,17 +92,10 @@ export default class AddPost extends Component{
                         {this.handleErrors("title")}
                         <Header>Select a 3D Model:</Header>                    
                         
-                        <Form.Input
-                            placeholder='Write your ID'
-                            value={this.state.content}
-                            onChange={this.handleChange}
-                            error={this.handleErrors("content") ? true : false}                            
-                            type="text"
-                            name="content"
-                        />
+                        { this.props.profile.allModels[0] !== undefined ? 
+                            <ModelDropdown options={this.props.profile.allModels} sendValue={this.receiveValue.bind(this)}/> 
+                        : null }
                         {this.handleErrors("content")}
-                        
-                        <Message color="blue">You must type your model's id. Only numbers allowed.</Message>
 
                         <Header>Select a thumbnail:</Header>                                                
                         <label htmlFor="file-upload" className="file-upload">
@@ -128,6 +129,68 @@ export default class AddPost extends Component{
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Add post</Button>
                 </Form>
             </Segment>
+        )
+    }
+}
+
+class ModelDropdown extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isFetching: false,
+            multiple: false,
+            search: true,
+            searchQuery: null,
+            value: [],
+            options: this.getOptions(),
+        }
+    }
+    
+    getOptions(){
+        let options = []
+        
+        this.props.options.forEach((element)=>{
+            options.push({
+                key: element.id,
+                text: element.title,
+                icon: {
+                    name: "cubes"
+                },
+                value: element.id
+            })
+        })
+
+        return options
+    }
+
+    handleChange = (e, { value }) => {
+        this.setState({ value })
+        this.props.sendValue(value)
+    }
+    handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
+
+    render() {
+
+        const { options, isFetching, value } = this.state
+
+        return (
+            <Grid>
+                <Dropdown
+                    fluid
+                    selection
+                    search
+                    multiple={false}
+                    options={options}
+                    value={value}
+                    name='content'
+                    placeholder='Add Users'
+                    onChange={this.handleChange}
+                    onSearchChange={this.handleSearchChange}
+                    disabled={isFetching}
+                    loading={isFetching}
+                />
+            </Grid>
         )
     }
 }

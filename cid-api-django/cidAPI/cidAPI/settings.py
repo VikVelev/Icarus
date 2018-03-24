@@ -45,7 +45,8 @@ CORS_ORIGIN_WHITELIST = (
     'cid-platform.myddns.me:3000',
     'cid-platform.myddns.me:8000',
     'cid-platform.myddns.me',
-    '192.168.0.106:3000', 
+    '192.168.0.106:3000'
+    'localhost',
 )
 
 # Application definition
@@ -205,6 +206,7 @@ USE_L10N = True
 USE_TZ = True
 
 #TODO Fix Static directories so django can serve the spa properly
+#TODO OR Just migrate to nginx to serve the spa, tyvm bye
 
 STATIC_URL = '/static/'
 
@@ -218,7 +220,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-MINIO_STORAGE_ENDPOINT = "172.18.0.2:9000"
+MINIO_STORAGE_ENDPOINT = "172.18.0.3:9000"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_SECRET_KEY = "test_secret"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"

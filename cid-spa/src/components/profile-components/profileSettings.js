@@ -155,10 +155,14 @@ export default class ProfileSettings extends Component {
                                     <label htmlFor="file-upload" className="file-upload">
                                         <i className="fa fa-cloud-upload"></i> Upload picture
                                     </label>
+                                    <label className="selected_model">
+                                        { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
+                                    </label>
                                     <Form.Input id="file-upload" 
                                         name="profile_picture" 
                                         type="file"
-                                        onChange={this.handleChange} 
+                                        onChange={this.handleChange}
+                                        accept=".png,.jpg,.jpeg"
                                     />
                                     {this.handleErrors("profile_picture")}
                                     

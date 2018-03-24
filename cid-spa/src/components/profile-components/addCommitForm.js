@@ -110,7 +110,7 @@ export default class AddCommit extends Component {
                             <label className="selected_model">
                                 { document.getElementById("textures-upload") ? document.getElementById("textures-upload").files[0] ? document.getElementById("textures-upload").files[0].name : null : null}
                             </label>
-                            <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
+                            <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".mtl" />
                             {this.handleErrors("new_textures")}               
                             
                             <Message color="yellow">Currently supporting only .obj models.</Message>

@@ -20,6 +20,21 @@ export function fetch3DModels(id, token){
     }
 }
 
+export function fetchAll3DModels(token){
+    return function(dispatch) {
+        dispatch({type: "FETCH_ALL_MODELS"})
+        axios.get(url + "/api/3d-models/",{
+            headers: {
+                'Authorization': 'Token ' + token
+            }
+        }).then((response) => {
+            dispatch({ type: "FETCH_ALL_MODELS_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "FETCH_ALL_MODELS_REJECTED", payload: error })            
+        })
+    }
+}
+
 export function fetchContributions(id, token){
     return function(dispatch) {
         dispatch({type: "FETCH_CONTRIBUTIONS"})
@@ -137,10 +152,12 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
             
             if (initialCommit) {
                 commitData.append("belongs_to_model", response.data.id)
-                dispatch(addCommit(id, commitData, token))
+                console.log(commitData.get("new_textures"))
+                dispatch(addCommit(id, commitData, token, response.data))
+            } else {
+                dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })
             }
 
-            dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })
         
         }).catch((error) => {
             dispatch({ type: "ADD_MODEL_REJECTED", payload: error })          
@@ -149,7 +166,7 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
     }
 }
 
-export function addCommit(id, commitData, token) {
+export function addCommit(id, commitData, token, initData) {
     return function(dispatch) {
         dispatch({ type: "ADD_COMMIT" })
         var saxios = axios.create({
@@ -157,8 +174,15 @@ export function addCommit(id, commitData, token) {
                 'Authorization': 'Token ' + token,
             },
         })
+
         saxios.post(url + "/api/user/" + id + "/contributions/", commitData).then((response) => {
+            
+            if (initData !== undefined) {
+                dispatch({ type: "ADD_MODEL_FULFILLED", payload: initData })                
+            }
+
             dispatch({ type: "ADD_COMMIT_FULFILLED", payload: response.data })
+
         }).catch((error) => {
             dispatch({ type: "ADD_COMMIT_REJECTED", payload: error })      
         })

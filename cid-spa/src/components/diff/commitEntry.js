@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Item, Segment, Dropdown, Button } from 'semantic-ui-react'
+import { Item, Button } from 'semantic-ui-react'
 import * as moment from 'moment'
-import Canvas3D from '../viewport/canvas3d.js'
+
 import { connect } from 'react-redux'
 
 @connect((store) => {
@@ -25,8 +25,8 @@ export default class CommitEntry extends Component {
     isLatest() {
         console.log(this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1])
         if(this.props.id === this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1].id) {
-            return true
             this.setState({ isLatest: true })
+            return true
         } else {
             return false
         }
