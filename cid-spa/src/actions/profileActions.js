@@ -71,7 +71,6 @@ export function fetchFavorites(id, token){
 export function fetchUserData(id, token) {
     return function(dispatch) {
         dispatch({type: "FETCH_USER_DATA"})
-        console.log(token)
         axios.get(url + "/api/user/" + id + "/", {
             headers: {
                 'Authorization': 'Token ' + token
@@ -152,7 +151,6 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
             
             if (initialCommit) {
                 commitData.append("belongs_to_model", response.data.id)
-                console.log(commitData.get("new_textures"))
                 dispatch(addCommit(id, commitData, token, response.data))
             } else {
                 dispatch({ type: "ADD_MODEL_FULFILLED", payload: response.data })

@@ -76,8 +76,9 @@ export default class Content extends Component {
                         <Route exact path="/profile/:id" component={this.routes.UserProfile} />
 
                         <Route exact path="/model/:id" component={this.routes.ViewModel}/>
-                        <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>                        
+                        <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>                     
                     </Switch>
+                    {console.log("Errors:", this.props.user.error)} 
                 </div>
             </Router>
         );
@@ -87,15 +88,13 @@ export default class Content extends Component {
         Home: () => ( this.props.user.logged ? <Feed/> : <HomePage/> ),
         Login: () =>  ( this.props.user.logged ? <Redirect to="/"/> : <LoginForm/> ),
         SignUp: () => ( this.props.user.logged ? <Redirect to="/"/> : <RegisterForm/> ),
-        Trending: () => ( this.props.user.logged ? <TrendingFeed/> : <Redirect to="login"/> ),
-        MyProfile: () => ( this.props.user.logged ? <Profile/> : <Redirect to="login"/> ),
-        UserProfile: (data) => ( this.props.user.logged ? <UserProfile id={data.match.params.id}/> : <Redirect to="login"/> ),        
-        ProfileSettings: () => ( this.props.user.logged ? <ProfileSettings/> : <Redirect to="login"/> ),
-        Upload: () => ( this.props.user.logged ? <Add3DModel/> : <Redirect to="login"/> ),
-        CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="login"/> ),
-        ViewModel: (data) => ( this.props.user.logged ? <ViewModel3D id={data.match.params.id}/> : <Redirect to="login"/> ),        
-        // TODO: IMPLEMENT THIS
-        //Profile: () => ( loggedIn ? <Profile loggedUser={state.id}/> : <LoginForm message="You are not logged in"/> )
+        Trending: () => ( this.props.user.logged ? <TrendingFeed/> : <Redirect to="/login"/> ),
+        MyProfile: () => ( this.props.user.logged ? <Profile/> : <Redirect to="/login"/> ),
+        UserProfile: (data) => ( this.props.user.logged ? <UserProfile id={data.match.params.id}/> : <Redirect to="/login"/> ),        
+        ProfileSettings: () => ( this.props.user.logged ? <ProfileSettings/> : <Redirect to="/login"/> ),
+        Upload: () => ( this.props.user.logged ? <Add3DModel/> : <Redirect to="/login"/> ),
+        CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="/login"/> ),
+        ViewModel: (data) => ( this.props.user.logged ? <ViewModel3D id={data.match.params.id}/> : <Redirect to="/login"/> ),
         
         //Add more routes here
     }

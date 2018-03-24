@@ -45,8 +45,6 @@ export default class ProfilePostsFeed extends Component {
     }
 
     render(){
-        console.log(this.props.profile.posts)
-        console.log(this.posts)
         return(
             <div className="feed">                  
                 {

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Item, Segment, Dropdown } from 'semantic-ui-react'
+import { Item, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
 
 import AddCommit from '../addCommitForm.js'
-import Canvas3D from '../../viewport/canvas3d.js'
 import DeleteModal from '../deleteModal.js' 
 
 
@@ -16,18 +15,6 @@ export default class ModelPost extends Component {
             addingCommit: false,
             deletingModel: false,
             modelID: undefined,
-        }
-    }
-    
-    mountCanvas = () => {
-        if (this.state.rendering){
-            return(
-                <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.commits[this.props.commits.length-1].new_version}/>
-                </Segment>
-            )
-        } else {
-            return null
         }
     }
 
@@ -68,12 +55,11 @@ export default class ModelPost extends Component {
                             {!this.props.isUser ?  <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeleteModel.bind(this)}> Delete </Dropdown.Item>} type="model" id={this.state.modelID}/> : null }
                             <Dropdown.Header content='Version Control'/>
                             <AddCommit trigger={<Dropdown.Item disabled={this.props.isUser} name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/>
-                            <Dropdown.Item disabled> Add Commit </Dropdown.Item>                                                                                             
+                            <Dropdown.Item disabled> Add Owner </Dropdown.Item>                                                                                        
                             <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>
-                {this.mountCanvas()}
             </div>
         )
     }

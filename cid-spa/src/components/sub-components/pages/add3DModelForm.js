@@ -83,7 +83,6 @@ export default class Add3DModel extends Component{
             formDataCommit.append( "details", "Initial commit" )
         }
 
-        console.log(formDataCommit.get("new_textures"))
         this.props.dispatch(add3DModel(this.props.user.currentlyLoggedUser.username.id, 
                                         this.props.user.currentlyLoggedUser.username.token,
                                         formDataModel,

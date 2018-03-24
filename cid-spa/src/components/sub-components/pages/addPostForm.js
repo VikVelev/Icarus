@@ -60,7 +60,7 @@ export default class AddPost extends Component{
         if ( document.getElementById("file-upload").files[0] !== undefined ) {
             formData.append("image", document.getElementById("file-upload").files[0])               
         } else {
-            formData.append("image", null)                   
+            formData.append("image", "")                  
         }
 
         formData.append("description", this.state.description)
@@ -124,7 +124,7 @@ export default class AddPost extends Component{
                     {this.handleErrors("description")}
                     
                     {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                       
-                    {this.props.profile.postFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
+                    {this.props.profile.postFetched ? <Message color="green" > Successfully added a new post. </Message> : null }
 
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Add post</Button>
                 </Form>
@@ -175,22 +175,20 @@ class ModelDropdown extends Component {
         const { options, isFetching, value } = this.state
 
         return (
-            <Grid>
-                <Dropdown
-                    fluid
-                    selection
-                    search
-                    multiple={false}
-                    options={options}
-                    value={value}
-                    name='content'
-                    placeholder='Add Users'
-                    onChange={this.handleChange}
-                    onSearchChange={this.handleSearchChange}
-                    disabled={isFetching}
-                    loading={isFetching}
-                />
-            </Grid>
+            <Dropdown
+                fluid
+                selection
+                search
+                multiple={false}
+                options={options}
+                value={value}
+                name='content'
+                placeholder='Add Users'
+                onChange={this.handleChange}
+                onSearchChange={this.handleSearchChange}
+                disabled={isFetching}
+                loading={isFetching}
+            />
         )
     }
 }

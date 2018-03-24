@@ -72,7 +72,6 @@ export default class Canvas3D extends Component {
         this.texLoader.setPath(this.modelPath)
         this.loader.setPath(this.modelPath)
         
-        console.log(this.texturePath)
         if(this.linkCheck(this.modelPath + this.textureName)){
 
             this.texLoader.load(

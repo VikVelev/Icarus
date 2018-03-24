@@ -346,7 +346,6 @@ i.blue.icon:hover {
     /* box-shadow: 0 1px 1px 1px #666 */
 }
 
-.search.selection.dropdown {
-    margin: auto !important;
-    width: 97% !important;
+.react-datepicker-wrapper{
+    margin-bottom: 15px;
 }

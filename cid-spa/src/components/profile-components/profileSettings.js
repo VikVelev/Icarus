@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 import { Segment, Header, Icon, Form, Message, Button } from 'semantic-ui-react'
 
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css';
+
+import * as moment from 'moment'
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
 import { fetchUserData, setUserData } from '../../actions/profileActions.js'
 import { Redirect } from 'react-router-dom'
@@ -28,13 +32,17 @@ export default class ProfileSettings extends Component {
             email: "",
             country: "",
             profile_picture: "",
-            birth_date: "",
+            birth_date: moment(),
             description: '',
         }      
     }
 
     handleChange = (e, { name, value}) => {
         this.setState({ [name]: value })
+    }
+
+    handleDateChange(date) {
+        this.setState({ birth_date: date })
     }
     
     renderProcessing() {
@@ -69,7 +77,7 @@ export default class ProfileSettings extends Component {
         formData.append('first_name', first_name)
         formData.append('last_name', last_name)
         formData.append('profile.country', country)
-        formData.append('profile.birth_date', birth_date)
+        formData.append('profile.birth_date', birth_date.format("YYYY-MM-DD"))
 
         if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
             formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
@@ -107,11 +115,20 @@ export default class ProfileSettings extends Component {
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
                 if (this.state.email === "") {
+                    
                     var state = {
                         ...this.props.profile.userData, 
                         ...this.props.profile.userData.profile, 
                         profile: false
                     }
+
+                    if (this.props.profile.userData.profile.birth_date !== null) {
+                        state = {
+                            ...state,
+                            birth_date: moment(state.birth_date)
+                        }
+                    }
+
                     // This is retarded 
                     if(state.country === null) {
                         state.country = ""
@@ -166,6 +183,7 @@ export default class ProfileSettings extends Component {
                                     />
                                     {this.handleErrors("profile_picture")}
                                     
+                                    <Header size="small">First name</Header>                                                                        
                                     <Form.Input
                                             fluid
                                             icon='user'
@@ -175,7 +193,7 @@ export default class ProfileSettings extends Component {
                                             iconPosition='left'
                                             placeholder='Enter first name'
                                     />
-
+                                    <Header size="small">Last name</Header> 
                                     <Form.Input
                                         fluid
                                         icon='user'
@@ -186,7 +204,7 @@ export default class ProfileSettings extends Component {
                                         placeholder='Enter last name'
                                         />
 
-                                    
+                                    <Header size="small">E-mail</Header>                                     
                                     <Form.Input
                                         fluid
                                         icon='at'
@@ -198,7 +216,8 @@ export default class ProfileSettings extends Component {
                                         placeholder='Enter e-mail'
                                     />                                
                                     {this.handleErrors("email")}
-
+                                    
+                                    <Header size="small">Country</Header>                                    
                                     <Form.Input
                                         fluid
                                         icon='world'
@@ -210,19 +229,13 @@ export default class ProfileSettings extends Component {
                                         type='text'
                                     />
                                     
-                                    <Form.Input
-                                        fluid
-                                        icon='clock'
-                                        iconPosition='left'                                                                   
-                                        name="birth_date"
-                                        error={this.handleErrors("birth_date") !== undefined}
-                                        value={this.state.birth_date}
-                                        onChange={this.handleChange}
-                                        placeholder='Birth date'
-                                        type='datetime'
-                                    />
+                                    <Header size="small">Birth date</Header>
+                                    <DatePicker 
+                                        onChange={this.handleDateChange.bind(this)}
+                                        selected={typeof this.state.birth_date === "string" ? null : this.state.birth_date}
+                                        name="birth_date"/>
                                     {this.handleErrors("birth_date")}
-
+                                    <Header size="small">Description</Header>                                    
                                     <Form.Input
                                         fluid
                                         icon='file text'
@@ -245,7 +258,6 @@ export default class ProfileSettings extends Component {
                         <div className="settings_button" onClick={this.renderProfile.bind(this)}>
                             <Icon size='big' name='user'></Icon>
                         </div>
-                        {console.log("?" + this.state.profile)}
                         {this.state.profile ? <Redirect to="/profile"/> : null}           
                     </Segment>
                 )

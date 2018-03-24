@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment } from 'semantic-ui-react'
+import { Item, Segment, Dropdown } from 'semantic-ui-react'
 
 import * as moment from 'moment'
 
@@ -33,7 +33,7 @@ export default class Post extends Component {
             if(this.props.page.currentModel !== undefined){
                 return(
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                        <Canvas3D modelPath={this.props.content}/>
+                        <Canvas3D modelPath={this.props.content.new_version}/>
                     </Segment>
                 )
             } else {
@@ -66,14 +66,28 @@ export default class Post extends Component {
                     
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
-                        { !this.state.inProfile ? <Item.Meta>Posted by {<Link to={"/profile/" + this.props.posted_id}>{this.props.posted_by}</Link>}</Item.Meta> : null }
+                        { !this.state.inProfile ? 
+                            <Item.Meta>Posted by {<Link to={"/profile/" + this.props.posted_id}>{this.props.posted_by}</Link>}</Item.Meta>
+                        : null }
                         <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
                             <p>{this.props.description}</p>
                         </Item.Description>
                     </Item.Content>
+                    { !this.state.inProfile ? 
+                    <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
+                        <Dropdown.Menu>
+                            <Dropdown.Header content='Interact'/>
+                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> View </Dropdown.Item>                         
+                            <Dropdown.Header content='Version Control'/>
+                            <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
+                        </Dropdown.Menu>
+                    </Dropdown> : null }
                 </Item>
+
                 {this.mountCanvas()}
+
+
             </div>
         )
     }
