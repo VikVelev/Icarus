@@ -37,11 +37,7 @@ export default class CommitEntry extends Component {
     }
 
     render(){
-<<<<<<< HEAD
-        this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)
-=======
         this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)        
->>>>>>> 5f7705a48884ab8076ce8e7faa1ed57d36e03a14
         return(
             <div className="profilePostWrapper">
                 <Item className="post">
