@@ -345,3 +345,7 @@ i.blue.icon:hover {
     border-radius: 3px;
     /* box-shadow: 0 1px 1px 1px #666 */
 }
+
+.react-datepicker-wrapper{
+    margin-bottom: 15px;
+}

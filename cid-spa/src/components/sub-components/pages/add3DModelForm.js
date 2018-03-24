@@ -47,7 +47,6 @@ export default class Add3DModel extends Component{
     }
     
     handleCommitErrors(type) {
-
         if (this.props.profile.commitError !== {}) {
             if (this.props.profile.commitError.response !== undefined) {            
                 if (this.props.profile.commitError.response.data[type] !== undefined) {
@@ -62,7 +61,6 @@ export default class Add3DModel extends Component{
 	}
 
     handleSubmit = (e) => {
-        
         const formDataModel = new FormData();
 
         formDataModel.append("title",this.state.title)
@@ -75,7 +73,13 @@ export default class Add3DModel extends Component{
 
             formDataCommit.append( "title", "Initial commit." )
             formDataCommit.append( "new_version", document.getElementById("file-upload").files[0] )
-            formDataCommit.append( "new_textures", document.getElementById("textures-upload").files[0] )
+            
+            if(document.getElementById("textures-upload").files[0]) {
+                formDataCommit.append( "new_textures", document.getElementById("textures-upload").files[0] )
+            } else {
+                formDataCommit.append( "new_textures", "")
+            }
+
             formDataCommit.append( "details", "Initial commit" )
         }
 

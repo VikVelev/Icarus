@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Item, Segment, Dropdown, Button } from 'semantic-ui-react'
+import { Item, Button } from 'semantic-ui-react'
 import * as moment from 'moment'
-import Canvas3D from '../viewport/canvas3d.js'
+
 import { connect } from 'react-redux'
 
 @connect((store) => {
@@ -24,8 +24,8 @@ export default class CommitEntry extends Component {
 
     isLatest() {
         if(this.props.id === this.props.model3d.model[0].commits[this.props.model3d.model[0].commits.length - 1].id) {
-            return true
             this.setState({ isLatest: true })
+            return true
         } else {
             return false
         }
@@ -37,7 +37,11 @@ export default class CommitEntry extends Component {
     }
 
     render(){
+<<<<<<< HEAD
         this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)
+=======
+        this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)        
+>>>>>>> 5f7705a48884ab8076ce8e7faa1ed57d36e03a14
         return(
             <div className="profilePostWrapper">
                 <Item className="post">

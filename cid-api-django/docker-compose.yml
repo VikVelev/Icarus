@@ -9,20 +9,24 @@ services:
 
     web:
         image: django
-        build: .
+       # build: ./cid-api-django
+        build: .        
         volumes: 
+            # - ./cid-api-django:/code
             - .:/code
         ports:
             - "8000:8000"
         depends_on: 
             - db
-        command: bash -c "cd ./cidAPI && ./manage.py migrate && ./manage.py runserver 0.0.0.0:8000" 
+        command: bash -c "cd ./cidAPI && ./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"
+        
         environment:
             IN_DOCKER: 1
 
     frontend:
+        #build: ./cid-spa
         build: 
-            context: ../cid-spa
+            context: ../cid-spa        
         ports:
             - "80:80"
         depends_on:
@@ -33,10 +37,12 @@ services:
 
     minio:
         image: minio/minio
+        # volumes:
+        #     - ../data:/export
         volumes:
             - ../data:/export
         ports:
-            - "9001:9000"
+            - "9000:9000"
         environment:
             MINIO_ACCESS_KEY: test_access
             MINIO_SECRET_KEY: test_secret

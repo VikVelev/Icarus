@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { ResponsiveContainer, AreaChart, Area, Brush, XAxis, YAxis, Tooltip} from 'recharts'
-import { Segment, Header } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import * as moment from 'moment'
+//import * as moment from 'moment'
 
 import  CommitEntry from './commitEntry.js'
-import { fetchContributions } from '../../actions/profileActions.js'
-import { changeSubpage } from '../../actions/pageActions.js'
+//import { fetchContributions } from '../../actions/profileActions.js'
+//import { changeSubpage } from '../../actions/pageActions.js'
 
 @connect((store)=>{
     return {

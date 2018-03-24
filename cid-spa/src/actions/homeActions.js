@@ -36,7 +36,7 @@ export function fetchPersonalizedPosts(token){
 
             arrayRes.forEach(element => {
                 saxios.get(url + "/api/3d-models?id=" + element.content).then((response) => {
-                    element.content = response.data[0].commits[0].new_version
+                    element.content = response.data[0].commits[0]
                     counterContent++;
                     
                     if(counterContent === arrayRes.length && counterPostedBy === arrayRes.length ) {

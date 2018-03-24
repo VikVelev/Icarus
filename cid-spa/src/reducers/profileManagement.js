@@ -7,6 +7,7 @@ let defaultState = {}
 defaultState = {
     userData: {},  // TODO api optimizations
     models: {},
+    allModels: {},
     posts: {},
     favorites: {},
     contributions: {},
@@ -27,7 +28,7 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_POST": case "DELETE_POST":
         case "ADD_MODEL": case "DELETE_MODEL":
         case "ADD_COMMIT": case "FETCH_USER_DATA":
-        case "FETCH_FAVORITES": // DO the same thing for all these cases
+        case "FETCH_FAVORITES": case "FETCH_ALL_MODELS":// DO the same thing for all these cases
             return {
                 ...state,
                 error: {},
@@ -55,6 +56,20 @@ const profileManagement = (state=defaultState, action) => {
                 models: action.payload,
                 fetching: false,
                 fetched: true,                
+            }
+        case "FETCH_ALL_MODELS_FULFILLED":
+            return {
+                ...state,
+                allModels: action.payload,
+                fetching: false,
+                fetched: true,                
+            }
+        case "FETCH_ALL_MODELS_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,   
+                fetched: false, 
             }
         case "FETCH_MODELS_REJECTED":
             return {
