@@ -78,7 +78,8 @@ export default class Post extends Component {
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content='Interact'/>
-                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> View </Dropdown.Item>                         
+                            
+                            <Dropdown.Item as={Link} to={"model/" + this.props.content.belongs_to_model}> View </Dropdown.Item>                         
                             <Dropdown.Header content='Version Control'/>
                             <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
                         </Dropdown.Menu>
