@@ -6,7 +6,7 @@ import { WireframeGeometry, Geometry, Group, MeshStandardMaterial }  from 'three
 
 export default class Model3D {
     // model = 3D THREE.js Geometry Object
-    constructor( model ) {
+    constructor( model, id ) {
 
         this.selected = false;
         this.model = model;
@@ -39,7 +39,6 @@ export default class Model3D {
         this.model.position.x = 0;
         this.model.position.y = 0;
         this.model.position.z = 0;
-
         //this.faceNormals.visible = false;
         this.vertexNormals.visible = this.state.toggledVertexNormals;
 

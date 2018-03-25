@@ -1,5 +1,5 @@
 import { Scene, Vector2, PerspectiveCamera, GridHelper } from 'three'
-import  { WebGLRenderer, PointLight, AmbientLight, Box3 } from 'three'
+import  { WebGLRenderer, PointLight, AmbientLight, Box3, Mesh } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 
 import dat from 'dat.gui'
@@ -215,9 +215,50 @@ export default class Viewport {
         }
     }
 
-    addModel(model3d){
+    addModel(model3d, id){
         model3d.import.forEach( element => {
+            element.name = "model" + id
             this.scene.add( element );
+        })
+    }
+
+    removeModel(id){
+        let toRemove = []
+
+        this.scene.traverse( object => {
+            if (object.name === "model" + id) {
+                toRemove.push(object)
+            }
+        })
+
+        toRemove.forEach(element => {
+            this.scene.remove(element)
+        })
+    }
+
+    clear() {
+        let toRemove = []
+
+        this.scene.traverse( object => {
+            toRemove.push(object)
+        })
+
+        toRemove.forEach(element => {
+            this.scene.remove(element)
+        })
+    }
+
+    clearObjects() {
+        let toRemove = []
+
+        this.scene.traverse( object => {
+            if (object instanceof Mesh) {
+                toRemove.push(object)
+            }
+        })
+
+        toRemove.forEach(element => {
+            this.scene.remove(element)
         })
     }
 
