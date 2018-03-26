@@ -14,7 +14,8 @@ import { connect } from 'react-redux';
 
 @connect((store) => {
     return {
-        page: store.pageManagement
+        page: store.pageManagement,
+        model3d: store.model3DManagement
     }
 })
 export default class Canvas3D extends Component {
@@ -23,25 +24,14 @@ export default class Canvas3D extends Component {
         super(props)
         //TODO Fix this
         typeof(this.props.canvasId) ? this.canvasId = Math.round(Math.random()*100) : this.canvasId = this.props.canvasId
-
-        this.corePath = this.props.modelPath.substring(0, this.props.modelPath.length - 4)
         
-        var path = this.corePath.split("/");
-        this.modelName = path.pop()
-
-        this.modelPath = path.join("/") + "/"; //CORE
-        this.texturePath = this.modelPath
-        
-        this.meshName = this.modelName + ".obj"
-        this.textureName = this.modelName + ".mtl"
-        
-
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
         
         this.state = {
             loading: true,
             precent: 0,
+            currentlyRendering: []
         }
     }
 
@@ -50,66 +40,145 @@ export default class Canvas3D extends Component {
         this.viewport.render();
     }
 
-    linkCheck(url){
-        var http = new XMLHttpRequest();
-        http.open('HEAD', url, false);
-        http.send();
-        return http.status !== 404;
-    }
-
     onWindowResize() {
         this.viewport.onResize();
     }
 
+    initializeModelView() {
+        
+    }
+
     componentDidMount(){
-        
-        this.props.dispatch({type: "RENDERING_CANVAS3D"})
-        
+                
         this.rootElement = document.getElementById(this.canvasId)
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
-        this.texLoader.setPath(this.modelPath)
-        this.loader.setPath(this.modelPath)
-        
-        if(this.linkCheck(this.modelPath + this.textureName)){
-
+        if(this.props.texturePath !== undefined && this.props.texturePath !== null){
+            //With textures
             this.texLoader.load(
-                this.textureName,
+                this.props.texturePath,
                 (function ( materials ) {
     
                     materials.preload();
                     this.loader.setMaterials(materials);
-                    this.loader.load(this.meshName, (function ( object ) {
+                    this.loader.load(this.props.modelPath, (function ( object ) {
     
                         this.model3D = new Model3D ( object )
-                        this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
+                        if (!this.props.diff) {
+                            this.state.currentlyRendering.push({...this.model3D})
+                        }
+
+                        // TODO Make viewport declaring independent from the model, 
+                        // and scale the model between 0 and 1 and not the viewport
+
+                        this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement, this.props.diff )
                         this.viewport.init()
                         this.onWindowResize()
                         this.animate()
+                        this.props.dispatch({type: "RENDERING"})
+                        
     
                     }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
     
                 }).bind(this)
             );
         } else {
-            this.loader.load(this.meshName, (function ( object ) {
-    
+            //without textures
+            this.loader.load(this.props.modelPath, (function ( object ) {
+
                 this.model3D = new Model3D ( object )
-                this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
+                if (this.props.diff) {
+                    this.state.currentlyRendering.push({...this.model3D})
+                }
+                this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement, this.props.diff )
                 this.viewport.init()
                 this.onWindowResize()
                 this.animate()
+                this.props.dispatch({type: "RENDERING"})
+                
 
             }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
         }
     }
-        
-    addModel(model) {
-        console.log("stub")
+
+    manageDiff() {
+        // Actually thought of an intresting architecture to allow communicating between react components
+        if (this.props.model3d.addModelCallback.called) {
+            // TODO: Implement download
+            this.addModel(this.props.model3d.addModelCallback.query)
+        }
+
+        if (this.props.model3d.removeModelCallback.called) {
+
+            this.removeModel(this.props.model3d.removeModelCallback.query.commitId)
+        }
+
     }
 
-    onProgress( xhr ){       
+    removeModel( name ) {
+
+        //this is concluding the callback        
+        this.props.dispatch({ type: "STOP_REMOVE_FROM_COMPARE" })
+
+        this.state.currentlyRendering.forEach(element => {
+            if(element.model.name === name) {
+                this.state.currentlyRendering.splice(this.state.currentlyRendering.indexOf(element), 1)        
+            }
+        })
+        this.viewport.removeModel( name )
+
+    }
+
+    addModel(element) {
+        //I'm using the commit ID to refer to each model when removing them.
+
+        //this is concluding the callback
+        this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
+
+        //Clearing the cache
+        this.texLoader.setPath("")
+        this.loader.setPath("")
+        this.loader.setMaterials(null)
+        //Try starting the loading screen again
+        
+        if(element.textures !== null){
+            //With textures
+            this.texLoader.load(
+                element.textures,
+                (function ( materials ) {
+                    
+                    materials.preload();
+                    this.loader.setMaterials(materials);
+
+                    this.loader.load(element.mesh, (function ( object ) {
+
+                        let model3D = new Model3D ( object )
+                        this.viewport.addModel( model3D, element.commitId )
+                        
+                        this.state.currentlyRendering.push({...model3D})
+
+                    }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
+    
+                }).bind(this)
+            );
+        } else {
+            //without textures
+            this.loader.load(element.mesh, (function ( object ) {
+                
+                let model3D = new Model3D ( object )           
+                this.viewport.addModel( model3D, element.commitId )
+
+                this.state.currentlyRendering.push({...model3D})                
+
+            }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
+        }
+
+        console.log(this.state.currentlyRendering)
+    }
+
+
+    onProgress( xhr ){
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
 
         if (this.state.precent === 100) {
@@ -117,19 +186,23 @@ export default class Canvas3D extends Component {
         }
     }
 
+
     onError( error ){
         console.log("An error: " + error)
     }
 
+
     componentWillUnmount(){
-        // TODO Utilize this.
-        this.props.dispatch({type: "STOPPING_CANVAS3D"})
+        this.props.dispatch({type: "STOPPING"})
     }
+
 
     Loading = () => {
         if (!this.state.loading) {
+            //console.log("not showing")
             return null
         } else {
+            //console.log("showing")            
             return ( 
                 <div className="loading">
                     <Progress inverted percent={this.state.precent} indicating></Progress>            
@@ -138,12 +211,13 @@ export default class Canvas3D extends Component {
         }
     }
 
+
     render(){
         return(
             <div id={this.canvasId} className="viewport">
                {this.Loading()}
+               {this.manageDiff()}
             </div>
         )
     }
 }
-

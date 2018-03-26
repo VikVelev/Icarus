@@ -1,5 +1,5 @@
 import { Scene, Vector2, PerspectiveCamera, GridHelper } from 'three'
-import  { WebGLRenderer, PointLight, AmbientLight, Box3 } from 'three'
+import  { WebGLRenderer, PointLight, AmbientLight, Box3, Mesh } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 
 import dat from 'dat.gui'
@@ -10,12 +10,12 @@ import Diff from './Diff.js'
 export default class Viewport {
     // ifDiff - diff object --> still not implemented will probably have
     // modelBefore, modelAfter, date, vertices, normals, surface difference
-    constructor ( _index, _objectToRender, _objectToAppendTo ) {
+    constructor ( _index, _objectToRender, _objectToAppendTo, _diff ) {
 
         this.objectToRender = _objectToRender;
         this.objectToAppendTo = _objectToAppendTo;
         this.index = _index;
-
+        this.diff = _diff !== undefined ? _diff : false ;
         
         // this.camera;
         // this.controls;
@@ -38,11 +38,7 @@ export default class Viewport {
 
             this.state = "normal"
 
-        } else if ( this.objectToRender instanceof Diff ) {
-
-            this.state = "diff"
         }
-        
     }
 
     init() {
@@ -112,112 +108,98 @@ export default class Viewport {
             opacity: 0.7,
         
         };
-                        
-        this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( (function( value ) {
-            
-            if ( this.state === "diff" ) {
-                
-                for ( let i = 0; i < this.objectToRender.objectsToCompare.length; i++ ) {
-                    this.objectToRender.objectsToCompare[ i ].toggleVertexNormals()
-                }
 
-            } else if ( this.state === "normal" ) {
+        //If the viewport is normal
+        if (this.isNormal()) {
+
+            this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( (function( value ) {
 
                 this.objectToRender.toggleVertexNormals();
-            }
+                    
+            }).bind(this)); 
+
+            this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( (function( value ) {
                 
-        }).bind(this)); 
+                    this.objectToRender.toggleFaceNormals();
+                    
+            }).bind(this)); 
 
-        this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( (function( value ) {
-            
-            if ( this.state === "diff" ) {
-                
-                for ( let i = 0; i < this.objectToRender.objectsToCompare.length; i++ ) {
-                    this.objectToRender.objectsToCompare[ i ].toggleFaceNormals()
-                }
-
-            } else if ( this.state === "normal" ) {
-
-                this.objectToRender.toggleFaceNormals();
-            }
-                
-        }).bind(this)); 
-
-        this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( (function( value ) {
-            
-            if ( this.state === "diff" ) {
-                
-                for ( let i = 0; i < this.objectToRender.objectsToCompare.length; i++ ) {
-                    this.objectToRender.objectsToCompare[ i ].toggleTextures()
-                }
-
-            } else if ( this.state === "normal" ) {
+            this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( (function( value ) {
 
                 this.objectToRender.toggleTextures();
-            }
-                
-        }).bind(this));
-        
-        this.optionBox.add( params, "wireframe" ).name( "Wireframe" ).onFinishChange( (function( value ) {
+                    
+            }).bind(this));
             
-            if ( this.state === "diff" ) {
-                
-                for ( let i = 0; i < this.objectToRender.objectsToCompare.length; i++ ) {
-                    this.objectToRender.objectsToCompare[ i ].toggleWireframe()
-                }
-
-            } else if ( this.state === "normal" ) {             
+            this.optionBox.add( params, "wireframe" ).name( "Wireframe" ).onFinishChange( (function( value ) {
+                        
                 this.objectToRender.toggleWireframe();
-            }
 
-        }).bind(this)); 
+            }).bind(this)); 
 
-        this.optionBox.add( params, "mesh" ).name( "Mesh" ).onFinishChange( (function( value ) {
-
-            if ( this.state === "diff" ) {
-                
-                for ( let i = 0; i < this.objectToRender.objectsToCompare.length; i++ ) {
-                    this.objectToRender.objectsToCompare[ i ].toggleMesh()
-                }
-
-            } else if ( this.state === "normal" ) {
+            this.optionBox.add( params, "mesh" ).name( "Mesh" ).onFinishChange( (function( value ) {
 
                 this.objectToRender.toggleMesh();
-            }
 
-        }).bind(this));
+            }).bind(this));
+        }
+        
 
         
         this.scene.add( this.gridHelper );
         
         if ( this.state === "normal" ) {
-            
-            this.objectToRender.import.forEach(element => {
-                this.scene.add( element );
-            });
-            
-        } else if ( this.state === "diff" ) {
-            this.optionBox.add(params, 'opacity', 0.00, 1.00).name("Mesh Opacity").onFinishChange( (function( value ) {
-                for ( let i = 0; i < this.objectToRender.objectsToCompare.length; i++ ) {
-                    this.objectToRender.objectsToCompare[ i ].setOpacity(value);
-                }
-            }).bind(this));
-
-            this.objectToRender.objectsToCompare.forEach( model => {
-                
-                model.setOpacity(params.opacity);
-                model.import.forEach( element => {
-
+            if (this.isNormal()) {
+                this.objectToRender.import.forEach(element => {
                     this.scene.add( element );
-
                 });
-            });
+            }
         }
     }
 
-    addModel(model3d){
+    addModel(model3d, id){
         model3d.import.forEach( element => {
+            element.name = id
             this.scene.add( element );
+        })
+    }
+
+    removeModel(id){
+        let toRemove = []
+
+        this.scene.traverse( object => {
+            if (object.name === id) {
+                toRemove.push(object)
+            }
+        })
+
+        toRemove.forEach(element => {
+            this.scene.remove(element)
+        })
+    }
+
+    clear() {
+        let toRemove = []
+
+        this.scene.traverse( object => {
+            toRemove.push(object)
+        })
+
+        toRemove.forEach(element => {
+            this.scene.remove(element)
+        })
+    }
+
+    clearObjects() {
+        let toRemove = []
+
+        this.scene.traverse( object => {
+            if (object instanceof Mesh) {
+                toRemove.push(object)
+            }
+        })
+
+        toRemove.forEach(element => {
+            this.scene.remove(element)
         })
     }
 
@@ -225,6 +207,10 @@ export default class Viewport {
 
         this.renderer.render( this.scene, this.camera );
 
+    }
+
+    isNormal() {
+        return !this.diff || this.diff === undefined
     }
 
     onResize() {

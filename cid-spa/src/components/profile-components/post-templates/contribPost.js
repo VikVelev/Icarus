@@ -16,7 +16,7 @@ export default class ContribPost extends Component {
             return(
                 //RETURN COMMIT DIFF Canvas with the same camera controls
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.new_version}/>
+                    <Canvas3D modelPath={this.props.new_version} texturePath={this.props.new_textures}/>
                 </Segment>
             )
         } else {

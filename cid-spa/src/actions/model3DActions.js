@@ -42,3 +42,25 @@ export function fetchViewingData(id, token) {
         })
     }
 }
+
+export function addToCompare(commit) {
+    return function(dispatch) {
+        dispatch({ type: "ADD_TO_COMPARE", payload: commit })
+    }
+}
+
+export function removeFromCompare(commit) {
+    return function(dispatch) {
+        dispatch({ type: "REMOVE_FROM_COMPARE", payload: commit })
+    }
+}
+
+export function DiffMode(value) {
+    return function(dispatch) {
+        if(value) {
+            dispatch({ type: "ENTER_DIFF_MODE", payload: value  })
+        } else {
+            dispatch({ type: "EXIT_DIFF_MODE", payload: value  })            
+        }
+    }
+}

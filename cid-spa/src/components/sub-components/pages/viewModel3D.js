@@ -41,9 +41,10 @@ export default class ViewModel3D extends Component {
                 <div className="viewModelContainer">
                     <Segment color="blue">
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
-                            <Canvas3D modelPath={
-                                this.props.model3d.model[0].commits[0].new_version
-                                }/>
+                            <Canvas3D modelPath={this.props.model3d.model[0].commits[0].new_version}
+                                      texturePath={this.props.model3d.model[0].commits[0].new_textures}
+                                      diff={true}
+                                />
                         </Segment>
                         <Segment className="uploadedBy">
                             <div style={{

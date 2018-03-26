@@ -17,14 +17,14 @@ export function fetchTrendingPosts(token){
         ///#################################################
 
         saxios.get(url + "/api/posts/").then((response) => {
-            
             let arrayRes = response.data;
             let counterPostedBy = 0;
             let counterContent = 0;
             
+
             arrayRes.forEach(element => {
                 saxios.get(url + "/api/users?id=" + element.posted_by).then((response) => {
-                    
+                    element.posted_id = element.posted_by
                     element.posted_by = response.data[0].username
                     counterPostedBy++;
                     
@@ -36,7 +36,7 @@ export function fetchTrendingPosts(token){
 
             arrayRes.forEach(element => {
                 saxios.get(url + "/api/3d-models?id=" + element.content).then((response) => {
-                    element.content = response.data[0].commits[response.data[0].commits.length - 1].new_version
+                    element.content = response.data[0].commits[0]
                     counterContent++;
                     
                     if(counterContent === arrayRes.length && counterPostedBy === arrayRes.length ) {
