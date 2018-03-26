@@ -226,7 +226,7 @@ export default class Viewport {
         let toRemove = []
 
         this.scene.traverse( object => {
-            if (object.name === "model" + id) {
+            if (object.name === id) {
                 toRemove.push(object)
             }
         })

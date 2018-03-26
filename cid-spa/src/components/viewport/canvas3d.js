@@ -107,40 +107,36 @@ export default class Canvas3D extends Component {
     manageDiff() {
         //this.setState({ locked: true })
         //this.setState({ loading: true, precent: 0 })
+        if (this.props.model3d.addModelCallback.called) {
 
-        if (this.props.model3d.addModelCallback) {
-            //Find a way to load only one model
-            // or
-            // this.viewport.clear()
-            this.props.model3d.comparing.forEach(element => {
-                this.addModel(element)
-            });
+            this.addModel(this.props.model3d.addModelCallback.query)
+            // TODO: Implement download
         }
 
-        if (this.props.model3d.removeModelCallback) {
+        if (this.props.model3d.removeModelCallback.called) {
             //Find a way to delete only one model
-            this.state.currentlyRendering.forEach(element => {
             // if (element.model.name[element.model.name.length - 1] === this.props.model3d.comparing[this.props.model3d.comparing.length - 1])
-                
-                this.removeModel(element.model.name[element.model.name.length - 1])
-            });
+            console.log(this.props.model3d.removeModelCallback.query.name)
+            this.removeModel(this.props.model3d.removeModelCallback.query.name)
+    
         }
 
     }
 
-    removeModel( id ) {
-        console.log("Removing")
+    removeModel( name ) {
+        console.log("Removing", name)
         //this id is the element.modelId
         this.props.dispatch({ type: "STOP_REMOVE_FROM_COMPARE" })
 
         let removeIndices = []
 
         this.state.currentlyRendering.forEach(element => {
-            if(element.model.name === "model" + id) {
+            if(element.model.name === name) {
+                console.log(element)
                 this.state.currentlyRendering.splice(this.state.currentlyRendering.indexOf(element), 1)        
             }
         })
-        this.viewport.removeModel( id )
+        this.viewport.removeModel( name )
 
     }
 

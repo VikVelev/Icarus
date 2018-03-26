@@ -2,8 +2,14 @@ let defaultState = {
     model: {},
     comparing: [],
     diffMode: false,
-    addModelCallback: false,
-    removeModelCallback: false,
+    addModelCallback: { 
+        called: false,
+        query: "" 
+    },
+    removeModelCallback: { 
+        called: false,
+        query: "" 
+    },
     fetching: false,
     fetched: false,
     error: {},
@@ -46,23 +52,37 @@ const model3DManagement = (state=defaultState, action) => {
                 diffMode: false
             }
         case "ADD_TO_COMPARE":
-            let returnState = {...state, addModelCallback: true}
+            let returnState = {
+                ...state, 
+                addModelCallback: {
+                    called: true,
+                    query: action.payload,
+                }
+            }
+
             returnState.comparing.push(action.payload)
 
             return returnState
         case "STOP_ADD_TO_COMPARE":
             return {
                 ...state,
-                addModelCallback: false,
+                addModelCallback: {
+                    called: false,
+                    query: {}
+                },
             }
         case "REMOVE_FROM_COMPARE":
             let newState = {
                 ...state,
-                removeModelCallback: true,
+                removeModelCallback: {
+                    called: true,
+                    query: action.payload,
+                }
             }
             
             newState.comparing.forEach((element) => {
                 if (element.mesh === action.payload.mesh) {
+                    console.log(element)
                     newState.comparing.splice(newState.comparing.indexOf(element), 1)
                 }
             })
@@ -70,7 +90,10 @@ const model3DManagement = (state=defaultState, action) => {
         case "STOP_REMOVE_FROM_COMPARE":
             return {
                 ...state,
-                removeModelCallback: false,
+                removeModelCallback: {
+                    called: false,
+                    query: {}
+                }
             }
         default: 
             return state
