@@ -121,7 +121,7 @@ export default class Canvas3D extends Component {
             //Find a way to delete only one model
             this.state.currentlyRendering.forEach(element => {
             // if (element.model.name[element.model.name.length - 1] === this.props.model3d.comparing[this.props.model3d.comparing.length - 1])
-                
+                // removeModelCallback to include a query {} that contains what modelID to remove.
                 this.removeModel(element.model.name[element.model.name.length - 1])
             });
         }
