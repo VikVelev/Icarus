@@ -10,6 +10,7 @@ let defaultState = {
         called: false,
         query: "" 
     },
+    rendering: false,
     fetching: false,
     fetched: false,
     error: {},
@@ -21,6 +22,7 @@ const model3DManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 comparing: [],
+                rendering: false,
                 diffMode: false,
                 fetching: true,
                 fetched: false,
@@ -82,11 +84,9 @@ const model3DManagement = (state=defaultState, action) => {
             
             newState.comparing.forEach((element) => {
                 if (element.mesh === action.payload.mesh) {
-                    console.log(element)
                     newState.comparing.splice(newState.comparing.indexOf(element), 1)
                 }
             })
-            console.log(newState.comparing)
             return newState
         case "STOP_REMOVE_FROM_COMPARE":
             return {
@@ -95,6 +95,16 @@ const model3DManagement = (state=defaultState, action) => {
                     called: false,
                     query: {}
                 }
+            }
+        case "RENDERING":
+            return {
+                ...state,
+                rendering: true,
+            }
+        case "STOPPING":
+            return {
+                ...state,
+                rendering: false,
             }
         default: 
             return state

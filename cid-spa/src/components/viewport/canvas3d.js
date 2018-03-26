@@ -24,26 +24,13 @@ export default class Canvas3D extends Component {
         super(props)
         //TODO Fix this
         typeof(this.props.canvasId) ? this.canvasId = Math.round(Math.random()*100) : this.canvasId = this.props.canvasId
-
-        this.corePath = this.props.modelPath.substring(0, this.props.modelPath.length - 4) // removing the extension .obj
-
-        var path = this.corePath.split("/");
-        this.modelName = path.pop() //removing the extensionless name
-
-        this.modelPath = path.join("/") + "/"; //CORE
-        this.texturePath = this.modelPath
         
-        this.meshName = this.modelName + ".obj"
-        this.textureName = this.modelName + ".mtl"
-        
-
         this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
         
         this.state = {
             loading: true,
             precent: 0,
-            locked: false,
             currentlyRendering: []
         }
     }
@@ -57,34 +44,40 @@ export default class Canvas3D extends Component {
         this.viewport.onResize();
     }
 
-    // TODO Add texture support
+    initializeModelView() {
+        
+    }
+
     componentDidMount(){
-        
-        this.props.dispatch({type: "RENDERING_CANVAS3D"})
-        
+                
         this.rootElement = document.getElementById(this.canvasId)
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
-        this.texLoader.setPath(this.modelPath)
-        this.loader.setPath(this.modelPath)
-        
-        if(this.props.texturePath !== undefined){
+        if(this.props.texturePath !== undefined && this.props.texturePath !== null){
             //With textures
             this.texLoader.load(
-                this.textureName,
+                this.props.texturePath,
                 (function ( materials ) {
     
                     materials.preload();
                     this.loader.setMaterials(materials);
-                    this.loader.load(this.meshName, (function ( object ) {
+                    this.loader.load(this.props.modelPath, (function ( object ) {
     
                         this.model3D = new Model3D ( object )
-                        this.state.currentlyRendering.push({...this.model3D})
-                        this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
+                        if (!this.props.diff) {
+                            this.state.currentlyRendering.push({...this.model3D})
+                        }
+
+                        // TODO Make viewport declaring independent from the model, 
+                        // and scale the model between 0 and 1 and not the viewport
+
+                        this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement, this.props.diff )
                         this.viewport.init()
                         this.onWindowResize()
                         this.animate()
+                        this.props.dispatch({type: "RENDERING"})
+                        
     
                     }).bind(this), this.onProgress.bind(this), this.onError.bind(this)) 
     
@@ -92,18 +85,23 @@ export default class Canvas3D extends Component {
             );
         } else {
             //without textures
-            this.loader.load(this.meshName, (function ( object ) {
+            this.loader.load(this.props.modelPath, (function ( object ) {
 
                 this.model3D = new Model3D ( object )
-                this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement )
-                this.viewport.init()              
+                if (this.props.diff) {
+                    this.state.currentlyRendering.push({...this.model3D})
+                }
+                this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement, this.props.diff )
+                this.viewport.init()
                 this.onWindowResize()
                 this.animate()
+                this.props.dispatch({type: "RENDERING"})
+                
 
             }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
         }
     }
-    
+
     manageDiff() {
         // Actually thought of an intresting architecture to allow communicating between react components
         if (this.props.model3d.addModelCallback.called) {
@@ -119,10 +117,9 @@ export default class Canvas3D extends Component {
     }
 
     removeModel( name ) {
-        //this id is the element.modelId
-        this.props.dispatch({ type: "STOP_REMOVE_FROM_COMPARE" })
 
-        let removeIndices = []
+        //this is concluding the callback        
+        this.props.dispatch({ type: "STOP_REMOVE_FROM_COMPARE" })
 
         this.state.currentlyRendering.forEach(element => {
             if(element.model.name === name) {
@@ -134,21 +131,19 @@ export default class Canvas3D extends Component {
     }
 
     addModel(element) {
-        //This is so it doesn't run every component update
-        //for each model in comparing array, load it with obj loader and then add into the viewport?
+        //I'm using the commit ID to refer to each model when removing them.
 
-        //I'm using the commit ID to refer to them
+        //this is concluding the callback
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
 
+        //Clearing the cache
         this.texLoader.setPath("")
-        this.loader.setPath("") 
-        
+        this.loader.setPath("")
         this.loader.setMaterials(null)
         //Try starting the loading screen again
         
         if(element.textures !== null){
             //With textures
-            
             this.texLoader.load(
                 element.textures,
                 (function ( materials ) {
@@ -179,6 +174,7 @@ export default class Canvas3D extends Component {
             }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
         }
 
+        console.log(this.state.currentlyRendering)
     }
 
 
@@ -197,7 +193,7 @@ export default class Canvas3D extends Component {
 
 
     componentWillUnmount(){
-        this.props.dispatch({type: "STOPPING_CANVAS3D"})
+        this.props.dispatch({type: "STOPPING"})
     }
 
 
@@ -217,7 +213,6 @@ export default class Canvas3D extends Component {
 
 
     render(){
-        let locked = this.state.locked  
         return(
             <div id={this.canvasId} className="viewport">
                {this.Loading()}
@@ -226,4 +221,3 @@ export default class Canvas3D extends Component {
         )
     }
 }
-

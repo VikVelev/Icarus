@@ -8,7 +8,7 @@ import cidReducers from './reducers/main.js'
 
 const logger = createLogger()
 const middleware = applyMiddleware(promise(), thunk,
-                                //    logger
+                                logger
                                 )
 
 export default createStore(cidReducers, middleware)

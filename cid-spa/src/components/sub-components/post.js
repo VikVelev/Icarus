@@ -33,7 +33,7 @@ export default class Post extends Component {
             if(this.props.page.currentModel !== undefined){
                 return(
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                        <Canvas3D modelPath={this.props.content.new_version}/>
+                        <Canvas3D modelPath={this.props.content.new_version} texturePath={this.props.content.new_textures}/>
                     </Segment>
                 )
             } else {

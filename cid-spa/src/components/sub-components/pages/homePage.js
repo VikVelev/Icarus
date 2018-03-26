@@ -249,7 +249,7 @@ const HomepageLayout = () => (
 	<Segment style={{ height: "600px"}} vertical id="demo">
 		{/*always end the modelPath with a slash*/}
 		<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
-			<Canvas3D modelPath="/models/aventador/Avent.obj"/>
+			<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
 		</Visibility>
 	</Segment>
 	

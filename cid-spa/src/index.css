@@ -334,6 +334,11 @@ i.blue.icon:hover {
 .addContrib.active::after{
     content: 'Added';
 }
+
+.latest.active::after {
+    content: 'Latest'
+}
+
 .addContrib.active:hover::after{
     content: 'Remove';
 }
