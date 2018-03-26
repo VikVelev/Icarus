@@ -105,54 +105,45 @@ export default class Canvas3D extends Component {
     }
     
     manageDiff() {
-        //this.setState({ locked: true })
-        //this.setState({ loading: true, precent: 0 })
-
-        if (this.props.model3d.addModelCallback) {
-            //Find a way to load only one model
-            // or
-            // this.viewport.clear()
-            this.props.model3d.comparing.forEach(element => {
-                this.addModel(element)
-            });
+        // Actually thought of an intresting architecture to allow communicating between react components
+        if (this.props.model3d.addModelCallback.called) {
+            // TODO: Implement download
+            this.addModel(this.props.model3d.addModelCallback.query)
         }
 
-        if (this.props.model3d.removeModelCallback) {
-            //Find a way to delete only one model
-            this.state.currentlyRendering.forEach(element => {
-            // if (element.model.name[element.model.name.length - 1] === this.props.model3d.comparing[this.props.model3d.comparing.length - 1])
-                // removeModelCallback to include a query {} that contains what modelID to remove.
-                this.removeModel(element.model.name[element.model.name.length - 1])
-            });
+        if (this.props.model3d.removeModelCallback.called) {
+
+            this.removeModel(this.props.model3d.removeModelCallback.query.commitId)
         }
 
     }
 
-    removeModel( id ) {
-        console.log("Removing")
+    removeModel( name ) {
         //this id is the element.modelId
         this.props.dispatch({ type: "STOP_REMOVE_FROM_COMPARE" })
 
         let removeIndices = []
 
         this.state.currentlyRendering.forEach(element => {
-            if(element.model.name === "model" + id) {
+            if(element.model.name === name) {
                 this.state.currentlyRendering.splice(this.state.currentlyRendering.indexOf(element), 1)        
             }
         })
-        this.viewport.removeModel( id )
+        this.viewport.removeModel( name )
 
     }
 
     addModel(element) {
-        console.log("Adding")
         //This is so it doesn't run every component update
         //for each model in comparing array, load it with obj loader and then add into the viewport?
+
+        //I'm using the commit ID to refer to them
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
 
         this.texLoader.setPath("")
         this.loader.setPath("") 
         
+        this.loader.setMaterials(null)
         //Try starting the loading screen again
         
         if(element.textures !== null){
@@ -161,7 +152,6 @@ export default class Canvas3D extends Component {
             this.texLoader.load(
                 element.textures,
                 (function ( materials ) {
-                    console.log("with textures")
                     
                     materials.preload();
                     this.loader.setMaterials(materials);
@@ -169,7 +159,7 @@ export default class Canvas3D extends Component {
                     this.loader.load(element.mesh, (function ( object ) {
 
                         let model3D = new Model3D ( object )
-                        this.viewport.addModel( model3D, element.modelId )
+                        this.viewport.addModel( model3D, element.commitId )
                         
                         this.state.currentlyRendering.push({...model3D})
 
@@ -180,17 +170,15 @@ export default class Canvas3D extends Component {
         } else {
             //without textures
             this.loader.load(element.mesh, (function ( object ) {
-                console.log("without textures")
                 
-                let model3D = new Model3D ( object )
-                this.viewport.addModel( model3D, element.modelId )
+                let model3D = new Model3D ( object )           
+                this.viewport.addModel( model3D, element.commitId )
 
                 this.state.currentlyRendering.push({...model3D})                
 
             }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
         }
 
-        console.log(this.state.currentlyRendering)
     }
 
 

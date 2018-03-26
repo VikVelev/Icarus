@@ -217,7 +217,7 @@ export default class Viewport {
 
     addModel(model3d, id){
         model3d.import.forEach( element => {
-            element.name = "model" + id
+            element.name = id
             this.scene.add( element );
         })
     }
@@ -226,7 +226,7 @@ export default class Viewport {
         let toRemove = []
 
         this.scene.traverse( object => {
-            if (object.name === "model" + id) {
+            if (object.name === id) {
                 toRemove.push(object)
             }
         })
