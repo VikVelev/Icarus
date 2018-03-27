@@ -173,8 +173,6 @@ export default class Canvas3D extends Component {
 
             }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
         }
-
-        console.log(this.state.currentlyRendering)
     }
 
 

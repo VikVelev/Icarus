@@ -320,6 +320,10 @@ i.blue.icon:hover {
         transition: all 0.1s;        
         margin-right: 2% !important;
     }
+
+    .currentlyComparing {
+        position: unset !important;
+    }
 }
 
 
@@ -353,4 +357,28 @@ i.blue.icon:hover {
 
 .react-datepicker-wrapper{
     margin-bottom: 15px;
+}
+
+.currentlyComparing{
+    position: fixed !important;
+    top: 60px !important;
+    right: 10% !important;   
+    z-index: 10;
+    transition: all 0.2s
+}
+
+.lookingContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.lookingContainer:hover{
+    background-color: #eee
+}   
+
+.lItem{
+    width: 100%;
+    margin-left: 5px;
 }

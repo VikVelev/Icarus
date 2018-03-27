@@ -44,9 +44,13 @@ export default class CommitEntry extends Component {
                 textures: this.props.new_textures,
                 modelId: this.props.belongs_to_model,
                 commitId: this.props.id,
-                version: this.props.version_number
+                version: this.props.version_number,
+                description: this.props.details,
+                title: this.props.title,
             }
-            
+
+            console.log(this.props)        
+        
             this.props.dispatch(
                 addToCompare(latestCommitData)
             )
@@ -69,7 +73,9 @@ export default class CommitEntry extends Component {
             textures: this.props.new_textures,
             modelId: this.props.belongs_to_model,
             commitId: this.props.id,
-            version: this.props.version_number
+            version: this.props.version_number,
+            description: this.props.details,
+            title: this.props.title,
         }
 
         if (this.state.button.added) {
