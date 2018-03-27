@@ -372,6 +372,7 @@ i.blue.icon:hover {
     flex-direction: column;
     padding: 5px;
     border-radius: 3px;
+    padding: 15px;
 }
 
 .lookingContainer:hover{

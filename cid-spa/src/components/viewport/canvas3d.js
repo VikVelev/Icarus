@@ -132,7 +132,7 @@ export default class Canvas3D extends Component {
 
     addModel(element) {
         //I'm using the commit ID to refer to each model when removing them.
-
+        this.setState({ loading:true, precent: 0 })
         //this is concluding the callback
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
 

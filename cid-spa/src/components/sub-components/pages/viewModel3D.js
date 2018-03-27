@@ -50,7 +50,7 @@ export default class ViewModel3D extends Component {
         return (
             <Segment className="currentlyComparing" color="blue">
                 <Header>Currently looking at:</Header>
-                {this.props.model3d.comparing.length === 0 ? 
+                {this.props.model3d.comparing.length === 0 ?
                     <div className="lItem">
                         Nothing.
                     </div> : null}
