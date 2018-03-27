@@ -364,7 +364,7 @@ i.blue.icon:hover {
     top: 60px !important;
     right: 10% !important;   
     z-index: 10;
-    transition: all 0.2s
+    transition: all 0.2s;
 }
 
 .lookingContainer{
@@ -373,10 +373,11 @@ i.blue.icon:hover {
     padding: 5px;
     border-radius: 3px;
     padding: 15px;
+    transition: all 0.2s;
 }
 
 .lookingContainer:hover{
-    background-color: #eee
+    background-color: #1569aa;
 }   
 
 .lItem{

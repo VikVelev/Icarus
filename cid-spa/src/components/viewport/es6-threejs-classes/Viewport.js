@@ -1,5 +1,5 @@
 import { Scene, Vector2, PerspectiveCamera, GridHelper } from 'three'
-import  { WebGLRenderer, PointLight, AmbientLight, Box3, Mesh } from 'three'
+import  { WebGLRenderer, PointLight, AmbientLight, Box3, BufferGeometry, Mesh } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 
 import dat from 'dat.gui'
@@ -84,10 +84,12 @@ export default class Viewport {
         
         this.renderer.domElement.id = this.index;
         
-        this.optionBox = new dat.GUI( { autoplace: false, width: 200, resizable: false } );
-        this.optionBox.domElement.id = 'gui' + this.index;
+        if (this.isNormal()) {
+            this.optionBox = new dat.GUI( { autoplace: false, width: 200, resizable: false } );
+            this.optionBox.domElement.id = 'gui' + this.index;
+            this.divWrapper.appendChild( this.optionBox.domElement );
+        }
         
-        this.divWrapper.appendChild( this.optionBox.domElement );
         this.divWrapper.appendChild( this.renderer.domElement );
         
         this.objectToAppendTo.appendChild( this.divWrapper );
@@ -159,6 +161,13 @@ export default class Viewport {
     addModel(model3d, id){
         model3d.import.forEach( element => {
             element.name = id
+
+            if(element instanceof BufferGeometry) {
+                console.log(element)
+                element.materials[0].transparent = true
+                element.materials[0].opacity = 0.5
+            }
+
             this.scene.add( element );
         })
     }

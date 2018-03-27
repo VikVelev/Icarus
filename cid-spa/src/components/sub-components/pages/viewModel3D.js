@@ -33,17 +33,19 @@ export default class ViewModel3D extends Component {
     renderCurrentlyComparing() {
         const AddedItem = (props) => (
             <div className="lookingContainer">
-                <div className="button">
-                    <Header>
-                        {props.index + 1}. {props.title}
-                    </Header>
-                </div>
+                <Header>
+                    {props.index + 1}. {props.title}
+                </Header>
                 <div id="lDetails" className="lItem">
                     Details: {props.description}
                 </div>
                 <div id="lVersion" className="lItem">
-                    Version: {props.version}
-                </div>         
+                    Commited by: {props.commited_by}
+                </div>
+                <div id="lVersion" className="lItem">
+                    Version: {props.version}.0
+                </div>
+                
             </div>
         )
 
