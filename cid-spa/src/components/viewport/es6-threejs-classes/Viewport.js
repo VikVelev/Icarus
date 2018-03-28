@@ -1,5 +1,5 @@
-import { Scene, Vector2, PerspectiveCamera, GridHelper } from 'three'
-import  { WebGLRenderer, PointLight, AmbientLight, Box3, BufferGeometry, Mesh } from 'three'
+import { Scene, Vector2, PerspectiveCamera, GridHelper, MeshBasicMaterial, MeshStandardMaterial } from 'three'
+import  { WebGLRenderer, PointLight, AmbientLight, Box3, BufferGeometry, Mesh, Geometry, Color } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 
 import dat from 'dat.gui'
@@ -16,7 +16,7 @@ export default class Viewport {
         this.objectToAppendTo = _objectToAppendTo;
         this.index = _index;
         this.diff = _diff !== undefined ? _diff : false ;
-        
+        this.currentlyRendering = [];
         // this.camera;
         // this.controls;
 
@@ -154,33 +154,68 @@ export default class Viewport {
                 this.objectToRender.import.forEach(element => {
                     this.scene.add( element );
                 });
+                this.currentlyRendering.push(this.objectToRender)
             }
         }
     }
 
     addModel(model3d, id){
+        let green = 0x00ff00
+        let red = 0xff0000
+        //TODO: Many improvements
         model3d.import.forEach( element => {
-            element.name = id
+            element.name = id + "model3d"
 
-            if(element instanceof BufferGeometry) {
-                console.log(element)
-                element.materials[0].transparent = true
-                element.materials[0].opacity = 0.5
+            if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
+                element.children.forEach(mesh => {
+                    //if the version is older
+                    if (id < parseInt(this.currentlyRendering[0].import[0].name[0])) {
+                        if (mesh.geometry !== undefined && mesh.geometry !== null ){
+                            mesh.material.color = new Color(red)
+                        }
+                    } else {
+                        if (mesh.geometry !== undefined && mesh.geometry !== null ){
+                            mesh.material.color = new Color(green)
+                        }
+                    }
+
+                })
             }
 
             this.scene.add( element );
         })
+
+        this.currentlyRendering.push(model3d)
     }
 
     removeModel(id){
+        //the idea is that I have this.currentlyRendering which represents the currents state and I can address every each one of the 
+        //models in there
         let toRemove = []
+        id += "model3d"
+        let spliced = false
 
         this.scene.traverse( object => {
+            if(!spliced) {
+                //Finds the id in this.currentlyRendering corresponding to the model I want to delete
+                for (let i = 0; i < this.currentlyRendering.length; i++) {
+                    for (let j = 0; j < this.currentlyRendering[i].import.length; j++) {
+                        if(object.name === this.currentlyRendering[i].import[j].name && object.name === id ) {
+                            this.currentlyRendering.splice(i,1)                       
+                            spliced = true;
+                            break
+                        }
+                    }
+                }
+            }
+
+
             if (object.name === id) {
                 toRemove.push(object)
             }
+            
         })
-
+        
         toRemove.forEach(element => {
             this.scene.remove(element)
         })
@@ -189,6 +224,7 @@ export default class Viewport {
     clear() {
         let toRemove = []
 
+        //Not tested
         this.scene.traverse( object => {
             toRemove.push(object)
         })
@@ -200,7 +236,7 @@ export default class Viewport {
 
     clearObjects() {
         let toRemove = []
-
+        //Not tested
         this.scene.traverse( object => {
             if (object instanceof Mesh) {
                 toRemove.push(object)

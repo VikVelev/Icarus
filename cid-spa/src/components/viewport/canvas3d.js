@@ -31,7 +31,8 @@ export default class Canvas3D extends Component {
         this.state = {
             loading: true,
             precent: 0,
-            currentlyRendering: []
+            currentlyRendering: [],
+            counter: 0,
         }
     }
 
@@ -42,10 +43,6 @@ export default class Canvas3D extends Component {
 
     onWindowResize() {
         this.viewport.onResize();
-    }
-
-    initializeModelView() {
-        
     }
 
     componentDidMount(){
@@ -179,12 +176,15 @@ export default class Canvas3D extends Component {
     onProgress( xhr ){
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
 
-        if (this.state.precent === 100) {
+        if (this.state.precent === 100 && this.state.counter === this.state.currentlyRendering.length + 1) {
             let timeout = 2000
             if (this.props.model3d.diffMode) {
                 timeout = 10000
             }
             setTimeout(this.setState({ loading: false }), timeout);                
+        }
+        if (this.state.precent === 100) {
+            this.state.counter++
         }
     }
 
