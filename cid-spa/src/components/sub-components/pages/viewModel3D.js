@@ -30,6 +30,37 @@ export default class ViewModel3D extends Component {
         return <CommitChain commits={this.props.model3d.model[0].commits}/>
     }
 
+    renderCurrentlyComparing() {
+        const AddedItem = (props) => (
+            <div className="lookingContainer">
+                <Header>
+                    {props.index + 1}. {props.title}
+                </Header>
+                <div id="lDetails" className="lItem">
+                    Details: {props.description}
+                </div>
+                <div id="lVersion" className="lItem">
+                    Commited by: {props.commited_by}
+                </div>
+                <div id="lVersion" className="lItem">
+                    Version: {props.version}.0
+                </div>
+                
+            </div>
+        )
+
+        return (
+            <Segment className="currentlyComparing" color="blue">
+                <Header>Currently looking at:</Header>
+                {this.props.model3d.comparing.length === 0 ?
+                    <div className="lItem">
+                        Nothing.
+                    </div> : null}
+                {this.props.model3d.comparing.map((object, i) => <AddedItem {...object} key={i} index={i}/>)}
+            </Segment>
+        )
+    }
+
     panes = [
         { menuItem: 'Commits', render: () => <Tab.Pane>{this.renderCommits()}</Tab.Pane> },
         { menuItem: 'Mentions', render: () => <Tab.Pane>{this.renderMentions()}</Tab.Pane> },  
@@ -39,6 +70,7 @@ export default class ViewModel3D extends Component {
         if(this.props.model3d.fetched){
             return (
                 <div className="viewModelContainer">
+                    {this.renderCurrentlyComparing()}
                     <Segment color="blue">
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
                             <Canvas3D modelPath={this.props.model3d.model[0].commits[0].new_version}

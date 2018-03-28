@@ -50,10 +50,22 @@ export default class ModelPost extends Component {
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content='Manage'/>
-                            <Dropdown.Item disabled={this.props.commits.length === 0} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                         
+                            <Dropdown.Item disabled={this.props.commits.length === 0} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                                           
                             {!this.props.isUser ? <Dropdown.Item disabled> Edit </Dropdown.Item> : null }
                             {!this.props.isUser ?  <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeleteModel.bind(this)}> Delete </Dropdown.Item>} type="model" id={this.state.modelID}/> : null }
+                            {console.log(this.props.commits)}
+                            <Dropdown.Divider/>
                             <Dropdown.Header content='Version Control'/>
+                            <Dropdown.Item disabled={this.props.commits.length === 0} 
+                                            as="a" 
+                                            href={this.props.commits.length !== 0 ? this.props.commits[0].new_version : "#"} 
+                                            download={this.props.title} > Download mesh
+                            </Dropdown.Item>   
+                            <Dropdown.Item disabled={this.props.commits.length === 0} 
+                                            as="a" 
+                                            href={this.props.commits.length !== 0 ? this.props.commits[0].new_textures : "#"} 
+                                            download={this.props.title} > Download textures
+                            </Dropdown.Item>   
                             <AddCommit trigger={<Dropdown.Item disabled={this.props.isUser} name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/>
                             <Dropdown.Item disabled> Add Owner </Dropdown.Item>                                                                                        
                             <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 

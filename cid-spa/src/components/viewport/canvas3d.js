@@ -31,7 +31,8 @@ export default class Canvas3D extends Component {
         this.state = {
             loading: true,
             precent: 0,
-            currentlyRendering: []
+            currentlyRendering: [],
+            counter: 0,
         }
     }
 
@@ -42,10 +43,6 @@ export default class Canvas3D extends Component {
 
     onWindowResize() {
         this.viewport.onResize();
-    }
-
-    initializeModelView() {
-        
     }
 
     componentDidMount(){
@@ -132,7 +129,7 @@ export default class Canvas3D extends Component {
 
     addModel(element) {
         //I'm using the commit ID to refer to each model when removing them.
-
+        this.setState({ loading:true, precent: 0 })
         //this is concluding the callback
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
 
@@ -173,16 +170,21 @@ export default class Canvas3D extends Component {
 
             }).bind(this), this.onProgress.bind(this), this.onError.bind(this))
         }
-
-        console.log(this.state.currentlyRendering)
     }
 
 
     onProgress( xhr ){
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
 
+        if (this.state.precent === 100 && this.state.counter === this.state.currentlyRendering.length + 1) {
+            let timeout = 2000
+            if (this.props.model3d.diffMode) {
+                timeout = 10000
+            }
+            setTimeout(this.setState({ loading: false }), timeout);                
+        }
         if (this.state.precent === 100) {
-            setTimeout(this.setState({ loading: false }), 2000);
+            this.state.counter++
         }
     }
 
