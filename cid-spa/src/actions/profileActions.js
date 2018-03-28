@@ -8,7 +8,7 @@ import url from './backendUrl.js'
 export function fetch3DModels(id, token){
     return function(dispatch) {
         dispatch({type: "FETCH_MODELS"})
-        axios.get(url + "/api/user/" + id + "/3d-models/",{
+        axios.get(url + "/api/user/" + id + "/3d-models/?v=true",{
             headers: {
                 'Authorization': 'Token ' + token
             }

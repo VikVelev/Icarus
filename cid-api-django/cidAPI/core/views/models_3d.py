@@ -37,12 +37,18 @@ class Models3D( mixins.ListModelMixin,
 
     def get_queryset(self):
         user_pk = self.kwargs["pk"]
+        queryset = Model3D.objects.filter(owners__in=[user_pk])
+
+        verbose = self.request.query_params.get('v', None)
+
+        if verbose is not None:
+            print(queryset.get(id=4).owners)
+
         # TODO This is easy implement for post fetching so I don't have to do multiple queries
         # FIXME
-        print(self.request.user)
+        print("Id", self.request.user.pk)
         # END OF TODO
-        return Model3D.objects.filter(owners__in=[user_pk])
-
+        return queryset
 
     #This is because https://stackoverflow.com/questions/49331003/django-drf-delete-retrieve-patch-returns-404-detail-not-found/49340753#49340753
     # Note - who asked the question? Me - I Wasted 2 days on this crap
