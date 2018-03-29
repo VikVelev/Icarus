@@ -6,7 +6,7 @@ body > #app > .content > .login-form {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto';
 }
 
 .ui.vertical.segment {
@@ -138,6 +138,9 @@ body {
 }
 
 .loading {
+    position:absolute !important;
+    top: 0;
+    z-index: 2;
     height: 100%;
     width: 100%;
     background-color: #fff;
@@ -383,4 +386,10 @@ i.blue.icon:hover {
 .lItem{
     width: 100%;
     margin-left: 5px;
+}
+
+.processing {
+    display:flex !important;
+    vertical-align: center;
+    flex-direction: row !important;
 }

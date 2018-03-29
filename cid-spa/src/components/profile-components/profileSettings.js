@@ -154,12 +154,18 @@ export default class ProfileSettings extends Component {
 
                     // end of retardation - did this to eliminate warnings.
                 }
+                let picture = this.props.profile.userData.profile.profile_picture
+
+                if(picture === null) {
+                    picture = "/img/default.png"
+                }
+
                 return(
                     <Segment color="blue">
                         <Header size="huge">Settings</Header>                 
                         <Segment className="settingsHeader">
                             <div className="profileImage" style={{
-                                    backgroundImage: "url(" + this.props.profile.userData.profile.profile_picture + ")",
+                                    backgroundImage: "url(" + picture + ")",
                                     backgroundRepeat: "no-repeat",
                                     backgroundPosition: "center",
                                     backgroundSize: "cover",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment } from 'semantic-ui-react';
+import { Segment, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 //import UserPost from './post-templates/userPost.js'
@@ -9,6 +9,7 @@ import Post from '../sub-components/post.js'
 import { fetchUserPosts } from '../../actions/profileActions.js'
 import { changeSubpage } from '../../actions/pageActions.js'
 
+import Loading from 'react-loading-animation'
 
 @connect((store)=>{
     return {
@@ -52,7 +53,10 @@ export default class ProfilePostsFeed extends Component {
                         this.props.profile.posts.map((object, i) => this.renderPost(object,i)) : 
                     Object.keys(this.posts).length !== 0 ?
                         this.posts.map((object, i) => this.renderPost(object,i)) :
-                    null
+                    this.props.profile.fetched && Object.keys(this.posts).length === 0 ?
+                    <Message info >
+                        You don't have any posts. You can add some by clicking "Create post" in the navigation bar.
+                    </Message> : <Loading/> 
                 }
             </div> 
         )
