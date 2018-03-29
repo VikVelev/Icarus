@@ -9,15 +9,20 @@ from rest_framework import status, permissions, generics
 from ..models.post import Post
 from ..serializers.post_serializers import PostSerializer, CreatePostSerializer
 
+from pprint import pprint
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
     #permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = PostSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CreatePostSerializer
+        else:
+            return PostSerializer
 
     def post(self, request, *args, **kwargs):
         # Change the serializer if this is true
-        print(self, request, *args, **kwargs)
         return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
