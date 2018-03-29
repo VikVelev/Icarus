@@ -52,8 +52,12 @@ export default class ModelPost extends Component {
                             <Dropdown.Header content='Manage'/>
                             <Dropdown.Item disabled={this.props.commits.length === 0} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                                           
                             {!this.props.isUser ? <Dropdown.Item disabled> Edit </Dropdown.Item> : null }
-                            {!this.props.isUser ?  <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeleteModel.bind(this)}> Delete </Dropdown.Item>} type="model" id={this.state.modelID}/> : null }
-                            {console.log(this.props.commits)}
+                            {!this.props.isUser ?  <DeleteModal trigger={
+                                <Dropdown.Item  name={this.props.id} 
+                                                onClick={this.handleDeleteModel.bind(this)}> 
+                                    Delete 
+                                </Dropdown.Item>
+                            } type="model" id={this.state.modelID}/> : null }
                             <Dropdown.Divider/>
                             <Dropdown.Header content='Version Control'/>
                             <Dropdown.Item disabled={this.props.commits.length === 0} 

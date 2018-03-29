@@ -29,14 +29,14 @@ export default class ContribPost extends Component {
     }
 
     render(){
-        this.date_uploaded = moment(this.props.date)._d.toString().substring(0, moment(this.props.date_uploaded)._d.toString().length - 14)        
+        this.date_uploaded = moment(this.props.date).format("DD.MM.YY HH:mm:SS")
         return(
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Belongs to model: {this.props.belongs_to_model}</Item.Meta>                        
+                        <Item.Meta as='p'>Belongs to model: {this.props.belongs_to_model.title}</Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

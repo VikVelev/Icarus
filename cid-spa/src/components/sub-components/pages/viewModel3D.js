@@ -19,7 +19,6 @@ export default class ViewModel3D extends Component {
     //TODO FIX inconsistencies with Post profile link
     constructor (props) {
         super(props)
-        console.log(this.props)
         this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
     }
 

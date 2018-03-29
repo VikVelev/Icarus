@@ -49,8 +49,6 @@ export default class CommitEntry extends Component {
                 commited_by: this.props.commited_by,
                 title: this.props.title,
             }
-
-            console.log(this.props)        
         
             this.props.dispatch(
                 addToCompare(latestCommitData)
@@ -101,7 +99,6 @@ export default class CommitEntry extends Component {
     render(){
         this.date_uploaded = moment(this.props.date).format("MM.DD.YY HH:mm")
         this.renderLatest()
-        console.log(this.props)
         return(
             <div className="profilePostWrapper">
                 <Item className="post">

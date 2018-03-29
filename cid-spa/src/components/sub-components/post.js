@@ -51,7 +51,6 @@ export default class Post extends Component {
 
     render(){
         this.date_posted = moment(this.props.date_posted).fromNow()
-        console.log(this.props)
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>

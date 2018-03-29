@@ -46,7 +46,6 @@ export default class AddPost extends Component{
     }
     
     receiveValue(value) {
-        console.log(value)
         this.setState({
             content: value
         })
@@ -55,7 +54,6 @@ export default class AddPost extends Component{
     handleSubmit = () => {
         
         let formData = new FormData()
-        console.log(this.state)
         formData.append("posted_by", this.state.posted_by)
         formData.append("title", this.state.title)
 
