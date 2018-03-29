@@ -32,7 +32,11 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 error: {},
-                fetching: true, 
+                postFetched: false,
+                commitFetched: false,
+                contributionsFetched: false,
+                modelFetched: false,
+                fetching: true,
                 fetched: false,
             }
         case "FETCH_CONTRIBUTIONS":

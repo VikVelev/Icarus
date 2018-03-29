@@ -175,10 +175,12 @@ export default class Canvas3D extends Component {
 
     onProgress( xhr ){
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
-
+        console.log(this.state.counter)
         if (this.state.precent === 100) {
             setTimeout(this.setState({ loading: false }), 3000);
         }
+
+
         
         if (this.state.precent === 100) {
             this.state.counter++
