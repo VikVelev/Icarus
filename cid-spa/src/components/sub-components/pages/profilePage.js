@@ -11,6 +11,7 @@ import { fetchUserData } from '../../../actions/profileActions.js'
 
 import { connect } from 'react-redux';
 
+import Loading from 'react-loading-animation'
 
 @connect((store) => {
     return {
@@ -42,37 +43,41 @@ export default class Profile extends Component {
     }
 
     renderProfileOnFetch(){
+
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
+                let picture = this.props.profile.userData.profile.profile_picture
+                if(picture === null) {
+                    picture = "/img/default.png"
+                }
                 return(
                     <Segment color="blue">
-                    <Segment className="userHeader">
-                        <div className="profileImage" style={{
-                                backgroundImage: "url(" + this.props.profile.userData.profile.profile_picture + ")",
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center",
-                                backgroundSize: "cover",
-                                backgroundColor: '#ccc'
-                            }}>
+                        <Segment className="userHeader">
+                            <div className="profileImage" style={{
+                                    backgroundImage: "url(" + picture + ")",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundPosition: "center",
+                                    backgroundSize: "cover",
+                                    backgroundColor: '#ccc'
+                                }}>
+                            </div>
+                            <div className="profileDetails">
+                                <Header size="huge">{this.props.profile.userData.username}</Header>
+                                <Header size="medium">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name ? this.props.profile.userData.last_name + "," : null} {this.props.profile.userData.profile.country}</Header>                   
+                                {this.props.profile.userData.profile.description}
+                            </div>
+                        </Segment>
+                        <div className="settings_button" onClick={this.renderSettings.bind(this)}>
+                            <Icon size='big' name='settings'></Icon>
                         </div>
-                        <div className="profileDetails">
-                            <Header size="huge">{this.props.profile.userData.username}</Header>
-                            <Header size="medium">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name}, {this.props.profile.userData.profile.country}</Header>                   
-                            {this.props.profile.userData.profile.description}
-                        </div>
-                    </Segment>
-                    <div className="settings_button" onClick={this.renderSettings.bind(this)}>
-                        <Icon size='big' name='settings'></Icon>
-                    </div>
-                    <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
-                    
-                    {this.state.settings ? <Redirect to="/profile/settings"/>  : null}
-
+                        <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
+                        
+                        {this.state.settings ? <Redirect to="/profile/settings"/>  : null}
                     </Segment>
                 )
             }
         } else {
-            return null
+            return <Loading style ={{marginTop: "10%"}}/>
         }
     }
 

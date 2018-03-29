@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Post from '../post.js'
 import { fetchPersonalizedPosts } from '../../../actions/homeActions.js'
 
+import Loading from 'react-loading-animation'
+
 @connect((store)=>{
     return {
         user: store.userManagement,
@@ -30,7 +32,10 @@ export default class Feed extends Component {
     render(){
         return(
             <div className="feed">
-                {Object.keys(this.props.home.personalizedPosts).length !== 0 ? this.props.home.personalizedPosts.map((object, i) => this.renderPost(object,i)) : null}
+                {
+                    Object.keys(this.props.home.personalizedPosts).length !== 0  ? this.props.home.personalizedPosts.map((object, i) => this.renderPost(object,i)) : 
+                    <Loading style={{marginTop: '10%'}}/>
+                }
             </div> 
             )
         }

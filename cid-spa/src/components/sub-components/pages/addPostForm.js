@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { addPost, fetchAll3DModels } from '../../../actions/profileActions.js'
 
+import Loading from 'react-loading-animation'
+
 @connect((store) => {
     return {
         user: store.userManagement,
@@ -94,7 +96,7 @@ export default class AddPost extends Component{
                         
                         { this.props.profile.allModels[0] !== undefined ? 
                             <ModelDropdown options={this.props.profile.allModels} sendValue={this.receiveValue.bind(this)}/> 
-                        : null }
+                        : <Loading/> }
                         {this.handleErrors("content")}
 
                         <Header>Select a thumbnail:</Header>                                                

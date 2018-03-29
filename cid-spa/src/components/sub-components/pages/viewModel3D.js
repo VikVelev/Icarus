@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import CommitChain from '../../diff/commitChain.js'
 import ProfilePosts from '../../profile-components/profilePosts.js'
 
+import Loading from 'react-loading-animation'
+
 @connect((store) => {
     return {
         user: store.userManagement,
@@ -102,9 +104,11 @@ export default class ViewModel3D extends Component {
                 </div>
             );
         } else {
-            //TODO Add fancy animations
             return (
-                <div>Loading...</div>
+                <div style={{height: 'auto'}}>
+                    <Loading style={{marginTop: '10%'}} />
+                    <p style={{textAlign: 'center', marginTop: '25px', fontFamily: 'roboto'}}>Loading</p>
+                </div>
             )
         }
     }

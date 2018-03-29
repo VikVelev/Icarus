@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { add3DModel } from '../../../actions/profileActions.js'
 
+import Loading from 'react-loading-animation'
+
 @connect((store) => {
     return {
         user: store.userManagement,
@@ -174,8 +176,11 @@ export default class Add3DModel extends Component{
                         : null}
                         </div>
 
-                        {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                        
-                        {/*TODO VALIDATION*/}
+                        {this.props.profile.fetching ? 
+                        <Message info className="processing">
+                            <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
+                        </Message> : null }                        
+
                     </Segment>
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Create</Button>
                 </Form>

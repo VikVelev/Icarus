@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { ResponsiveContainer, AreaChart, Area, Brush, XAxis, YAxis, Tooltip} from 'recharts'
-import { Segment, Header } from 'semantic-ui-react';
+import { Segment, Header, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import * as moment from 'moment'
 
+import Loading from 'react-loading-animation'
 import ContribPost from './post-templates/contribPost.js'
 import { fetchContributions } from '../../actions/profileActions.js'
 import { changeSubpage } from '../../actions/pageActions.js'
+
+
 
 @connect((store)=>{
     return {
@@ -137,8 +140,13 @@ export default class ContributionsFeed extends Component {
                         Object.keys(this.props.profile.contributions).length !== 0 ? //if
                         this.props.profile.contributions.map((object, i) => this.renderPost(object,i)) 
                         : Object.keys(this.commits).length !== 0 ?  //else if
-                        this.commits.map((object, i) => this.renderPost(object,i)) 
-                        : null
+                        this.commits.map((object, i) => this.renderPost(object,i))
+                        : this.props.profile.models.length === 0 && this.props.profile.fetched ? //else if
+                        <Message info >
+                            You haven't done anything. You can add a commit from the model menu (the three dots sitting next to each model in your 3D Models tab).
+                        </Message> 
+                        :
+                        <Loading/> 
                     }
                 </div> 
             </div>
