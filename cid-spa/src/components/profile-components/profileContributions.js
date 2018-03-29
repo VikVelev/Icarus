@@ -42,7 +42,7 @@ export default class ContributionsFeed extends Component {
 
     renderPost(object, i){
         return (          
-            <Segment id={object.id} key={i} className="profile-post-container">
+            <Segment id={object.id} key={i} className="profile-post-container contribPost">
                 <ContribPost {...object}/>
             </Segment>
         )
@@ -96,7 +96,6 @@ export default class ContributionsFeed extends Component {
     }
 
     renderStatistics() {
-
         // TODO: Think
         if (this.data.length === 0 && this.props.isChain === undefined){
             this.data = this.dataProcessing(this.props.profile.contributions)
@@ -138,9 +137,9 @@ export default class ContributionsFeed extends Component {
                 <div className="feed">
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? //if
-                        this.props.profile.contributions.map((object, i) => this.renderPost(object,i)) 
+                            this.props.profile.contributions.map((object, i) => this.renderPost(object,i)) 
                         : Object.keys(this.commits).length !== 0 ?  //else if
-                        this.commits.map((object, i) => this.renderPost(object,i))
+                            this.commits.map((object, i) => this.renderPost(object,i))
                         : this.props.profile.models.length === 0 && this.props.profile.fetched ? //else if
                         <Message info >
                             You haven't done anything. You can add a commit from the model menu (the three dots sitting next to each model in your 3D Models tab).

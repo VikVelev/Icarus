@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Item, Dropdown } from 'semantic-ui-react'
+import { Item, Dropdown, Segment, Message } from 'semantic-ui-react'
 import * as moment from 'moment'
+
+import Canvas3D from '../../viewport/canvas3d.js'
 
 import AddCommit from '../addCommitForm.js'
 import DeleteModal from '../deleteModal.js' 
@@ -35,6 +37,20 @@ export default class ModelPost extends Component {
  
         this.setState({ deletingModel: true, modelID: name })        
     }
+
+    mountCanvas = () => {
+        if (this.state.rendering){
+            return(
+                //RETURN COMMIT DIFF Canvas with the same camera controls
+                <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
+                    <Canvas3D modelPath={this.props.commits[0].new_version} texturePath={this.props.commits[0].new_textures}/>
+                </Segment>
+            )
+        } else {
+            return null
+        }
+    }
+
 
     render(){
         this.date_uploaded = moment(this.props.date_uploaded).fromNow()
@@ -76,6 +92,7 @@ export default class ModelPost extends Component {
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>
+                    {this.props.commits.length > 0 ? this.mountCanvas() : this.state.rendering ? <Message info> No commits available. You can add one by clicking the three dots on the right. </Message> : null}
             </div>
         )
     }

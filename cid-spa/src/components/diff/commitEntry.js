@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Item, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import * as moment from 'moment'
 
 import { connect } from 'react-redux'
@@ -37,7 +38,7 @@ export default class CommitEntry extends Component {
 
     renderLatest() {
 
-        if (this.isLatest() && !this.locked && this.props.model3d.rendering) {
+        if (this.isLatest() && !this.locked && this.props.model3d.rendering && this.props.model3d.comparing.length === 0) {
 
             let latestCommitData = { 
                 mesh: this.props.new_version,
@@ -105,7 +106,7 @@ export default class CommitEntry extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Commited by: {this.props.commited_by.username}</Item.Meta>                        
+                        <Item.Meta as='p'>Commited by: <Link to={"/profile/" + this.props.commited_by.id}>{this.props.commited_by.username}</Link></Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

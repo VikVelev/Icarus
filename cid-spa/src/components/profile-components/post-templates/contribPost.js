@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Item, Segment, Dropdown } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import * as moment from 'moment'
 import Canvas3D from '../../viewport/canvas3d.js'
 
@@ -36,7 +37,7 @@ export default class ContribPost extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Belongs to model: {this.props.belongs_to_model.title}</Item.Meta>                        
+                        <Item.Meta as='p'>Belongs to model: <Link to={"/model/" + this.props.belongs_to_model.id}>{this.props.belongs_to_model.title}</Link></Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

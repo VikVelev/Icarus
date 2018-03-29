@@ -25,7 +25,7 @@ export default class Profile extends Component {
     panes = [
         { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
         { menuItem: 'Contributions', render: () => <Tab.Pane><Contributions/></Tab.Pane> },
-        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts/></Tab.Pane> },
+        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts inProfile={true}/></Tab.Pane> },
         // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
     ]
 

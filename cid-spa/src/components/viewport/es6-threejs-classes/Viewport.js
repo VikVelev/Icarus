@@ -113,18 +113,18 @@ export default class Viewport {
 
         //If the viewport is normal
         if (this.isNormal()) {
+            //TODO: FIX THIS
+            // this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( (function( value ) {
 
-            this.optionBox.add( params, "vNormals" ).name( "Vertex Normals" ).onFinishChange( (function( value ) {
-
-                this.objectToRender.toggleVertexNormals();
+            //     this.objectToRender.toggleVertexNormals();
                     
-            }).bind(this)); 
+            // }).bind(this)); 
 
-            this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( (function( value ) {
+            // this.optionBox.add( params, "fNormals" ).name( "Face Normals" ).onFinishChange( (function( value ) {
                 
-                    this.objectToRender.toggleFaceNormals();
+            //         this.objectToRender.toggleFaceNormals();
                     
-            }).bind(this)); 
+            // }).bind(this)); 
 
             this.optionBox.add( params, "textures" ).name( "Textures" ).onFinishChange( (function( value ) {
 

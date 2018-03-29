@@ -13,6 +13,7 @@ let defaultState = {
     rendering: false,
     fetching: false,
     fetched: false,
+    locked: false,
     error: {},
 }
 
@@ -105,6 +106,16 @@ const model3DManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 rendering: false,
+            }
+        case "LOCK_UP":
+            return {
+                ...state,
+                locked: true
+            }
+        case "UNLOCK":
+            return {
+                ...state,
+                locked: false,
             }
         default: 
             return state

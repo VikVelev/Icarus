@@ -40,7 +40,9 @@ export default class ProfilePostsFeed extends Component {
     renderPost(object, i){
         return (
             <Segment id={object.id} key={i} className="profile-post-container">
-                <Post inProfile={this.props.inProfile === undefined ? true : this.props.inProfile} {...object}/>
+                <Post inProfile={this.props.inProfile === undefined ? false : this.props.inProfile}
+                      inDiff={this.props.inDiff === undefined ? false : this.props.inDiff}
+                         {...object}/>
             </Segment>
         )
     }

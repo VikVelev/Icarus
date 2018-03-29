@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Segment, Header, Tab } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
 import { fetchViewingData } from '../../../actions/model3DActions.js'
@@ -25,7 +26,7 @@ export default class ViewModel3D extends Component {
     }
 
     renderMentions() {
-        return <ProfilePosts inProfile={false} posts={this.props.model3d.model.mentions}/>
+        return <ProfilePosts inDiff={true} posts={this.props.model3d.model.mentions}/>
     }
 
     renderCommits() {
@@ -96,7 +97,7 @@ export default class ViewModel3D extends Component {
                             </div>
                             <div>
                                 <Header size="huge">{this.props.model3d.model[0].title}</Header>
-                                <Header size="small">Uploaded by <a>{this.props.model3d.model[0].owners[0].username}</a></Header>                            
+                                <Header size="small">Uploaded by <Link to={"/profile/" + this.props.model3d.model[0].owners[0].id}>{this.props.model3d.model[0].owners[0].username}</Link></Header>                 
                             </div>
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />

@@ -3,7 +3,9 @@ import { Segment, Modal, Header, Form, Message, Button } from 'semantic-ui-react
 import { connect } from 'react-redux';
 
 import { addCommit } from '../../actions/profileActions.js'
-//Lets try the new syntax
+
+import Loading from 'react-loading-animation'
+
 @connect((store) => {
     return {
         user: store.userManagement,
@@ -112,9 +114,15 @@ export default class AddCommit extends Component {
                             <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".mtl" />
                             {this.handleErrors("new_textures")}               
                             
-                            <Message color="yellow">Currently supporting only .obj models.</Message>
+                            <Message color="yellow">Currently supporting only .obj models and .mtl textures.</Message>
 
-                            {this.props.profile.fetching ? <Message info > Uploading model... </Message> : null }                            
+                            {
+                                this.props.profile.fetching ? 
+                                    <Message info className="processing">
+                                        <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
+                                    </Message>
+                                : null
+                            }                            
                             {this.props.profile.commitFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
                             
                         </Segment>
