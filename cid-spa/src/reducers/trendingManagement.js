@@ -2,6 +2,8 @@ const defaultState = {
     trendingPosts: {},
     fetching: false,
     fetched: false,
+    shuffled: false,
+    shuffledPosts: [],
     error: {},
 }
 
@@ -25,6 +27,12 @@ const trendingManagement = (state=defaultState, action) => {
                 fetching: false,
                 fetched: false,
                 error: action.payload
+            }
+        case "SHUFFLE":
+            return {
+                ...state,
+                shuffled: true,
+                shuffledPosts: action.payload
             }
         default:
             return state

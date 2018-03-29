@@ -393,3 +393,9 @@ i.blue.icon:hover {
     vertical-align: center;
     flex-direction: row !important;
 }
+
+.contribPost:hover {
+    transition: all 0.2s !important;
+    background-color: #eee !important;
+
+}

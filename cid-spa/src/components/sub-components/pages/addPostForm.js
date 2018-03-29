@@ -125,7 +125,13 @@ export default class AddPost extends Component{
                     </Segment>
                     {this.handleErrors("description")}
                     
-                    {this.props.profile.fetching ? <Message info > Processing... </Message> : null }                       
+                    {
+                        this.props.profile.fetching ? 
+                            <Message info className="processing">
+                                <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
+                            </Message> 
+                        : null 
+                    }                       
                     {this.props.profile.postFetched ? <Message color="green" > Successfully added a new post. </Message> : null }
 
                     <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Add post</Button>

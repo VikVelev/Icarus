@@ -21,15 +21,21 @@ export default class Post extends Component {
         this.state = {
             rendering: false,
             inProfile: false,
+            inDiff: false,
         }
 
         if(this.props.inProfile !== undefined) {
             this.state.inProfile = this.props.inProfile
         }
+
+        if(this.props.inDiff !== undefined) {
+            this.state.inDiff = this.props.inDiff
+        }
     }
 
     mountCanvas = () => {
         let content = this.props.content.commits[0]
+        console.log(this.state.inProfile)
         if (this.state.rendering){
             if(this.props.page.currentModel !== undefined){
                 return(
@@ -75,21 +81,18 @@ export default class Post extends Component {
                             <p>{this.props.description}</p>
                         </Item.Description>
                     </Item.Content>
-                    { !this.state.inProfile ? 
+                    { !this.state.inProfile && !this.state.inDiff || this.state.inProfile ? 
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content='Interact'/>
                             
-                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> View </Dropdown.Item>                         
+                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> View model </Dropdown.Item>                         
                             <Dropdown.Header content='Version Control'/>
                             <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
                         </Dropdown.Menu>
                     </Dropdown> : null }
                 </Item>
-
-                {this.mountCanvas()}
-
-
+                { !this.state.inProfile ? !this.state.inDiff ? this.mountCanvas() : null : null}
             </div>
         )
     }
