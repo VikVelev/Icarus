@@ -209,14 +209,6 @@ const HomepageLayout = () => (
 				</Grid.Column>
 
 			</Grid.Row>
-
-			<Grid.Row>
-
-				<Grid.Column textAlign='center'>
-					<Button size='huge'>Read more</Button>
-				</Grid.Column>
-
-			</Grid.Row>
 	 	</Grid>
 	</Segment>
 

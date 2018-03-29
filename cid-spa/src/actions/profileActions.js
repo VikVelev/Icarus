@@ -216,20 +216,7 @@ export function fetchUserPosts(id, token){
         })
 
         saxios.get(url + "/api/posts/?posted_by=" + id).then((response) => {
-
-            let arrayRes = response.data;
-            let counterContent = 0;
-
-            arrayRes.forEach(element => {
-                saxios.get(url + "/api/3d-models?id=" + element.content).then((response) => {
-                    element.content = response.data[0].commits[response.data[0].commits.length - 1].new_version
-                    counterContent++;
-                    
-                    if(counterContent === arrayRes.length) {
-                        dispatch({ type: "FETCH_POSTS_FULFILLED", payload: arrayRes })                                 
-                    }
-                })
-            })
+            dispatch({ type: "FETCH_POSTS_FULFILLED", payload: response.data })                                 
         }).catch((error) => {
             dispatch({ type: "FETCH_POSTS_REJECTED", payload: error})
         })

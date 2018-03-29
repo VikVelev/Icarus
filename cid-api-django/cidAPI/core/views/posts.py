@@ -7,14 +7,24 @@ from rest_framework import status, permissions, generics
 
 
 from ..models.post import Post
-from ..serializers import PostSerializer
+from ..serializers.post_serializers import PostSerializer, CreatePostSerializer
 
+from pprint import pprint
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
 
     #permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = PostSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CreatePostSerializer
+        else:
+            return PostSerializer
+
+    def post(self, request, *args, **kwargs):
+        # Change the serializer if this is true
+        return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Post.objects.all()
@@ -28,6 +38,8 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
             queryset = queryset.filter(content=posted_model)
     
         return queryset
+    
+    
 
 
 # Gotta implement permissions so no one can edit everyone's posts

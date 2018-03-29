@@ -40,7 +40,7 @@ export default class ViewModel3D extends Component {
                     Details: {props.description}
                 </div>
                 <div id="lVersion" className="lItem">
-                    Commited by: {props.commited_by}
+                    Commited by: {props.commited_by.username}
                 </div>
                 <div id="lVersion" className="lItem">
                     Version: {props.version}.0
