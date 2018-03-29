@@ -176,13 +176,19 @@ export default class Canvas3D extends Component {
     onProgress( xhr ){
         this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
 
-        if (this.state.precent === 100 && this.state.counter === this.state.currentlyRendering.length + 1) {
+        if (this.state.precent === 100 && this.state.counter === this.state.currentlyRendering.length) {
             let timeout = 2000
             if (this.props.model3d.diffMode) {
-                timeout = 10000
+                if(this.state.counter === this.state.currentlyRendering.length + 1) {
+                    timeout = 10000
+                    setTimeout(this.setState({ loading: false }), timeout);  
+                    
+                }
+            } else {
+                setTimeout(this.setState({ loading: false }), timeout);                
             }
-            setTimeout(this.setState({ loading: false }), timeout);                
         }
+        
         if (this.state.precent === 100) {
             this.state.counter++
         }
