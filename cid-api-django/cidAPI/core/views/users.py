@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from ..serializers import UserSerializer
+from ..serializers.user_serializers import UserSerializer
 
 from rest_framework.permissions import IsAuthenticated
 

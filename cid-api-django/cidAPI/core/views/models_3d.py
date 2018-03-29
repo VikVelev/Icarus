@@ -9,7 +9,7 @@ from rest_framework import status, permissions, generics, mixins
 
 from ..models.models_3d import Model3D
 from ..models.commit import Commit
-from ..serializers import Model3DSerializer
+from ..serializers.model3d_serializers import Model3DSerializer
 import pprint
 import mimetypes
 

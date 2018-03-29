@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions, generics, mixins
 
 from ..models.commit import Commit
-from ..serializers import CommitSerializer
+from ..serializers.model3d_serializers import CommitSerializer
 
 from django.contrib.auth.models import User
 
