@@ -44,3 +44,26 @@ class PostSerializer(serializers.ModelSerializer):
             'comments',
             'likes',
         )
+
+class CreatePostSerializer(serializers.ModelSerializer):
+
+    comments = CommentSerializer(many=True, read_only=True)
+    date_posted = serializers.DateTimeField(read_only=True)
+    
+    posted_by = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Post
+        fields = (
+            'id',
+            'posted_by',
+            'image',
+            'title',
+            'description',
+            'content',
+            'date_posted',
+            'is_relevant',
+            'is_recent',
+            'comments',
+            'likes',
+        )

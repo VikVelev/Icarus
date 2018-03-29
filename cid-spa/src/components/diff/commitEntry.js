@@ -101,13 +101,14 @@ export default class CommitEntry extends Component {
     render(){
         this.date_uploaded = moment(this.props.date).format("MM.DD.YY HH:mm")
         this.renderLatest()
+        console.log(this.props)
         return(
             <div className="profilePostWrapper">
                 <Item className="post">
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Commited by: {this.props.commited_by}</Item.Meta>                        
+                        <Item.Meta as='p'>Commited by: {this.props.commited_by.username}</Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

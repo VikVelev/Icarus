@@ -22,13 +22,14 @@ export default class ProfilePostsFeed extends Component {
         super(props);
 
         this.props.profile.posts = {}
-
+        
         this.posts = props.posts
-
         if (this.posts === undefined) {
             this.posts = {}
             if (props.id === undefined) {
-                this.props.dispatch(fetchUserPosts(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+                console.log(this.props.user.currentlyLoggedUser.username.id)
+                this.props.dispatch(fetchUserPosts( this.props.user.currentlyLoggedUser.username.id, 
+                                                    this.props.user.currentlyLoggedUser.username.token))
             } else {
                 this.props.dispatch(fetchUserPosts(this.props.id, this.props.user.currentlyLoggedUser.username.token))            
             }
@@ -37,7 +38,7 @@ export default class ProfilePostsFeed extends Component {
     }
 
     renderPost(object, i){
-        return (          
+        return (
             <Segment id={object.id} key={i} className="profile-post-container">
                 <Post inProfile={this.props.inProfile === undefined ? true : this.props.inProfile} {...object}/>
             </Segment>

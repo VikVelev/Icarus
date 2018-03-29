@@ -46,6 +46,7 @@ export default class AddPost extends Component{
     }
     
     receiveValue(value) {
+        console.log(value)
         this.setState({
             content: value
         })

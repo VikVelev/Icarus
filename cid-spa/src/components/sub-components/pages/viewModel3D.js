@@ -19,6 +19,7 @@ export default class ViewModel3D extends Component {
     //TODO FIX inconsistencies with Post profile link
     constructor (props) {
         super(props)
+        console.log(this.props)
         this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
     }
 
@@ -40,7 +41,7 @@ export default class ViewModel3D extends Component {
                     Details: {props.description}
                 </div>
                 <div id="lVersion" className="lItem">
-                    Commited by: {props.commited_by}
+                    Commited by: {props.commited_by.username}
                 </div>
                 <div id="lVersion" className="lItem">
                     Version: {props.version}.0

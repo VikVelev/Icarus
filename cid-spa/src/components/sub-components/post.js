@@ -29,11 +29,12 @@ export default class Post extends Component {
     }
 
     mountCanvas = () => {
+        let content = this.props.content.commits[0]
         if (this.state.rendering){
             if(this.props.page.currentModel !== undefined){
                 return(
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                        <Canvas3D modelPath={this.props.content.new_version} texturePath={this.props.content.new_textures}/>
+                        <Canvas3D modelPath={content.new_version} texturePath={content.new_textures}/>
                     </Segment>
                 )
             } else {
@@ -50,6 +51,7 @@ export default class Post extends Component {
 
     render(){
         this.date_posted = moment(this.props.date_posted).fromNow()
+        console.log(this.props)
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
@@ -67,7 +69,7 @@ export default class Post extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         { !this.state.inProfile ? 
-                            <Item.Meta>Posted by {<Link to={"/profile/" + this.props.posted_id}>{this.props.posted_by}</Link>}</Item.Meta>
+                            <Item.Meta>Posted by {<Link to={"/profile/" + this.props.posted_by.id}>{this.props.posted_by.username}</Link>}</Item.Meta>
                         : null }
                         <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
@@ -79,7 +81,7 @@ export default class Post extends Component {
                         <Dropdown.Menu>
                             <Dropdown.Header content='Interact'/>
                             
-                            <Dropdown.Item as={Link} to={"model/" + this.props.content.belongs_to_model}> View </Dropdown.Item>                         
+                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> View </Dropdown.Item>                         
                             <Dropdown.Header content='Version Control'/>
                             <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
                         </Dropdown.Menu>

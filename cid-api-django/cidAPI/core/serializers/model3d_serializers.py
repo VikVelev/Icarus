@@ -17,7 +17,6 @@ class CommitSerializer(serializers.ModelSerializer):
     version_number = serializers.IntegerField(read_only=True) 
     
     # THIS
-    belongs_to_model = serializers.PrimaryKeyRelatedField(read_only=True)
     # THIS
 
     class Meta:
