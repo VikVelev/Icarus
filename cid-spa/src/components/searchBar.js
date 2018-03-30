@@ -41,7 +41,6 @@ export default class SearchBar extends Component {
     getOptions(){
         let options = []
         
-        console.log(this.props.models)
         if(this.props.models.length > 0) {
             this.props.models.forEach((element)=>{
                 options.push({
@@ -53,7 +52,6 @@ export default class SearchBar extends Component {
                     value: element.id,
                     onClick: () => {
                         this.setState({ type: "model", currentlyClicked: element.id, clicked: true })
-                        console.log(this.state)
                     }
                 })
             })
@@ -70,7 +68,6 @@ export default class SearchBar extends Component {
                     value: element.id,
                     onClick: () => {
                         this.setState({ type: "user", currentlyClicked: element.id, clicked: true })
-                        console.log(this.state)
                     }
                 })
             })
