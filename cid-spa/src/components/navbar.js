@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { changePages } from '../actions/pageActions'
 import { logout, fetchAllUsers } from '../actions/userActions'
-import { fetch3DModels } from '../actions/profileActions'
+import { fetchAll3DModels } from '../actions/profileActions'
 
 import Loading from 'react-loading-animation'
 
@@ -31,9 +31,9 @@ export class Navbar extends Component {
         }
 
         props.dispatch(fetchAllUsers(props.manage.currentlyLoggedUser.username.token))
-        props.dispatch(fetch3DModels(props.manage.currentlyLoggedUser.username.token))
-        //fetch all users and all models
-        // try to optimize this
+        props.dispatch(fetchAll3DModels(props.manage.currentlyLoggedUser.username.token))
+        // fetch all users and all models
+        // TODO: try to optimize this
     }
 
     handleItemClick = (e, { name }) => this.props.dispatch(changePages(name))
@@ -131,7 +131,7 @@ export class Navbar extends Component {
                     onClick={this.handleItemClick}/>
                 
                 { 
-                    this.props.manage.allUsers.length > 0 || this.props.profile.allModels > 0 ?
+                  ( this.props.manage.allUsers.length > 0 || this.props.profile.allModels.length > 0 ) && this.props.profile.fetched ?
                     <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%", padding: "3px"}}>
                         <SearchBar models={this.props.profile.allModels} users={this.props.manage.allUsers}/>                 
                     </Menu.Item>

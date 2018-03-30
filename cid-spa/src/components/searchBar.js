@@ -1,29 +1,47 @@
 import React, { Component } from 'react'
-import { Segment, Header, Form, Button, Message, Dropdown, Grid } from 'semantic-ui-react'
-import { connect } from 'react-redux';
+import { Dropdown } from 'semantic-ui-react'
+
+import { Redirect } from 'react-router-dom'
 
 import { addPost, fetchAll3DModels } from '../actions/profileActions.js'
 
 import Loading from 'react-loading-animation'
 
 export default class SearchBar extends Component {
-
+    
     constructor(props) {
         super(props)
 
         this.state = {
             isFetching: false,
             multiple: false,
+            currentlyClicked: 0x000,
+            type: "",
+            clicked: false,
             search: true,
             searchQuery: null,
             value: [],
             options: this.getOptions(),
         }
     }
-    
+
+    // componentDidMount() {
+    //     this.state = {
+    //         isFetching: false,
+    //         multiple: false,
+    //         currentlyClicked: 0x000,
+    //         clicked: false,
+    //         search: true,
+    //         searchQuery: null,
+    //         value: [],
+    //         options: this.getOptions(),
+    //     }
+    // }
+
     getOptions(){
         let options = []
-
+        
+        console.log(this.props.models)
         if(this.props.models.length > 0) {
             this.props.models.forEach((element)=>{
                 options.push({
@@ -32,7 +50,11 @@ export default class SearchBar extends Component {
                     icon: {
                         name: "cubes"
                     },
-                    value: element.id
+                    value: element.id,
+                    onClick: () => {
+                        this.setState({ type: "model", currentlyClicked: element.id, clicked: true })
+                        console.log(this.state)
+                    }
                 })
             })
         }
@@ -45,7 +67,11 @@ export default class SearchBar extends Component {
                     icon: {
                         name: "user"
                     },
-                    value: element.id
+                    value: element.id,
+                    onClick: () => {
+                        this.setState({ type: "user", currentlyClicked: element.id, clicked: true })
+                        console.log(this.state)
+                    }
                 })
             })
         }
@@ -57,6 +83,16 @@ export default class SearchBar extends Component {
         this.setState({ value })
     }
 
+    clickUserCallback() {
+        this.setState({ clicked: false })
+        return <Redirect to={"/profile/" + this.state.currentlyClicked}/> 
+    }
+
+    clickModelCallback() {
+        this.setState({ clicked: false })
+        return <Redirect to={"/model/" + this.state.currentlyClicked}/> 
+    }
+
     handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
     render() {
@@ -64,20 +100,27 @@ export default class SearchBar extends Component {
         const { options, isFetching, value } = this.state
 
         return (
-            <Dropdown
-                fluid
-                selection
-                search
-                scrolling
-                multiple={false}
-                options={options}
-                name='content'
-                placeholder='Type to start searching...'
-                onChange={this.handleChange}
-                onSearchChange={this.handleSearchChange}
-                disabled={isFetching}
-                loading={isFetching}
-            />
+            <div style={{ width: '100%', fontSize: '0.9em' }}>
+                <Dropdown
+                    fluid
+                    selection
+                    search
+                    scrolling
+                    multiple={false}
+                    options={options}
+                    icon="search"
+                    name='content'
+                    placeholder='Type to start searching...'
+                    onChange={this.handleChange}
+                    onSearchChange={this.handleSearchChange}
+                    disabled={isFetching}
+                    loading={isFetching}
+                />
+
+                {this.state.type === "user" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickUserCallback(): null }
+                {this.state.type === "model" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickModelCallback(): null }
+                
+            </div>      
         )
     }
 }

@@ -71,6 +71,10 @@ export default class ViewModel3D extends Component {
 
     render() {
         if(this.props.model3d.fetched){
+            let picture = this.props.model3d.model[0].owners[0].profile.profile_picture
+            if (picture === null) {
+                picture = "/img/default.png"
+            }
             return (
                 <div className="viewModelContainer">
                     {this.renderCurrentlyComparing()}
@@ -83,7 +87,7 @@ export default class ViewModel3D extends Component {
                         </Segment>
                         <Segment className="uploadedBy">
                             <div style={{
-                                backgroundImage: "url(" + this.props.model3d.model[0].owners[0].profile.profile_picture + ")",
+                                backgroundImage: "url(" + picture + ")",
                                 backgroundRepeat: "no-repeat",
                                 backgroundPosition: "center",
                                 backgroundSize: "cover",
