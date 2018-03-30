@@ -35,7 +35,6 @@ export default class Post extends Component {
 
     mountCanvas = () => {
         let content = this.props.content.commits[0]
-        console.log(this.state.inProfile)
         if (this.state.rendering){
             if(this.props.page.currentModel !== undefined){
                 return(
@@ -57,11 +56,15 @@ export default class Post extends Component {
 
     render(){
         this.date_posted = moment(this.props.date_posted).fromNow()
+        let image = this.props.image
+        if(!image) {
+            image = "/img/default_post.png"
+        }
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
                     <Item.Image size='small' style={{
-                        backgroundImage: "url(" + this.props.image + ")",
+                        backgroundImage: "url(" + image + ")",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "cover",

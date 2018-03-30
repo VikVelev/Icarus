@@ -46,7 +46,7 @@ export default class TrendingFeed extends Component {
         if (!this.props.trending.shuffled) {
             this.props.dispatch({ type: "SHUFFLE", payload: this.shuffle(this.props.trending.trendingPosts)})
         }
-        console.log(this.props.trending.shuffledPosts)
+
         return this.props.trending.shuffledPosts.map((object, i) => this.renderPost(object,i))
     }
 

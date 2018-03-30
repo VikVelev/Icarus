@@ -19,6 +19,7 @@ export default class ProfileModelsFeed extends Component {
     
     constructor(props) {
         super(props);
+
         if (props.id === undefined) {
             this.props.dispatch(fetch3DModels(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
         } else {
@@ -27,11 +28,10 @@ export default class ProfileModelsFeed extends Component {
         this.props.dispatch(changeSubpage("profile_models"))
     }
 
+
     renderPost(object, i){
-        return (          
-            <Segment id={object.id} key={i} className="profile-post-container contribPost">
-                <ModelPost isUser={this.props.id !== undefined} {...object}/>
-            </Segment>
+        return (
+            <ModelPost key={i} isUser={this.props.id !== undefined} {...object}/>
         )
     }
 
@@ -40,11 +40,11 @@ export default class ProfileModelsFeed extends Component {
             <div className="feed">
                 { 
                     Object.keys(this.props.profile.models).length !== 0 ? 
-                    this.props.profile.models.map((object, i) => this.renderPost(object,i)) : 
+                        this.props.profile.models.map((object, i) => this.renderPost(object,i)) : 
                     this.props.profile.models.length === 0 && this.props.profile.fetched ? 
-                    <Message info >
-                        You don't have any 3D models. You can add some by clicking "Create Model" in the navigation bar.
-                    </Message> 
+                        <Message info >
+                            You don't have any 3D models. You can add some by clicking "Create Model" in the navigation bar.
+                        </Message> 
                     :
                     <Loading/> 
                 }

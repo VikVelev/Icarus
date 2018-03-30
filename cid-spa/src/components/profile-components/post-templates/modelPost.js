@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Item, Dropdown, Segment, Message } from 'semantic-ui-react'
 import * as moment from 'moment'
 
@@ -8,7 +8,14 @@ import Canvas3D from '../../viewport/canvas3d.js'
 import AddCommit from '../addCommitForm.js'
 import DeleteModal from '../deleteModal.js' 
 
+import { connect } from 'react-redux'
+import { Loading } from 'react-loading-animation'
 
+@connect((store) => {
+    return {
+        profile: store.profileManagement
+    }
+})
 export default class ModelPost extends Component {
     constructor(props){
         super(props)
@@ -16,6 +23,7 @@ export default class ModelPost extends Component {
             rendering: false,
             addingCommit: false,
             deletingModel: false,
+            deleted: false,
             modelID: undefined,
         }
     }
@@ -35,7 +43,13 @@ export default class ModelPost extends Component {
         e.preventDefault();
         e.stopPropagation();
  
-        this.setState({ deletingModel: true, modelID: name })        
+        this.setState({ deletingModel: true, modelID: name }) 
+        
+    }
+
+    callbackDeleteModel() {
+        this.setState({ deletingModel: false, deleted: true })
+        this.props.dispatch({ type: "DELETE_REFRESH" })
     }
 
     mountCanvas = () => {
@@ -51,10 +65,9 @@ export default class ModelPost extends Component {
         }
     }
 
-
-    render(){
-        this.date_uploaded = moment(this.props.date_uploaded).fromNow()
+    returnPost() {
         return(
+            <Segment id={this.props.id}>
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
                     <Item.Content>
@@ -92,8 +105,18 @@ export default class ModelPost extends Component {
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>
+                    {this.state.deletingModel && this.props.profile.deletedModel ?  this.callbackDeleteModel() : null}
                     {this.props.commits.length > 0 ? this.mountCanvas() : this.state.rendering ? <Message info> No commits available. You can add one by clicking the three dots on the right. </Message> : null}
             </div>
+            </Segment>
+        )
+    }
+
+    render(){
+        this.date_uploaded = moment(this.props.date_uploaded).fromNow()
+
+        return (
+            this.state.deleted ? null : this.returnPost()
         )
     }
 }
