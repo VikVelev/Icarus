@@ -219,7 +219,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-MINIO_STORAGE_ENDPOINT = "cid-platform.myddns.me:9000"29ca9c9ca9c106dd1839a2c66e74f7210ff7b35d
+MINIO_STORAGE_ENDPOINT = "cid-platform.myddns.me:9000"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_SECRET_KEY = "test_secret"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"

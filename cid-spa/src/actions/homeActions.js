@@ -6,12 +6,12 @@ export function fetchPersonalizedPosts(token){
     return function(dispatch) {
         dispatch({type: "FETCH_PERSONALIZED_POSTS"})
 
-        let saxios = axios.create(axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'application/json',
             }
-        }))                   
+        })               
         saxios.get(url + "/api/posts/").then((response) => {
             dispatch({ type: "FETCH_PERSONALIZED_POSTS_FULFILLED", payload: response.data })
         }).catch((error) => {
