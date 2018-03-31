@@ -1,6 +1,7 @@
 let defaultState = {
     model: {},
     comparing: [],
+    mentions: [],
     diffMode: false,
     addModelCallback: { 
         called: false,
@@ -37,6 +38,26 @@ const model3DManagement = (state=defaultState, action) => {
                 fetched: true,
             }
         case "FETCH_DATA_REJECTED":
+            return {
+                ...state,
+                fetching: false,
+                fetched: false,
+                error: action.payload,
+            }
+        case "FETCH_MENTIONS":
+            return {
+                ...state,
+                fetching: true,
+                fetched: false,
+            }
+        case "FETCH_MENTIONS_FULFILLED":
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                mentions: action.payload,
+            }
+        case "FETCH_MENTIONS_FULFILLED":
             return {
                 ...state,
                 fetching: false,

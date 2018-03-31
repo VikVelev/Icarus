@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Header, Tab } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
-import { fetchViewingData } from '../../../actions/model3DActions.js'
+import { fetchViewingData, fetchModelMentions } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
 
 import CommitChain from '../../diff/commitChain.js'
@@ -23,10 +23,12 @@ export default class ViewModel3D extends Component {
     constructor (props) {
         super(props)
         this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
+        this.props.dispatch(fetchModelMentions(this.props.id, this.props.user.currentlyLoggedUser.username.token))     
     }
 
     renderMentions() {
-        return <ProfilePosts inDiff={true} posts={this.props.model3d.model.mentions}/>
+        console.log(this.props.model3d.mentions)
+        return <ProfilePosts inDiff={true} posts={this.props.model3d.mentions}/>
     }
 
     renderCommits() {

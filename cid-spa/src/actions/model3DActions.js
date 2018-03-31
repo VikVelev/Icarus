@@ -18,6 +18,23 @@ export function fetchViewingData(id, token) {
     }
 }
 
+export function fetchModelMentions(id, token){
+    return function(dispatch) {
+        dispatch({ type: "FETCH_MENTIONS" })
+        var saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.get(url + "/api/posts/?posted_model=" + id).then((response) => {
+            dispatch({ type: "FETCH_MENTIONS_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "FETCH_MENTIONS_REJECTED", payload: error })            
+        })
+    }
+}
+
 export function addToCompare(commit) {
     return function(dispatch) {
         dispatch({ type: "ADD_TO_COMPARE", payload: commit })
