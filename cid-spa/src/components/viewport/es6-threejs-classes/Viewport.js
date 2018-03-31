@@ -169,6 +169,7 @@ export default class Viewport {
             if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
                 element.children.forEach(mesh => {
                     //if the version is older
+                    mesh.scale.set(1,0.999,0.999)
                     if (id < parseInt(this.currentlyRendering[0].import[0].name[0])) {
                         if (mesh.geometry !== undefined && mesh.geometry !== null ){
                             mesh.material.color = new Color(red)
@@ -181,7 +182,7 @@ export default class Viewport {
 
                 })
             }
-
+            
             this.scene.add( element );
         })
 
