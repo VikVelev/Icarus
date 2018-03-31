@@ -40,7 +40,7 @@ export default class SearchBar extends Component {
 
     getOptions(){
         let options = []
-        
+        console.log(this.props.models, this.props.users)
         if(this.props.models.length > 0) {
             this.props.models.forEach((element)=>{
                 options.push({
@@ -111,7 +111,7 @@ export default class SearchBar extends Component {
                     onChange={this.handleChange}
                     onSearchChange={this.handleSearchChange}
                     disabled={isFetching}
-                    loading={isFetching}
+                    loading={this.props.isFetching}
                 />
 
                 {this.state.type === "user" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickUserCallback(): null }

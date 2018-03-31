@@ -137,8 +137,12 @@ body {
      overflow-y: unset !important;
 }
 
+.search.loading {
+    position: unset !important;
+}
+
 .loading {
-    position:absolute !important;
+    position: absolute !important;
     top: 0;
     z-index: 2;
     height: 100%;

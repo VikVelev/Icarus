@@ -18,13 +18,10 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
+            print("WHAT")
             return CreatePostSerializer
         else:
             return PostSerializer
-
-    def post(self, request, *args, **kwargs):
-        # Change the serializer if this is true
-        return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Post.objects.all()
