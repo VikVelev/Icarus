@@ -23,11 +23,9 @@ class Users(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer  
-    #permission_classes = (IsAuthenticated, )
 
 class ListAllUsers(generics.ListAPIView):
 
-    #permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
 
     def get_queryset(self):

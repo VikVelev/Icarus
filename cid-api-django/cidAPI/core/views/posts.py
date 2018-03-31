@@ -4,6 +4,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
+from rest_framework.permissions import IsAuthenticated
 
 
 from ..models.post import Post
@@ -13,11 +14,8 @@ from pprint import pprint
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
-    #permission_classes = (permissions.IsAuthenticated,)
-
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            print("WHAT")
             return CreatePostSerializer
         else:
             return PostSerializer
@@ -34,14 +32,11 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
             queryset = queryset.filter(content=posted_model)
     
         return queryset
-    
-    
 
 
-# Gotta implement permissions so no one can edit everyone's posts
 
-class Posts(generics.RetrieveUpdateDestroyAPIView):
-    #permission_classes = (permissions.IsAuthenticated,)    
+class Posts(generics.RetrieveUpdateDestroyAPIView): 
+
     serializer_class = PostSerializer
 
     def get_queryset(self):

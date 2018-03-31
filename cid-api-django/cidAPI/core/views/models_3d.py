@@ -14,7 +14,7 @@ import pprint
 import mimetypes
 
 class ListAllModels3D(generics.ListAPIView):
-
+    
     serializer_class = Model3DSerializer
 
     def get_queryset(self):
@@ -32,7 +32,6 @@ class Models3D( mixins.ListModelMixin,
                 mixins.UpdateModelMixin,
                 generics.GenericAPIView,
             ):
-
     serializer_class = Model3DSerializer
 
     def get_queryset(self):
@@ -84,6 +83,7 @@ class Models3D( mixins.ListModelMixin,
         serializer.save()
 
 class CommitFile(generics.GenericAPIView):
+    
     def get(self, request, *args, **kwargs):
         model_id = self.kwargs["pk"]
         file = Commit.objects.get(id=model_id).new_version

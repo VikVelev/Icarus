@@ -7,7 +7,9 @@ export function fetchAllUsers(token) {
             dispatch({ type: "FETCH_ALL_USERS" })
         axios.get(url + "/api/users/", {
             headers: {
-                'Authorization': 'Token ' + token
+                'Authorization': 'Token ' + token,
+                'Content-Type': 'application/json',
+                
             }
         }).then((response) => {
             dispatch({type: "FETCH_ALL_USERS_FULFILLED", payload: response.data})
