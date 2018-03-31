@@ -7,7 +7,7 @@ User = get_user_model()
 from .user import Profile
 
 class Model3D(models.Model):
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=64, unique=True)
     # Many models many owners, seems reasonable to me
     owners = models.ManyToManyField(User, related_name='owners')
     description = models.TextField(null=True)

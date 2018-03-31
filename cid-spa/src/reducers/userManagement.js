@@ -10,6 +10,7 @@ if(myStorage.getItem("userManagement")){
         fetchedUser: {},
         fetched: false,
         redirecting: false,
+        allUsers: {},
         error: {},
     }
 } else {
@@ -20,6 +21,7 @@ if(myStorage.getItem("userManagement")){
         fetched: false,
         fetchedUser: {},
         redirecting: false,
+        allUsers: {},        
         error: {},
     }
 }
@@ -30,6 +32,9 @@ const userManagement = (state=defaultState, action) => {
         case 'FETCH_ALL_USERS': case 'REGISTER_USER':
             return {
                 ...state,
+                allUsers: {},
+                fetched: false,
+                error: {},
                 fetching: true,
             }
         case 'FETCH_ALL_USERS_FULFILLED':
@@ -37,7 +42,7 @@ const userManagement = (state=defaultState, action) => {
                 ...state,
                 fetching: false,
                 fetched: true,
-                users: action.payload,
+                allUsers: action.payload,
             }
         case 'FETCH_ALL_USERS_REJECTED':
             return {

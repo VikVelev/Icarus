@@ -399,3 +399,15 @@ i.blue.icon:hover {
     background-color: #eee !important;
 
 }
+
+.ignore-css {
+    all:unset;
+}
+
+div.selected.item[role="option"]{
+    border-bottom: 0 !important;
+}
+
+.ui.search {
+    font-size: 0.85em !important;
+}

@@ -15,6 +15,7 @@ defaultState = {
     commitError: {},
     postFetched: false,
     commitFetched: false,
+    deletedModel: false,
     contributionsFetched: false,
     modelFetched: false,
     userDataSet: false,
@@ -34,6 +35,7 @@ const profileManagement = (state=defaultState, action) => {
                 error: {},
                 postFetched: false,
                 commitFetched: false,
+                deletedModel: false,
                 contributionsFetched: false,
                 modelFetched: false,
                 fetching: true,
@@ -203,9 +205,15 @@ const profileManagement = (state=defaultState, action) => {
         case "DELETE_MODEL_FULFILLED":               
             return {
                 ...state,
+                deletedModel: true,
                 fetched: true,                
                 fetching: false, 
-            } 
+            }
+        case "DELETE_REFRESH":
+            return {
+                ...state,
+                deletedModel: false,
+            }
         case "DELETE_MODEL_REJECTED":
             return {
                 ...state,

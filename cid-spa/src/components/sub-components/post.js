@@ -35,7 +35,6 @@ export default class Post extends Component {
 
     mountCanvas = () => {
         let content = this.props.content.commits[0]
-        console.log(this.state.inProfile)
         if (this.state.rendering){
             if(this.props.page.currentModel !== undefined){
                 return(
@@ -57,11 +56,15 @@ export default class Post extends Component {
 
     render(){
         this.date_posted = moment(this.props.date_posted).fromNow()
+        let image = this.props.image
+        if(!image) {
+            image = "/img/default_post.png"
+        }
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
                     <Item.Image size='small' style={{
-                        backgroundImage: "url(" + this.props.image + ")",
+                        backgroundImage: "url(" + image + ")",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "cover",
@@ -84,11 +87,8 @@ export default class Post extends Component {
                     { !this.state.inProfile && !this.state.inDiff || this.state.inProfile ? 
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
-                            <Dropdown.Header content='Interact'/>
-                            
-                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> View model </Dropdown.Item>                         
-                            <Dropdown.Header content='Version Control'/>
-                            <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
+                            <Dropdown.Header content='Version Control'/>                            
+                            <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> Commit Chain </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown> : null }
                 </Item>
