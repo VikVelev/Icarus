@@ -131,11 +131,15 @@ export class Navbar extends Component {
                     onClick={this.handleItemClick}/>
                 
                 { 
-                  ( this.props.manage.allUsers.length > 0 || this.props.profile.allModels.length > 0 ) && this.props.profile.fetched ?
+                    ( this.props.manage.allUsers.length > 0 || this.props.profile.allModels.length > 0 ) && this.props.profile.fetched && this.props.manage.fetched ?
                     <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%", padding: "3px"}}>
+                        {console.log()/*MYSTERY: I honestly have no Idea, but when this console.log is removed, the searchbar breaks*/}
                         <SearchBar models={this.props.profile.allModels} users={this.props.manage.allUsers}/>                 
                     </Menu.Item>
-                    : <Loading/>
+                    :  
+                    <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%", padding: "3px"}}>
+                        <SearchBar models={[]} users={[]} isFetching={true}/>                 
+                    </Menu.Item>
                 }
 
                 <Menu.Menu position='right'>

@@ -27,7 +27,6 @@ export default class ViewModel3D extends Component {
     }
 
     renderMentions() {
-        console.log(this.props.model3d.mentions)
         return <ProfilePosts inDiff={true} posts={this.props.model3d.mentions}/>
     }
 
