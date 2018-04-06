@@ -11,4 +11,5 @@ pyparsing
 pytz
 Pillow
 six
+coreapi
 django-minio-storage

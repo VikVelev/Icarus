@@ -78,7 +78,7 @@ export default class Content extends Component {
                         <Route exact path="/model/:id" component={this.routes.ViewModel}/>
                         <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>                     
                     </Switch>
-                    {console.log("Errors:", this.props.user.error)} 
+                    {/* {console.log("Errors:", this.props.user.error)}  */}
                 </div>
             </Router>
         );

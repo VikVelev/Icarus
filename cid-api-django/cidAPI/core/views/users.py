@@ -15,17 +15,17 @@ from ..serializers.user_serializers import UserSerializer
 
 from rest_framework.permissions import IsAuthenticated
 
-## Not sure if pseudo-code or python :thinking:
 
-### Props to django <3
-    
 class Users(generics.RetrieveUpdateDestroyAPIView):
+
 
     queryset = User.objects.all()
     serializer_class = UserSerializer  
+    permission_classes = (IsAuthenticated, )
 
 class ListAllUsers(generics.ListAPIView):
 
+    permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
 
     def get_queryset(self):

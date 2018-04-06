@@ -13,9 +13,9 @@ urlpatterns = [
     ###        
 
     ### Serving SPA configuration
-    url(r'^$', serve,
-        kwargs={'path': 'index.html'}),
+    #url(r'^$', serve,
+    #   kwargs={'path': 'index.html'}),
 
-    url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$', RedirectView.as_view(url='/static/%(path)s', permanent=True)),
+    #url(r'^(?!/?static/)(?!/?media/)(?P<path>.*\..*)$', RedirectView.as_view(url='/static/%(path)s', permanent=True)),
     ###
 ]

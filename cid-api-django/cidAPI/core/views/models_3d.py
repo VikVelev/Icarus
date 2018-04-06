@@ -16,6 +16,7 @@ import mimetypes
 class ListAllModels3D(generics.ListAPIView):
     
     serializer_class = Model3DSerializer
+    permission_classes = (permissions.IsAuthenticated, )    
 
     def get_queryset(self):
         queryset = Model3D.objects.all()
@@ -33,6 +34,7 @@ class Models3D( mixins.ListModelMixin,
                 generics.GenericAPIView,
             ):
     serializer_class = Model3DSerializer
+    permission_classes = (permissions.IsAuthenticated, )    
 
     def get_queryset(self):
         user_pk = self.kwargs["pk"]

@@ -14,6 +14,8 @@ from pprint import pprint
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreatePostSerializer
@@ -35,8 +37,9 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
 
 
-class Posts(generics.RetrieveUpdateDestroyAPIView): 
-
+class Posts(generics.RetrieveUpdateDestroyAPIView):
+    
+    permission_classes = (permissions.IsAuthenticated,)    
     serializer_class = PostSerializer
 
     def get_queryset(self):

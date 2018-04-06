@@ -40,7 +40,7 @@ export default class SearchBar extends Component {
 
     getOptions(){
         let options = []
-
+        // console.log(this.props.models, this.props.users)
         if(this.props.models.length > 0) {
             this.props.models.forEach((element)=>{
                 options.push({
