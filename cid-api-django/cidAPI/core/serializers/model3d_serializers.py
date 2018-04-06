@@ -13,9 +13,7 @@ class CommitSerializer(serializers.ModelSerializer):
     commited_by = UserSerializer(read_only=True)
     id = serializers.IntegerField(read_only=True)
     version_number = serializers.IntegerField(read_only=True) 
-    
-    # THIS
-    # THIS
+
 
     class Meta:
         model = Commit
