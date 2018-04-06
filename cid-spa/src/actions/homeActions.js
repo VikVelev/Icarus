@@ -11,11 +11,7 @@ export function fetchPersonalizedPosts(token){
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'application/json',
             }
-<<<<<<< HEAD
         })               
-=======
-        })                  
->>>>>>> 784f1d6985f8836378bc8d2d68630e05fda582e4
         saxios.get(url + "/api/posts/").then((response) => {
             dispatch({ type: "FETCH_PERSONALIZED_POSTS_FULFILLED", payload: response.data })
         }).catch((error) => {
