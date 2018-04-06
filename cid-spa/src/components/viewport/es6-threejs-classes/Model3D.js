@@ -79,7 +79,7 @@ export default class Model3D {
     }
     //there are global toggle methods and local, these are the local ones.
     toggleVertexNormals(){
-
+        console.log("stub! vn")        
         this.vertexNormals.visible = !this.vertexNormals.visible
 
     }
