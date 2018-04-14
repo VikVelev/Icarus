@@ -162,22 +162,36 @@ export default class Viewport {
         let green = 0x00ff00
         let red = 0xff0000
         //TODO: Many improvements
+        let refference = model3d
         model3d.import.forEach( element => {
             element.name = id + "model3d"
 
             if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
-                element.children.forEach(mesh => {
-                    //if the version is older
-                    if (id < parseInt(this.currentlyRendering[0].import[0].name[0])) {
-                        if (mesh.geometry !== undefined && mesh.geometry !== null ){
+                element.children.forEach(mesh => {              
+
+                    if(mesh.geometry.type !== "BufferGeometry") {
+                        mesh.geometry = new BufferGeometry().fromGeometry( mesh.geometry );
+                    }
+
+                    console.log(mesh.name)
+                    //console.log(mesh)                    
+                    if(mesh.name === "Plane") {
+                        console.log(mesh.name)
+                    }
+                //TODO: Implement a newer version of the algorithm
+                // Convert faces to lines and check if lines intersect with each other, after that
+                // cut them out of the rest and create a shape geometry
+                // do what you want with that shape geometry
+
+                    if (mesh.geometry !== undefined && mesh.geometry !== null ){
+                        //if the version is older
+                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.99"+id)
+                        if (id < parseInt(this.currentlyRendering[0].import[0].name[0])) {
                             mesh.material.color = new Color(red)
-                        }
-                    } else {
-                        if (mesh.geometry !== undefined && mesh.geometry !== null ){
+                        } else {
                             mesh.material.color = new Color(green)
                         }
                     }
-
                 })
             }
 

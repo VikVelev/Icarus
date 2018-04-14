@@ -66,9 +66,6 @@ export default class Canvas3D extends Component {
                             this.state.currentlyRendering.push({...this.model3D})
                         }
 
-                        // TODO Make viewport declaring independent from the model, 
-                        // and scale the model between 0 and 1 and not the viewport
-
                         this.viewport = new Viewport( this.canvasId, this.model3D, this.rootElement, this.props.diff )
                         this.viewport.init()
                         this.onWindowResize()
