@@ -57,17 +57,16 @@ export default class Viewport {
         
         //used for a size refference so I can scale up camera and grids as big as the model,
         // but I think it is smarter just to scale the model down :TODO
-        this.sizeRef = sizeRef.getSize();
         
-        this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, this.sizeRef.x*this.sizeRef.z);
+        this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.0001, 15 );
         
-        this.camera.position.x = -this.sizeRef.y*2;
-        this.camera.position.y = this.sizeRef.y;
-        this.camera.position.z = this.sizeRef.y*2;
+        this.camera.position.y = 1
+        this.camera.position.x = -1.3
+        this.camera.position.z = 1.3             
         
-        this.light.position.set( 0, this.sizeRef.y*3, 0);
+        this.light.position.set( 0, 3, 0);
         
-        this.gridHelper = new GridHelper( this.sizeRef.x*2, this.sizeRef.z*2, 0xffffff, 0x808080 );
+        this.gridHelper = new GridHelper( 10, 10, 0xffffff, 0x808080 );
         this.gridHelper.position.x = 0;
         this.gridHelper.position.y = 0;
         this.gridHelper.position.z = 0;
@@ -97,7 +96,7 @@ export default class Viewport {
         this.controls = new OrbitControls( this.camera, document.getElementById( this.index ) );
         this.controls.enableDamping = true;
         this.controls.minDistance = 0; 
-        this.controls.maxDistance = this.sizeRef.y*5; // set this to the mesh's size * 5
+        this.controls.maxDistance = 9;
         this.controls.maxPolarAngle = Math.PI;
 
         let params = {
