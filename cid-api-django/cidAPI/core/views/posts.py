@@ -14,12 +14,7 @@ from pprint import pprint
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
-<<<<<<< HEAD
-
-    #permission_classes = (permissions.IsAuthenticated,)
-=======
     permission_classes = (permissions.IsAuthenticated,)
->>>>>>> 6e68179dff0faeab79c407c8264a0ad1e58e2c4c
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
