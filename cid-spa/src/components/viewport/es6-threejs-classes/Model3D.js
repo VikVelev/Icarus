@@ -1,5 +1,5 @@
-import { VertexNormalsHelper, LineSegments, LineBasicMaterial, } from 'three'
-import { WireframeGeometry, Geometry, Group, MeshStandardMaterial }  from 'three'
+import { VertexNormalsHelper, LineSegments, LineBasicMaterial, Box3 } from 'three'
+import { WireframeGeometry, Geometry, Group, MeshStandardMaterial, Vector3 }  from 'three'
 
 
 //import FaceNormalsHelper from 'three'
@@ -17,9 +17,12 @@ export default class Model3D {
             toggledMesh: true,
             toggledTextures: true,
         }
-
-        if ( this.model.children[0].name === "Plane") {
-            this.model.children.splice(0, 1);
+        
+        for (let i = 0; i < this.model.children.length; i++) {
+            if (this.model.children[i].name.toLowerCase() === "plane"){
+                this.model.children.splice(i, 1)
+                //console.log("yay")
+            }
         }
 
         this.textures = []
@@ -42,7 +45,14 @@ export default class Model3D {
         //this.faceNormals.visible = false;
         this.vertexNormals.visible = this.state.toggledVertexNormals;
 
+        let bounds = new Box3().setFromObject( this.model );
+        let size = bounds.getSize();
+        let max = size.x;
 
+        if(size.y>max) max=size.y;
+        if(size.z>max) max=size.z;
+        
+        this.model.scale.multiplyScalar(2/max);
     }
 
     extractGeometry(model){
@@ -79,7 +89,9 @@ export default class Model3D {
     }
     //there are global toggle methods and local, these are the local ones.
     toggleVertexNormals(){
-        console.log("stub! vn")
+        console.log("stub! vn")        
+        this.vertexNormals.visible = !this.vertexNormals.visible
+
     }
 
     toggleFaceNormals(){

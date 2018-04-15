@@ -14,6 +14,8 @@ class Contributions(mixins.ListModelMixin,
                 mixins.CreateModelMixin,
                 generics.GenericAPIView):
 
+    permission_classes = (permissions.IsAuthenticated, )    
+
     def get_serializer_class(self):
         if self.request.method == "GET":
             return CommitEntrySerializer

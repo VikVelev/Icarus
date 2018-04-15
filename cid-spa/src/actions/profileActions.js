@@ -170,6 +170,7 @@ export function addCommit(id, commitData, token, initData) {
         var saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
+                'Content-Type': 'multipart/form-data',                
             },
         })
 

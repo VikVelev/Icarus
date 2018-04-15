@@ -329,6 +329,7 @@ i.blue.icon:hover {
     }
 
     .currentlyComparing {
+        display: none !important;
         position: unset !important;
     }
 }

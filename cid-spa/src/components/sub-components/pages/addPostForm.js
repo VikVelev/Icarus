@@ -25,11 +25,13 @@ export default class AddPost extends Component{
             is_relevant: true,
             is_recent: true,
         }
+    }
 
+    componentWillMount() {
         this.props.dispatch(
             fetchAll3DModels(this.props.user.currentlyLoggedUser.username.token)
         )
-    }  
+    }
 
     handleErrors(type) {
         if (this.props.profile.error.data !== undefined) {
