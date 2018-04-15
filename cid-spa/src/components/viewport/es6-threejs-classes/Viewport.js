@@ -1,11 +1,12 @@
-import { Scene, Vector2, PerspectiveCamera, GridHelper, MeshBasicMaterial, MeshStandardMaterial } from 'three'
-import  { WebGLRenderer, PointLight, AmbientLight, Box3, BufferGeometry, Mesh, Geometry, Color } from 'three'
+import { Scene, PerspectiveCamera, GridHelper } from 'three'
+import  { WebGLRenderer, PointLight, AmbientLight, BufferGeometry, Mesh, Color } from 'three'
+import { Raycaster, Vector2, MeshNormalMaterial, CubeGeometry } from 'three'
 import OrbitControls from 'three-orbitcontrols'
 
 import dat from 'dat.gui'
 
 import Model3D from './Model3D.js'
-import Diff from './Diff.js'
+//import Diff from './Diff.js'
 
 export default class Viewport {
     // ifDiff - diff object --> still not implemented will probably have
@@ -43,20 +44,18 @@ export default class Viewport {
 
     init() {
         
-        this.scene = new Scene();
+        // For object detection onClick
+        this.particleMaterial = new Color(155,155,0);
+        this.raycaster = new Raycaster()
         this.mouse = new Vector2();
 
+        //Scene init
+        this.scene = new Scene();
         this.light = new PointLight( 0xffffff, 1, 1000);
         this.ambient = new AmbientLight( 0xeeeeee, 0.5 );
         
         this.scene.add( this.ambient );
         this.scene.add( this.light );
-        
-        
-        let sizeRef = new Box3().setFromObject( this.objectToRender.model );
-        
-        //used for a size refference so I can scale up camera and grids as big as the model,
-        // but I think it is smarter just to scale the model down :TODO
         
         this.camera = new PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.0001, 15 );
         
@@ -98,6 +97,9 @@ export default class Viewport {
         this.controls.minDistance = 0; 
         this.controls.maxDistance = 9;
         this.controls.maxPolarAngle = Math.PI;
+
+        document.addEventListener( 'mousedown', this.onDocumentMouseDown.bind(this), false );
+        document.addEventListener( 'touchstart', this.onDocumentTouchStart, false );
 
         let params = {
 
@@ -158,25 +160,77 @@ export default class Viewport {
         }
     }
 
+    onDocumentTouchStart( event ) {
+        event.preventDefault();
+        event.clientX = event.touches[0].clientX;
+        event.clientY = event.touches[0].clientY;
+        this.onDocumentMouseDown( event );
+    }
+
+    onDocumentMouseDown( event ) {
+        //TODO: Finish implementing this
+        event.preventDefault();
+        this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
+        this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+        this.raycaster.setFromCamera( this.mouse, this.camera );
+        
+        //console.log(this.currentlyRendering[0])
+        let intersects = []
+        if (this.currentlyRendering[1] !== undefined) {
+            intersects = this.raycaster.intersectObjects( this.currentlyRendering[1].extractedGeometry.children );
+        } else {
+            intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );            
+        }
+        //console.log("Throwing a ray at ", this.mouse.x, this.mouse.y, intersects)
+
+        if ( intersects.length > 0 ) {
+
+            for ( var i = 0; i < intersects.length; i++ ) {
+                if (intersects[ i ].object.material.color !== undefined){
+                    intersects[ i ].object.material.color.set( 0xff0000 );
+                }
+            }   
+
+            intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+     
+            let particle = new Mesh( new CubeGeometry( 0.1, 0.1, 0.1 ), new MeshNormalMaterial() );
+            particle.colors = new Color(155,155,0);
+            //console.log("I just intersected with" ,intersects[0])
+
+            particle.position.x = intersects[ 0 ].point.x ;
+            particle.position.y = intersects[ 0 ].point.y ;
+            particle.position.z = intersects[ 0 ].point.z ;
+            
+            //this.scene.add( particle );
+        }
+        /*
+        // Parse all the faces
+        for ( var i in intersects ) {
+            intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
+        }
+        */
+    }
+
+
     addModel(model3d, id){
         let green = 0x00ff00
         let red = 0xff0000
-        //TODO: Many improvements
-        let refference = model3d
+
         model3d.import.forEach( element => {
             element.name = id + "model3d"
 
             if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
+                
                 element.children.forEach(mesh => {              
 
                     if(mesh.geometry.type !== "BufferGeometry") {
                         mesh.geometry = new BufferGeometry().fromGeometry( mesh.geometry );
                     }
 
-                    console.log(mesh.name)
+                    //console.log(mesh.name)
                     //console.log(mesh)                    
-                    if(mesh.name === "Plane") {
-                        console.log(mesh.name)
+                    if(mesh.name === "Mesh1_032Group2_032Group1_032Lamborghini_Aventador1_032Model") {
+                        mesh.geometry = new BufferGeometry()
                     }
                 //TODO: Implement a newer version of the algorithm
                 // Convert faces to lines and check if lines intersect with each other, after that
@@ -185,7 +239,8 @@ export default class Viewport {
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.99"+id)
+                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
+
                         if (id < parseInt(this.currentlyRendering[0].import[0].name[0])) {
                             mesh.material.color = new Color(red)
                         } else {
@@ -209,6 +264,7 @@ export default class Viewport {
         let spliced = false
 
         this.scene.traverse( object => {
+
             if(!spliced) {
                 //Finds the id in this.currentlyRendering corresponding to the model I want to delete
                 for (let i = 0; i < this.currentlyRendering.length; i++) {

@@ -17,14 +17,13 @@ export default class Model3D {
             toggledMesh: true,
             toggledTextures: true,
         }
-        console.log(this.model.children)
-        this.model.children.forEach( child => {
-            if ( child.name === "Plane") {
-                this.model.children.splice(this.model.children.indexOf(child), 1);
-                console.log(child, this.model.children.indexOf(child))
+        
+        for (let i = 0; i < this.model.children.length; i++) {
+            if (this.model.children[i].name.toLowerCase() === "plane"){
+                this.model.children.splice(i, 1)
+                console.log("yay")
             }
-        })
-
+        }
 
         this.textures = []
         this.model.children.forEach(element => {

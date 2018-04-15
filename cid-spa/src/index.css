@@ -322,6 +322,10 @@ i.blue.icon:hover {
         margin-right: 2% !important;  
     }
 
+    .currentlyComparing {
+
+    }
+
     .post-container {
         margin-left: 2% !important;
         transition: all 0.1s;        
@@ -330,6 +334,7 @@ i.blue.icon:hover {
 
     .currentlyComparing {
         position: unset !important;
+        display: flex !important;
     }
 }
 
