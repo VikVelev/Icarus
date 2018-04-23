@@ -23,15 +23,23 @@ export default class DeleteModal extends Component {
     handleDelete() {
         if (this.props.type === "model") {
 
-            this.props.dispatch(deleteModel(this.props.user.currentlyLoggedUser.username.id,
-                this.props.user.currentlyLoggedUser.username.token,
-                this.props.id))
+            this.props.dispatch(
+                deleteModel(
+                    this.props.user.currentlyLoggedUser.username.id,
+                    this.props.user.currentlyLoggedUser.username.token,
+                    this.props.id
+                )
+            )
         
         } else if (this.props.type === "post" ) {
 
-            this.props.dispatch(deletePost(this.props.user.currentlyLoggedUser.username.id,
-                this.props.user.currentlyLoggedUser.username.token,
-                this.props.id))
+            this.props.dispatch(
+                deletePost(
+                    this.props.user.currentlyLoggedUser.username.id,
+                    this.props.user.currentlyLoggedUser.username.token,
+                    this.props.id
+                )
+            )
         }
 
         this.handleTrigger()

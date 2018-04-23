@@ -23,7 +23,11 @@ export default class TrendingFeed extends Component {
             shuffledArr: [],
         }
         
-        this.props.dispatch(fetchTrendingPosts(this.props.user.currentlyLoggedUser.username.token))
+        this.props.dispatch(
+            fetchTrendingPosts(
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
     }
 
     renderPost(object, i){

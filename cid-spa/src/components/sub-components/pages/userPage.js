@@ -30,7 +30,12 @@ export default class UserProfile extends Component {
     constructor(props){
         super(props)
         //TODO FIX, this overwrites the current user data. Only I will get this.
-        this.props.dispatch(fetchUserData(props.id, this.props.user.currentlyLoggedUser.username.token))
+        this.props.dispatch(
+            fetchUserData(
+                props.id,
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
     }
 
     renderProfileOnFetch(){

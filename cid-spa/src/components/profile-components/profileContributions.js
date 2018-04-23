@@ -29,10 +29,24 @@ export default class ContributionsFeed extends Component {
 
         if (props.isChain === undefined) {
             this.commits = {}
+
             if (props.id === undefined) {
-                this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+
+                this.props.dispatch(
+                    fetchContributions(
+                        this.props.user.currentlyLoggedUser.username.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
+
             } else {
-                this.props.dispatch(fetchContributions(this.props.id, this.props.user.currentlyLoggedUser.username.token))
+
+                this.props.dispatch(
+                    fetchContributions(
+                        this.props.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
                 
             }
             this.props.dispatch(changeSubpage("profile_contributions"))
@@ -102,6 +116,7 @@ export default class ContributionsFeed extends Component {
         }
 
         //Gotta put some data processing in the backend
+        //Or implement a worker
 
         // if this is not rendered on a profile page, but on a mdoel page.
         if (this.props.isChain === undefined) {

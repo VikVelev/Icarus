@@ -85,12 +85,15 @@ export default class Add3DModel extends Component{
             formDataCommit.append( "details", "Initial commit" )
         }
 
-        this.props.dispatch(add3DModel(this.props.user.currentlyLoggedUser.username.id, 
-                                        this.props.user.currentlyLoggedUser.username.token,
-                                        formDataModel,
-                                        this.state.initialCommit,
-                                        formDataCommit,
-                                    ))
+        this.props.dispatch(
+            add3DModel(
+                this.props.user.currentlyLoggedUser.username.id, 
+                this.props.user.currentlyLoggedUser.username.token,
+                formDataModel,
+                this.state.initialCommit,
+                formDataCommit,
+            )
+        )
     }
 
     render(){

@@ -29,11 +29,19 @@ export default class ProfilePostsFeed extends Component {
             this.posts = {}
             if (props.id === undefined) {
                 // console.log(props.id)
-                this.props.dispatch(fetchUserPosts( this.props.user.currentlyLoggedUser.username.id, 
-                                                    this.props.user.currentlyLoggedUser.username.token))
-            } else {
-                // console.log(props.id, 2)                
-                this.props.dispatch(fetchUserPosts(this.props.id, this.props.user.currentlyLoggedUser.username.token))            
+                this.props.dispatch(
+                    fetchUserPosts( 
+                        this.props.user.currentlyLoggedUser.username.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
+            } else {            
+                this.props.dispatch(
+                    fetchUserPosts(
+                        this.props.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )            
             }
             this.props.dispatch(changeSubpage("profile_posts"))
         }

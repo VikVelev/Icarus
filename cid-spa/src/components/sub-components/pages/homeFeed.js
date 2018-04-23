@@ -18,7 +18,11 @@ export default class Feed extends Component {
 
     constructor(props) {
         super(props);
-        this.props.dispatch(fetchPersonalizedPosts(this.props.user.currentlyLoggedUser.username.token))
+        this.props.dispatch(
+            fetchPersonalizedPosts(
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
     }
 
     renderPost(object, i){

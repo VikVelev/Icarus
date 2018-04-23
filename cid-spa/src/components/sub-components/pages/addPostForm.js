@@ -73,7 +73,11 @@ export default class AddPost extends Component{
         formData.append("is_recent", this.state.is_recent)                                
 
         this.props.dispatch(
-            addPost(this.props.user.currentlyLoggedUser.username.id, formData, this.props.user.currentlyLoggedUser.username.token)
+            addPost(
+                this.props.user.currentlyLoggedUser.username.id, 
+                formData, 
+                this.props.user.currentlyLoggedUser.username.token
+            )
         )
     }
 

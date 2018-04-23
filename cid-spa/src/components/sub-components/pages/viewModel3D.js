@@ -22,8 +22,20 @@ export default class ViewModel3D extends Component {
     //TODO FIX inconsistencies with Post profile link
     constructor (props) {
         super(props)
-        this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
-        this.props.dispatch(fetchModelMentions(this.props.id, this.props.user.currentlyLoggedUser.username.token))     
+
+        this.props.dispatch(
+            fetchViewingData(
+                this.props.id, 
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
+
+        this.props.dispatch(
+            fetchModelMentions(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )     
     }
 
     renderMentions() {
@@ -72,17 +84,22 @@ export default class ViewModel3D extends Component {
 
     render() {
         if(this.props.model3d.fetched){
-            let picture = this.props.model3d.model[0].owners[0].profile.profile_picture
+            
+            let model = this.props.model3d.model[0]
+            let picture = model.owners[0].profile.profile_picture
+            
+
             if (picture === null) {
                 picture = "/img/default.png"
             }
+
             return (
                 <div className="viewModelContainer">
                     {this.renderCurrentlyComparing()}
                     <Segment color="blue">
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
-                            <Canvas3D modelPath={this.props.model3d.model[0].commits[0].new_version}
-                                      texturePath={this.props.model3d.model[0].commits[0].new_textures}
+                            <Canvas3D modelPath={model.commits[0].new_version}
+                                      texturePath={model.commits[0].new_textures}
                                       diff={true}
                                 />
                         </Segment>
@@ -101,8 +118,8 @@ export default class ViewModel3D extends Component {
                             }}> 
                             </div>
                             <div>
-                                <Header size="huge">{this.props.model3d.model[0].title}</Header>
-                                <Header size="small">Uploaded by <Link to={"/profile/" + this.props.model3d.model[0].owners[0].id}>{this.props.model3d.model[0].owners[0].username}</Link></Header>                 
+                                <Header size="huge">{model.title}</Header>
+                                <Header size="small">Uploaded by <Link to={"/profile/" + model.owners[0].id}>{model.owners[0].username}</Link></Header>                 
                             </div>
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
