@@ -14,8 +14,8 @@ import { addToCompare, removeFromCompare, DiffMode } from '../../actions/model3D
 export default class CommitEntry extends Component {
     // The object template for it to be accepted by the addModelToCompare function is:
     // { 
-    //     mesh: smth,  (path)
-    //     textures: smth, (path)
+    //     mesh: smth,  (file path)
+    //     textures: smth, (file path)
     //     modelId: smth,   (int)
     //     commitId: smth, (int)
     //     version: smth, (int)
@@ -38,7 +38,12 @@ export default class CommitEntry extends Component {
 
     renderLatest() {
 
-        if (this.isLatest() && !this.locked && this.props.model3d.rendering && this.props.model3d.comparing.length === 0) {
+        if(
+            this.isLatest() 
+            && !this.locked
+            && this.props.model3d.rendering
+            && this.props.model3d.comparing.length === 0
+        ) {
 
             let latestCommitData = { 
                 mesh: this.props.new_version,

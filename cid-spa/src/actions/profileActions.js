@@ -87,7 +87,7 @@ export function fetchUserData(id, token) {
 export function setUserData(id, userData, token){
     return function(dispatch) {
         dispatch({ type: "SET_USER_DATA" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data'
@@ -104,7 +104,7 @@ export function setUserData(id, userData, token){
 export function addPost(id, userData, token) {
     return function(dispatch) {
         dispatch({ type: "ADD_POST" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data',
@@ -122,7 +122,7 @@ export function addPost(id, userData, token) {
 export function getModelbyID(id, token){
     return function(dispatch) {
         dispatch({ type: "GET_MODEL_BY_ID" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -140,7 +140,7 @@ export function getModelbyID(id, token){
 export function add3DModel(id, token, modelData, initialCommit, commitData) {
     return function(dispatch) {
         dispatch({ type: "ADD_MODEL" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data',
@@ -167,7 +167,7 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
 export function addCommit(id, commitData, token, initData) {
     return function(dispatch) {
         dispatch({ type: "ADD_COMMIT" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data',                
@@ -191,7 +191,7 @@ export function addCommit(id, commitData, token, initData) {
 export function deleteModel(id, token, deleteId) {
     return function(dispatch) {
         dispatch({ type: "DELETE_MODEL" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -210,7 +210,7 @@ export function fetchUserPosts(id, token){
 
         dispatch({type: "FETCH_POSTS"})
 
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -227,7 +227,7 @@ export function fetchUserPosts(id, token){
 export function deletePost(id, token, deleteId) {
     return function(dispatch) {
         dispatch({ type: "DELETE_POST" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },

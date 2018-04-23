@@ -57,7 +57,7 @@ const model3DManagement = (state=defaultState, action) => {
                 fetched: true,
                 mentions: action.payload,
             }
-        case "FETCH_MENTIONS_FULFILLED":
+        case "FETCH_MENTIONS_REJECTED":
             return {
                 ...state,
                 fetching: false,

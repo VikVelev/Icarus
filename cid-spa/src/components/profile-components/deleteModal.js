@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Header, Modal, Button, Icon } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 import { deleteModel } from '../../actions/profileActions'

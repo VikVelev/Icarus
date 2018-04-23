@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Item, Dropdown, Segment, Message } from 'semantic-ui-react'
 import * as moment from 'moment'
 
@@ -9,7 +9,6 @@ import AddCommit from '../addCommitForm.js'
 import DeleteModal from '../deleteModal.js' 
 
 import { connect } from 'react-redux'
-import { Loading } from 'react-loading-animation'
 
 @connect((store) => {
     return {
@@ -33,18 +32,17 @@ export default class ModelPost extends Component {
     }
 
     handleAddCommit(e, {name}){
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault()
+        e.stopPropagation()
 
         this.setState({ addingCommit: true, modelID: name })        
     }
 
     handleDeleteModel(e, {name}){
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault()
+        e.stopPropagation()
  
-        this.setState({ deletingModel: true, modelID: name }) 
-        
+        this.setState({ deletingModel: true, modelID: name })  
     }
 
     callbackDeleteModel() {
@@ -55,9 +53,10 @@ export default class ModelPost extends Component {
     mountCanvas = () => {
         if (this.state.rendering){
             return(
-                //RETURN COMMIT DIFF Canvas with the same camera controls
+                //modelPath is the latest commit's model.
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.commits[0].new_version} texturePath={this.props.commits[0].new_textures}/>
+                    <Canvas3D modelPath={this.props.commits[0].new_version} 
+                              texturePath={this.props.commits[0].new_textures}/>
                 </Segment>
             )
         } else {
@@ -66,6 +65,7 @@ export default class ModelPost extends Component {
     }
 
     returnPost() {
+        let commitsLength = this.props.commits.length
         return(
             <Segment id={this.props.id} className="contribPost">
             <div className="profilePostWrapper">
@@ -90,16 +90,22 @@ export default class ModelPost extends Component {
                             <Dropdown.Divider/>
                             <Dropdown.Header content='Version Control'/>
                             <Dropdown.Divider/>                            
-                            <Dropdown.Item disabled={this.props.commits.length === 0} as={Link} to={"/model/" + this.props.id}> Commit chain </Dropdown.Item> 
-                            <AddCommit trigger={<Dropdown.Item disabled={this.props.isUser} name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/>
-                            <Dropdown.Item disabled={this.props.commits.length === 0} 
+                            <Dropdown.Item disabled={commitsLength === 0} as={Link} to={"/model/" + this.props.id}> Commit chain </Dropdown.Item> 
+                            <AddCommit trigger={
+                                <Dropdown.Item disabled={this.props.isUser} 
+                                               name={this.props.id} 
+                                               onClick={this.handleAddCommit.bind(this)}> 
+                                    Add Commit 
+                                </Dropdown.Item>
+                            } id={this.state.modelID}/>
+                            <Dropdown.Item disabled={commitsLength === 0} 
                                             as="a" 
-                                            href={this.props.commits.length !== 0 ? this.props.commits[0].new_version : "#"} 
+                                            href={commitsLength !== 0 ? this.props.commits[0].new_version : "#"} 
                                             download={this.props.title} > Download mesh
                             </Dropdown.Item>   
-                            <Dropdown.Item disabled={this.props.commits.length === 0} 
+                            <Dropdown.Item disabled={commitsLength === 0} 
                                             as="a" 
-                                            href={this.props.commits.length !== 0 ? this.props.commits[0].new_textures : "#"} 
+                                            href={commitsLength !== 0 ? this.props.commits[0].new_textures : "#"} 
                                             download={this.props.title} > Download textures
                             </Dropdown.Item>   
                             <Dropdown.Item disabled> Add Owner </Dropdown.Item>                                                                                        
@@ -108,7 +114,7 @@ export default class ModelPost extends Component {
                     </Dropdown>
                 </Item>
                     {this.state.deletingModel && this.props.profile.deletedModel ?  this.callbackDeleteModel() : null}
-                    {this.props.commits.length > 0 ? this.mountCanvas() : this.state.rendering ? <Message info> No commits available. You can add one by clicking the three dots on the right. </Message> : null}
+                    {commitsLength > 0 ? this.mountCanvas() : this.state.rendering ? <Message info> No commits available. You can add one by clicking the three dots on the right. </Message> : null}
             </div>
             </Segment>
         )

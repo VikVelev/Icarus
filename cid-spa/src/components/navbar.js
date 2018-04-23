@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Image, Dropdown, Input } from 'semantic-ui-react'
+import { Menu, Image, Dropdown } from 'semantic-ui-react'
 
 import { Link, Redirect } from 'react-router-dom'
 //import Logout from './sub-components/logout.js'
@@ -8,8 +8,6 @@ import { connect } from 'react-redux';
 import { changePages } from '../actions/pageActions'
 import { logout, fetchAllUsers } from '../actions/userActions'
 import { fetchAll3DModels } from '../actions/profileActions'
-
-import Loading from 'react-loading-animation'
 
 import SearchBar from './searchBar.js'
 

@@ -23,7 +23,7 @@ export default class ProfileSettings extends Component {
 
     constructor(props){
         super(props)
-        this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+
         this.state = {
             success: false,
             profile: false,
@@ -34,7 +34,15 @@ export default class ProfileSettings extends Component {
             profile_picture: "",
             birth_date: moment(),
             description: '',
-        }      
+        }   
+        
+        this.props.dispatch(
+            fetchUserData(
+                this.props.user.currentlyLoggedUser.username.id, 
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
+        
     }
 
     handleChange = (e, { name, value}) => {
@@ -84,11 +92,13 @@ export default class ProfileSettings extends Component {
         }
         formData.append('profile.description', description)        
 
-        this.props.dispatch(setUserData(
-            this.props.user.currentlyLoggedUser.username.id,
-            formData,
-            this.props.user.currentlyLoggedUser.username.token
-        ))    
+        this.props.dispatch(
+            setUserData(
+                this.props.user.currentlyLoggedUser.username.id,
+                formData,
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )    
     }
 
     handleErrors(type) {
@@ -116,7 +126,7 @@ export default class ProfileSettings extends Component {
             if (this.props.profile.userData.profile !== undefined ) {
                 if (this.state.email === "") {
                     
-                    var state = {
+                    let state = {
                         ...this.props.profile.userData, 
                         ...this.props.profile.userData.profile, 
                         profile: false
@@ -149,8 +159,9 @@ export default class ProfileSettings extends Component {
                     if(state.description === null) {
                         state.description = ""
                     }
-
-                    this.state = state
+                    
+                    // eslint-disable-next-line
+                    this.state = {...state}
 
                     // end of retardation - did this to eliminate warnings.
                 }

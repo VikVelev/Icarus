@@ -185,7 +185,7 @@ export default class Viewport {
 
         if ( intersects.length > 0 ) {
 
-            for ( var i = 0; i < intersects.length; i++ ) {
+            for ( let i = 0; i < intersects.length; i++ ) {
                 if (intersects[ i ].object.material.color !== undefined){
                     intersects[ i ].object.material.color.set( 0xff0000 );
                 }
@@ -205,7 +205,7 @@ export default class Viewport {
         }
         /*
         // Parse all the faces
-        for ( var i in intersects ) {
+        for ( let i in intersects ) {
             intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
         }
         */
@@ -241,7 +241,7 @@ export default class Viewport {
                         //if the version is older
                         mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
 
-                        if (id < parseInt(this.currentlyRendering[0].import[0].name[0])) {
+                        if (id < parseInt(this.currentlyRendering[0].import[0].name[0], 10)) {
                             mesh.material.color = new Color(red)
                         } else {
                             mesh.material.color = new Color(green)

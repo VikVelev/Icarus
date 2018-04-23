@@ -3,10 +3,6 @@ import { Dropdown } from 'semantic-ui-react'
 
 import { Redirect } from 'react-router-dom'
 
-import { addPost, fetchAll3DModels } from '../actions/profileActions.js'
-
-import Loading from 'react-loading-animation'
-
 export default class SearchBar extends Component {
     
     constructor(props) {
@@ -93,9 +89,6 @@ export default class SearchBar extends Component {
     handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
     render() {
-
-        const { options, isFetching, value } = this.state
-
         return (
             <div style={{ width: '100%', fontSize: '0.9em' }}>
                 <Dropdown
@@ -104,18 +97,30 @@ export default class SearchBar extends Component {
                     search
                     scrolling
                     multiple={false}
-                    options={options}
+                    options={this.state.options}
                     icon="search"
                     name='content'
                     placeholder='Type to start searching...'
                     onChange={this.handleChange}
                     onSearchChange={this.handleSearchChange}
-                    disabled={isFetching}
+                    disabled={this.state.isFetching}
                     loading={this.props.isFetching}
                 />
 
-                {this.state.type === "user" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickUserCallback(): null }
-                {this.state.type === "model" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickModelCallback(): null }
+                {
+                    this.state.type === "user" 
+                    && this.state.clicked 
+                    && this.state.currentlyClicked !== 0x000 ? 
+                        this.clickUserCallback()
+                    : null 
+                }
+                {
+                    this.state.type === "model" 
+                    && this.state.clicked 
+                    && this.state.currentlyClicked !== 0x000 ? 
+                    this.clickModelCallback()
+                    : null 
+                }
                 
             </div>      
         )

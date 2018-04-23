@@ -15,9 +15,9 @@ export default class ContribPost extends Component {
     mountCanvas = () => {
         if (this.state.rendering){
             return(
-                //RETURN COMMIT DIFF Canvas with the same camera controls
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={this.props.new_version} texturePath={this.props.new_textures}/>
+                    <Canvas3D modelPath={this.props.new_version} 
+                              texturePath={this.props.new_textures}/>
                 </Segment>
             )
         } else {
@@ -37,7 +37,12 @@ export default class ContribPost extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Belongs to model: <Link to={"/model/" + this.props.belongs_to_model.id}>{this.props.belongs_to_model.title}</Link></Item.Meta>                        
+                        <Item.Meta as='p'>
+                            Belongs to model: 
+                        <Link to={"/model/" + this.props.belongs_to_model.id}>
+                            {this.props.belongs_to_model.title}
+                        </Link>
+                        </Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

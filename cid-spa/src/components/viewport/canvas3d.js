@@ -175,11 +175,9 @@ export default class Canvas3D extends Component {
         if (this.state.precent === 100) {
             setTimeout(this.setState({ loading: false }), 3000);
         }
-
-
         
         if (this.state.precent === 100) {
-            this.state.counter++
+            this.setState({ counter: this.state.counter + 1 })
         }
     }
 

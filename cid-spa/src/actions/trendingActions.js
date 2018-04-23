@@ -5,6 +5,7 @@ import url from './backendUrl.js'
 export function fetchTrendingPosts(token){
     return function(dispatch) {
         dispatch({type: "FETCH_TRENDING_POSTS"})
+        
         let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,

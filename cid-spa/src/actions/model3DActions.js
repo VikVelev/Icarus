@@ -4,7 +4,7 @@ import axios from 'axios'
 export function fetchViewingData(id, token) {
     return function(dispatch) {
         dispatch({ type: "FETCH_DATA" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -21,7 +21,7 @@ export function fetchViewingData(id, token) {
 export function fetchModelMentions(id, token){
     return function(dispatch) {
         dispatch({ type: "FETCH_MENTIONS" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },

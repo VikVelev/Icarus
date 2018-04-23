@@ -1,5 +1,5 @@
 import { VertexNormalsHelper, LineSegments, LineBasicMaterial, Box3 } from 'three'
-import { WireframeGeometry, Geometry, Group, MeshStandardMaterial, Vector3 }  from 'three'
+import { WireframeGeometry, Geometry, Group, MeshStandardMaterial }  from 'three'
 
 
 //import FaceNormalsHelper from 'three'
@@ -61,8 +61,8 @@ export default class Model3D {
         let allLines = new Group()
 
         model.children.forEach(mesh => {
-            var edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
-            var line = new LineSegments( edge, mat );
+            let edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
+            let line = new LineSegments( edge, mat );
             allLines.add(line)
         });
 
