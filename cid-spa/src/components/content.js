@@ -15,7 +15,7 @@ import AddPost from './sub-components/pages/addPostForm.js'
 import Add3DModel from './sub-components/pages/add3DModelForm.js'
 import ViewModel3D from './sub-components/pages/viewModel3D.js'
 
-import{ LoginForm } from './sub-components/pages/loginForm.js';
+import{ LoginForm, LoggedIn } from './sub-components/pages/loginForm.js';
 import RegisterForm from './sub-components/pages/registerForm.js';
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -44,7 +44,12 @@ export default class Content extends Component {
         for (let i = 0; i < 3; i++) {
             location = location.slice(location.search("/") + 1, location.length)
         }
-        
+
+        if (location === "" && this.props.user.logged) {
+            location = "home"
+        }
+        console.log(location)
+        this.props.dispatch(changePages(location))
         return location
     }
 

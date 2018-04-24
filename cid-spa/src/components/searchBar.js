@@ -96,7 +96,7 @@ export default class SearchBar extends Component {
                     selection
                     search
                     scrolling
-                    multiple={false}
+                    multiple={true}
                     options={this.state.options}
                     icon="search"
                     name='content'

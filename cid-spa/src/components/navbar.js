@@ -22,7 +22,7 @@ export class Navbar extends Component {
 
     constructor(props) {
         super(props)
-        
+
         this.state = {
             profile: false,
             settings: false,
@@ -30,6 +30,7 @@ export class Navbar extends Component {
 
         props.dispatch(fetchAllUsers(props.manage.currentlyLoggedUser.username.token))
         props.dispatch(fetchAll3DModels(props.manage.currentlyLoggedUser.username.token))
+
         // fetch all users and all models
         // TODO: try to optimize this
     }
@@ -49,14 +50,21 @@ export class Navbar extends Component {
     }
 
     handleProfileCallback () {
-        this.setState({ profile: false })                
+        //Warnings here because philosophy of React that I don't seem to grasp.
+        this.setState({ profile: false })
+        this.props.dispatch(changePages("profile"))
+
         return (
             <Redirect to="/profile"/>
         )
     }
 
     handleSettingsCallback () {
-        this.setState({ settings: false })                
+        //Warnings here because philosophy of React that I don't seem to grasp.
+        this.setState({ settings: false })
+
+        this.props.dispatch(changePages("profile/settings"))
+        
         return (
             <Redirect to="/profile/settings"/>
         )
@@ -73,11 +81,12 @@ export class Navbar extends Component {
             { key: 'user', text: 'Profile', icon: 'user', onClick: this.handleProfileClick },
             { key: 'settings', text: 'Settings', icon: 'settings', onClick: this.handleSettingsClick },
             { key: 'sign-out', text: 'Sign Out', icon: 'sign out', onClick: this.handleLogout.bind(this) },
-          ]
-          
+          ]     
         
         return (  
-            <Menu.Item id="profileBadge">
+            <Menu.Item id="profileBadge" 
+                active={this.props.currentPage === "profile/settings" 
+                        || this.props.currentPage === "profile"}>
                 <Dropdown trigger={trigger} pointing options={options} />
             </Menu.Item>
         )
@@ -116,20 +125,22 @@ export class Navbar extends Component {
                     as={Link} 
                     to="/create-post"
                     icon="write"
-                    name='create_post'
-                    active={this.props.currentPage === 'create_post'} 
+                    name='create-post'
+                    active={this.props.currentPage === 'create-post'} 
                     onClick={this.handleItemClick}/>
                 
                 <Menu.Item 
                     as={Link} 
                     to="/create-model"
                     icon="world"
-                    name='create_model'
-                    active={this.props.currentPage === 'create_model'} 
+                    name='create-model'
+                    active={this.props.currentPage === 'create-model'} 
                     onClick={this.handleItemClick}/>
                 
                 { 
-                    ( this.props.manage.allUsers.length > 0 || this.props.profile.allModels.length > 0 ) && this.props.profile.fetched && this.props.manage.fetched ?
+                    (this.props.manage.allUsers.length > 0 || this.props.profile.allModels.length > 0) 
+                    && this.props.profile.fetched 
+                    && this.props.manage.fetched ?
                     <Menu.Item name="search" position="right" style={{ width: '40%', height: "80%", padding: "3px"}}>
                         {console.log()/*MYSTERY: I honestly have no Idea, but when this console.log is removed, the searchbar breaks*/}
                         <SearchBar models={this.props.profile.allModels} users={this.props.manage.allUsers}/>                 

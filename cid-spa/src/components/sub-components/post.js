@@ -79,7 +79,7 @@ export default class Post extends Component {
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         { 
                             !this.state.inProfile ? 
-                                <Item.Meta>Posted by 
+                                <Item.Meta>Posted by{" "}
                                     {
                                         <Link to={"/profile/" + this.props.posted_by.id}>
                                             {this.props.posted_by.username}

@@ -37,8 +37,9 @@ export default class TrendingFeed extends Component {
             </Segment>
         )
     }
-
-    //IDK about the shuffle
+    
+    //Simple shuffle to simulate trendingness
+    //TODO: Implement popularity sort or something
     shuffle(a) {
         for (let i = a.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));

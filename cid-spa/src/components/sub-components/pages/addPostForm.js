@@ -193,11 +193,11 @@ class ModelDropdown extends Component {
                 fluid
                 selection
                 search
-                multiple={false}
+                multiple={true}
                 options={options}
                 value={value}
                 name='content'
-                placeholder='Add Users'
+                placeholder='Select from a list of all available models'
                 onChange={this.handleChange}
                 onSearchChange={this.handleSearchChange}
                 disabled={isFetching}
