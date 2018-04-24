@@ -14,8 +14,6 @@ const cidReducers = combineReducers({
     trendingManagement,
     profileManagement,
     model3DManagement
-    //reducer1,
-    //reducer2,
 })
 
 export default cidReducers

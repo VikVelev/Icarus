@@ -85,7 +85,7 @@ export default class ProfileSettings extends Component {
         formData.append('first_name', first_name)
         formData.append('last_name', last_name)
         formData.append('profile.country', country)
-        formData.append('profile.birth_date', birth_date.format("YYYY-MM-DD"))
+        formData.append('profile.birth_date', birth_date !== null && birth_date !== "" ? birth_date.format("YYYY-MM-DD") : null) 
 
         if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
             formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])

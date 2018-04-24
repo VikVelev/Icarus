@@ -47,8 +47,10 @@ export default class Content extends Component {
 
         if (location === "" && this.props.user.logged) {
             location = "home"
+        } else if (location === "") {
+            location = "homepage"
         }
-        console.log(location)
+
         this.props.dispatch(changePages(location))
         return location
     }

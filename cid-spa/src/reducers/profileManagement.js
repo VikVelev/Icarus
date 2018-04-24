@@ -34,6 +34,7 @@ const profileManagement = (state=defaultState, action) => {
                 ...state,
                 error: {},
                 postFetched: false,
+                userDataSet: false,
                 commitFetched: false,
                 deletedModel: false,
                 contributionsFetched: false,
