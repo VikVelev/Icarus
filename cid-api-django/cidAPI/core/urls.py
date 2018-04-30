@@ -6,8 +6,9 @@ from .views.users import Users, ListAllUsers
 from .views.posts import ListCreatePosts, Posts
 from .views.models_3d import Models3D, ListAllModels3D, CommitFile
 from .views.contributions import Contributions
+from .views.revision_container import Revisions
 
-from .views.customObtainAuthToken import CustomObtainAuthToken
+from .views.auth_token import CustomObtainAuthToken
 
 urlpatterns = [
     # Main URIs
@@ -25,6 +26,7 @@ urlpatterns = [
     path('users/', ListAllUsers.as_view()),
     re_path(r'^user/(?P<pk>[0-9]+)/$', Users.as_view()),
     re_path(r'^user/(?P<pk>[0-9]+)/3d-models/$', Models3D.as_view()),
+    re_path(r'^user/(?P<pk>[0-9]+)/model/(?P<model_id>[0-9]+)/revisions/$', Revisions.as_view()),    
     re_path(r'^user/(?P<pk>[0-9]+)/contributions/$', Contributions.as_view()),
     
 ]
