@@ -15,8 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -26,25 +24,18 @@ SECRET_KEY = 's@5idp4#w&%!=1$pi6d8)2_(e=1ku6q44d%%tmj+aiwl2hfoq='
 DEBUG = True
 
 ALLOWED_HOSTS = [    
-    'fortress88.servebeer.com',
+    'cid-platform.com',
     'cid-platform.myddns.me',
     'localhost',
-    '0.0.0.0',
-    'main',
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'google.com',
-    'localhost:3000',
-    'main:3000',
-    'localhost:8000',
-    '0.0.0.0:3000',
-    '0.0.0.0',
-    '127.0.0.1:9000',
-    'cid-platform.myddns.me:3000',
     'cid-platform.myddns.me:8000',
     'cid-platform.myddns.me',
-    '192.168.0.106:3000'
+    'cid-platform.com:8000',    
+    'cid-platform.com',
+    'localhost:3000',
+    'localhost:8000',
     'localhost',
 )
 
@@ -94,8 +85,8 @@ ROOT_URLCONF = 'cidAPI.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        #'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -204,9 +195,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-#TODO Fix Static directories so django can serve the spa properly
-#TODO OR Just migrate to nginx to serve the spa, tyvm bye
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
@@ -219,9 +207,9 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-MINIO_STORAGE_ENDPOINT = "172.20.0.2:9000"
-MINIO_STORAGE_ACCESS_KEY = "test_access"
+MINIO_STORAGE_ENDPOINT = "172.19.0.3:9000"
 MINIO_STORAGE_SECRET_KEY = "test_secret"
+MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"
 
 MINIO_STORAGE_USE_HTTPS = False

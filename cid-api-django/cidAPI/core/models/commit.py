@@ -22,8 +22,9 @@ class Commit(models.Model):
         # not in the database yet. Otherwise it would
         # have pk
         if not self.pk:
-            if Commit.objects.filter(belongs_to_model=self.belongs_to_model):
-                currentCommit = Commit.objects.filter(belongs_to_model=self.belongs_to_model).order_by('id').reverse()[0]
+            
+            if Commit.objects.filter(belongs_to_model=self.belongs_to_model): # pylint: disable=E1101
+                currentCommit = Commit.objects.filter(belongs_to_model=self.belongs_to_model).order_by('id').reverse()[0] # pylint: disable=E1101
                 self.version_number = currentCommit.version_number + 1
         
         super(Commit, self).save(*args, **kwargs)
