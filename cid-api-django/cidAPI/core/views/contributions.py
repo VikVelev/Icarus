@@ -30,13 +30,17 @@ class Contributions(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        # TODO: Check the owners array and post to revisions if you are not in there        
         return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        # FIXME: this is a bad way to set the value, but ...
+        # TODO: Check the owners array and post to revisions if you are not in there
+        
+        # A stupid try to escape nested serializers
         user_id = self.kwargs["pk"]
         user = User.objects.get(id=user_id)
-        serializer.validated_data['commited_by'] = user
-
+        serializer.validated_data['commited_by'] = user 
+        #
+        
         serializer.save()
 

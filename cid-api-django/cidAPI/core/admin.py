@@ -9,6 +9,7 @@ from .models.post import Post
 from .models.comment import Comment
 from .models.commit import Commit
 from .models.models_3d import Model3D
+from .models.revision_container import Revision
 
 # Register your models here.
 admin.site.register(Profile)
@@ -16,3 +17,4 @@ admin.site.register(Post)
 admin.site.register(Model3D)
 admin.site.register(Comment)
 admin.site.register(Commit)
+admin.site.register(Revision)

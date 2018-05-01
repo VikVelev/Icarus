@@ -15,6 +15,7 @@ from pprint import pprint
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
     permission_classes = (permissions.IsAuthenticated,)
+    # TODO: Check if posted by and user.pk are the same when creating
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -24,6 +25,7 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
     def get_queryset(self):
         queryset = Post.objects.all()
+        
         posted_by = self.request.query_params.get('posted_by', None)
         posted_model = self.request.query_params.get('posted_model', None)       
 
@@ -42,6 +44,7 @@ class Posts(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated,)    
     serializer_class = PostSerializer
 
+    # TODO: When deleting or editing posts check the owner
     def get_queryset(self):
         post_pk = self.kwargs["pk"]
 

@@ -16,12 +16,12 @@ from ..serializers.user_serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
-class Users(generics.RetrieveUpdateDestroyAPIView):
-
+class Users(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer  
-    permission_classes = (IsAuthenticated, )
+    serializer_class = UserSerializer
+    # TODO: Check if the user is the same when trying to update something
+    permission_classes = (IsAuthenticated,)
 
 class ListAllUsers(generics.ListAPIView):
 

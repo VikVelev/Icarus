@@ -12,7 +12,7 @@ class Revision(models.Model):
 
     title = models.CharField(max_length=64, unique=True)
     
-    model = models.ForeignKey(Model3D, on_delete=models.CASCADE)
+    model = models.ForeignKey("Model3D", related_name='revisions', on_delete=models.CASCADE)
     commit = models.ForeignKey(Commit, on_delete=models.CASCADE)
     
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)

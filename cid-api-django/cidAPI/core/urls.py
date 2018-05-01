@@ -26,7 +26,8 @@ urlpatterns = [
     path('users/', ListAllUsers.as_view()),
     re_path(r'^user/(?P<pk>[0-9]+)/$', Users.as_view()),
     re_path(r'^user/(?P<pk>[0-9]+)/3d-models/$', Models3D.as_view()),
-    re_path(r'^user/(?P<pk>[0-9]+)/model/(?P<model_id>[0-9]+)/revisions/$', Revisions.as_view()),    
+    re_path(r'^user/(?P<pk>[0-9]+)/revisions/$', Revisions.as_view()),    
+    re_path(r'^user/(?P<pk>[0-9]+)/3d-model/(?P<model_id>[0-9]+)/revisions/$', Revisions.as_view()),    
     re_path(r'^user/(?P<pk>[0-9]+)/contributions/$', Contributions.as_view()),
     
 ]

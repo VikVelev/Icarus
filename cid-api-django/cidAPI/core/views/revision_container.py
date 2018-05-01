@@ -1,24 +1,37 @@
 from django.http import HttpResponse
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics, mixins
 
-from ..models.commit import Commit
-from ..serializers.model3d_serializers import CommitSerializer, CommitEntrySerializer
-from ..serializers.revision_serializers import RevisionSerializer
+from ..models.revision_container import Revision
+from ..serializers.revision_serializers import RevisionSerializer, AddRevisionSerializer
 
 from django.contrib.auth.models import User
 
-class Revisions(mixins.ListModelMixin,
-                mixins.CreateModelMixin, 
-                generics.GenericAPIView):
+class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin):
 
-    permission_classes = (permissions.IsAuthenticated, )   
+    permission_classes = (permissions.IsAuthenticated, )
 
-    def get(self, request, *args, **kwargs):
-        # Get the requested model's revisions
-        # self.kwargs["model_id"]
-        return Response(status=404)
+    def get_queryset(self):
+        # TODO: Check who is the owner and restrict the ability to read revisions
+        if self.kwargs.get("pk") is not None:
+            queryset = Revision.objects.filter(posted_by=self.kwargs["pk"])
 
+            if self.kwargs.get("model_id") is not None:
+                queryset = Revision.objects.filter(posted_by=self.kwargs["pk"], model=self.kwargs["model_id"])
+        
+        return queryset
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return RevisionSerializer
+        else:
+            return AddRevisionSerializer
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+    

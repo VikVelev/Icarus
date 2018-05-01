@@ -45,14 +45,12 @@ class Models3D( mixins.ListModelMixin,
         if verbose is not None:
             print(queryset.get(id=4).owners)
 
-        # TODO This is easy implement for post fetching so I don't have to do multiple queries
         # FIXME
-        print("Id", self.request.user.pk)
+        print("id", self.request.user.pk)
         # END OF TODO
         return queryset
 
     #This is because https://stackoverflow.com/questions/49331003/django-drf-delete-retrieve-patch-returns-404-detail-not-found/49340753#49340753
-    # Note - who asked the question? Me - I Wasted 2 days on this crap
     def get_object(self):
         queryset = self.get_queryset()
         pk = self.request.query_params.get('id', None)
@@ -69,32 +67,37 @@ class Models3D( mixins.ListModelMixin,
         return self.create(request, *args, **kwargs)
     
     def put(self, request, *args, **kwargs):
+        # TODO: Check the owners array and restrict if you are not in there        
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
+        # TODO: Check the owners array and restrict if you are not in there        
         return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        # TODO: Check the owners array and restrict if you are not in there        
         return self.destroy(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        # FIXME: this is a bad way to set the value, but ...
         user_id = self.kwargs["pk"]
         serializer.validated_data['owners'] = [user_id]
-
         serializer.save()
 
 class CommitFile(generics.GenericAPIView):
     
     def get(self, request, *args, **kwargs):
+        
         model_id = self.kwargs["pk"]
         file = Commit.objects.get(id=model_id).new_version
         file_mime = mimetypes.guess_type(str(file))
+
         return FileResponse(file, content_type=file_mime[0])
 
-
+# This is essentially useless but I did it for debugging HTTP Headers.
 def pretty_request(request):
+
     headers = ''
+
     for header, value in request.META.items():
         if not header.startswith('HTTP'):
             continue

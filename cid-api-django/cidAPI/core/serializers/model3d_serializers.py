@@ -4,8 +4,11 @@ User = get_user_model()
 
 from ..models.commit import Commit
 from ..models.models_3d import Model3D
+
 from .user_serializers import UserSerializer
+
 from rest_framework import serializers
+
 
 class CommitSerializer(serializers.ModelSerializer):
 
@@ -13,7 +16,6 @@ class CommitSerializer(serializers.ModelSerializer):
     commited_by = UserSerializer(read_only=True)
     id = serializers.IntegerField(read_only=True)
     version_number = serializers.IntegerField(read_only=True) 
-
 
     class Meta:
         model = Commit
@@ -29,6 +31,7 @@ class CommitSerializer(serializers.ModelSerializer):
             'date',
         )
 
+from .revision_serializers import RevisionSerializer
 
 class Model3DSerializer(serializers.ModelSerializer):
 
@@ -40,6 +43,8 @@ class Model3DSerializer(serializers.ModelSerializer):
     date_uploaded = serializers.DateTimeField(read_only=True)
     owners = UserSerializer(many=True, read_only=True)
 
+    #revisions = RevisionSerializer()
+
     class Meta:
         model = Model3D
         fields = (
@@ -49,7 +54,8 @@ class Model3DSerializer(serializers.ModelSerializer):
             'description',
             'date_uploaded',
             'favorited_by',
-            'commits'
+            'commits',
+            'revisions',
         )
 
 class CommitEntrySerializer(serializers.ModelSerializer):
