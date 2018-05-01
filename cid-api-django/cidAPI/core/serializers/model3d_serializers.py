@@ -31,7 +31,6 @@ class CommitSerializer(serializers.ModelSerializer):
             'date',
         )
 
-from .revision_serializers import RevisionSerializer
 
 class Model3DSerializer(serializers.ModelSerializer):
 
@@ -43,8 +42,6 @@ class Model3DSerializer(serializers.ModelSerializer):
     date_uploaded = serializers.DateTimeField(read_only=True)
     owners = UserSerializer(many=True, read_only=True)
 
-    #revisions = RevisionSerializer()
-
     class Meta:
         model = Model3D
         fields = (
@@ -55,7 +52,6 @@ class Model3DSerializer(serializers.ModelSerializer):
             'date_uploaded',
             'favorited_by',
             'commits',
-            'revisions',
         )
 
 class CommitEntrySerializer(serializers.ModelSerializer):

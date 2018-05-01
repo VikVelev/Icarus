@@ -12,7 +12,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from ..serializers.user_serializers import UserSerializer
-
+from ..permissions import IsMeOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -20,12 +20,11 @@ class Users(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # TODO: Check if the user is the same when trying to update something
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsMeOrReadOnly)
 
 class ListAllUsers(generics.ListAPIView):
 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsMeOrReadOnly)
     serializer_class = UserSerializer
 
     def get_queryset(self):

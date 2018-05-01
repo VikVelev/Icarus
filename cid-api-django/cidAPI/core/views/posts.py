@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from rest_framework.permissions import IsAuthenticated
 
+from ..permissions import IsOPOrReadOnly
 
 from ..models.post import Post
 from ..serializers.post_serializers import PostSerializer, CreatePostSerializer
@@ -14,8 +15,7 @@ from pprint import pprint
 
 class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
-    permission_classes = (permissions.IsAuthenticated,)
-    # TODO: Check if posted by and user.pk are the same when creating
+    permission_classes = (permissions.IsAuthenticated, IsOPOrReadOnly)
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -41,10 +41,9 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
 
 class Posts(generics.RetrieveUpdateDestroyAPIView):
     
-    permission_classes = (permissions.IsAuthenticated,)    
+    permission_classes = (permissions.IsAuthenticated, IsOPOrReadOnly)    
     serializer_class = PostSerializer
 
-    # TODO: When deleting or editing posts check the owner
     def get_queryset(self):
         post_pk = self.kwargs["pk"]
 

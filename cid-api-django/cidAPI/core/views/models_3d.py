@@ -9,14 +9,16 @@ from rest_framework import status, permissions, generics, mixins
 
 from ..models.models_3d import Model3D
 from ..models.commit import Commit
+
 from ..serializers.model3d_serializers import Model3DSerializer
+from ..permissions import IsOwnerOrReadOnly
 import pprint
 import mimetypes
 
 class ListAllModels3D(generics.ListAPIView):
     
     serializer_class = Model3DSerializer
-    permission_classes = (permissions.IsAuthenticated, )    
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)    
 
     def get_queryset(self):
         queryset = Model3D.objects.all()
@@ -34,29 +36,24 @@ class Models3D( mixins.ListModelMixin,
                 generics.GenericAPIView,
             ):
     serializer_class = Model3DSerializer
-    permission_classes = (permissions.IsAuthenticated, )    
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly)    
 
     def get_queryset(self):
         user_pk = self.kwargs["pk"]
         queryset = Model3D.objects.filter(owners__in=[user_pk])
 
-        verbose = self.request.query_params.get('v', None)
-
-        if verbose is not None:
-            print(queryset.get(id=4).owners)
-
-        # FIXME print("id", self.request.user.pk)
+        verbose = self.request.query_params.get('v', None) # Just for debugging purposes
 
         return queryset
 
     #This is because https://stackoverflow.com/questions/49331003/django-drf-delete-retrieve-patch-returns-404-detail-not-found/49340753#49340753
     def get_object(self):
         queryset = self.get_queryset()
+    
         pk = self.request.query_params.get('id', None)
-
         obj = get_object_or_404(queryset, pk=pk)
-
         self.check_object_permissions(self.request, obj)
+
         return obj
 
     def get(self, request, *args, **kwargs):
@@ -65,20 +62,17 @@ class Models3D( mixins.ListModelMixin,
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
     
-    def put(self, request, *args, **kwargs):
-        # TODO: Check the owners array and restrict if you are not in there        
+    def put(self, request, *args, **kwargs):      
         return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        # TODO: Check the owners array and restrict if you are not in there        
+    def patch(self, request, *args, **kwargs):      
         return self.partial_update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
-        # TODO: Check the owners array and restrict if you are not in there        
+    def delete(self, request, *args, **kwargs):     
         return self.destroy(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        user_id = self.kwargs["pk"]
+        user_id = self.request.user.id
         serializer.validated_data['owners'] = [user_id]
         serializer.save()
 
