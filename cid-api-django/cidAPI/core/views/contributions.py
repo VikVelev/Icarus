@@ -25,7 +25,7 @@ class Contributions(mixins.ListModelMixin,
 
     def get_queryset(self):
         user_pk = self.kwargs["pk"]
-        return Commit.objects.filter(commited_by_id__in=[user_pk])
+        return Commit.objects.filter(committed_by_id__in=[user_pk])
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -40,7 +40,7 @@ class Contributions(mixins.ListModelMixin,
         # A stupid try to escape nested serializers
         user_id = self.kwargs["pk"]
         user = User.objects.get(id=user_id)
-        serializer.validated_data['commited_by'] = user 
+        serializer.validated_data['committed_by'] = user 
         #
         
         serializer.save()

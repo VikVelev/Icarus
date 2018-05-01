@@ -13,7 +13,7 @@ from rest_framework import serializers
 class CommitSerializer(serializers.ModelSerializer):
 
     date = serializers.DateTimeField(read_only=True)
-    commited_by = UserSerializer(read_only=True)
+    committed_by = UserSerializer(read_only=True)
     id = serializers.IntegerField(read_only=True)
     version_number = serializers.IntegerField(read_only=True) 
 
@@ -25,7 +25,7 @@ class CommitSerializer(serializers.ModelSerializer):
             'belongs_to_model',
             'new_version',
             'new_textures',
-            'commited_by',
+            'committed_by',
             'version_number',
             'details',
             'date',
@@ -57,7 +57,7 @@ class Model3DSerializer(serializers.ModelSerializer):
 class CommitEntrySerializer(serializers.ModelSerializer):
 
     date = serializers.DateTimeField(read_only=True)
-    commited_by = UserSerializer(read_only=True)
+    committed_by = UserSerializer(read_only=True)
     id = serializers.IntegerField(read_only=True)
     version_number = serializers.IntegerField(read_only=True) 
 
@@ -71,7 +71,7 @@ class CommitEntrySerializer(serializers.ModelSerializer):
             'belongs_to_model',
             'new_version',
             'new_textures',
-            'commited_by',
+            'committed_by',
             'version_number',
             'details',
             'date',

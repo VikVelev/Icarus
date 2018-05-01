@@ -52,7 +52,7 @@ export default class CommitEntry extends Component {
                 commitId: this.props.id,
                 version: this.props.version_number,
                 description: this.props.details,
-                commited_by: this.props.commited_by,
+                committed_by: this.props.committed_by,
                 title: this.props.title,
             }
         
@@ -80,7 +80,7 @@ export default class CommitEntry extends Component {
             commitId: this.props.id,
             version: this.props.version_number,
             description: this.props.details,
-            commited_by: this.props.commited_by,            
+            committed_by: this.props.committed_by,            
             title: this.props.title,
         }
 
@@ -111,7 +111,7 @@ export default class CommitEntry extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Commited by: <Link to={"/profile/" + this.props.commited_by.id}>{this.props.commited_by.username}</Link></Item.Meta>                        
+                        <Item.Meta as='p'>Committed by: <Link to={"/profile/" + this.props.committed_by.id}>{this.props.committed_by.username}</Link></Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

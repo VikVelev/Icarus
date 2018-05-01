@@ -11,7 +11,7 @@ class Commit(models.Model):
     new_textures = models.FileField(null=True, blank=True)
 
     #If a user is deleted, delete all commits.
-    commited_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    committed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     details = models.TextField(null=False)
 
     version_number = models.IntegerField(default=1)
