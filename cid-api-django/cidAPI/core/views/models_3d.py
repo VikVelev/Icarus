@@ -45,9 +45,8 @@ class Models3D( mixins.ListModelMixin,
         if verbose is not None:
             print(queryset.get(id=4).owners)
 
-        # FIXME
-        print("id", self.request.user.pk)
-        # END OF TODO
+        # FIXME print("id", self.request.user.pk)
+
         return queryset
 
     #This is because https://stackoverflow.com/questions/49331003/django-drf-delete-retrieve-patch-returns-404-detail-not-found/49340753#49340753
