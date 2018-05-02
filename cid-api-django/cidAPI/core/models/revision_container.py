@@ -10,7 +10,7 @@ from .commit import Commit
 
 class Revision(models.Model):
 
-    title = models.CharField(max_length=64, unique=True)
+    title = models.CharField(max_length=64)
     
     model = models.ForeignKey("Model3D", related_name='revisions', on_delete=models.CASCADE)
     commit = models.ForeignKey(Commit, on_delete=models.CASCADE)

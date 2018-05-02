@@ -40,6 +40,14 @@ class IsOCOrReadOnly(BasePermission):
             
         return obj.committed_by == request.user
 
+class IsModelOwned(BasePermission):
+    def has_object_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+
+        # Check if you are among the model you are trying to commit's owners
+        return True
+
 class IsMeOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
