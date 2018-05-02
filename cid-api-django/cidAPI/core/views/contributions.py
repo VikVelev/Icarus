@@ -3,20 +3,20 @@ from django.http import Http404
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions, generics, mixins
+from rest_framework import status, permissions, generics, mixins, serializers
 from ..permissions import IsOCOrReadOnly
 
 from ..models.commit import Commit
 from ..models.revision_container import Revision
 from ..models.models_3d import Model3D
-from ..serializers.model3d_serializers import CommitSerializer, CommitEntrySerializer
+from ..serializers.model3d_serializers import CommitSerializer, CommitEntrySerializer, Model3DSerializer
 
 from django.contrib.auth.models import User
 
 from pprint import pprint
 class Contributions(mixins.ListModelMixin,
-                mixins.CreateModelMixin,
-                generics.GenericAPIView):
+                    mixins.CreateModelMixin,
+                    generics.GenericAPIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOCOrReadOnly)
 
@@ -36,36 +36,57 @@ class Contributions(mixins.ListModelMixin,
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
-        # A stupid try to escape nested input serializers
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+                
         user_id = self.request.user.id
         user = User.objects.get(id=user_id)
-        serializer.validated_data['committed_by'] = user 
-        #    
-        serializer.save()
-        # Commit creation done'
+        
+        is_owner = False
 
-        # Check if you are the owner of the model
         committing_to = serializer.validated_data["belongs_to_model"]
         model_owners = Model3D.objects.filter(id=committing_to.id).values("owners")
-        # If the committer is one of the owners, just add it to the model (do nothing else)
+
         for owner in model_owners:
+            model_owner = owner
+            #If the user is one of the owners just save the serializer and return
             if owner["owners"] == user_id:
-                return
+                is_owner = True
+                break
         
-        # If not -> add to revision 
-        # TODO: Don't add it do the model, that would be interesting
-        # When creating the new commit think of a way to prevent the first creation
-        # Then think of a way to create a new commit without a foreign key to the model
-
-        print(serializer.validated_data)
-        print(Commit.objects.filter(**serializer.validated_data))
-
-        new_revision = Revision.objects.create( title=committing_to.title, 
-                                                model=committing_to,
-                                                commit=Commit.objects.create(**serializer.validated_data), 
-                                                posted_by=user )
+        self.perform_create(serializer, is_owner)
         
-        new_revision.save()
-    
+        headers = self.get_success_headers(serializer.data)
+
+        if is_owner:
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            new_revision = Revision.objects.create(
+                title=serializer.validated_data['title'],
+                model=committing_to,
+                commit_mesh=serializer.validated_data["new_version"],
+                commit_textures=serializer.validated_data["new_textures"],
+                commit_details=serializer.validated_data["details"],                                                                                                                                                 
+                posted_by=user
+            )
+
+            # TOOD: Serialize user, revision, commit data and send as a response.
+            data = {
+                "revision_id": new_revision.id,
+                "owned_by_id": model_owners[0]["owners"],
+                "posted_by_id": user.id,
+            }
+            
+            return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer, is_owner):
+
+        if is_owner:
+            user_id = self.request.user.id
+            user = User.objects.get(id=user_id)
+            
+            serializer.validated_data['committed_by'] = user 
+            
+            serializer.save()    
 

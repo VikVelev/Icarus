@@ -4,9 +4,7 @@ User = get_user_model()
 
 from ..models.commit import Commit
 from ..models.models_3d import Model3D
-from .model3d_serializers import CommitSerializer
 from ..models.revision_container import Revision
-
 from .user_serializers import UserSerializer
 from rest_framework import serializers
 
@@ -25,7 +23,9 @@ class AddRevisionSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'model',
-            'commit',
+            'commit_mesh',
+            'commit_textures', 
+            'commit_details',            
             'posted_by',
             'resolved',
             'date_added',
@@ -38,7 +38,6 @@ class RevisionSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
     date_added = serializers.DateTimeField(read_only=True)
-    commit = CommitSerializer()
 
     class Meta:
         model = Revision
@@ -46,7 +45,10 @@ class RevisionSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'model',
-            'commit',
+            'commit_title',
+            'commit_mesh',
+            'commit_textures',
+            'commit_details',                        
             'posted_by',
             'resolved',
             'date_added',
