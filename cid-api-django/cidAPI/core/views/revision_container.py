@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 
 class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.UpdateModelMixin):
 
+    # TODO: Fix permissions, right now everyone with a little reverse engineering can approve and/or reject revisions
     permission_classes = (permissions.IsAuthenticated, IsOPOrReadOnly)
 
     def get_queryset(self):
@@ -59,7 +60,6 @@ class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.Upd
 
         #if deny is neither 0 nor 1 this won't work
         deny = self.request.query_params.get('deny')
-        print(deny)
         self.perform_update(serializer, int(deny))
 
         if getattr(instance, '_prefetched_objects_cache', None):
