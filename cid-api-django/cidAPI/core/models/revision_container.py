@@ -11,7 +11,8 @@ from .commit import Commit
 class Revision(models.Model):
 
     title = models.CharField(max_length=64)
-    
+    status = models.CharField(max_length=20, default="PENDING APPROVAL")
+
     model = models.ForeignKey("Model3D", related_name='revisions', on_delete=models.CASCADE)
 
     commit_mesh = models.FileField(null=False, blank=False)
@@ -23,5 +24,7 @@ class Revision(models.Model):
     
     resolved = models.BooleanField(default=False, blank=False)
     date_added = models.DateTimeField(auto_now_add=True)
-    date_resolved = models.DateTimeField(blank=True, null=True)
+    
+    # This is changed whenever a status update occurs
+    date_modified = models.DateTimeField(blank=True, null=True)
 
