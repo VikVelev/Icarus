@@ -16,10 +16,9 @@ class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin):
 
     def get_queryset(self):
         if self.kwargs.get("pk") is not None:
-            queryset = Revision.objects.filter(posted_by=self.kwargs["pk"])
-
+            queryset = Revision.objects.filter(model__owners=self.kwargs["pk"])
             if self.kwargs.get("model_id") is not None:
-                queryset = Revision.objects.filter(posted_by=self.kwargs["pk"], model=self.kwargs["model_id"])
+                queryset = Revision.objects.filter(model__owners=self.kwargs["pk"], model=self.kwargs["model_id"])
         
         return queryset
 

@@ -38,14 +38,13 @@ class RevisionSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
     date_added = serializers.DateTimeField(read_only=True)
-
+    model = Model3D()
     class Meta:
         model = Revision
         fields = (
             'id',
             'title',
             'model',
-            'commit_title',
             'commit_mesh',
             'commit_textures',
             'commit_details',                        
