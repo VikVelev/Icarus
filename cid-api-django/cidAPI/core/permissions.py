@@ -54,3 +54,16 @@ class IsMeOrReadOnly(BasePermission):
             return True
         
         return obj == request.user
+
+class IsOPOrModelOwner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        
+        owners = Model3D.objects.all().filter(id=obj.model.id).values("owners")
+        
+        for owner in owners:
+            if owner["owners"] == request.user.id:              
+                return True
+
+        return obj.posted_by == request.user

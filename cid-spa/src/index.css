@@ -61,7 +61,7 @@ body {
     display: flex;
 }
 
-.userHeader, .settingsHeader {
+.userHeader, .settingsHeader, .postedRevisions, .toReview {
 
     border: 0px !important;
     box-shadow: none !important;
@@ -196,7 +196,7 @@ body {
     height: auto;
 }
 
-.userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
+.userContainer, .settingsContainer, .addPostContainer, .viewModelContainer, .revisionContainer {
     height: auto;
     margin-top: 5px !important;
     margin-left: 20% !important;

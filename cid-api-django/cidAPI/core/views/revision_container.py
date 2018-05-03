@@ -10,25 +10,24 @@ from ..models.revision_container import Revision
 from ..models.commit import Commit
 from ..models.models_3d import Model3D
 from ..serializers.revision_serializers import RevisionSerializer, AddRevisionSerializer
-from ..permissions import IsOPOrReadOnly
+from ..permissions import IsOPOrReadOnly, IsOPOrModelOwner
 from django.contrib.auth.models import User
 
 class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.UpdateModelMixin):
 
     # TODO: Fix permissions, right now everyone with a little reverse engineering can approve and/or reject revisions
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsOPOrModelOwner)
 
     def get_queryset(self):
         if self.kwargs.get("pk") is not None:
-            queryset = Revision.objects.filter(model__owners__in=[self.kwargs["pk"]])
-
-            if self.kwargs.get("model_id") is not None:
-                queryset = Revision.objects.filter( model__owners__in=[self.kwargs["pk"]], 
-                                                    model=self.kwargs["model_id"] )
-
-            elif self.request.query_params.get('rev_id', None) is not None:
+            # Not to be confused: this is returning the revisions the user has to review, not those that he posted
+            queryset = Revision.objects.filter(model__owners__in=[self.kwargs["pk"]]).order_by("status")
+            
+            if self.request.query_params.get('rev_id', None) is not None:
                 queryset = Revision.objects.filter( model__owners=self.kwargs["pk"], 
                                                     id=self.request.query_params.get('rev_id', None) )
+        else:      
+            queryset = Revision.objects.filter(posted_by=self.request.user)
 
         return queryset
 
@@ -57,11 +56,12 @@ class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.Upd
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-
+        
         revision_data = Revision.objects.filter(id=serializer.validated_data["id"]).first()        
         #if deny is neither 0 nor 1 this won't work
         deny = self.request.query_params.get('deny')
-        self.perform_update(serializer, revision_data, int(deny))
+        deny = int(deny)
+        self.perform_update(serializer, revision_data, deny)
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -72,7 +72,7 @@ class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.Upd
             return Response({
                 "error": "Already approved."
             }, status=status.HTTP_202_ACCEPTED)
-        elif not ( deny == 1 or deny == 0 ) : 
+        elif not ( deny == 1 or deny == 0 ):
             return Response({
                 "error": "Wrong request."
             }, status=status.HTTP_400_BAD_REQUEST)

@@ -31,7 +31,6 @@ export default class RevisionItem extends Component {
         e.preventDefault()
         e.stopPropagation()
 
-        console.log(this.props.user)
         this.props.dispatch(
             approveRevision(
                 this.props.user.currentlyLoggedUser.username.id,
@@ -39,13 +38,12 @@ export default class RevisionItem extends Component {
                 this.props.user.currentlyLoggedUser.username.token,
             )
         )
-        console.log("Approving")
     }
 
     handleReject(e){
         e.preventDefault()
         e.stopPropagation()
-
+        
         this.props.dispatch(
             rejectRevision(
                 this.props.user.currentlyLoggedUser.username.id,
@@ -53,7 +51,6 @@ export default class RevisionItem extends Component {
                 this.props.user.currentlyLoggedUser.username.token,
             )
         )
-        console.log("Rejected")
     }
 
     mountCanvas = () => {
@@ -83,29 +80,33 @@ export default class RevisionItem extends Component {
                     <Item.Content className="revisionItem">
                         <Item.Group className="groupItem">
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
-                        { 
-                            !this.state.inProfile ? 
-                                <Item.Meta>Posted by{" "}
-                                    {
-                                        <Link to={"/profile/" + this.props.posted_by.id}>
-                                            {this.props.posted_by.username}
-                                        </Link>
-                                    }
-                                </Item.Meta>
-                            : null
-                        }
+                        <Item.Meta>Posted by{" "}
+                            {
+                                <Link to={"/profile/" + this.props.posted_by.id}>
+                                    {this.props.posted_by.username}
+                                </Link>
+                            }
+                        </Item.Meta>
+                        <Item.Meta>Model:{" "}
+                            {
+                                <Link to={"/model/" + this.props.model.id}>
+                                    {this.props.model.title}
+                                </Link>
+                            }
+                        </Item.Meta>
                         <Item.Meta as='p'>Status: {this.props.status}</Item.Meta>                        
                         <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
-                            <p>{this.props.description}</p>
+                            <p>{this.props.commit_details}</p>
                         </Item.Description>
+                        {/*TODO a implement Tabs for approved, rejected, pending*/}
                         </Item.Group>
-                        
+                        {!this.props.mine && ( this.props.status !== "APPROVED" && this.props.status !== "REJECTED" )?
                         <Item.Group className="groupItem choices">
                             <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="big"/>
                             <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="big"/>
-                        </Item.Group>                        
-                    
+                        </Item.Group>                      
+                        : null}
                     </Item.Content>
                 </Item>
                 { this.mountCanvas() }

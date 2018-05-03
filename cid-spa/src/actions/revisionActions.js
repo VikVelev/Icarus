@@ -1,6 +1,22 @@
 import axios from 'axios'
 import url from './backendUrl.js'
 
+export function fetchMyRevisions(token) {
+    return function(dispatch) {
+        dispatch({type: "FETCH_POSTED_REVISIONS"})
+        axios.get(url + "/api/user/revisions/",{
+            headers: {
+                'Authorization': 'Token ' + token
+            }
+        }).then((response) => {
+            dispatch({ type: "FETCH_POSTED_REVISIONS_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "FETCH_POSTED_REVISIONS_REJECTED", payload: error })            
+        })
+
+    }
+}
+
 export function fetchUserRevisions(id, token){
     return function(dispatch) {
         dispatch({type: "FETCH_REVISIONS"})

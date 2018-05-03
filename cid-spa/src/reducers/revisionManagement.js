@@ -1,5 +1,6 @@
 let defaultState = {
     revisions: [],
+    postedRevisions: [],
     error: {},
     approving: false,
     rejecting: false,
@@ -24,6 +25,26 @@ const revisionManagement = (state=defaultState, action) => {
                 fetched: true,
             }
         case "FETCH_REVISIONS_REJECTED":
+            return {
+                ...state,
+                error: action.payload,
+                fetching: false,
+                fetched: false,
+            }
+        case "FETCH_POSTED_REVISIONS":
+            return {
+                ...state,
+                fetched: false, 
+                fetching: true
+            }
+        case "FETCH_POSTED_REVISIONS_FULFILLED":
+            return {
+                ...state,
+                postedRevisions: action.payload,
+                fetching: false,
+                fetched: true,
+            }
+        case "FETCH_POSTED_REVISIONS_REJECTED":
             return {
                 ...state,
                 error: action.payload,
