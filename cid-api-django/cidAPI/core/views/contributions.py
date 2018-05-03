@@ -39,11 +39,21 @@ class Contributions(mixins.ListModelMixin,
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-                
+
+        if not serializer.validated_data["new_version"].name[-4:] == '.obj':
+            return Response({
+                    "error": "Not a valid mesh file"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        if not serializer.validated_data["new_textures"].name[-4:] == '.mtl':
+            return Response({
+                    "error": "Not a valid textures file"
+                }, status=status.HTTP_400_BAD_REQUEST)
+            
         user_id = self.request.user.id
         user = User.objects.get(id=user_id)
         
-        is_owner = False
+        is_owner = False      
 
         committing_to = serializer.validated_data["belongs_to_model"]
         model_owners = Model3D.objects.filter(id=committing_to.id).values("owners")
@@ -56,7 +66,6 @@ class Contributions(mixins.ListModelMixin,
                 break
         
         self.perform_create(serializer, is_owner)
-        
         headers = self.get_success_headers(serializer.data)
 
         if is_owner:
