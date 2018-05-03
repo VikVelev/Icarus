@@ -193,7 +193,7 @@ class ModelDropdown extends Component {
                 fluid
                 selection
                 search
-                multiple={true}
+                multiple={false}
                 options={options}
                 value={value}
                 name='content'

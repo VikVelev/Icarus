@@ -40,7 +40,7 @@ export default class SearchBar extends Component {
         if(this.props.models.length > 0) {
             this.props.models.forEach((element)=>{
                 options.push({
-                    key: element.id,
+                    key: "m" + element.id,
                     text: element.title,
                     icon: {
                         name: "cubes"
@@ -56,7 +56,7 @@ export default class SearchBar extends Component {
         if(this.props.users.length > 0) {
             this.props.users.forEach((element)=>{
                 options.push({
-                    key: element.id,
+                    key: "u" + element.id,
                     text: element.username,
                     icon: {
                         name: "user"
@@ -96,7 +96,7 @@ export default class SearchBar extends Component {
                     selection
                     search
                     scrolling
-                    multiple={true}
+                    multiple={false}
                     options={this.state.options}
                     icon="search"
                     name='content'
