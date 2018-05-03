@@ -463,3 +463,14 @@ div.selected.item[role="option"]{
     margin: auto;
     margin-top: 20px !important;
 }
+
+.revisionContainer {
+    height: auto;
+}
+
+.revisionTab {
+    height: auto;
+    max-height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

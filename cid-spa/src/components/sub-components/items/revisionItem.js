@@ -40,6 +40,13 @@ export default class RevisionItem extends Component {
         )
     }
 
+    approveCallback(){
+        //Implement success animation
+        return(
+            "Success Animation"
+        )
+    }
+
     handleReject(e){
         e.preventDefault()
         e.stopPropagation()
@@ -53,6 +60,7 @@ export default class RevisionItem extends Component {
         )
     }
 
+    // Implement the 3D Canvas to show the difference between this and the last model
     mountCanvas = () => {
         let content = this.props
         if (this.state.rendering){

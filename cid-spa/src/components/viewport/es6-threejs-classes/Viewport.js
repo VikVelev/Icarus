@@ -94,6 +94,8 @@ export default class Viewport {
         
         this.controls = new OrbitControls( this.camera, document.getElementById( this.index ) );
         this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.5;
+        this.controls.rotateSpeed = 0.4;
         this.controls.minDistance = 0; 
         this.controls.maxDistance = 9;
         this.controls.maxPolarAngle = Math.PI;

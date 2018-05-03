@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Header, Segment, Message } from 'semantic-ui-react';
+import { Header, Segment, Message, Tab } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import RevisionItem from '../items/revisionItem.js'
@@ -19,6 +19,7 @@ export default class Revision extends Component {
 
     constructor(props) {
         super(props);
+        this.revisions = []
 
         this.props.dispatch(
             fetchUserRevisions(
@@ -31,14 +32,6 @@ export default class Revision extends Component {
             fetchMyRevisions(
                 this.props.user.currentlyLoggedUser.username.token,
             )
-        )
-    }
-
-    renderPost(object, mine, i){
-        return (     
-            <Segment  id={object.id} key={i}>
-                <RevisionItem {...object} mine={mine}/>
-            </Segment>
         )
     }
 
@@ -58,7 +51,7 @@ export default class Revision extends Component {
         }
 
     }
-    // TODO make a 
+
     render(){
         return(
             <Segment className="revisionContainer">
@@ -66,13 +59,12 @@ export default class Revision extends Component {
                 <Header>
                     Your proposed revisions
                 </Header>
-                {/*TODO Perhaps add tabs here for approved/rejected and pending*/}
                 {   
                     Object.keys(this.props.rev.postedRevisions).length !== 0  ?  //if
-                    this.props.rev.postedRevisions.map((object, i) => this.renderPost(object, true, i)) : //else if
+                        <RevisionTabs data={this.props.rev.postedRevisions} mine={true}/> : //else if
                     !this.props.rev.fetched ? //if it's not fetched, loading
-                     <Loading style={{marginTop: '10%'}}/> : //else if it is fetched (and has length of 0) 
-                     this.noRevisions(true) 
+                        <Loading style={{marginTop: '10%'}}/> : //else if it is fetched (and has length of 0) 
+                    this.noRevisions(true) 
                 }
                 </Segment>
                 <Segment className="toReview">
@@ -81,13 +73,75 @@ export default class Revision extends Component {
                 </Header>
                 {   
                     Object.keys(this.props.rev.revisions).length !== 0  ?  //if
-                    this.props.rev.revisions.map((object, i) => this.renderPost(object, false, i)) : //else if
+                        <RevisionTabs data={this.props.rev.revisions} mine={false}/> :
                     !this.props.rev.fetched ? //if it's not fetched, loading
-                     <Loading style={{marginTop: '10%'}}/> : //else if it is fetched (and has length of 0) 
-                     this.noRevisions(false) 
+                        <Loading style={{marginTop: '10%'}}/> : //else if it is fetched (and has length of 0) 
+                    this.noRevisions(false) 
                 }
                 </Segment>
             </Segment>
             )
         }
     }
+
+
+class RevisionTabs extends Component {
+    //Sorts all revisions into 3 tabs and renders them
+    constructor(props){
+        super(props)
+
+        this.revisions = {
+            'pending_approval': [],
+            'approved': [],
+            'rejected': [],
+        }
+
+        this.dataProcessing(props.data);
+
+        this.panes = [
+            { menuItem: 'Pending', render: () => <Tab.Pane>
+                {this.loopThroughRevs(this.revisions.pending_approval)}
+            </Tab.Pane> },
+            { menuItem: 'Approved', render: () => <Tab.Pane>
+                {this.loopThroughRevs(this.revisions.approved)}
+            </Tab.Pane> },
+            { menuItem: 'Rejected', render: () => <Tab.Pane>
+                {this.loopThroughRevs(this.revisions.rejected)}
+            </Tab.Pane> },
+        ]
+    }
+
+    dataProcessing(data){
+        data.forEach((element) => {
+            this.revisions[element.status.toLowerCase().replace(" ","_")].push(element)
+        })
+    }
+
+    renderPost(object, mine, i){
+        return (     
+            <Segment  id={object.id} key={i}>
+                <RevisionItem {...object} mine={mine}/>
+            </Segment>
+        )
+    }
+
+    loopThroughRevs(data){
+        return(
+            <div className="revisionTab">
+                {data.map((object, i) => this.renderPost(object, this.props.mine, i))}
+            </div>
+        )
+    }
+
+    render(){
+        return(
+            <Tab menu={{ 
+                    stackable: true, 
+                    size: "massive", 
+                    color: "blue", 
+                    secondary: true , 
+                    pointing: true 
+                }} panes={this.panes} />
+        )
+    }
+}

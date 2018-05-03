@@ -9,13 +9,14 @@ import Loading from 'react-loading-animation'
 import ContribPost from './post-templates/contribPost.js'
 import { fetchContributions } from '../../actions/profileActions.js'
 import { changeSubpage } from '../../actions/pageActions.js'
-
+import { fetchMyRevisions } from '../../actions/revisionActions.js'
 
 
 @connect((store)=>{
     return {
         user: store.userManagement,
-        profile: store.profileManagement
+        profile: store.profileManagement,
+        rev: store.revisionManagement,
     }
 })
 export default class ContributionsFeed extends Component {
@@ -35,6 +36,12 @@ export default class ContributionsFeed extends Component {
                 this.props.dispatch(
                     fetchContributions(
                         this.props.user.currentlyLoggedUser.username.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
+
+                this.props.dispatch(
+                    fetchMyRevisions(
                         this.props.user.currentlyLoggedUser.username.token
                     )
                 )
@@ -76,7 +83,7 @@ export default class ContributionsFeed extends Component {
             }
             
             for (let d = 0; d < days; d++) {
-                if(moment(((w + 1) + "-" + (d+1)).toString(), 'W-E').toDate() === "Invalid Date") {
+                if(moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
                     continue;
                 }
                 let currentDay = moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E')
@@ -98,7 +105,7 @@ export default class ContributionsFeed extends Component {
             }
 
             for (let d = 0; d < days; d++) {
-                if(moment(((w + 1)+ "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
+                if(moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
                     continue;
                 }
                 wholeYearNormalized.push(wholeYear[w][d])
@@ -110,7 +117,7 @@ export default class ContributionsFeed extends Component {
     }
 
     renderStatistics() {
-        // TODO: Think
+        // Using already existing data if there is.
         if (this.data.length === 0 && this.props.isChain === undefined){
             this.data = this.dataProcessing(this.props.profile.contributions)
         }
@@ -132,11 +139,24 @@ export default class ContributionsFeed extends Component {
                                 <Tooltip/>
                                 <Area type='monotone' dataKey='commits' stroke='#82ca9d' fill='#82ca9d' />
                                 {/*7 because I want the last week stats to be by default*/}
-                                <Brush startIndex={this.data.length < 7 ? 0 : this.data.length-7}/>
+                                <Brush startIndex={this.data.length < 7 ? 0 : this.data.length - 7}/>
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
+            );
+        }
+    }
+
+    renderPending(){
+        if (this.props.isChain === undefined) {
+            return (
+                <div>
+                    <Header size="huge">Pending</Header>
+                    {/*TODO: Implement this + a API query for every user's revisions*/}
+                    {/*TODO: Revamp post so it works here.*/}
+                    {this.props.rev.postedRevisions.map((object, i) => this.renderPost(object,i))}
+                    </div>
             );
         }
     }
@@ -147,6 +167,12 @@ export default class ContributionsFeed extends Component {
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? 
                         this.renderStatistics()
+                        : null
+                    }
+                    {console.log(this.props.rev)}
+                    {
+                        Object.keys(this.props.rev.postedRevisions).length !== 0 ?
+                        null //this.renderPending() // TODO: FINISH THIS
                         : null
                     }
                 <div className="feed">
