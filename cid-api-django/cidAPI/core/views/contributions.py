@@ -84,7 +84,7 @@ class Contributions(mixins.ListModelMixin,
                 posted_by=user
             )
 
-            # TOOD: Serialize user, revision, commit data and send as a response.
+            # TODO: Serialize user, revision, commit data and send as a response.
             data = {
                 "revision_id": new_revision.id,
                 "owned_by_id": model_owners[0]["owners"],
