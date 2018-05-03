@@ -420,3 +420,46 @@ div.selected.item[role="option"]{
 .ui.search {
     font-size: 0.85em !important;
 }
+
+.revisionItem {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin: auto;
+}
+
+.choices {
+    position: absolute !important;
+    width: auto;
+    right: 10px;
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.groupItem {
+    margin: 0 !important;
+    height: 80% !important;
+}
+
+.check {
+    color: green;
+}
+
+.check:hover{
+    color: lightgreen;
+}
+
+.close {
+    color: red;
+}
+
+.close:hover {
+    color: lightcoral;
+}
+
+.choice {
+    width: 50px !important;
+    height: 50% !important;
+    margin: auto;
+    margin-top: 20px !important;
+}

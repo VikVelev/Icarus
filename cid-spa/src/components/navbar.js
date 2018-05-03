@@ -25,6 +25,7 @@ export class Navbar extends Component {
 
         this.state = {
             profile: false,
+            revisions: false,
             settings: false,
         }
 
@@ -43,6 +44,10 @@ export class Navbar extends Component {
 
     handleSettingsClick = (e) => {
         this.setState({ settings: true })
+    }
+
+    handleNotificationsClick = (e) => {
+        this.setState({ revisions: true })
     }
     
     handleLogout() {
@@ -70,15 +75,29 @@ export class Navbar extends Component {
         )
     }
 
+    handleNotificationsCallback () {
+
+        this.setState({ revisions: false })
+        this.props.dispatch(changePages("revisions"))
+
+        return (
+            <Redirect to="/revisions"/>
+        )
+    }
+
     handleProfile() {
         const trigger = (
             <span>
-                <Image avatar src="/img/default.png"/>  <b id="loggedInUser">{this.props.manage.currentlyLoggedUser.username.username}</b>
+                <Image avatar src="/img/default.png"/>  
+                <b id="loggedInUser">
+                    {this.props.manage.currentlyLoggedUser.username.username}
+                </b>
             </span>
           )
           
           const options = [
             { key: 'user', text: 'Profile', icon: 'user', onClick: this.handleProfileClick },
+            { key: 'notifications', text: 'Revisions', icon: 'tasks', onClick: this.handleNotificationsClick },
             { key: 'settings', text: 'Settings', icon: 'settings', onClick: this.handleSettingsClick },
             { key: 'sign-out', text: 'Sign Out', icon: 'sign out', onClick: this.handleLogout.bind(this) },
           ]     
@@ -86,7 +105,8 @@ export class Navbar extends Component {
         return (  
             <Menu.Item id="profileBadge" 
                 active={this.props.currentPage === "profile/settings" 
-                        || this.props.currentPage === "profile"}>
+                        || this.props.currentPage === "profile"
+                        || this.props.currentPage === "revisions" }>
                 <Dropdown trigger={trigger} pointing options={options} />
             </Menu.Item>
         )
@@ -157,7 +177,8 @@ export class Navbar extends Component {
             </Menu>
 
             { this.state.profile ? this.handleProfileCallback() : null }
-            { this.state.settings ? this.handleSettingsCallback() : null }            
+            { this.state.settings ? this.handleSettingsCallback() : null }
+            { this.state.revisions ? this.handleNotificationsCallback() : null }                   
 
         </div>
         )

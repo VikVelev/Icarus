@@ -3,8 +3,9 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { Navbar } from './navbar.js'
 
-import HomePage from './sub-components/pages/homePage.js';
 import Feed from './sub-components/pages/homeFeed.js';
+import HomePage from './sub-components/pages/homePage.js';
+import Revisions from './sub-components/pages/revisionPage.js';
 import TrendingFeed from './sub-components/pages/trendingFeed.js';
 
 import Profile from './sub-components/pages/profilePage.js'
@@ -15,7 +16,7 @@ import AddPost from './sub-components/pages/addPostForm.js'
 import Add3DModel from './sub-components/pages/add3DModelForm.js'
 import ViewModel3D from './sub-components/pages/viewModel3D.js'
 
-import{ LoginForm, LoggedIn } from './sub-components/pages/loginForm.js';
+import { LoginForm } from './sub-components/pages/loginForm.js';
 import RegisterForm from './sub-components/pages/registerForm.js';
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -83,7 +84,9 @@ export default class Content extends Component {
                         <Route exact path="/profile/:id" component={this.routes.UserProfile} />
 
                         <Route exact path="/model/:id" component={this.routes.ViewModel}/>
-                        <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>                     
+                        <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>
+
+                        <Route exact path="/revisions" component={this.routes.Revisions}/>                 
                     </Switch>
                     {/* {console.log("Errors:", this.props.user.error)}  */}
                 </div>
@@ -102,7 +105,7 @@ export default class Content extends Component {
         Upload: () => ( this.props.user.logged ? <Add3DModel/> : <Redirect to="/login"/> ),
         CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="/login"/> ),
         ViewModel: (data) => ( this.props.user.logged ? <ViewModel3D id={data.match.params.id}/> : <Redirect to="/login"/> ),
-        
+        Revisions: (data) => ( this.props.user.logged ? <Revisions/> : <Redirect to="/login"/> ),   
         //Add more routes here
     }
 }

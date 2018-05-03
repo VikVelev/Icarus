@@ -63,7 +63,6 @@ class Contributions(mixins.ListModelMixin,
         model_owners = Model3D.objects.filter(id=committing_to.id).values("owners")
 
         for owner in model_owners:
-            model_owner = owner
             #If the user is one of the owners just save the serializer and return
             if owner["owners"] == user_id:
                 is_owner = True
@@ -98,7 +97,6 @@ class Contributions(mixins.ListModelMixin,
         if is_owner:
             user_id = self.request.user.id
             user = User.objects.get(id=user_id)
-            
             serializer.validated_data['committed_by'] = user 
             
             serializer.save()    
