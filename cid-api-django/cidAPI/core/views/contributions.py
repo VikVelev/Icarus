@@ -19,7 +19,10 @@ class Contributions(mixins.ListModelMixin,
                     generics.GenericAPIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOCOrReadOnly)
-
+    
+    supported_mesh_formats = (".obj",)
+    supported_texture_formats = (".mtl",)
+        
     def get_serializer_class(self):
         if self.request.method == "GET":
             return CommitEntrySerializer
@@ -40,15 +43,16 @@ class Contributions(mixins.ListModelMixin,
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if not serializer.validated_data["new_version"].name[-4:] == '.obj':
+        if not serializer.validated_data["new_version"].name[-4:] in self.supported_mesh_formats:
             return Response({
                     "error": "Not a valid mesh file"
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        if not serializer.validated_data["new_textures"].name[-4:] == '.mtl':
-            return Response({
-                    "error": "Not a valid textures file"
-                }, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.validated_data["new_textures"] is not None:
+            if not serializer.validated_data["new_textures"].name[-4:] in self.supported_texture_formats:
+                return Response({
+                        "error": "Not a valid textures file"
+                    }, status=status.HTTP_400_BAD_REQUEST)
             
         user_id = self.request.user.id
         user = User.objects.get(id=user_id)
