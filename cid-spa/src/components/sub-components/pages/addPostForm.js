@@ -156,7 +156,7 @@ class ModelDropdown extends Component {
             multiple: false,
             search: true,
             searchQuery: null,
-            value: [],
+            value: "",
             options: this.getOptions(),
         }
     }
@@ -182,18 +182,17 @@ class ModelDropdown extends Component {
         this.setState({ value })
         this.props.sendValue(value)
     }
+
     handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
     render() {
 
         const { options, isFetching, value } = this.state
-
         return (
             <Dropdown
                 fluid
                 selection
                 search
-                multiple={false}
                 options={options}
                 value={value}
                 name='content'

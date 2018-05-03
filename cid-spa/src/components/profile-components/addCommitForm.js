@@ -31,6 +31,7 @@ export default class AddCommit extends Component {
     handleErrors(type) {
         if (this.props.profile.error.response) {
             if (this.props.profile.error.response.data[type] !== undefined) {
+                console.log(this.props.profile.error.response.data[type])
                 return (
                     <Message attached="bottom" color="red">
                         {this.props.profile.error.response.data[type]}
@@ -38,7 +39,17 @@ export default class AddCommit extends Component {
                 )
             }
         }
-	}
+
+        if (this.props.profile.commitError.response) {
+            if (this.props.profile.commitError.response.data[type] !== undefined) {
+                return (
+                    <Message attached="bottom" color="red">
+                        {this.props.profile.commitError.response.data[type]}
+                    </Message>
+                )
+            }
+        }
+    }
 
     handleSubmit = (e) => {  
 
@@ -124,7 +135,7 @@ export default class AddCommit extends Component {
                                 : null
                             }                            
                             {this.props.profile.commitFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
-                            
+                            {this.handleErrors("error")}                                         
                         </Segment>
                         <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Commit</Button>
                     </Form>

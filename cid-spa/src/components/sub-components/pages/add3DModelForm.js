@@ -183,7 +183,7 @@ export default class Add3DModel extends Component{
                         <Message info className="processing">
                             <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
                         </Message> : null }       
-                        {console.log(this.props.profile.modelFetched)}
+                        {/* {console.log(this.props.profile.modelFetched)} */}
                         {this.props.profile.modelFetched ? 
                         <Message color="green">
                             Model successfully created.
