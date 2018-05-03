@@ -41,7 +41,7 @@ const revisionManagement = (state=defaultState, action) => {
                 approving: false,
                 modified: true,
             }
-        case "APPROVE_REVISION_FULFILLED":
+        case "APPROVE_REVISION_REJECTED":
             return {
                 ...state,
                 approving: false,

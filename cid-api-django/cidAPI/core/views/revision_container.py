@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.UpdateModelMixin):
 
     # TODO: Fix permissions, right now everyone with a little reverse engineering can approve and/or reject revisions
-    permission_classes = (permissions.IsAuthenticated, IsOPOrReadOnly)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         if self.kwargs.get("pk") is not None:
@@ -58,21 +58,30 @@ class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.Upd
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
+        revision_data = Revision.objects.filter(id=serializer.validated_data["id"]).first()        
         #if deny is neither 0 nor 1 this won't work
         deny = self.request.query_params.get('deny')
-        self.perform_update(serializer, int(deny))
+        self.perform_update(serializer, revision_data, int(deny))
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
+        if revision_data.status == "APPROVED":
+            return Response({
+                "error": "Already approved."
+            }, status=status.HTTP_202_ACCEPTED)
+        elif not ( deny == 1 or deny == 0 ) : 
+            return Response({
+                "error": "Wrong request."
+            }, status=status.HTTP_400_BAD_REQUEST)
+
         return Response(serializer.data)
 
-    def perform_update(self, serializer, deny):
-        revision_data = Revision.objects.filter(id=serializer.validated_data["id"]).first()
+    def perform_update(self, serializer, revision_data, deny):
 
-        if deny == 1 or deny == 0 and not revision_data.status == "APPROVED":
+        if ( deny == 1 or deny == 0 ) and not revision_data.status == "APPROVED":
             serializer.validated_data["resolved"] = not bool(deny)
             serializer.validated_data["date_modified"] = datetime.now()
 
@@ -90,7 +99,6 @@ class Revisions(generics.ListCreateAPIView, mixins.DestroyModelMixin, mixins.Upd
                 )
             
             serializer.save()
-        
-    
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)

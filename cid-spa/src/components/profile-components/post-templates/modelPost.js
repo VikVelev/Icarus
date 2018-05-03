@@ -92,8 +92,7 @@ export default class ModelPost extends Component {
                             <Dropdown.Divider/>                            
                             <Dropdown.Item disabled={commitsLength === 0} as={Link} to={"/model/" + this.props.id}> Commit chain </Dropdown.Item> 
                             <AddCommit trigger={
-                                <Dropdown.Item disabled={this.props.isUser} 
-                                               name={this.props.id} 
+                                <Dropdown.Item name={this.props.id} 
                                                onClick={this.handleAddCommit.bind(this)}> 
                                     Add Commit 
                                 </Dropdown.Item>

@@ -46,7 +46,6 @@ export default class Revision extends Component {
     render(){
         return(
             <div className="revisions">
-                {console.log(this.props.rev)}
                 {   
                     Object.keys(this.props.rev.revisions).length !== 0  ?  //if
                     this.props.rev.revisions.map((object, i) => this.renderPost(object,i)) : //else if

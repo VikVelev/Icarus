@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment, Dropdown, Icon } from 'semantic-ui-react'
+import { Item, Segment, Icon } from 'semantic-ui-react'
 
 import * as moment from 'moment'
 
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import Canvas3D from '../../viewport/canvas3d.js'
 //import { getModelbyID } from '../../actions/profileActions.js';
 import { connect } from 'react-redux';
+import { approveRevision, rejectRevision } from '../../../actions/revisionActions.js'
 
 @connect((store) => {
     return {
@@ -25,10 +26,38 @@ export default class RevisionItem extends Component {
             rejected: false,
         }
     }
+    
+    handleApprove(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        console.log(this.props.user)
+        this.props.dispatch(
+            approveRevision(
+                this.props.user.currentlyLoggedUser.username.id,
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token,
+            )
+        )
+        console.log("Approving")
+    }
+
+    handleReject(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        this.props.dispatch(
+            rejectRevision(
+                this.props.user.currentlyLoggedUser.username.id,
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token,
+            )
+        )
+        console.log("Rejected")
+    }
 
     mountCanvas = () => {
         let content = this.props
-        console.log(content)
         if (this.state.rendering){
             return(
                 <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
@@ -65,6 +94,7 @@ export default class RevisionItem extends Component {
                                 </Item.Meta>
                             : null
                         }
+                        <Item.Meta as='p'>Status: {this.props.status}</Item.Meta>                        
                         <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
                             <p>{this.props.description}</p>
@@ -72,8 +102,8 @@ export default class RevisionItem extends Component {
                         </Item.Group>
                         
                         <Item.Group className="groupItem choices">
-                            <Icon className="choice" name="check" size="big"/>
-                            <Icon className="choice" name="close" size="big"/>
+                            <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="big"/>
+                            <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="big"/>
                         </Item.Group>                        
                     
                     </Item.Content>

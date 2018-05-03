@@ -15,3 +15,42 @@ export function fetchUserRevisions(id, token){
         })
     }
 }
+
+export function approveRevision(id, revisionId, token) {
+    return function(dispatch) {
+        dispatch({type: "APPROVE_REVISION"})
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.patch(url + "/api/user/" + id + "/revisions/?rev_id=" + revisionId + "&deny=0",{ 
+            "id": revisionId
+        }).then((response) => {
+            dispatch({ type: "APPROVE_REVISION_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "APPROVE_REVISION_REJECTED", payload: error })            
+        })
+    }
+}
+
+
+export function rejectRevision(id, revisionId, token) {
+    return function(dispatch) {
+        dispatch({type: "REJECT_REVISION"})
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.patch(url + "/api/user/" + id + "/revisions/?rev_id=" + revisionId + "&deny=1",{ 
+            "id": revisionId
+        }).then((response) => {
+            dispatch({ type: "REJECT_REVISION_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "REJECT_REVISION_REJECTED", payload: error })            
+        })
+    }
+}

@@ -188,6 +188,7 @@ class ModelDropdown extends Component {
     render() {
 
         const { options, isFetching, value } = this.state
+
         return (
             <Dropdown
                 fluid
