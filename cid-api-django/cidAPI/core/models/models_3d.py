@@ -12,7 +12,7 @@ class Model3D(models.Model):
     owners = models.ManyToManyField(User, related_name='owners')
     description = models.TextField(null=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
-    
+    #branch = models.OneToOneField("Branch", related_name="model", on_delete=models.CASCADE,)
     # Many models many people who like them.
     favorited_by = models.ManyToManyField(User, related_name='favorited_by')
 
