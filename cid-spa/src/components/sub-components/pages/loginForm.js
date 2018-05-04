@@ -18,7 +18,8 @@ export class LoginForm extends Component {
 		super(props)
 		this.state = {
 			username: "",
-			password: ""
+			password: "",
+			loggingIn: false,
 		}
 
 	}
@@ -29,6 +30,7 @@ export class LoginForm extends Component {
 
 	handleSubmit = () => {
 		const { username, password } = this.state
+		this.setState({ loggingIn: true })
 		this.setState({ name: username, password: password })
 		this.props.dispatch(login(username, password))
 		this.props.dispatch(changePages(""))
@@ -40,6 +42,7 @@ export class LoginForm extends Component {
 
     handleErrors(type) {
         if (this.props.user.error[type] !== undefined) {
+			this.setState({ loggingIn: false })
 			return (
 				<Message attached="bottom" color="red">
 					{this.props.user.error[type]}
@@ -84,7 +87,12 @@ export class LoginForm extends Component {
 									type='password'
 								/>
 								{this.handleErrors("password")}
-								<Button type='submit' color='blue' fluid size='large'>Log in</Button>
+								<Button 
+									loading={this.props.user.error !== undefined && this.state.loggingIn}
+									type='submit' 
+									color='blue' 
+									fluid 
+									size='large'>Log in</Button>
 							</Segment>
 						</Form>
 						{this.handleErrors("non_field_errors")}

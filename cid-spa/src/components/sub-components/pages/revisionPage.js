@@ -72,7 +72,7 @@ export default class Revision extends Component {
                     Revisions to review
                 </Header>
                 {   
-                    Object.keys(this.props.rev.revisions).length !== 0  ?  //if
+                    Object.keys(this.props.rev.revisions).length !== 0 ?  //if
                         <RevisionTabs data={this.props.rev.revisions} mine={false}/> :
                     !this.props.rev.fetched ? //if it's not fetched, loading
                         <Loading style={{marginTop: '10%'}}/> : //else if it is fetched (and has length of 0) 
@@ -84,7 +84,13 @@ export default class Revision extends Component {
         }
     }
 
-
+@connect((store)=>{
+    return {
+        user: store.userManagement,
+        home: store.homeManagement,
+        rev: store.revisionManagement,
+    }
+})
 class RevisionTabs extends Component {
     //Sorts all revisions into 3 tabs and renders them
     constructor(props){
@@ -117,11 +123,19 @@ class RevisionTabs extends Component {
         })
     }
 
-    renderPost(object, mine, i){
+    reFetch() {
+        this.props.dispatch(
+            fetchUserRevisions(
+                this.props.user.currentlyLoggedUser.username.id,
+                this.props.user.currentlyLoggedUser.username.token,
+            )
+        )
+    }
+
+    renderPost(object, mine, key){
+        // TODO: IMPLEMENT DYNAMIC ADDING TO APPROVED OR REJECTED
         return (     
-            <Segment  id={object.id} key={i}>
-                <RevisionItem {...object} mine={mine}/>
-            </Segment>
+            <RevisionItem key={key} reFetch={this.reFetch.bind(this)} className={object.status} {...object} mine={mine}/>
         )
     }
 

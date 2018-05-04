@@ -21,6 +21,7 @@ export default class RevisionItem extends Component {
     constructor(props){
         super(props)
         this.state = {
+            status: props.status,
             rendering: false,
             approved: false,
             rejected: false,
@@ -34,22 +35,19 @@ export default class RevisionItem extends Component {
             rejecting: false,
             approved: false,
             rejected: false,
+            deleted: false,
         })
     }
 
-    removeItemFromPending(id){
-        console.log("Removing item")
+    rejectCallback() {
+        this.setState({ rejected: true, rejecting: false, deleted: true, })  
+        this.props.reFetch()
     }
 
-    rejectCallback() {
-        console.log("Reject Animation")
-        this.setState({ rejected: true, rejecting: false })        
-    }
 
     approveCallback() {
-        this.setState({ approved: true, approving: false })
-        //Implement success animation
-        console.log("Success Animation")
+        this.setState({ approved: true, approving: false, deleted: true, })
+        this.props.reFetch()        
     }
 
     handleReject(e){
@@ -105,11 +103,11 @@ export default class RevisionItem extends Component {
         this.setState({ rendering: !this.state.rendering })
     }
 
-    render(){
+    renderPost() {
         this.date_posted = moment(this.props.date_posted).fromNow()
         
         return(
-            <div className="postWrapper">
+            <Segment className={"postWrapper " + this.props.status}>
                 <Item onClick={this.renderHandler.bind(this)}>               
                     <Item.Content className="revisionItem">
                         <Item.Group className="groupItem">
@@ -136,16 +134,23 @@ export default class RevisionItem extends Component {
                         </Item.Group>
                         {!this.props.mine && ( this.props.status !== "APPROVED" && this.props.status !== "REJECTED" )?
                         <Item.Group className="groupItem choices">
-                            <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="big"/>
+                            <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="huge"/>
                             { this.props.rev.approving && this.state.approving && !this.state.approved ? this.approveCallback() : null }
-                            <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="big"/>
+                            <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="huge"/>
                             { this.props.rev.rejecting && this.state.rejecting && !this.state.rejected ? this.rejectCallback() : null }                   
                         </Item.Group>                      
                         : null}
                     </Item.Content>
                 </Item>
                 { this.mountCanvas() }
-            </div>
+            </Segment>
+        )
+    }
+
+
+    render(){
+        return(
+            !this.state.approved && !this.state.rejected ? this.renderPost() : null
         )
     }
 

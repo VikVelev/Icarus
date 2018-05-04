@@ -1,3 +1,5 @@
+/* Refactor all this, sorry for the time being, tight deadlines :@ */
+
 body > div,
 body > div > div,
 body > #app > .content,
@@ -196,7 +198,11 @@ body {
     height: auto;
 }
 
-.userContainer, .settingsContainer, .addPostContainer, .viewModelContainer, .revisionContainer {
+.userContainer, 
+.settingsContainer, 
+.addPostContainer, 
+.viewModelContainer, 
+.revisionContainer {
     height: auto;
     margin-top: 5px !important;
     margin-left: 20% !important;
@@ -441,6 +447,50 @@ div.selected.item[role="option"]{
     height: 80% !important;
 }
 
+.choice {
+    width: auto;
+    height: auto;    
+    margin: auto;
+    margin-top: 35px !important;
+    margin-right: 20px !important;
+}
+
+.revisionContainer {
+    height: auto;
+}
+
+.revisionTab {
+    height: auto;
+    max-height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.loading.button[type="submit"] {
+    position: relative !important;
+    top: unset !important;
+    z-index: unset !important;
+    
+}
+
+.approving {
+    animation: appoving 0.3s forwards ease-in-out ; 
+}
+
+@keyframes appoving {
+    from {
+        height: 180px;
+        overflow: hidden;
+    }
+    to {
+        height: 0px;
+        padding: 0;
+        margin-bottom: 0;
+        border: none;       
+        overflow: hidden;
+    }
+}
+
 .check {
     color: green;
 }
@@ -457,20 +507,20 @@ div.selected.item[role="option"]{
     color: lightcoral;
 }
 
-.choice {
-    width: 50px !important;
-    height: 50% !important;
-    margin: auto;
-    margin-top: 20px !important;
+.PENDING {
+    transition: all 0.8s !important;
+    background-color: #CEE7FB !important;
+    border-top: 10px solid #4598D8 !important;
 }
 
-.revisionContainer {
-    height: auto;
+.APPROVED {
+    transition: all 0.8s !important;
+    background-color: #EBF7E0 !important;
+    border-top: 10px solid #7EB75C !important; 
 }
 
-.revisionTab {
-    height: auto;
-    max-height: 420px;
-    overflow-y: auto;
-    overflow-x: hidden;
+.REJECTED {
+    transition: all 0.8s !important;
+    background-color: #FFE7E7 !important;
+    border-top: 10px solid #D46A6A !important; 
 }
