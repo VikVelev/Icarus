@@ -31,10 +31,7 @@ class CommitSerializer(serializers.ModelSerializer):
             'date',
         )
 
-
 class Model3DSerializer(serializers.ModelSerializer):
-
-    User = get_user_model()
 
     commits = CommitSerializer(many=True, required=False, read_only=True)
     favorited_by = UserSerializer(many=True, required=False, read_only=True)
@@ -52,6 +49,17 @@ class Model3DSerializer(serializers.ModelSerializer):
             'date_uploaded',
             'favorited_by',
             'commits',
+            'viewcount',
+        )
+
+class ModelViewSerializer(serializers.ModelSerializer):
+    
+    #viewcount = serializers.IntegerField(read_only=True)
+    class Meta:
+        model = Model3D
+        fields = (
+            'id',
+            'viewcount',
         )
 
 class CommitEntrySerializer(serializers.ModelSerializer):
@@ -76,3 +84,4 @@ class CommitEntrySerializer(serializers.ModelSerializer):
             'details',
             'date',
         )
+        

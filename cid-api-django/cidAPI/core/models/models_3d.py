@@ -15,4 +15,4 @@ class Model3D(models.Model):
     #branch = models.OneToOneField("Branch", related_name="model", on_delete=models.CASCADE,)
     # Many models many people who like them.
     favorited_by = models.ManyToManyField(User, related_name='favorited_by')
-
+    viewcount = models.BigIntegerField(default=0)

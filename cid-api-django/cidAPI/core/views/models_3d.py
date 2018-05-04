@@ -10,7 +10,7 @@ from rest_framework import status, permissions, generics, mixins
 from ..models.models_3d import Model3D
 from ..models.commit import Commit
 
-from ..serializers.model3d_serializers import Model3DSerializer
+from ..serializers.model3d_serializers import Model3DSerializer, ModelViewSerializer
 from ..permissions import IsOwnerOrReadOnly
 import pprint
 import mimetypes
@@ -28,6 +28,56 @@ class ListAllModels3D(generics.ListAPIView):
             queryset = queryset.filter(pk=model_id)
     
         return queryset
+
+class ViewModel(generics.GenericAPIView, 
+                mixins.UpdateModelMixin) :
+
+    serializer_class = ModelViewSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        model_id = self.request.query_params.get("model_id", None)
+
+        if model_id is not None:
+            queryset = Model3D.objects.filter(id=model_id)
+        else:
+            queryset = None
+        
+        return queryset
+    
+    def get_object(self):
+        queryset = self.get_queryset()
+    
+        pk = self.request.query_params.get('model_id', None)
+        obj = get_object_or_404(queryset, pk=pk)
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
+    def get(self, request, *args, **kwargs):
+        if self.get_queryset().first() is not None:
+            return Response({
+                "id" : self.get_queryset().first().id,
+                "viewcount": self.get_queryset().first().viewcount
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                "error": "Model not found."
+            },status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def perform_update(self, serializer):
+        viewcount = self.get_object().viewcount + 1
+        serializer.validated_data["viewcount"] = viewcount
+        serializer.save()
+
+
+class TrendingModels3D( generics.ListAPIView ):
+    serializer_class = Model3DSerializer
+    permission_classes = ( permissions.IsAuthenticated, )
+    queryset = Model3D.objects.all().order_by("viewcount").reverse()
 
 class Models3D( mixins.ListModelMixin,
                 mixins.CreateModelMixin,
@@ -75,16 +125,6 @@ class Models3D( mixins.ListModelMixin,
         user_id = self.request.user.id
         serializer.validated_data['owners'] = [user_id]
         serializer.save()
-
-class CommitFile(generics.GenericAPIView):
-    
-    def get(self, request, *args, **kwargs):
-        
-        model_id = self.kwargs["pk"]
-        file = Commit.objects.get(id=model_id).new_version
-        file_mime = mimetypes.guess_type(str(file))
-
-        return FileResponse(file, content_type=file_mime[0])
 
 # This is essentially useless but I did it for debugging HTTP Headers.
 def pretty_request(request):
