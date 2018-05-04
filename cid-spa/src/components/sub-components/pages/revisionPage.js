@@ -99,15 +99,15 @@ class RevisionTabs extends Component {
         this.dataProcessing(props.data);
 
         this.panes = [
-            { menuItem: 'Pending', render: () => <Tab.Pane>
+            this.revisions.pending_approval.length !== 0 || !this.props.mine ? { menuItem: 'Pending', render: () => <Tab.Pane>
                 {this.loopThroughRevs(this.revisions.pending_approval)}
-            </Tab.Pane> },
-            { menuItem: 'Approved', render: () => <Tab.Pane>
+            </Tab.Pane> } : undefined,
+            this.revisions.approved.length !== 0 ? { menuItem: 'Approved', render: () => <Tab.Pane>
                 {this.loopThroughRevs(this.revisions.approved)}
-            </Tab.Pane> },
-            { menuItem: 'Rejected', render: () => <Tab.Pane>
+            </Tab.Pane> } : undefined,
+            this.revisions.rejected.length !== 0 ? { menuItem: 'Rejected', render: () => <Tab.Pane>
                 {this.loopThroughRevs(this.revisions.rejected)}
-            </Tab.Pane> },
+            </Tab.Pane> } : undefined,
         ]
     }
 
@@ -128,9 +128,19 @@ class RevisionTabs extends Component {
     loopThroughRevs(data){
         return(
             <div className="revisionTab">
-                {data.map((object, i) => this.renderPost(object, this.props.mine, i))}
+                {data.length !== 0 ? data.map((object, i) => this.renderPost(object, this.props.mine, i)) :
+                <Message info>No revisions to review left</Message>
+                }
             </div>
         )
+    }
+
+    chooseActiveIndex() {
+        for (let i = 0; i < this.panes.length; i++) {
+            if(this.panes[i] != undefined) {
+                return i
+            }
+        }
     }
 
     render(){
@@ -140,8 +150,9 @@ class RevisionTabs extends Component {
                     size: "massive", 
                     color: "blue", 
                     secondary: true , 
-                    pointing: true 
-                }} panes={this.panes} />
+                    pointing: true,
+                }} panes={this.panes}
+                defaultActiveIndex={this.props.mine ? this.chooseActiveIndex() : 0} />
         )
     }
 }
