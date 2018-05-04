@@ -56,3 +56,22 @@ export function DiffMode(value) {
         }
     }
 }
+
+export function viewModel(modelId, token) {
+    return function(dispatch) {
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.patch(url + "/api/3d-models/view?model_id=" + modelId, {
+            id: modelId,
+            viewcount: 0
+        }).then((response) => {
+            dispatch({ type: "VIEWED_MODEL", payload: response.data})
+        }).catch((error) => {
+            dispatch({ type: "VIEWING_MODEL_ERROR"})            
+        })
+    }
+}

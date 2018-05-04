@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, Header, Tab } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
-import { fetchViewingData, fetchModelMentions } from '../../../actions/model3DActions.js'
+import { fetchViewingData, fetchModelMentions, viewModel } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
 
 import CommitChain from '../../diff/commitChain.js'
@@ -36,6 +36,15 @@ export default class ViewModel3D extends Component {
                 this.props.user.currentlyLoggedUser.username.token
             )
         )     
+    }
+
+    componentDidMount() {
+        this.props.dispatch(
+            viewModel(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token                
+            )
+        )
     }
 
     renderMentions() {
@@ -120,6 +129,7 @@ export default class ViewModel3D extends Component {
                             <div>
                                 <Header size="huge">{model.title}</Header>
                                 <Header size="small">Uploaded by <Link to={"/profile/" + model.owners[0].id}>{model.owners[0].username}</Link></Header>                 
+                                <Header style={{ marginTop: 0 }} size="tiny">{model.viewcount} views</Header>                            
                             </div>
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />

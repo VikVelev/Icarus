@@ -37,7 +37,10 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
     
         return queryset
 
-
+class TrendingPosts(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated, )
+    serializer_class = PostSerializer
+    queryset = Post.objects.all().order_by("content__viewcount").reverse()
 
 class Posts(generics.RetrieveUpdateDestroyAPIView):
     

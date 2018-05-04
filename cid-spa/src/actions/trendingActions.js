@@ -13,7 +13,7 @@ export function fetchTrendingPosts(token){
             }
         })
         
-        saxios.get(url + "/api/posts/").then((response) => {
+        saxios.get(url + "/api/trending/").then((response) => {
             dispatch({ type: "FETCH_TRENDING_POSTS_FULFILLED", payload: response.data })      
         }).catch((error) => {
             dispatch({ type: "FETCH_TRENDING_POSTS_REJECTED", payload: error })            
