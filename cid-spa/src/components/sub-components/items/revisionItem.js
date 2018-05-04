@@ -14,25 +14,54 @@ import { approveRevision, rejectRevision } from '../../../actions/revisionAction
         profile: store.profileManagement,
         page: store.pageManagement,
         user: store.userManagement,
+        rev: store.revisionManagement,
     }
 })
 export default class RevisionItem extends Component {
     constructor(props){
         super(props)
         this.state = {
-            status: "SYNCING",
             rendering: false,
             approved: false,
             rejected: false,
         }
     }
-    
-    handleApprove(e){
+
+    componentWillMount(){
+        this.setState({
+            rendering: false,
+            approving: false,
+            rejecting: false,
+            approved: false,
+            rejected: false,
+        })
+    }
+
+    removeItemFromPending(id){
+        console.log("Removing item")
+    }
+
+    rejectCallback() {
+        console.log("Reject Animation")
+        this.setState({ rejected: true, rejecting: false })        
+    }
+
+    approveCallback() {
+        this.setState({ approved: true, approving: false })
+        //Implement success animation
+        console.log("Success Animation")
+    }
+
+    handleReject(e){
         e.preventDefault()
         e.stopPropagation()
+        
+        this.setState({
+            rejecting: true
+        })
 
         this.props.dispatch(
-            approveRevision(
+            rejectRevision(
                 this.props.user.currentlyLoggedUser.username.id,
                 this.props.id,
                 this.props.user.currentlyLoggedUser.username.token,
@@ -40,19 +69,16 @@ export default class RevisionItem extends Component {
         )
     }
 
-    approveCallback(){
-        //Implement success animation
-        return(
-            "Success Animation"
-        )
-    }
-
-    handleReject(e){
+    handleApprove(e){
         e.preventDefault()
         e.stopPropagation()
         
+        this.setState({
+            approving: true
+        })
+
         this.props.dispatch(
-            rejectRevision(
+            approveRevision(
                 this.props.user.currentlyLoggedUser.username.id,
                 this.props.id,
                 this.props.user.currentlyLoggedUser.username.token,
@@ -75,7 +101,7 @@ export default class RevisionItem extends Component {
         }
     }
 
-    clickHandler() {
+    renderHandler() {
         this.setState({ rendering: !this.state.rendering })
     }
 
@@ -84,7 +110,7 @@ export default class RevisionItem extends Component {
         
         return(
             <div className="postWrapper">
-                <Item onClick={this.clickHandler.bind(this)}>               
+                <Item onClick={this.renderHandler.bind(this)}>               
                     <Item.Content className="revisionItem">
                         <Item.Group className="groupItem">
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
@@ -107,12 +133,13 @@ export default class RevisionItem extends Component {
                         <Item.Description>
                             <p>{this.props.commit_details}</p>
                         </Item.Description>
-                        {/*TODO a implement Tabs for approved, rejected, pending*/}
                         </Item.Group>
                         {!this.props.mine && ( this.props.status !== "APPROVED" && this.props.status !== "REJECTED" )?
                         <Item.Group className="groupItem choices">
                             <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="big"/>
+                            { this.props.rev.approving && this.state.approving && !this.state.approved ? this.approveCallback() : null }
                             <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="big"/>
+                            { this.props.rev.rejecting && this.state.rejecting && !this.state.rejected ? this.rejectCallback() : null }                   
                         </Item.Group>                      
                         : null}
                     </Item.Content>
