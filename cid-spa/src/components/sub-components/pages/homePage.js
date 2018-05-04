@@ -85,14 +85,14 @@ class DesktopContainer extends Component {
 							<Menu.Item as='a' href="#demo_header">Demo</Menu.Item>
 							<Menu.Item position='right'>
 
-								<Button as={ Link }
-										to="login"
+								<Button as='a'
+										href="/login"
 										name="login"										
 										inverted={!fixed}
 										>Log in</Button>
 
-								<Button as={ Link } 
-										to="register"
+								<Button as='a'
+										href="/register"
 										name="register"										
 										inverted={!fixed} 
 										primary={fixed} 									
@@ -132,36 +132,21 @@ class MobileContainer extends Component {
 
 		return (
 		<Responsive {...Responsive.onlyMobile} minWidth={0}>
-			<Sidebar.Pushable>
-				<Sidebar as={Menu} animation='uncover' inverted vertical visible={sidebarOpened}>
-					<Menu.Item as={Link} to="/" active>Home</Menu.Item>
-					<Menu.Item as={Link} to="login" name="login">Log in</Menu.Item>
-					<Menu.Item as={Link} to="register" name="register" >Sign Up</Menu.Item>
-				</Sidebar>
+			<Segment inverted textAlign='center' style={{ minHeight: 350, padding: '1em 0em' }} vertical>
 
-				<Sidebar.Pusher dimmed={sidebarOpened} onClick={this.handleToggle} style={{ minHeight: '100vh' }}>
-					<Segment inverted textAlign='center' style={{ minHeight: 350, padding: '1em 0em' }} vertical>
+				<Container>
+					<Menu inverted pointing secondary size='large'>
+						<Menu.Item position='right'>
+							<Button as='a' href="/login" inverted>Log in</Button>
+							<Button as='a' href="/register" inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+						</Menu.Item>
 
-						<Container>
-							<Menu inverted pointing secondary size='large'>
-
-								<Menu.Item onClick={this.handleToggle}>
-									<Icon name='sidebar' />
-								</Menu.Item>
-
-								<Menu.Item position='right'>
-									<Button as={Link} to="login" inverted>Log in</Button>
-									<Button as={Link} to="register" inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
-								</Menu.Item>
-
-							</Menu>
-						</Container>
-						<HomepageHeading mobile />
-						
-					</Segment>
-					{children}
-				</Sidebar.Pusher>
-			</Sidebar.Pushable>
+					</Menu>
+				</Container>
+				<HomepageHeading mobile />
+				
+				</Segment>
+				{children}
 		</Responsive>
 		)
 	}
@@ -239,7 +224,7 @@ const HomepageLayout = () => (
 	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
 	
 	<Segment style={{ height: "600px"}} vertical id="demo">
-		{/*always end the modelPath with a slash*/}
+		{/*always end the modelPath with a slash UPDATE: Don't*/}
 		<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
 			<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
 		</Visibility>
