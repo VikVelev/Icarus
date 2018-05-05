@@ -26,8 +26,26 @@ class ListAllModels3D(generics.ListAPIView):
 
         if model_id is not None:
             queryset = queryset.filter(pk=model_id)
-    
+        
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        model_id = self.request.query_params.get('id', None)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        if model_id is not None and not self.get_queryset().all():
+            return Response({
+                'error': 'Not Found'
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.data)
 
 class ViewModel(generics.GenericAPIView, 
                 mixins.UpdateModelMixin) :
@@ -72,7 +90,6 @@ class ViewModel(generics.GenericAPIView,
         viewcount = self.get_object().viewcount + 1
         serializer.validated_data["viewcount"] = viewcount
         serializer.save()
-
 
 class TrendingModels3D( generics.ListAPIView ):
     serializer_class = Model3DSerializer

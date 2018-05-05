@@ -92,8 +92,8 @@ export default class ViewModel3D extends Component {
     ]
 
     render() {
-        if(this.props.model3d.fetched){
-            
+        if(this.props.model3d.viewModelFetched && Object.keys(this.props.model3d.error).length === 0){
+            console.log(this.props.model3d)
             let model = this.props.model3d.model[0]
             let picture = model.owners[0].profile.profile_picture
             
@@ -106,12 +106,14 @@ export default class ViewModel3D extends Component {
                 <div className="viewModelContainer">
                     {this.renderCurrentlyComparing()}
                     <Segment color="blue">
+                        {model.commits[0] !== undefined ? 
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
                             <Canvas3D modelPath={model.commits[0].new_version}
                                       texturePath={model.commits[0].new_textures}
                                       diff={true}
                                 />
                         </Segment>
+                        : "No commits" }
                         <Segment className="uploadedBy">
                             <div style={{
                                 backgroundImage: "url(" + picture + ")",
@@ -136,6 +138,11 @@ export default class ViewModel3D extends Component {
                     </Segment>
                 </div>
             );
+        } else if (Object.keys(this.props.model3d.error).length !== 0) {
+            console.log("VERBOSE:", this.props.model3d.error)
+            if (this.props.model3d.error.response.status === 404) {
+                return("404")
+            }
         } else {
             return (
                 <div style={{height: 'auto'}}>

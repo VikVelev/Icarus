@@ -15,6 +15,7 @@ let defaultState = {
     fetching: false,
     fetched: false,
     locked: false,
+    viewModelFetched: false,
     error: {},
 }
 
@@ -25,6 +26,7 @@ const model3DManagement = (state=defaultState, action) => {
                 ...state,
                 comparing: [],
                 rendering: false,
+                viewModelFetched: false,              
                 diffMode: false,
                 fetching: true,
                 fetched: false,
@@ -35,6 +37,7 @@ const model3DManagement = (state=defaultState, action) => {
                 ...state,
                 model: action.payload,
                 fetching: false,
+                viewModelFetched: true,                
                 fetched: true,
             }
         case "FETCH_DATA_REJECTED":
@@ -42,6 +45,7 @@ const model3DManagement = (state=defaultState, action) => {
                 ...state,
                 fetching: false,
                 fetched: false,
+                viewModelFetched: false,                
                 error: action.payload,
             }
         case "FETCH_MENTIONS":

@@ -71,7 +71,7 @@ export function viewModel(modelId, token) {
         }).then((response) => {
             dispatch({ type: "VIEWED_MODEL", payload: response.data})
         }).catch((error) => {
-            dispatch({ type: "VIEWING_MODEL_ERROR"})            
+            dispatch({ type: "VIEWING_MODEL_ERROR", payload: error.data})            
         })
     }
 }
