@@ -150,7 +150,7 @@ export default class RevisionItem extends Component {
 
     render(){
         return(
-            !this.state.approved && !this.state.rejected ? this.renderPost() : null
+            !this.state.deleted ? this.renderPost() : null
         )
     }
 

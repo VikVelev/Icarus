@@ -35,7 +35,12 @@ class Model3DSerializer(serializers.ModelSerializer):
 
     commits = CommitSerializer(many=True, required=False, read_only=True)
     favorited_by = UserSerializer(many=True, required=False, read_only=True)
+    is_fork = serializers.BooleanField(read_only=True)
+
+    fork_of = serializers.PrimaryKeyRelatedField(read_only=True)    
     
+    viewcount = serializers.IntegerField(read_only=True)
+    forkcount = serializers.IntegerField(read_only=True)    
     date_uploaded = serializers.DateTimeField(read_only=True)
     owners = UserSerializer(many=True, read_only=True)
 
@@ -49,6 +54,9 @@ class Model3DSerializer(serializers.ModelSerializer):
             'date_uploaded',
             'favorited_by',
             'commits',
+            'fork_of',
+            'is_fork',
+            'forkcount',
             'viewcount',
         )
 

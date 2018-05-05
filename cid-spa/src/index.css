@@ -321,26 +321,31 @@ i.blue.icon:hover {
     font-size: 1.15em;
 }
 
+.currentlyComparing{
+    position: fixed !important;
+    top: 60px !important;
+    right: 10% !important;   
+    z-index: 10;
+    transition: all 0.2s;
+}
+
 @media (max-width: 768px){
     .userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
         margin-left: 2% !important;
         transition: all 0.1s;
-        margin-right: 2% !important;  
+        margin-right: 2% !important; 
     }
 
     .currentlyComparing {
-
+        position: unset !important;
+        top: unset !important;
+        right: unset !important;
     }
 
     .post-container {
         margin-left: 2% !important;
         transition: all 0.1s;        
         margin-right: 2% !important;
-    }
-
-    .currentlyComparing {
-        position: unset !important;
-        display: flex !important;
     }
 }
 
@@ -375,14 +380,6 @@ i.blue.icon:hover {
 
 .react-datepicker-wrapper{
     margin-bottom: 15px;
-}
-
-.currentlyComparing{
-    position: fixed !important;
-    top: 60px !important;
-    right: 10% !important;   
-    z-index: 10;
-    transition: all 0.2s;
 }
 
 .lookingContainer{

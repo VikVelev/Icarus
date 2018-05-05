@@ -8,11 +8,11 @@ from .user import Profile
 
 class Model3D(models.Model):
     title = models.CharField(max_length=64, unique=True)
-    # Many models many owners, seems reasonable to me
     owners = models.ManyToManyField(User, related_name='owners')
     description = models.TextField(null=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
-    #branch = models.OneToOneField("Branch", related_name="model", on_delete=models.CASCADE,)
-    # Many models many people who like them.
     favorited_by = models.ManyToManyField(User, related_name='favorited_by')
+    forkcount = models.BigIntegerField(default=0)
+    is_fork = models.BooleanField(default=False)
+    fork_of = models.ForeignKey( "Model3D", on_delete=models.DO_NOTHING, blank=True, null=True )
     viewcount = models.BigIntegerField(default=0)

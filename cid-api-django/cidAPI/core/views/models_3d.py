@@ -79,6 +79,16 @@ class TrendingModels3D( generics.ListAPIView ):
     permission_classes = ( permissions.IsAuthenticated, )
     queryset = Model3D.objects.all().order_by("viewcount").reverse()
 
+class ForkModels3D( generics.GenericAPIView ):
+    serializer_class = Model3DSerializer # ForkModelSerializer pls
+    permission_classes = (permissions.IsAuthenticated, )
+    queryset = Model3D.objects.all()
+    # urls, 
+    # alg: check if it is already forked, 
+    # increase the forked object's forkcount
+    # create a new Model3D instance with the issuer as the owner
+    # all commits should be the same
+    
 class Models3D( mixins.ListModelMixin,
                 mixins.CreateModelMixin,
                 mixins.DestroyModelMixin,

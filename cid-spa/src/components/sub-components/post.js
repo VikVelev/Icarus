@@ -76,7 +76,11 @@ export default class Post extends Component {
                     }}/>
                     
                     <Item.Content>
-                        <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
+                        <Item.Header style={{ fontSize: '1.3em' }}>                                        
+                            <Link style={{color: 'black'}}to={"/model/" + this.props.id}>
+                                {this.props.title}
+                            </Link>
+                        </Item.Header>
                         { 
                             !this.state.inProfile ? 
                                 <Item.Meta>Posted by{" "}

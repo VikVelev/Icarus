@@ -15,4 +15,4 @@ class Post(models.Model):
     is_relevant = models.BooleanField()
     is_recent = models.BooleanField()
     likes = models.IntegerField(blank=True, null=True)
-
+    edited = models.BooleanField()

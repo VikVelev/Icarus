@@ -16,6 +16,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'birth_date',
             'profile_picture',
             'description',
+            'software',
         )
 
 
