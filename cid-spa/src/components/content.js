@@ -86,7 +86,8 @@ export default class Content extends Component {
                         <Route exact path="/model/:id" component={this.routes.ViewModel}/>
                         <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>
 
-                        <Route exact path="/revisions" component={this.routes.Revisions}/>                 
+                        <Route exact path="/revisions" component={this.routes.Revisions}/>
+                        <Route path='*' exact={true} component={this.routes.Error404} />          
                     </Switch>
                     {/* {console.log("Errors:", this.props.user.error)}  */}
                 </div>
@@ -106,6 +107,7 @@ export default class Content extends Component {
         CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="/login"/> ),
         ViewModel: (data) => ( this.props.user.logged ? <ViewModel3D id={data.match.params.id}/> : <Redirect to="/login"/> ),
         Revisions: (data) => ( this.props.user.logged ? <Revisions/> : <Redirect to="/login"/> ),   
+        Error404: () => ( this.props.user.logged ? "404" : <Redirect to="/login"/>)
         //Add more routes here
     }
 }

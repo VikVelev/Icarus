@@ -521,3 +521,18 @@ div.selected.item[role="option"]{
     background-color: #FFE7E7 !important;
     border-top: 10px solid #D46A6A !important; 
 }
+
+.titleBox{
+    display: flex;
+    flex-direction: row;
+}
+
+.edited {
+    font-size: 0.7em !important;
+    width: 48px !important;
+    padding: 5px !important;
+    margin: 0 !important;    
+    margin-left: 10px !important;
+    margin-top: -5px !important;    
+    height: auto !important;      
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Item, Segment, Dropdown } from 'semantic-ui-react'
+import { Message, Item, Segment, Dropdown } from 'semantic-ui-react'
 
 import * as moment from 'moment'
 
@@ -35,8 +35,9 @@ export default class Post extends Component {
 
     mountCanvas = () => {
         let content = this.props.content.commits[0]
+        console.log()
         if (this.state.rendering){
-            if(this.props.page.currentModel !== undefined){
+            if(this.props.page.currentModel !== undefined && content !== undefined){
                 return(
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
                         <Canvas3D modelPath={content.new_version} 
@@ -44,7 +45,11 @@ export default class Post extends Component {
                     </Segment>
                 )
             } else {
-                return null
+                return (
+                    <Message info>
+                        This model has no commits.
+                    </Message>
+                )
             }
         } else {
             return null
@@ -76,10 +81,14 @@ export default class Post extends Component {
                     }}/>
                     
                     <Item.Content>
-                        <Item.Header style={{ fontSize: '1.3em' }}>                                        
-                            <Link style={{color: 'black'}}to={"/model/" + this.props.id}>
-                                {this.props.title}
-                            </Link>
+                        <Item.Header style={{ fontSize: '1.3em' }}>                                    
+                            <div className="titleBox">
+                                <Link style={{color: 'black'}}to={"/model/" + this.props.content.id}>
+                                    {this.props.title}
+                                </Link>
+                                {console.log(this.props.edited)}
+                                {this.props.edited ? <Message className="edited" >Edited</Message> : null }
+                            </div>
                         </Item.Header>
                         { 
                             !this.state.inProfile ? 

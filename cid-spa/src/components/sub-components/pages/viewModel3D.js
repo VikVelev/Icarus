@@ -52,6 +52,7 @@ export default class ViewModel3D extends Component {
     }
 
     renderCommits() {
+        //Styling on the commits
         return <CommitChain commits={this.props.model3d.model[0].commits}/>
     }
 
@@ -93,7 +94,6 @@ export default class ViewModel3D extends Component {
 
     render() {
         if(this.props.model3d.viewModelFetched && Object.keys(this.props.model3d.error).length === 0){
-            console.log(this.props.model3d)
             let model = this.props.model3d.model[0]
             let picture = model.owners[0].profile.profile_picture
             
@@ -139,7 +139,6 @@ export default class ViewModel3D extends Component {
                 </div>
             );
         } else if (Object.keys(this.props.model3d.error).length !== 0) {
-            console.log("VERBOSE:", this.props.model3d.error)
             if (this.props.model3d.error.response.status === 404) {
                 return("404")
             }

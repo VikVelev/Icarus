@@ -10,6 +10,7 @@ import { fetchUserData } from '../../../actions/profileActions.js'
 
 import { connect } from 'react-redux';
 
+import Loading from 'react-loading-animation'
 
 @connect((store) => {
     return {
@@ -29,7 +30,8 @@ export default class UserProfile extends Component {
 
     constructor(props){
         super(props)
-        //TODO FIX, this overwrites the current user data. Only I will get this.
+        // TODO FIX, this overwrites the current user data. Only I will get this. 
+        // NOTE: I am 2 months from the future and I don't get this
         this.props.dispatch(
             fetchUserData(
                 props.id,
@@ -39,7 +41,8 @@ export default class UserProfile extends Component {
     }
 
     renderProfileOnFetch(){
-        if (this.props.profile.userData !== {}) {
+        console.log(this.props.profile)
+        if (Object.keys(this.props.profile.userData).length !== 0) {
             if (this.props.profile.userData.profile !== undefined ) {
                 let picture = this.props.profile.userData.profile.profile_picture
                 if(picture === null) {
@@ -66,12 +69,15 @@ export default class UserProfile extends Component {
                     </Segment>
                 )
             }
+        } else if (Object.keys(this.props.profile.error).length !== 0) {
+            //404 page here
+            return(this.props.profile.error.response.status)
         } else {
-            return null
+            return <Loading style ={{marginTop: "10%"}}/>
         }
     }
 
     render(){
-        return <div className="userContainer">{this.renderProfileOnFetch()} </div>
+        return <div className="userContainer">{this.renderProfileOnFetch()}</div>
     }
 }
