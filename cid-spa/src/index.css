@@ -536,3 +536,7 @@ div.selected.item[role="option"]{
     margin-top: -5px !important;    
     height: auto !important;      
 }
+
+.minWidthImage {
+    min-width: 150px !important;
+}

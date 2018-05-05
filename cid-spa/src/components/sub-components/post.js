@@ -69,7 +69,7 @@ export default class Post extends Component {
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
-                    <Item.Image size='small' style={{
+                    <Item.Image className="minWidthImage" size='small' style={{
                         backgroundImage: "url(" + image + ")",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
