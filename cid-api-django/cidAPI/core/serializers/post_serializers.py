@@ -42,6 +42,7 @@ class PostSerializer(serializers.ModelSerializer):
             'is_relevant',
             'is_recent',
             'comments',
+            'edited',
             'likes',
         )
 

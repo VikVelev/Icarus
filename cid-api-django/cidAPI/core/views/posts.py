@@ -47,6 +47,10 @@ class Posts(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOPOrReadOnly)    
     serializer_class = PostSerializer
 
+    def perform_update(self, serializer):
+        serializer.validated_data["edited"] = True
+        serializer.save()
+
     def get_queryset(self):
         post_pk = self.kwargs["pk"]
 

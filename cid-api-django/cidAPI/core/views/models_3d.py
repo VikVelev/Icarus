@@ -10,9 +10,9 @@ from rest_framework import status, permissions, generics, mixins
 from ..models.models_3d import Model3D
 from ..models.commit import Commit
 
-from ..serializers.model3d_serializers import Model3DSerializer, ModelViewSerializer
+from ..serializers.model3d_serializers import Model3DSerializer, ModelViewSerializer, ForkModelSerializer
 from ..permissions import IsOwnerOrReadOnly
-import pprint
+from pprint import pprint
 import mimetypes
 
 class ListAllModels3D(generics.ListAPIView):
@@ -79,16 +79,65 @@ class TrendingModels3D( generics.ListAPIView ):
     permission_classes = ( permissions.IsAuthenticated, )
     queryset = Model3D.objects.all().order_by("viewcount").reverse()
 
-class ForkModels3D( generics.GenericAPIView ):
-    serializer_class = Model3DSerializer # ForkModelSerializer pls
+class ForkModel( generics.GenericAPIView, mixins.CreateModelMixin ):
+    serializer_class = ForkModelSerializer
     permission_classes = (permissions.IsAuthenticated, )
-    queryset = Model3D.objects.all()
+
+    def get_queryset(self):
+        model_id = self.request.query_params.get("model_id", None)
+        if model_id is not None:
+            queryset = Model3D.objects.filter(id=model_id)
+        else:
+            queryset = None
+
+        return queryset
+
+    def get_object(self):
+        queryset = self.get_queryset()
+    
+        pk = self.request.query_params.get('model_id', None)
+        obj = get_object_or_404(queryset, pk=pk)
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        data = self.get_object()
+
+        #Increment the forkcount
+        data.forkcount = data.forkcount + 1
+        data.save()
+
+        print(data.commits.get_queryset())
+        print(type(data.commits))
+     
+        created = Model3D.objects.create(
+            title = "Fork of " + data.title + " #" + str(data.forkcount + 1),
+            description = data.description,
+            is_fork = True,
+            fork_of = data,
+        )
+
+        created.owners.set([self.request.user,])
+        print(data.commits.all())
+
+        if data.commits.get_queryset():
+            created.commits.set(data.commits.all())
+        
+        created.save()
+
+        return Response({
+            'id': created.id,
+        }, status=status.HTTP_201_CREATED)
     # urls, 
     # alg: check if it is already forked, 
     # increase the forked object's forkcount
     # create a new Model3D instance with the issuer as the owner
     # all commits should be the same
-    
+
 class Models3D( mixins.ListModelMixin,
                 mixins.CreateModelMixin,
                 mixins.DestroyModelMixin,

@@ -70,6 +70,14 @@ class ModelViewSerializer(serializers.ModelSerializer):
             'viewcount',
         )
 
+class ForkModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Model3D
+        fields = (
+            'id',
+        )
+
 class CommitEntrySerializer(serializers.ModelSerializer):
 
     date = serializers.DateTimeField(read_only=True)
