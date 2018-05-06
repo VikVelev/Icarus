@@ -20,6 +20,7 @@ export class LoginForm extends Component {
 			username: "",
 			password: "",
 			loggingIn: false,
+			error: false,
 		}
 
 	}
@@ -40,14 +41,18 @@ export class LoginForm extends Component {
 		return <Message positive>Your registration has been successful. You can now log in.</Message>
 	}
 
+	handleError(type){
+		return (
+			<Message attached="bottom" color="red">
+				{this.props.user.error[type]}
+			</Message>
+		)
+	}
+
     handleErrors(type) {
         if (this.props.user.error[type] !== undefined) {
 			this.setState({ loggingIn: false })
-			return (
-				<Message attached="bottom" color="red">
-					{this.props.user.error[type]}
-				</Message>
-			)
+			this.setState({ error: true })			
         }
 	}
 
@@ -74,7 +79,7 @@ export class LoginForm extends Component {
 									iconPosition='left'
 									placeholder='Username'
 								/>	
-								{this.handleErrors("username")}
+
 								<Form.Input
 									error={this.handleErrors("password") !== undefined}								
 									fluid
@@ -86,7 +91,7 @@ export class LoginForm extends Component {
 									placeholder='Password'
 									type='password'
 								/>
-								{this.handleErrors("password")}
+
 								<Button 
 									loading={this.props.user.error !== undefined && this.state.loggingIn}
 									type='submit' 
@@ -95,7 +100,9 @@ export class LoginForm extends Component {
 									size='large'>Log in</Button>
 							</Segment>
 						</Form>
-						{this.handleErrors("non_field_errors")}
+						
+						{ this.state.loggingIn ? this.handleErrors("non_field_errors") : null }
+						{ this.state.error ? this.handleError("non_field_errors") : null }					
 						{
 							this.props.page.currentPage === 'login#successful' ? 
 							this.registerSuccess() : 
