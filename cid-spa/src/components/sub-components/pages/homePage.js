@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 
 import { Link }  from 'react-router-dom'
 
-import { Button, Container, Grid, Header, Sidebar } from 'semantic-ui-react'
+import { Button, Container, Grid, Header } from 'semantic-ui-react'
 import { Icon, Image, Menu, Responsive, Segment, List } from 'semantic-ui-react'
 import { Visibility } from 'semantic-ui-react'
 
@@ -85,14 +85,14 @@ class DesktopContainer extends Component {
 							<Menu.Item as='a' href="#demo_header">Demo</Menu.Item>
 							<Menu.Item position='right'>
 
-								<Button as='a'
-										href="/login"
+								<Button as={Link}
+										to="/login"
 										name="login"										
 										inverted={!fixed}
 										>Log in</Button>
 
-								<Button as='a'
-										href="/register"
+								<Button as={Link}
+										to="/register"
 										name="register"										
 										inverted={!fixed} 
 										primary={fixed} 									
@@ -124,12 +124,8 @@ DesktopContainer.propTypes = {
 class MobileContainer extends Component {
 	state = {}
 
-	handleToggle = () => this.setState({ sidebarOpened: !this.state.sidebarOpened })
-
 	render() {
 		const { children } = this.props
-		const { sidebarOpened } = this.state
-
 		return (
 		<Responsive {...Responsive.onlyMobile} minWidth={0}>
 			<Segment inverted textAlign='center' style={{ minHeight: 350, padding: '1em 0em' }} vertical>
@@ -137,8 +133,8 @@ class MobileContainer extends Component {
 				<Container>
 					<Menu inverted pointing secondary size='large'>
 						<Menu.Item position='right'>
-							<Button as='a' href="/login" inverted>Log in</Button>
-							<Button as='a' href="/register" inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+							<Button as={Link} to="/login" inverted>Log in</Button>
+							<Button as={Link} to="/register" inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
 						</Menu.Item>
 
 					</Menu>
@@ -224,7 +220,6 @@ const HomepageLayout = () => (
 	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
 	
 	<Segment style={{ height: "600px"}} vertical id="demo">
-		{/*always end the modelPath with a slash UPDATE: Don't*/}
 		<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
 			<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
 		</Visibility>

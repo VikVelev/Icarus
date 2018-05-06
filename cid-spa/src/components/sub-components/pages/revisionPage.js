@@ -151,7 +151,7 @@ class RevisionTabs extends Component {
 
     chooseActiveIndex() {
         for (let i = 0; i < this.panes.length; i++) {
-            if(this.panes[i] != undefined) {
+            if(this.panes[i] !== undefined) {
                 return i
             }
         }

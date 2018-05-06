@@ -496,12 +496,20 @@ div.selected.item[role="option"]{
     color: lightgreen;
 }
 
+.check:active{
+    color: rgb(44, 92, 44);
+}
+
 .close {
     color: red;
 }
 
 .close:hover {
     color: lightcoral;
+}
+
+.close:active {
+    color: rgb(134, 28, 28);
 }
 
 .PENDING {
@@ -512,13 +520,13 @@ div.selected.item[role="option"]{
 .APPROVED {
     transition: all 0.8s !important;
     background-color: #EBF7E0 !important;
-    border-top: 10px solid #7EB75C !important; 
+    border-top: 3px solid #7EB75C !important; 
 }
 
 .REJECTED {
     transition: all 0.8s !important;
     background-color: #FFE7E7 !important;
-    border-top: 10px solid #D46A6A !important; 
+    border-top: 3px solid #D46A6A !important; 
 }
 
 .titleBox{
@@ -578,4 +586,21 @@ div.selected.item[role="option"]{
     margin-right: 0;
     display: flex;
     flex-direction: column;
+
+}
+
+i.huge.icon {
+    font-size: 3em !important;
+}
+
+.eye {
+    color: #0e65a7;
+}
+
+.eye:hover {
+    color: #2185d0;
+}
+
+.eye:active {
+    color: #084472;
 }

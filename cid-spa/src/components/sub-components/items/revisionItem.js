@@ -84,6 +84,10 @@ export default class RevisionItem extends Component {
         )
     }
 
+    handleReview() {
+        console.log("Reviewing")
+    }
+
     // Implement the 3D Canvas to show the difference between this and the last model
     mountCanvas = () => {
         let content = this.props
@@ -133,16 +137,21 @@ export default class RevisionItem extends Component {
                         </Item.Description>
                         </Item.Group>
                         {!this.props.mine && ( this.props.status !== "APPROVED" && this.props.status !== "REJECTED" )?
-                        <Item.Group className="groupItem choices">
-                            <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="huge"/>
-                            { this.props.rev.approving && this.state.approving && !this.state.approved ? this.approveCallback() : null }
-                            <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="huge"/>
-                            { this.props.rev.rejecting && this.state.rejecting && !this.state.rejected ? this.rejectCallback() : null }                   
-                        </Item.Group>                      
-                        : null}
+                            <Item.Group className="groupItem choices">
+                                <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                                <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="huge"/>
+                                { this.props.rev.approving && this.state.approving && !this.state.approved ? this.approveCallback() : null }
+                                <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="huge"/>
+                                { this.props.rev.rejecting && this.state.rejecting && !this.state.rejected ? this.rejectCallback() : null }                   
+                            </Item.Group>                      
+                        : //else
+                            <Item.Group className="groupItem choices">
+                                <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                            </Item.Group> 
+                        }
                     </Item.Content>
                 </Item>
-                { this.mountCanvas() }
+                { /*this.mountCanvas() */}
             </Segment>
         )
     }

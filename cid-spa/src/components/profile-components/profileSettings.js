@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Header, Icon, Form, Message, Button, Dropdown } from 'semantic-ui-react'
+import { Segment, Header, Icon, Form, Message, Button } from 'semantic-ui-react'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';

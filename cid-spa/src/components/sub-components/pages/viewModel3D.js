@@ -174,7 +174,7 @@ export default class ViewModel3D extends Component {
                                         <Icon name="plus"/>
                                         Contribute
                                     </Button>
-                                } id={this.props.model3d.id}/>
+                                } id={model.id}/>
                             </div>
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
