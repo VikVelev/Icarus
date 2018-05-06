@@ -68,8 +68,13 @@ export default class Content extends Component {
 
     checkForErrors(){
         if (Object.keys(this.props.user.error).length !== 0) {
+            for (let i = 0; i < this.noNavbar.length; i++) {
+                if (this.props.page.currentPage === this.noNavbar[i] || !this.props.user.logged) {
+                    return null;
+                }
+            }
             if (this.props.user.error.request.status === 0) {
-                <ErrorPage type={this.props.user.error.request.status}/>
+                return <ErrorPage type={this.props.user.error.request.status}/>
             } else {
                 return <ErrorPage type={this.props.user.error.response.status}/>
             }

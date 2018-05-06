@@ -542,8 +542,11 @@ div.selected.item[role="option"]{
 }
 
 .errorPage {
+    background-color: #FFF;
+    z-index: 10;
     width: 100% !important;
     height: 90% !important;
+    position: absolute !important;
     display: flex;
     flex-direction: column;
 }

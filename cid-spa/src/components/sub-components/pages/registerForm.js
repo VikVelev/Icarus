@@ -53,7 +53,7 @@ class RegisterForm extends Component {
                     <Grid.Column style={{ maxWidth: 450 }}>
 
                         <Header as='h2' color='blue' textAlign='center'>
-                            <Image src='/img/logo.png' />
+							<Image src='/img/logo.png' href="/"/>
                             {' '}Create a new account
                         </Header>
 
