@@ -540,3 +540,26 @@ div.selected.item[role="option"]{
 .minWidthImage {
     min-width: 150px !important;
 }
+
+.errorPage {
+    width: 100% !important;
+    height: 90% !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.errorHeader {
+    display: inline-block;
+    width: auto;
+    font-size: 10em !important;
+    margin: auto !important;
+    margin-bottom: 0 !important;
+}
+
+.errorText {
+    display: inline-block;
+    text-align: center;
+    font-size: 2em;    
+    margin: auto !important;
+    margin-top: 0 !important;
+}

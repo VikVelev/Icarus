@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 
 import CommitChain from '../../diff/commitChain.js'
 import ProfilePosts from '../../profile-components/profilePosts.js'
+import ErrorPage from './clientErrors.js'
+
 
 import Loading from 'react-loading-animation'
 
@@ -140,7 +142,9 @@ export default class ViewModel3D extends Component {
             );
         } else if (Object.keys(this.props.model3d.error).length !== 0) {
             if (this.props.model3d.error.response.status === 404) {
-                return("404")
+                return(
+                    <ErrorPage type={404}/>
+                )
             }
         } else {
             return (

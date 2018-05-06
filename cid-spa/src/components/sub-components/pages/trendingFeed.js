@@ -40,7 +40,8 @@ export default class TrendingFeed extends Component {
                 {
                     Object.keys(this.props.trending.trendingPosts).length !== 0 ? 
                     this.props.trending.trendingPosts.map((object, i) => this.renderPost(object,i))  : 
-                    <Loading style={{marginTop: '10%'}}/>
+                    this.props.trending.fetching ?
+                    <Loading style={{marginTop: '10%'}}/> : null
                 }
             </div> 
         )

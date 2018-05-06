@@ -7,6 +7,7 @@ import Feed from './sub-components/pages/homeFeed.js';
 import HomePage from './sub-components/pages/homePage.js';
 import Revisions from './sub-components/pages/revisionPage.js';
 import TrendingFeed from './sub-components/pages/trendingFeed.js';
+import ErrorPage from './sub-components/pages/clientErrors.js'
 
 import Profile from './sub-components/pages/profilePage.js'
 import UserProfile from './sub-components/pages/userPage.js'
@@ -65,11 +66,18 @@ export default class Content extends Component {
         return <Navbar/>
     }
 
+    checkForErrors(){
+        if (Object.keys(this.props.user.error).length !== 0) {
+            return <ErrorPage type={this.props.user.error.response.status}/>
+        }
+    }
+
     render(){
         return(
             <Router>
                 <div className="content">
                     {this.RenderNavbar()}
+                    {this.checkForErrors()}
                     <Switch>
                         <Route exact path="/" component={this.routes.Home} />
                         <Route exact path="/login" component={this.routes.Login} />
@@ -87,9 +95,8 @@ export default class Content extends Component {
                         <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>
 
                         <Route exact path="/revisions" component={this.routes.Revisions}/>
-                        <Route path='*' exact={true} component={this.routes.Error404} />          
+                        <Route path='*' type={404} exact={true} component={this.routes.Error404} />          
                     </Switch>
-                    {/* {console.log("Errors:", this.props.user.error)}  */}
                 </div>
             </Router>
         );
@@ -106,8 +113,8 @@ export default class Content extends Component {
         Upload: () => ( this.props.user.logged ? <Add3DModel/> : <Redirect to="/login"/> ),
         CreatePost: () => ( this.props.user.logged ? <AddPost/> : <Redirect to="/login"/> ),
         ViewModel: (data) => ( this.props.user.logged ? <ViewModel3D id={data.match.params.id}/> : <Redirect to="/login"/> ),
-        Revisions: (data) => ( this.props.user.logged ? <Revisions/> : <Redirect to="/login"/> ),   
-        Error404: () => ( this.props.user.logged ? "404" : <Redirect to="/login"/>)
+        Revisions: (data) => ( this.props.user.logged ? <Revisions/> : <Redirect to="/login"/> ),
+        Error: (data) => ( this.props.user.logged ? <ErrorPage type={data.props.type}/> : <Redirect to="/login"/>)
         //Add more routes here
     }
 }

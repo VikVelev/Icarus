@@ -7,6 +7,7 @@ import ProfileContributions from '../../profile-components/profileContributions.
 import ProfilePosts from '../../profile-components/profilePosts.js'
 import { fetchUserData } from '../../../actions/profileActions.js'
 //import ProfileFavorites from '../../profile-components/profileFavorites.js'
+import ErrorPage from './clientErrors.js'
 
 import { connect } from 'react-redux';
 
@@ -71,7 +72,7 @@ export default class UserProfile extends Component {
             }
         } else if (Object.keys(this.props.profile.error).length !== 0) {
             //404 page here
-            return(this.props.profile.error.response.status)
+            return <ErrorPage type={this.props.profile.error.response.status}/>
         } else {
             return <Loading style ={{marginTop: "10%"}}/>
         }
