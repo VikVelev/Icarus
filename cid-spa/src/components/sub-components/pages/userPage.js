@@ -71,7 +71,6 @@ export default class UserProfile extends Component {
                 )
             }
         } else if (Object.keys(this.props.profile.error).length !== 0) {
-            //404 page here
             return <ErrorPage type={this.props.profile.error.response.status}/>
         } else {
             return <Loading style ={{marginTop: "10%"}}/>

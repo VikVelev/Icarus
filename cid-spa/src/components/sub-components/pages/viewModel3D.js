@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Header, Tab } from 'semantic-ui-react'
+import { Segment, Header, Tab, Button, Icon } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
-import { fetchViewingData, fetchModelMentions, viewModel } from '../../../actions/model3DActions.js'
+import { fetchViewingData, fetchModelMentions, viewModel, alreadyForked, fork } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
 
 import CommitChain from '../../diff/commitChain.js'
@@ -33,6 +33,13 @@ export default class ViewModel3D extends Component {
         )
 
         this.props.dispatch(
+            alreadyForked(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token,
+            )
+        )
+
+        this.props.dispatch(
             fetchModelMentions(
                 this.props.id,
                 this.props.user.currentlyLoggedUser.username.token
@@ -45,6 +52,15 @@ export default class ViewModel3D extends Component {
             viewModel(
                 this.props.id,
                 this.props.user.currentlyLoggedUser.username.token                
+            )
+        )
+    }
+
+    handleForking() {
+        this.props.dispatch(
+            fork(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token  
             )
         )
     }
@@ -108,7 +124,8 @@ export default class ViewModel3D extends Component {
                 <div className="viewModelContainer">
                     {this.renderCurrentlyComparing()}
                     <Segment color="blue">
-                        {model.commits[0] !== undefined ? 
+                        {/* using index [0] means that I'm getting the latest version, the API sorts them from latest to oldest commit*/}
+                        { model.commits[0] !== undefined ? 
                         <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
                             <Canvas3D modelPath={model.commits[0].new_version}
                                       texturePath={model.commits[0].new_textures}
@@ -135,13 +152,32 @@ export default class ViewModel3D extends Component {
                                 <Header size="small">Uploaded by <Link to={"/profile/" + model.owners[0].id}>{model.owners[0].username}</Link></Header>                 
                                 <Header style={{ marginTop: 0 }} size="tiny">{model.viewcount} views</Header>                            
                             </div>
+                            {/* Debugging purposes ===, should be !== otherwise */}
+                            { model.owners[0].id === this.props.user.currentlyLoggedUser.username.id ?
+                            <Button size="big"
+                                    loading={this.props.model3d.checkingFork}
+                                    disabled={this.props.model3d.forked} 
+                                    className="forkButton" 
+                                    color="blue" 
+                                    onClick={this.handleForking.bind(this)}>
+                                <Icon name="fork"/>
+                                {this.props.model3d.forked ? "Forked" : "Fork" }
+                            </Button> : 
+                            <Button size="big" disabled className="forkButton" color="gray">
+                                <Icon name="fork"/>
+                                Your model
+                            </Button> }
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
                     </Segment>
                 </div>
             );
         } else if (Object.keys(this.props.model3d.error).length !== 0) {
-            if (this.props.model3d.error.response.status === 404) {
+            if (this.props.model3d.error.request.status === 0) {
+                return(
+                    <ErrorPage type={404}/>
+                )
+            } else if (this.props.model3d.error.response.status === 404) {
                 return(
                     <ErrorPage type={404}/>
                 )

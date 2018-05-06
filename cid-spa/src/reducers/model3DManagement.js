@@ -16,6 +16,10 @@ let defaultState = {
     fetched: false,
     locked: false,
     viewModelFetched: false,
+    forking: false,
+    forkData: {},
+    forked: false,
+    checkingFork: false,
     error: {},
 }
 
@@ -121,6 +125,46 @@ const model3DManagement = (state=defaultState, action) => {
                     called: false,
                     query: {}
                 }
+            }
+        case "FORKING":
+            return {
+                ...state,
+                checkingFork: true,                
+                forking: true,
+            }
+        case "FORKING_FULFILLED":
+            return {
+                ...state,
+                checkingFork: false,                
+                forking: false,
+                forkData: action.payload,
+                forked: true,
+            }
+        case "FORKING_REJECTED":
+            return {
+                ...state,
+                checkingFork: false,                
+                forking: false,
+                error: action.payload,
+                forked: false,
+            }
+        case "IS_FORKED":
+            return {
+                ...state,
+                checkingFork: true,
+                forked: false,
+            }
+        case "IS_FORKED_FULFILLED":
+            return {
+                ...state,
+                checkingFork: false,                
+                forked: action.payload.is_forked_by_you,
+            }
+        case "IS_FORKED_REJECTED":
+            return {
+                ...state,
+                checkingFork: false,                
+                error: action.payload,
             }
         case "RENDERING":
             return {

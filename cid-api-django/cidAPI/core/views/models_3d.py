@@ -100,6 +100,16 @@ class ForkModel( generics.GenericAPIView, mixins.CreateModelMixin ):
     serializer_class = ForkModelSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
+    def is_forked_by_you(self):
+        your_models = Model3D.objects.filter(owners__in=[self.request.user,])
+        model_fork = self.get_object()
+
+        for model in your_models:
+            if model.fork_of == self.get_object():
+                return True
+        
+        return False
+
     def get_queryset(self):
         model_id = self.request.query_params.get("model_id", None)
         if model_id is not None:
@@ -118,37 +128,45 @@ class ForkModel( generics.GenericAPIView, mixins.CreateModelMixin ):
 
         return obj
 
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'is_forked_by_you':self.is_forked_by_you()
+        })
+
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         data = self.get_object()
-
-        #Increment the forkcount
-        data.forkcount = data.forkcount + 1
-        data.save()
-
-        print(data.commits.get_queryset())
-        print(type(data.commits))
-     
-        created = Model3D.objects.create(
-            title = "Fork of " + data.title + " #" + str(data.forkcount + 1),
-            description = data.description,
-            is_fork = True,
-            fork_of = data,
-        )
-
-        created.owners.set([self.request.user,])
-        print(data.commits.all())
-
-        if data.commits.get_queryset():
-            created.commits.set(data.commits.all())
         
-        created.save()
+        if not self.is_forked_by_you():
 
-        return Response({
-            'id': created.id,
-        }, status=status.HTTP_201_CREATED)
+            #Increment the forkcount
+            data.forkcount = data.forkcount + 1
+            data.save()
+
+            print(self.is_forked_by_you())
+            created = Model3D.objects.create(
+                title = "Fork#%s of %s" % (str(data.forkcount), data.title),
+                description = data.description,
+                is_fork = True,
+                fork_of = data,
+            )
+
+            created.owners.set([self.request.user,])
+
+            if data.commits.get_queryset():
+                created.commits.set(data.commits.all())
+            
+            created.save()
+
+            return Response({
+                'id': created.id,
+            }, status=status.HTTP_201_CREATED)
+        else:
+            return Response({
+                'info': "Already forked by you",
+            }, status=status.HTTP_204_NO_CONTENT) 
     # urls, 
     # alg: check if it is already forked, 
     # increase the forked object's forkcount

@@ -7,6 +7,7 @@ export default class ErrorPage extends Component {
     // If you want to add more errors with links, the links must be last and separated by '\n'
 
     errors = {
+        "0" : "Sorry, our server isn't up at the moment.",
         "404" : "Sorry, what you are looking for doesn't exist.",
         "401" : "You are not authorized. This isn't supposed to happen. \n Please submit a bug report describing the issue to the GitHub repo: \n https://github.com/VikVelev/CiD-Platform/issues",
         "400" : "Error. This isn't supposed to happen. \n Please submit a bug report describing the issue to the github repo: \n https://github.com/VikVelev/CiD-Platform/issues",

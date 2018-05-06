@@ -68,7 +68,11 @@ export default class Content extends Component {
 
     checkForErrors(){
         if (Object.keys(this.props.user.error).length !== 0) {
-            return <ErrorPage type={this.props.user.error.response.status}/>
+            if (this.props.user.error.request.status === 0) {
+                <ErrorPage type={this.props.user.error.request.status}/>
+            } else {
+                return <ErrorPage type={this.props.user.error.response.status}/>
+            }
         }
     }
 

@@ -463,7 +463,7 @@ div.selected.item[role="option"]{
     overflow-x: hidden;
 }
 
-.loading.button[type="submit"] {
+.loading.button[type="submit"], .loading.forkButton {
     position: relative !important;
     top: unset !important;
     z-index: unset !important;
@@ -562,4 +562,10 @@ div.selected.item[role="option"]{
     font-size: 2em;    
     margin: auto !important;
     margin-top: 0 !important;
+}
+
+.forkButton {
+    width: auto;
+    margin: auto !important;
+    margin-right: 0 !important; 
 }

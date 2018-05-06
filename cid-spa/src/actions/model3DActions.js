@@ -35,6 +35,41 @@ export function fetchModelMentions(id, token){
     }
 }
 
+export function fork(modelId, token) {
+    return function(dispatch) {
+        dispatch({ type: "FORKING" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.post(url + "/api/3d-models/fork?model_id=" + modelId).then((response) => {
+            dispatch({ type: "FORKING_FULFILLED", payload: response.data })   
+        }).catch((error) => {
+            dispatch({ type: "FORKING_REJECTED", payload: error })   
+        })
+    }
+}
+
+
+export function alreadyForked(modelId, token) {
+    return function(dispatch) {
+        dispatch({ type: "IS_FORKED" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.get(url + "/api/3d-models/fork?model_id=" + modelId).then((response) => {
+            dispatch({ type: "IS_FORKED_FULFILLED", payload: response.data })   
+        }).catch((error) => {
+            dispatch({ type: "IS_FORKED_REJECTED", payload: error })   
+        })
+    }
+}
+
 export function addToCompare(commit) {
     return function(dispatch) {
         dispatch({ type: "ADD_TO_COMPARE", payload: commit })
