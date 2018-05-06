@@ -38,7 +38,8 @@ class Model3DSerializer(serializers.ModelSerializer):
     is_fork = serializers.BooleanField(read_only=True)
 
     fork_of = serializers.PrimaryKeyRelatedField(read_only=True)    
-    
+    nth_commit = serializers.IntegerField(read_only=True)
+
     viewcount = serializers.IntegerField(read_only=True)
     forkcount = serializers.IntegerField(read_only=True)    
     date_uploaded = serializers.DateTimeField(read_only=True)
@@ -57,6 +58,7 @@ class Model3DSerializer(serializers.ModelSerializer):
             'fork_of',
             'is_fork',
             'forkcount',
+            'nth_commit',
             'viewcount',
         )
 

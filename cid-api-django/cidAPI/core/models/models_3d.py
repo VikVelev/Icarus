@@ -15,7 +15,9 @@ class Model3D(models.Model):
     forkcount = models.BigIntegerField(default=0)
     is_fork = models.BooleanField(default=False)
     fork_of = models.ForeignKey( "Model3D", on_delete=models.DO_NOTHING, blank=True, null=True )
+    nth_commit = models.BigIntegerField(default=0)
     viewcount = models.BigIntegerField(default=0)
+
 
     def _increment_forkcount(self):
         self.viewcount =+ 1

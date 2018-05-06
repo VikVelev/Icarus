@@ -10,10 +10,12 @@ class Commit(models.Model):
     new_version = models.FileField(null=False, blank=False)
     new_textures = models.FileField(null=True, blank=True)
     
+    
     #If a user is deleted, delete all commits.
     committed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     details = models.TextField(null=False)
-    
+
+
     version_number = models.IntegerField(default=1)
     date = models.DateTimeField(auto_now_add=True)
 

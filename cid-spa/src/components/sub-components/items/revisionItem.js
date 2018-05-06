@@ -8,7 +8,7 @@ import Canvas3D from '../../viewport/canvas3d.js'
 //import { getModelbyID } from '../../actions/profileActions.js';
 import { connect } from 'react-redux';
 import { approveRevision, rejectRevision } from '../../../actions/revisionActions.js'
-
+import ReviewWindow from './reviewWindow.js'
 @connect((store) => {
     return {
         profile: store.profileManagement,
@@ -89,19 +89,6 @@ export default class RevisionItem extends Component {
     }
 
     // Implement the 3D Canvas to show the difference between this and the last model
-    mountCanvas = () => {
-        let content = this.props
-        if (this.state.rendering){
-            return(
-                <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
-                    <Canvas3D modelPath={content.commit_mesh}
-                              texturePath={content.commit_textures}/>
-                </Segment>
-            )
-        } else {
-            return null
-        }
-    }
 
     renderHandler() {
         this.setState({ rendering: !this.state.rendering })
@@ -138,7 +125,9 @@ export default class RevisionItem extends Component {
                         </Item.Group>
                         {!this.props.mine && ( this.props.status !== "APPROVED" && this.props.status !== "REJECTED" )?
                             <Item.Group className="groupItem choices">
-                                <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                                <ReviewWindow trigger={
+                                    <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                                } content={this.props}/>
                                 <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="huge"/>
                                 { this.props.rev.approving && this.state.approving && !this.state.approved ? this.approveCallback() : null }
                                 <Icon onClick={this.handleReject.bind(this)} className="choice" name="close" size="huge"/>
@@ -146,8 +135,10 @@ export default class RevisionItem extends Component {
                             </Item.Group>                      
                         : //else
                             <Item.Group className="groupItem choices">
-                                <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
-                            </Item.Group> 
+                                <ReviewWindow trigger={
+                                    <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                                } content={this.props}/>
+                            </Item.Group>  
                         }
                     </Item.Content>
                 </Item>

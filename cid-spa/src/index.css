@@ -604,3 +604,13 @@ i.huge.icon {
 .eye:active {
     color: #084472;
 }
+
+.reviewWindowModal {
+    height: 80% !important;
+    width: 80% !important;
+    padding: 0 !important;
+}
+
+.ui.modal>.content {
+    padding: 0 !important;
+}

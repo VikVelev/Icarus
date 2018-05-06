@@ -145,20 +145,27 @@ class ForkModel( generics.GenericAPIView, mixins.CreateModelMixin ):
             data.forkcount = data.forkcount + 1
             data.save()
 
-            print(self.is_forked_by_you())
             created = Model3D.objects.create(
                 title = "Fork#%s of %s" % (str(data.forkcount), data.title),
                 description = data.description,
                 is_fork = True,
                 fork_of = data,
+                nth_commit = len(data.commits.all())
             )
-
+            
             created.owners.set([self.request.user,])
-
-            if data.commits.get_queryset():
-                created.commits.set(data.commits.all())
             
             created.save()
+
+            for commit in data.commits.all():
+                Commit.objects.create(
+                    title=commit.title,
+                    belongs_to_model=created,
+                    new_version=commit.new_version,
+                    new_textures=commit.new_textures,
+                    committed_by=commit.committed_by,
+                    details=commit.details
+                )
 
             return Response({
                 'id': created.id,

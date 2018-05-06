@@ -83,10 +83,9 @@ export default class Post extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>                                    
                             <div className="titleBox">
-                                <Link style={{color: 'black'}}to={"/model/" + this.props.content.id}>
+                                <Link style={{color: 'black'}} to={"/model/" + this.props.content.id}>
                                     {this.props.title}
                                 </Link>
-                                {console.log(this.props.edited)}
                                 {this.props.edited ? <Message className="edited" >Edited</Message> : null }
                             </div>
                         </Item.Header>
