@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import CommitChain from '../../diff/commitChain.js'
 import ProfilePosts from '../../profile-components/profilePosts.js'
 import ErrorPage from './clientErrors.js'
-
+import AddCommit from '../../profile-components/addCommitForm.js'
 
 import Loading from 'react-loading-animation'
 
@@ -152,21 +152,30 @@ export default class ViewModel3D extends Component {
                                 <Header size="small">Uploaded by <Link to={"/profile/" + model.owners[0].id}>{model.owners[0].username}</Link></Header>                 
                                 <Header style={{ marginTop: 0 }} size="tiny">{model.viewcount} views</Header>                            
                             </div>
-                            {/* Debugging purposes ===, should be !== otherwise */}
-                            { model.owners[0].id === this.props.user.currentlyLoggedUser.username.id ?
-                            <Button size="big"
-                                    loading={this.props.model3d.checkingFork}
-                                    disabled={this.props.model3d.forked} 
-                                    className="forkButton" 
-                                    color="blue" 
-                                    onClick={this.handleForking.bind(this)}>
-                                <Icon name="fork"/>
-                                {this.props.model3d.forked ? "Forked" : "Fork" }
-                            </Button> : 
-                            <Button size="big" disabled className="forkButton" color="gray">
-                                <Icon name="fork"/>
-                                Your model
-                            </Button> }
+                            <div className="intButtons">
+                                {/* Debugging purposes ===, should be !== otherwise */}
+                                { model.owners[0].id !== this.props.user.currentlyLoggedUser.username.id ?
+                                <Button size="big"
+                                        loading={this.props.model3d.checkingFork}
+                                        disabled={this.props.model3d.forked} 
+                                        className="forkButton" 
+                                        color="blue" 
+                                        onClick={this.handleForking.bind(this)}>
+                                    <Icon name="fork"/>
+                                    {this.props.model3d.forked ? "Forked" : "Fork" }
+                                </Button> : 
+                                <Button size="big" disabled className="forkButton" color="gray">
+                                    <Icon name="fork"/>
+                                    Your model
+                                </Button> }
+
+                                <AddCommit trigger={
+                                    <Button size="big" className="contribButton" color="green">
+                                        <Icon name="plus"/>
+                                        Contribute
+                                    </Button>
+                                } id={this.props.model3d.id}/>
+                            </div>
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
                     </Segment>

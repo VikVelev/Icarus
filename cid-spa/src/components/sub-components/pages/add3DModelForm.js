@@ -178,7 +178,7 @@ export default class Add3DModel extends Component{
                         
                         : null}
                         </div>
-
+                        {this.handleCommitErrors("error")}                        
                         {this.props.profile.fetching ? 
                         <Message info className="processing">
                             <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>

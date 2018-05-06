@@ -69,7 +69,12 @@ export default class Profile extends Component {
                             <div className="profileDetails">
                                 <Header size="huge">{this.props.profile.userData.username}</Header>
                                 <Header size="medium">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name ? this.props.profile.userData.last_name + "," : null} {this.props.profile.userData.profile.country}</Header>                   
-                                {this.props.profile.userData.profile.description}
+                                <p>{this.props.profile.userData.profile.description}</p>
+                                {
+                                    this.props.profile.userData.profile.software !== null ?
+                                        <p>{"Using " + this.props.profile.userData.profile.software}</p> :
+                                    null
+                                }                                                            
                             </div>
                         </Segment>
                         <div className="settings_button" onClick={this.renderSettings.bind(this)}>

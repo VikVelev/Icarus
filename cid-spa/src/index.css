@@ -506,8 +506,7 @@ div.selected.item[role="option"]{
 
 .PENDING {
     transition: all 0.8s !important;
-    background-color: #CEE7FB !important;
-    border-top: 10px solid #4598D8 !important;
+    border-top: 3px solid #2185d0 !important;
 }
 
 .APPROVED {
@@ -568,7 +567,15 @@ div.selected.item[role="option"]{
 }
 
 .forkButton {
-    width: auto;
+    width: 100%;
     margin: auto !important;
     margin-right: 0 !important; 
+    margin-bottom: 10px !important;
+}
+
+.intButtons {
+    margin: auto;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
 }

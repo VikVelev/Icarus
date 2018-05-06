@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Header, Icon, Form, Message, Button } from 'semantic-ui-react'
+import { Segment, Header, Icon, Form, Message, Button, Dropdown } from 'semantic-ui-react'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
@@ -24,6 +24,29 @@ export default class ProfileSettings extends Component {
     constructor(props){
         super(props)
 
+        this.softwareChoices = [
+            {
+                key: "c4d",
+                value: "Cinema4D"
+            },            
+            {
+                key: "bld",
+                value: "Blender"
+            },            
+            {
+                key: "cad",
+                value: "AutoCAD"
+            },            
+            {
+                key: "zbrs",
+                value: "Z-Brush"
+            },
+            {
+                key: "3dsmax",
+                value: "3DSMax"
+            },                     
+        ]
+
         this.state = {
             success: false,
             profile: false,
@@ -32,6 +55,7 @@ export default class ProfileSettings extends Component {
             email: "",
             country: "",
             profile_picture: "",
+            software: "",
             birth_date: moment(),
             description: '',
         }   
@@ -46,6 +70,7 @@ export default class ProfileSettings extends Component {
     }
 
     handleChange = (e, { name, value}) => {
+        console.log(this.state.software)
         this.setState({ [name]: value })
     }
 
@@ -67,7 +92,7 @@ export default class ProfileSettings extends Component {
     }
 
     handleSubmit = () => {
-        const { first_name, last_name, email, country, profile_picture, birth_date, description } = this.state
+        const { first_name, last_name, email, country, profile_picture, software, birth_date, description } = this.state
         
         this.setState({
             first_name: first_name,
@@ -75,6 +100,7 @@ export default class ProfileSettings extends Component {
             email: email,
             country: country,
             profile_picture: profile_picture,
+            software: software,
             birth_date: birth_date,
             description: description,
         })
@@ -90,6 +116,7 @@ export default class ProfileSettings extends Component {
         if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
             formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
         }
+        formData.append('profile.software', software)        
         formData.append('profile.description', description)        
 
         this.props.dispatch(
@@ -138,32 +165,15 @@ export default class ProfileSettings extends Component {
                             birth_date: moment(state.birth_date)
                         }
                     }
-
-                    // This is retarded 
-                    if(state.country === null) {
-                        state.country = ""
-                    }
                     
-                    if(state.first_name === null) {
-                        state.first_name = ""
-                    }
-
-                    if(state.last_name === null) {
-                        state.last_name = ""
-                    }
-
-                    if(state.birth_date === null) {
-                        state.birth_date = ""
-                    }
-
-                    if(state.description === null) {
-                        state.description = ""
+                    for (const key in state) {
+                        if (state.hasOwnProperty(key) && state[key] === null && key !== "profile_picture") {
+                            state[key] = "" 
+                        }
                     }
                     
                     // eslint-disable-next-line
                     this.state = {...state}
-
-                    // end of retardation - did this to eliminate warnings.
                 }
                 let picture = this.props.profile.userData.profile.profile_picture
 
@@ -199,7 +209,6 @@ export default class ProfileSettings extends Component {
                                         accept=".png,.jpg,.jpeg"
                                     />
                                     {this.handleErrors("profile_picture")}
-                                    
                                     <Header size="small">First name</Header>                                                                        
                                     <Form.Input
                                             fluid
@@ -246,6 +255,17 @@ export default class ProfileSettings extends Component {
                                         type='text'
                                     />
                                     
+                                    <Header size="small">Software</Header>                                    
+                                    <Form.Input
+                                        fluid
+                                        icon='world'
+                                        name="software"
+                                        iconPosition='left'
+                                        value={this.state.software}
+                                        onChange={this.handleChange}
+                                        placeholder='Type in the software you are using'
+                                    />
+
                                     <Header size="small">Birth date</Header>
                                     <DatePicker 
                                         onChange={this.handleDateChange.bind(this)}
