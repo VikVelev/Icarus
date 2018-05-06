@@ -19,17 +19,6 @@ const pageManagement = (state=defaultState, action) => {
                 ...state,
                 subPage: action.payload
             }
-        case "RENDERING_CANVAS3D":
-            return {
-                ...state,
-                canvasRendering: true,
-            }
-        case "STOPPING_CANVAS3D":
-            return {
-                ...state,
-                canvasRendering: false,
-                //currentModel: {},
-            }
         case "GET_MODEL_BY_ID_FULFILLED":
             return {
                 ...state,

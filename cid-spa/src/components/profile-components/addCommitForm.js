@@ -31,7 +31,6 @@ export default class AddCommit extends Component {
     handleErrors(type) {
         if (this.props.profile.error.response) {
             if (this.props.profile.error.response.data[type] !== undefined) {
-                console.log(this.props.profile.error.response.data[type])
                 return (
                     <Message attached="bottom" color="red">
                         {this.props.profile.error.response.data[type]}

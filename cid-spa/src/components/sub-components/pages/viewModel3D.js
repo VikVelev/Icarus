@@ -169,7 +169,6 @@ export default class ViewModel3D extends Component {
                                     Your model
                                 </Button> }
 
-
                                 <AddCommit trigger={
                                     <Button size="big" className="contribButton" color="green">
                                         <Icon name="plus"/>

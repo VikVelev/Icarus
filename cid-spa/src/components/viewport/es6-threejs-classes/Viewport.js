@@ -100,7 +100,7 @@ export default class Viewport {
         this.controls.maxDistance = 9;
         this.controls.maxPolarAngle = Math.PI;
 
-        document.addEventListener( 'mousedown', this.onDocumentMouseDown.bind(this), false );
+        //document.addEventListener( 'mousedown', this.onDocumentMouseDown.bind(this), false );
         document.addEventListener( 'touchstart', this.onDocumentTouchStart, false );
 
         let params = {
