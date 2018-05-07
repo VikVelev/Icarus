@@ -614,3 +614,33 @@ i.huge.icon {
 .ui.modal>.content {
     padding: 0 !important;
 }
+
+.limitReached{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.limitReached p {
+    text-align: center;
+    font-size: 1em;
+    margin: auto;
+    margin-top: 10px;    
+}
+
+.limitReached .limitHeader {
+    text-align: center;
+    font-size: 2em;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.dashboard {
+    margin: auto !important;
+    height: auto !important;
+    width: auto !important;
+    font-size: 5em !important;
+    margin-bottom: 20px !important;
+}
+

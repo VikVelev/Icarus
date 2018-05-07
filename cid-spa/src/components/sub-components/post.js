@@ -21,9 +21,15 @@ export default class Post extends Component {
         this.state = {
             rendering: false,
             inProfile: false,
+            edit: false,
+            editing: false,
+            edited: false,
+            deleted: false,
+            deleting: false,
             inDiff: false,
         }
-
+        //If I am not mistaken 2 months ago
+        //inProfile boolean indicates that if you are is in your profile, not all profiles.
         if(this.props.inProfile !== undefined) {
             this.state.inProfile = this.props.inProfile
         }
@@ -41,7 +47,8 @@ export default class Post extends Component {
                 return(
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
                         <Canvas3D modelPath={content.new_version} 
-                                  texturePath={content.new_textures}/>
+                                  texturePath={content.new_textures}
+                                  canvasId={this.props.id}/>
                     </Segment>
                 )
             } else {
@@ -60,7 +67,46 @@ export default class Post extends Component {
         this.setState({ rendering: !this.state.rendering })
     }
 
-    render(){
+    handleEdit() {
+        console.log("Entering edit mode")
+        this.setState({ edit: true })
+    }
+
+    submitEdit() {
+        this.setState({ editing: true })      
+        console.log("Submitting edit")
+    }
+
+    handleDelete() {
+        this.setState({ 
+            deleting: true, 
+            deleted: false, 
+        })
+        console.log("deleting")
+    }
+
+    callbackDelete() {
+        this.setState({ 
+            deleting: false, 
+            deleted: true, 
+        }) 
+        console.log("deleted")
+    }
+
+    callbackEdit() {
+        this.setState({ 
+            editing: false, 
+            edited: true, 
+            edit: false 
+        })         
+        console.log("edited")
+    }
+
+    editMode() {
+        console.log("Edit mode")
+    }
+
+    post(){
         this.date_posted = moment(this.props.date_posted).fromNow()
         let image = this.props.image
         if(!image) {
@@ -106,18 +152,34 @@ export default class Post extends Component {
                         </Item.Description>
                     </Item.Content>
                     { 
-                        !this.state.inProfile && (!this.state.inDiff || this.state.inProfile) ? 
+                        !this.state.inProfile && !this.state.inDiff ?
                             <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                                 <Dropdown.Menu>
-                                    <Dropdown.Header content='Version Control'/>                            
+                                    <Dropdown.Header content='Version Control'/>
                                     <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> Commit Chain </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown> 
-                        : null 
+                        : null
+                    }
+                    {
+                        this.state.inProfile ? 
+                        <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
+                            <Dropdown.Menu>
+                                <Dropdown.Header content='Manage'/>
+                                <Dropdown.Item onClick={this.handleEdit}> Edit </Dropdown.Item>                                
+                                <Dropdown.Item onClick={this.handleDelete}> Delete </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown> : null
                     }
                 </Item>
                 { !this.state.inProfile ? !this.state.inDiff ? this.mountCanvas() : null : null}
             </div>
+        )
+    }
+
+    render() {
+        return(
+            !this.state.deleted ? this.post() : null
         )
     }
 

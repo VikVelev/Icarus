@@ -1,8 +1,11 @@
 let defaultState = {
     currentPage: "",
     subPage: "",
-    canvasRendering: false,
     currentModel: {},
+    safeLimit: 3, //TOOD Implement a way to detect GPU and scale this accordingly
+    renderingModelsId: [],
+    stopSignal: false,
+    lastRemoved: {},
 }
 
 //const myStorage = window.localStorage
@@ -13,6 +16,25 @@ const pageManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 currentPage: action.payload
+            }
+        case "START_CANVAS":
+            let ma_id = action.payload.id
+            state.renderingModelsId.push(ma_id)
+            return {
+                ...state,               
+            }
+        case "STOP_CANVAS":
+            let mr_id = action.payload.id
+            state.renderingModelsId.splice(state.renderingModelsId.indexOf(mr_id), 1)
+
+            return {
+                ...state,            
+            }
+        case "STOP_SIGNAL": 
+            return {
+                ...state,
+                lastRemoved: action.payload,
+                stopSignal: true,
             }
         case "CHANGE_SUB_PAGE":
             return {
