@@ -6,6 +6,7 @@ import trendingManagement from './trendingManagement.js'
 import profileManagement from './profileManagement.js'
 import model3DManagement from './model3DManagement.js'
 import revisionManagement from './revisionManagement.js'
+import langManagement from './langManagement.js'
 //import reducer1, reducer2 here
 
 const cidReducers = combineReducers({
@@ -15,7 +16,8 @@ const cidReducers = combineReducers({
     trendingManagement,
     profileManagement,
     model3DManagement,
-    revisionManagement
+    revisionManagement,
+    langManagement
 })
 
 export default cidReducers

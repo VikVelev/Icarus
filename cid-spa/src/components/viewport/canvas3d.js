@@ -247,7 +247,10 @@ export default class Canvas3D extends Component {
                     <div className={"limitReached id" + this.canvasId}>
                         <Icon name="dashboard"/>
                         <p className="limitHeader"> Safe rendering limit for the current device reached.</p>
-                        <p> If you want, you can close and reopen this.<br/>It is prefferable that you close the viewports manually after you finish looking at it.</p>                
+                        <p> If you want, you can close and reopen this, but this will close the next chronologically opened renderer.<br/>
+                        It is prefferable that you close the viewports manually after you finish looking at it.<br/>
+                        That is to avoid any performance hits using the website.
+                        </p>          
                     </div>
                 )
             }

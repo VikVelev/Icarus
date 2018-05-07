@@ -12,34 +12,51 @@ import { changePages } from '../../../actions/pageActions.js'
 import Canvas3D from './../../viewport/canvas3d.js'
 import { connect } from 'react-redux';
 
-const HomepageHeading = ({ mobile }) => (
-	<Container text>
+import lang from '../../../lang.js'
 
-		<Header as='h1' content='CiD' inverted
-			style={{
-				fontSize: mobile ? '2em' : '4em',
-				fontWeight: 'normal',
-				marginBottom: 0,
-				marginTop: mobile ? '1.5em' : '3em',
-				zIndex: 100,
-			}}
-		/>
+@connect((store) => {
+	return{
+		lang: store.langManagement,
+	}
+})
+class HomepageHeading extends Component {
+	constructor(props){
+		super(props)
+		this.mobile = props.mobile
+	}
 
-		<Header as='h2' content='Collaboration in 3D Design made easier.' inverted
-			style={{
-				fontSize: mobile ? '1.5em' : '1.7em',
-				fontWeight: 'normal',
-				marginTop: mobile ? '0.5em' : '1.5em',
-			}}
-		/>
+	render(){
+		return(
+			<Container text>
 
-		<Button as={ Link } to="login" primary size='huge'>
-			Get Started
-			<Icon name='right arrow' />
-		</Button>
+			<Header as='h1' content='CiD' inverted
+				style={{
+					fontSize: this.mobile ? '2em' : '4em',
+					fontWeight: 'normal',
+					marginBottom: 0,
+					marginTop: this.mobile ? '1.5em' : '3em',
+					zIndex: 100,
+				}}
+			/>
 
-  	</Container>
-)
+			<Header as='h2' content='Collaboration in 3D Design made easier.' inverted
+				style={{
+					fontSize: this.mobile ? '1.5em' : '1.7em',
+					fontWeight: 'normal',
+					marginTop: this.mobile ? '0.5em' : '1.5em',
+				}}
+			/>
+
+			<Button as={ Link } to="login" primary size='huge'>
+				Get Started
+				<Icon name='right arrow' />
+			</Button>
+
+			</Container>
+		)
+	}
+	
+}
 
 HomepageHeading.propTypes = {
 	mobile: PropTypes.bool,
@@ -48,6 +65,7 @@ HomepageHeading.propTypes = {
 @connect((store) => {
 	return{
 		page: store.pageManagement,
+		lang: store.langManagement,
 	}
 })
 class DesktopContainer extends Component {
@@ -81,7 +99,7 @@ class DesktopContainer extends Component {
 
 						<Container>
 
-							<Menu.Item as='a'>Home</Menu.Item>
+							<Menu.Item as='a'>{lang[this.props.lang.lang].n_Home}</Menu.Item>
 							<Menu.Item as='a' href="#demo_header">Demo</Menu.Item>
 							<Menu.Item position='right'>
 
@@ -116,11 +134,7 @@ DesktopContainer.propTypes = {
 	children: PropTypes.node,
 }
 
-@connect((store) => {
-	return{
-		page: store.pageManagement,
-	}
-})
+
 class MobileContainer extends Component {
 	state = {}
 
@@ -162,103 +176,111 @@ const ResponsiveContainer = ({ children }) => (
 ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
+@connect((store) => {
+	return{
+		lang: store.langManagement,
+	}
+})
+class HomepageLayout extends Component {
+	render() {
+		return(
+			<ResponsiveContainer>
+				<Segment style={{ padding: '8em 0em' }} vertical>
+					<Grid container stackable verticalAlign='middle'>
+						<Grid.Row>
 
-const HomepageLayout = () => (
-  <ResponsiveContainer>
-	<Segment style={{ padding: '8em 0em' }} vertical>
-	  	<Grid container stackable verticalAlign='middle'>
-			<Grid.Row>
+							<Grid.Column width={8}>
+								<Header as='h3' style={{ fontSize: '2em' }}>Keep in track of your changes</Header>
+								<p style={{ fontSize: '1.33em' }}>
+									Be able to keep track of every change made to every model with the provided version control system.
+									One of the first dedicated specifically to the 3D industry.					
+								</p>
 
-				<Grid.Column width={8}>
-					<Header as='h3' style={{ fontSize: '2em' }}>Keep in track of your changes</Header>
-					<p style={{ fontSize: '1.33em' }}>
-						Be able to keep track of every change made to every model with the provided version control system.
-						One of the first dedicated specifically to the 3D industry.					
-					</p>
+								<Header as='h3' style={{ fontSize: '2em' }}>Accessible and fast</Header>
+								<p style={{ fontSize: '1.33em' }}>
+									Providing fast, reliable and responsive viewport for viewing your 3D models in the web, on the go from your phone or anywhere you want.
+								</p>
+							</Grid.Column>
 
-					<Header as='h3' style={{ fontSize: '2em' }}>Accessible and fast</Header>
-					<p style={{ fontSize: '1.33em' }}>
-						Providing fast, reliable and responsive viewport for viewing your 3D models in the web, on the go from your phone or anywhere you want.
-					</p>
-				</Grid.Column>
+							<Grid.Column floated='right' width={6}>
+								<Image rounded
+								size='large'
+								src='/img/trex.png'
+								/>
+							</Grid.Column>
 
-				<Grid.Column floated='right' width={6}>
-					<Image rounded
-					size='large'
-					src='/img/trex.png'
-					/>
-				</Grid.Column>
+						</Grid.Row>
+					</Grid>
+				</Segment>
 
-			</Grid.Row>
-	 	</Grid>
-	</Segment>
+				<Segment style={{ padding: '0em' }} vertical>
+					<Grid celled='internally' columns='equal' stackable>
+						<Grid.Row textAlign='center'>
 
-	<Segment style={{ padding: '0em' }} vertical>
-		<Grid celled='internally' columns='equal' stackable>
-			<Grid.Row textAlign='center'>
+							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+								<Header as='h3' style={{ fontSize: '2em' }}>"MyProject000001a.obj"</Header>
+								<p style={{ fontSize: '1.33em' }}>We've experienced it too.</p>
+							</Grid.Column>
 
-		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-					<Header as='h3' style={{ fontSize: '2em' }}>"MyProject000001a.obj"</Header>
-					<p style={{ fontSize: '1.33em' }}>We've experienced it too.</p>
-		  		</Grid.Column>
+							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
 
-		  		<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+								<Header as='h3' style={{ fontSize: '2em' }}>"This is what I needed."</Header>
+								
+								<p style={{ fontSize: '1.33em' }}>
+									<b>CGMEETUP</b>
+								</p>
 
-					<Header as='h3' style={{ fontSize: '2em' }}>"This is what I needed."</Header>
-					
-					<p style={{ fontSize: '1.33em' }}>
-						<b>CGMEETUP</b>
-					</p>
+							</Grid.Column>
 
-		  		</Grid.Column>
+						</Grid.Row>
+					</Grid>
+				</Segment>
+				
 
-			</Grid.Row>
-	  	</Grid>
-	</Segment>
-	
+				<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
+				
+				<Segment style={{ height: "600px"}} vertical id="demo">
+					<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
+						<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
+					</Visibility>
+				</Segment>
+				
+				<Grid centered style={{padding: '2em'}}>
+				<Segment style={{ padding: '8em' }} vertical>
+					<Button id="get_started" as={ Link } to="login" primary size='huge'>
+						Get Started
+						<Icon name='right arrow' />
+					</Button>
+				</Segment>
+				</Grid>
 
-	<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
-	
-	<Segment style={{ height: "600px"}} vertical id="demo">
-		<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
-			<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
-		</Visibility>
-	</Segment>
-	
-	<Grid centered style={{padding: '2em'}}>
-	<Segment style={{ padding: '8em' }} vertical>
-		<Button id="get_started" as={ Link } to="login" primary size='huge'>
-			Get Started
-			<Icon name='right arrow' />
-		</Button>
-	</Segment>
-	</Grid>
+				<Responsive>
+						<Segment inverted vertical style={{ padding: '5em 0em' }}>
+								<Container>
+									<Grid divided inverted stackable>
+										<Grid.Row>
 
-	<Responsive>
-            <Segment inverted vertical style={{ padding: '5em 0em' }}>
-                    <Container>
-                        <Grid divided inverted stackable>
-                            <Grid.Row>
+											<Grid.Column width={3}>
+												<Header inverted as='h4' content='About' />
+												<List link inverted>
+													<List.Item as='a'>Sitemap</List.Item>
+													<List.Item as='a'>Contact Us</List.Item>
+												</List>
+											</Grid.Column>
 
-                                <Grid.Column width={3}>
-                                    <Header inverted as='h4' content='About' />
-                                    <List link inverted>
-                                        <List.Item as='a'>Sitemap</List.Item>
-                                        <List.Item as='a'>Contact Us</List.Item>
-                                    </List>
-                                </Grid.Column>
+											<Grid.Column width={7}>
+												<Header as='h4' inverted>CiD</Header>
+												<p>{lang["bg"].heroText}</p>
+											</Grid.Column>
 
-                                <Grid.Column width={7}>
-                                    <Header as='h4' inverted>CiD</Header>
-                                    <p>CiD - 3D Collaboration Made Easier.</p>
-                                </Grid.Column>
-
-                            </Grid.Row>
-                        </Grid>
-                    </Container>
-                </Segment>
-            </Responsive>
-  </ResponsiveContainer>
-)
+										</Grid.Row>
+									</Grid>
+								</Container>
+							</Segment>
+						</Responsive>
+			</ResponsiveContainer>
+		)
+	}
+}
 
 export default HomepageLayout
