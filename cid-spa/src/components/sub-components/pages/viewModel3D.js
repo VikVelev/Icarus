@@ -155,7 +155,7 @@ export default class ViewModel3D extends Component {
                             <div>
                                 <Header size="huge">{model.title}</Header>
                                 <Header size="small">{text.uploadedBy} <Link to={"/profile/" + model.owners[0].id}>{model.owners[0].username}</Link></Header>                 
-                                <Header style={{ marginTop: 0 }} size="tiny">{model.viewcount} {text.views}</Header>                            
+                                <Header style={{ marginTop: 0 }} size="tiny">{model.viewcount}{" "}{text.views}</Header>                            
                             </div>
                             <div className="intButtons">
                                 {/* Debugging purposes ===, should be !== otherwise */}

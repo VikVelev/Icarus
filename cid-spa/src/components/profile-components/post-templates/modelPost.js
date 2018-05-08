@@ -116,7 +116,7 @@ export default class ModelPost extends Component {
                                             href={commitsLength !== 0 ? this.props.commits[0].new_textures : "#"}
                                             download={this.props.title} > {text.menu.downloadTex}
                             </Dropdown.Item>
-                            <Dropdown.Item disabled> text.menu.addOwner </Dropdown.Item>                                                                                        
+                            <Dropdown.Item disabled> {text.menu.addOwner} </Dropdown.Item>                                                                                        
                             
                         </Dropdown.Menu>
                     </Dropdown>

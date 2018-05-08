@@ -5,10 +5,12 @@ import * as moment from 'moment'
 
 import { connect } from 'react-redux'
 import { addToCompare, removeFromCompare, DiffMode } from '../../actions/model3DActions' 
+import lang from '../../lang.js'
 
 @connect((store) => {
     return {
-        model3d: store.model3DManagement
+        model3d: store.model3DManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class CommitEntry extends Component {
@@ -111,7 +113,7 @@ export default class CommitEntry extends Component {
                     <Item.Content>
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
-                        <Item.Meta as='p'>Committed by: <Link to={"/profile/" + this.props.committed_by.id}>{this.props.committed_by.username}</Link></Item.Meta>                        
+                        <Item.Meta as='p'>{lang[this.props.lang].commit.committedBy} <Link to={"/profile/" + this.props.committed_by.id}>{this.props.committed_by.username}</Link></Item.Meta>                        
                         <Item.Meta as='p'>Version {this.props.version_number}</Item.Meta>
                     </Item.Content>
 

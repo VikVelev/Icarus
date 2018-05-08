@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Image, Dropdown } from 'semantic-ui-react'
+import { Menu, Image, Dropdown, Flag } from 'semantic-ui-react'
 
 import { Link, Redirect } from 'react-router-dom'
 //import Logout from './sub-components/logout.js'
@@ -24,15 +24,31 @@ export class Navbar extends Component {
 
     constructor(props) {
         super(props)
-        console.log(props.lang)
         props.dispatch(fetchAllUsers(props.manage.currentlyLoggedUser.username.token))
         props.dispatch(fetchAll3DModels(props.manage.currentlyLoggedUser.username.token))
+
+        this.state = {
+            value: this.props.lang,
+        }
     }
+
+    langOptions = [
+        { key: "bg", name: "bg", flag: "bg", value: "bg" },
+        { key: "en", name: "en", flag: "us", value: "en" },        
+    ]
 
     handleItemClick = (e, { name }) => this.props.dispatch(changePages(name))
     
     handleLogout() {
         this.props.dispatch(logout())
+    }
+
+    handleChange = (e, { value }) => {
+        this.setState({ value })
+        this.props.dispatch({
+            type: "CHANGE_LANG",
+            payload: value
+        })
     }
 
     handleProfile(text) {
@@ -46,7 +62,7 @@ export class Navbar extends Component {
                 </b>
             </span>
           )
-          console.log(this.props.currentPage)
+
           const options = [
             { key: 'user', name: 'profile', content: text.profile, as: Link, to:"/profile", text: 'Profile', icon: 'user', onClick: this.handleItemClick },
             { key: 'notifications', name: 'revisions', content: text.revisions, as: Link, to:"/revisions", text: 'Revisions', icon: 'tasks', onClick: this.handleItemClick },
@@ -77,7 +93,7 @@ export class Navbar extends Component {
                 size="large" 
                 color="blue" 
                 style={{ paddingLeft: '20%', paddingRight: '20%'}} 
-                stackable 
+                stackable
                 pointing
                 secondary>
 
@@ -119,6 +135,9 @@ export class Navbar extends Component {
 
                 <Menu.Menu position='right'>
                     {this.handleProfile(text)}
+                    <Menu.Item className="langSwitcher">
+                        <Dropdown compact icon={<Flag name={this.state.value === "en" ? "us" : "bg" }/>} value={this.state.value} selection onChange={this.handleChange} options={this.langOptions}/>
+                    </Menu.Item>
                 </Menu.Menu>
             </Menu>
         </div>
