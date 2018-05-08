@@ -23,66 +23,14 @@ export class Navbar extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            profile: false,
-            revisions: false,
-            settings: false,
-        }
-
         props.dispatch(fetchAllUsers(props.manage.currentlyLoggedUser.username.token))
         props.dispatch(fetchAll3DModels(props.manage.currentlyLoggedUser.username.token))
-
-        // fetch all users and all models
-        // TODO: try to optimize this
     }
 
     handleItemClick = (e, { name }) => this.props.dispatch(changePages(name))
-
-    handleProfileClick = (e) => {
-        this.setState({ profile: true })
-    }
-
-    handleSettingsClick = (e) => {
-        this.setState({ settings: true })
-    }
-
-    handleNotificationsClick = (e) => {
-        this.setState({ revisions: true })
-    }
     
     handleLogout() {
         this.props.dispatch(logout())
-    }
-
-    handleProfileCallback () {
-        //Warnings here because philosophy of React that I don't seem to grasp.
-        this.setState({ profile: false })
-        this.props.dispatch(changePages("profile"))
-
-        return (
-            <Redirect to="/profile"/>
-        )
-    }
-
-    handleSettingsCallback () {
-        //Warnings here because philosophy of React that I don't seem to grasp.
-        this.setState({ settings: false })
-
-        this.props.dispatch(changePages("profile/settings"))
-        
-        return (
-            <Redirect to="/profile/settings"/>
-        )
-    }
-
-    handleNotificationsCallback () {
-
-        this.setState({ revisions: false })
-        this.props.dispatch(changePages("revisions"))
-
-        return (
-            <Redirect to="/revisions"/>
-        )
     }
 
     handleProfile() {
@@ -94,19 +42,23 @@ export class Navbar extends Component {
                 </b>
             </span>
           )
-          
+          console.log(this.props.currentPage)
           const options = [
-            { key: 'user', text: 'Profile', icon: 'user', onClick: this.handleProfileClick },
-            { key: 'notifications', text: 'Revisions', icon: 'tasks', onClick: this.handleNotificationsClick },
-            { key: 'settings', text: 'Settings', icon: 'settings', onClick: this.handleSettingsClick },
-            { key: 'sign-out', text: 'Sign Out', icon: 'sign out', onClick: this.handleLogout.bind(this) },
+            { key: 'user', name: 'profile', as: Link, to:"/profile", text: 'Profile', icon: 'user', onClick: this.handleItemClick },
+            { key: 'notifications', name: 'revisions', as: Link, to:"/revisions", text: 'Revisions', icon: 'tasks', onClick: this.handleItemClick },
+            { key: 'create-post', name: 'create-post', as: Link, to:"/create-post", text: 'Create Post', icon: 'write', onClick: this.handleItemClick },
+            { key: 'create-model', name: 'create-model', as: Link, to:"/create-model", text: 'Create Model', icon: 'world', onClick: this.handleItemClick },                                
+            { key: 'settings', name: 'profile/settings', as: Link, to:"/profile/settings", text: 'Settings', icon: 'settings', onClick: this.handleItemClick },
+            { key: 'sign-out', name: 'sign-out', text: 'Sign Out', icon: 'sign out', onClick: this.handleLogout.bind(this) },
           ]     
         
         return (  
             <Menu.Item id="profileBadge" 
-                active={this.props.currentPage === "profile/settings" 
+                       active={this.props.currentPage === "profile/settings" 
                         || this.props.currentPage === "profile"
-                        || this.props.currentPage === "revisions" }>
+                        || this.props.currentPage === "revisions"
+                        || this.props.currentPage === "create-post"
+                        || this.props.currentPage === "create-model" }>
                 <Dropdown trigger={trigger} pointing options={options} />
             </Menu.Item>
         )
@@ -141,21 +93,7 @@ export class Navbar extends Component {
                     active={this.props.currentPage === 'trending'} 
                     onClick={this.handleItemClick} />
 
-                <Menu.Item 
-                    as={Link} 
-                    to="/create-post"
-                    icon="write"
-                    name='create-post'
-                    active={this.props.currentPage === 'create-post'} 
-                    onClick={this.handleItemClick}/>
-                
-                <Menu.Item 
-                    as={Link} 
-                    to="/create-model"
-                    icon="world"
-                    name='create-model'
-                    active={this.props.currentPage === 'create-model'} 
-                    onClick={this.handleItemClick}/>
+
                 
                 { 
                     (this.props.manage.allUsers.length > 0 || this.props.profile.allModels.length > 0) 
@@ -175,11 +113,6 @@ export class Navbar extends Component {
                     {this.handleProfile()}
                 </Menu.Menu>
             </Menu>
-
-            { this.state.profile ? this.handleProfileCallback() : null }
-            { this.state.settings ? this.handleSettingsCallback() : null }
-            { this.state.revisions ? this.handleNotificationsCallback() : null }                   
-
         </div>
         )
     }

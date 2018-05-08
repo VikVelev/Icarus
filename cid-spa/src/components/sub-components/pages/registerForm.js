@@ -105,13 +105,13 @@ class RegisterForm extends Component {
                                     type='password'
                                 />
                                 {this.handleErrors("password_confirm")}                                 
-                                <Form.Field>
+                                {/* <Form.Field>
                                     <Checkbox 
                                         toggle={this.state.agreed} 
                                         name="agreed" 
                                         onChange={this.handleChange} 
                                         label={<label> I agree to the <a href="/terms">terms and conditions</a>.</label>} />
-                                </Form.Field>
+                                </Form.Field> */}
                                 <Button type='submit 'color='blue' fluid size='large'>Sign up</Button>
                             </Segment>
                             { this.props.user.redirecting ? <Redirect to="/login#successful"/> : null }

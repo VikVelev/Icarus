@@ -421,7 +421,13 @@ div.selected.item[role="option"]{
 }
 
 .ui.search {
-    font-size: 0.85em !important;
+    font-size: 1em !important;
+}
+
+.search.icon {
+    font-size: 1em;
+    padding-top: 0.7em !important;
+    margin-top: 0;
 }
 
 .revisionItem {

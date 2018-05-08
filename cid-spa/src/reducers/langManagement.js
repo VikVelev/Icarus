@@ -1,5 +1,5 @@
 let defaultState = {
-    lang: "bg"
+    lang: "en"
 }
 
 const langManagement = (state=defaultState, action) => {

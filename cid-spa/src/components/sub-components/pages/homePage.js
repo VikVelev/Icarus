@@ -16,7 +16,7 @@ import lang from '../../../lang.js'
 
 @connect((store) => {
 	return{
-		lang: store.langManagement,
+		lang: store.langManagement.lang,
 	}
 })
 class HomepageHeading extends Component {
@@ -26,6 +26,7 @@ class HomepageHeading extends Component {
 	}
 
 	render(){
+		let text = lang[this.props.lang].homePage
 		return(
 			<Container text>
 
@@ -39,7 +40,7 @@ class HomepageHeading extends Component {
 				}}
 			/>
 
-			<Header as='h2' content='Collaboration in 3D Design made easier.' inverted
+			<Header as='h2' content={text.heroText} inverted
 				style={{
 					fontSize: this.mobile ? '1.5em' : '1.7em',
 					fontWeight: 'normal',
@@ -48,7 +49,7 @@ class HomepageHeading extends Component {
 			/>
 
 			<Button as={ Link } to="login" primary size='huge'>
-				Get Started
+				{text.b_hero}
 				<Icon name='right arrow' />
 			</Button>
 
@@ -65,7 +66,7 @@ HomepageHeading.propTypes = {
 @connect((store) => {
 	return{
 		page: store.pageManagement,
-		lang: store.langManagement,
+		lang: store.langManagement.lang,
 	}
 })
 class DesktopContainer extends Component {
@@ -80,6 +81,9 @@ class DesktopContainer extends Component {
 	}
 
 	render() {
+
+		let text = lang[this.props.lang].homePage
+		
 		const { children } = this.props
 		const { fixed } = this.state
 
@@ -99,15 +103,15 @@ class DesktopContainer extends Component {
 
 						<Container>
 
-							<Menu.Item as='a'>{lang[this.props.lang.lang].n_Home}</Menu.Item>
-							<Menu.Item as='a' href="#demo_header">Demo</Menu.Item>
+							<Menu.Item as='a'>{text.nav.Home}</Menu.Item>
+							<Menu.Item as='a' href="#demo_header">{text.nav.Demo}</Menu.Item>
 							<Menu.Item position='right'>
 
 								<Button as={Link}
 										to="/login"
 										name="login"										
 										inverted={!fixed}
-										>Log in</Button>
+										>{text.nav.b_LogIn}</Button>
 
 								<Button as={Link}
 										to="/register"
@@ -115,7 +119,7 @@ class DesktopContainer extends Component {
 										inverted={!fixed} 
 										primary={fixed} 									
 										style={{ marginLeft: '0.5em' }}
-										>Sign Up</Button>
+										>{text.nav.b_SignUp}</Button>
 
 							</Menu.Item>
 							
@@ -134,11 +138,17 @@ DesktopContainer.propTypes = {
 	children: PropTypes.node,
 }
 
-
+@connect((store) => {
+	return{
+		lang: store.langManagement.lang,
+	}
+})
 class MobileContainer extends Component {
 	state = {}
-
+	
 	render() {
+		let text = lang[this.props.lang].homePage		
+
 		const { children } = this.props
 		return (
 		<Responsive {...Responsive.onlyMobile} minWidth={0}>
@@ -147,8 +157,8 @@ class MobileContainer extends Component {
 				<Container>
 					<Menu inverted pointing secondary size='large'>
 						<Menu.Item position='right'>
-							<Button as={Link} to="/login" inverted>Log in</Button>
-							<Button as={Link} to="/register" inverted style={{ marginLeft: '0.5em' }}>Sign Up</Button>
+							<Button as={Link} to="/login" inverted>{text.nav.b_LogIn}</Button>
+							<Button as={Link} to="/register" inverted style={{ marginLeft: '0.5em' }}>{text.nav.b_SignUp}</Button>
 						</Menu.Item>
 
 					</Menu>
@@ -178,11 +188,13 @@ ResponsiveContainer.propTypes = {
 }
 @connect((store) => {
 	return{
-		lang: store.langManagement,
+		lang: store.langManagement.lang,
 	}
 })
 class HomepageLayout extends Component {
 	render() {
+		let text = lang[this.props.lang].homePage
+
 		return(
 			<ResponsiveContainer>
 				<Segment style={{ padding: '8em 0em' }} vertical>
@@ -190,15 +202,14 @@ class HomepageLayout extends Component {
 						<Grid.Row>
 
 							<Grid.Column width={8}>
-								<Header as='h3' style={{ fontSize: '2em' }}>Keep in track of your changes</Header>
+								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_keepTrack.title}</Header>
 								<p style={{ fontSize: '1.33em' }}>
-									Be able to keep track of every change made to every model with the provided version control system.
-									One of the first dedicated specifically to the 3D industry.					
+									{text.s_keepTrack.content}				
 								</p>
 
-								<Header as='h3' style={{ fontSize: '2em' }}>Accessible and fast</Header>
+								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_accessible.title}</Header>
 								<p style={{ fontSize: '1.33em' }}>
-									Providing fast, reliable and responsive viewport for viewing your 3D models in the web, on the go from your phone or anywhere you want.
+									{text.s_accessible.content}
 								</p>
 							</Grid.Column>
 
@@ -218,16 +229,16 @@ class HomepageLayout extends Component {
 						<Grid.Row textAlign='center'>
 
 							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-								<Header as='h3' style={{ fontSize: '2em' }}>"MyProject000001a.obj"</Header>
-								<p style={{ fontSize: '1.33em' }}>We've experienced it too.</p>
+								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_objRating.first}</Header>
+								<p style={{ fontSize: '1.33em' }}>{text.s_objRating.second}</p>
 							</Grid.Column>
 
 							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
 
-								<Header as='h3' style={{ fontSize: '2em' }}>"This is what I needed."</Header>
+								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_clientRating.first}</Header>
 								
 								<p style={{ fontSize: '1.33em' }}>
-									<b>CGMEETUP</b>
+									<b>{text.s_clientRating.second}</b>
 								</p>
 
 							</Grid.Column>
@@ -237,7 +248,7 @@ class HomepageLayout extends Component {
 				</Segment>
 				
 
-				<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>Test it yourself </Header>
+				<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>{text.demoText}</Header>
 				
 				<Segment style={{ height: "600px"}} vertical id="demo">
 					<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
@@ -248,7 +259,7 @@ class HomepageLayout extends Component {
 				<Grid centered style={{padding: '2em'}}>
 				<Segment style={{ padding: '8em' }} vertical>
 					<Button id="get_started" as={ Link } to="login" primary size='huge'>
-						Get Started
+						{text.b_hero}
 						<Icon name='right arrow' />
 					</Button>
 				</Segment>
@@ -261,16 +272,16 @@ class HomepageLayout extends Component {
 										<Grid.Row>
 
 											<Grid.Column width={3}>
-												<Header inverted as='h4' content='About' />
+												<Header inverted as='h4' content={text.footer.about} />
 												<List link inverted>
-													<List.Item as='a'>Sitemap</List.Item>
-													<List.Item as='a'>Contact Us</List.Item>
+													<List.Item as='a'>{text.footer.sitemap}</List.Item>
+													<List.Item as='a'>{text.footer.contact}</List.Item>
 												</List>
 											</Grid.Column>
 
 											<Grid.Column width={7}>
 												<Header as='h4' inverted>CiD</Header>
-												<p>{lang["bg"].heroText}</p>
+												<p>{text.heroText}</p>
 											</Grid.Column>
 
 										</Grid.Row>
