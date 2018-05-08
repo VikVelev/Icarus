@@ -29,11 +29,11 @@ const lang = {
             b_hero: "Към платформата",
             s_keepTrack: {
                 title: "Следете всяка промяна по проекта си", 
-                content: "Be able to keep track of every change made to every model with the provided version control system. One of the first dedicated specifically to the 3D industry."
+                content: "Възможност да следите и менажирате проектите си с имплементираната система за контрол на версиите. Една от първите направени специфично за индустрията."
             }, 
             s_accessible: {
                 title: "Бързо и достъпно", 
-                content: "Providing fast, reliable and responsive viewport for viewing your 3D models in the web, on the go from your phone or anywhere you want."
+                content: "Предоставя бърз и надежден вюпорт, за разглеждане на 3D моделите и разликите им в браузъра. През телефон, таблет или каквото и да е устройство."
             },
             heroText: "По-лесна и приятна колаборация в 3D дизайна",
             s_objRating: {
@@ -84,7 +84,7 @@ const lang = {
         },
         model: {
             createdBy: "Направен от",
-            noCommitsInfo: "No commits available. You can add one by clicking the three dots on the right.",
+            noCommitsInfo: "Няма добавен модел. Можете да добавите модел от трите точки вдясно",
             menu: {
                 manage: "Менежиране",
                 edit: "Редактиране",
@@ -148,7 +148,7 @@ const lang = {
             contrib: {
                 activity: "Дейност",
                 commitsChart: "commits",
-                nothing: "You haven't done anything. You can add a commit from the model menu (the three dots sitting next to each model in your 3D Models tab)."
+                nothing: "Не е направено нищо все още. Можете да добавите промяна към своя модел от трите точки отдясно, или на всеки друг модел през страницата му."
             }
         },
         profileSettings: {
