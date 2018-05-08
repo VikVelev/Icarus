@@ -7,12 +7,13 @@ import { Link } from 'react-router-dom'
 import Canvas3D from '../viewport/canvas3d.js'
 //import { getModelbyID } from '../../actions/profileActions.js';
 import { connect } from 'react-redux';
-
+import lang from '../../lang.js'
 @connect((store) => {
     return {
         profile: store.profileManagement,
         page: store.pageManagement,
         user: store.userManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class Post extends Component {
@@ -41,7 +42,7 @@ export default class Post extends Component {
 
     mountCanvas = () => {
         let content = this.props.content.commits[0]
-        console.log()
+
         if (this.state.rendering){
             if(this.props.page.currentModel !== undefined && content !== undefined){
                 return(
@@ -108,10 +109,14 @@ export default class Post extends Component {
 
     post(){
         this.date_posted = moment(this.props.date_posted).fromNow()
+        let text = lang[this.props.lang].post
+
         let image = this.props.image
+
         if(!image) {
             image = "/img/default_post.png"
         }
+
         return(
             <div className="postWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
@@ -137,7 +142,7 @@ export default class Post extends Component {
                         </Item.Header>
                         { 
                             !this.state.inProfile ? 
-                                <Item.Meta>Posted by{" "}
+                                <Item.Meta>{text.postedBy + " "}
                                     {
                                         <Link to={"/profile/" + this.props.posted_by.id}>
                                             {this.props.posted_by.username}
@@ -155,8 +160,8 @@ export default class Post extends Component {
                         !this.state.inProfile && !this.state.inDiff ?
                             <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                                 <Dropdown.Menu>
-                                    <Dropdown.Header content='Version Control'/>
-                                    <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> Commit Chain </Dropdown.Item>
+                                    <Dropdown.Header content={text.menu.versionControl}/>
+                                    <Dropdown.Item as={Link} to={"model/" + this.props.content.id}> {text.menu.commits} </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown> 
                         : null
@@ -166,8 +171,8 @@ export default class Post extends Component {
                         <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                             <Dropdown.Menu>
                                 <Dropdown.Header content='Manage'/>
-                                <Dropdown.Item onClick={this.handleEdit}> Edit </Dropdown.Item>                                
-                                <Dropdown.Item onClick={this.handleDelete}> Delete </Dropdown.Item>
+                                <Dropdown.Item onClick={this.handleEdit}> {text.menu.edit} </Dropdown.Item>                                
+                                <Dropdown.Item onClick={this.handleDelete}> {text.menu.delete} </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown> : null
                     }

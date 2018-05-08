@@ -267,7 +267,7 @@ input[type="file"] {
 }
 
 .ui.modal.transition.visible.active {
-    margin-top: 5% !important;
+    margin-top: 25px !important;
     margin: auto;
     height: auto;
 }

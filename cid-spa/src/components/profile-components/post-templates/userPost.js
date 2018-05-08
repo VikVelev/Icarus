@@ -6,8 +6,15 @@ import * as moment from 'moment'
 import AddCommit from '../addCommitForm.js'
 import Canvas3D from '../../viewport/canvas3d.js'
 import DeleteModal from '../deleteModal.js' 
+import lang from '../../../lang.js'
 
+import { connect } from 'react-redux'
 
+@connect((store)=>{
+    return {
+        lang: store.langManagement.lang,
+    }
+})
 export default class UserPost extends Component {
     constructor(props){
         super(props)
@@ -52,7 +59,7 @@ export default class UserPost extends Component {
 
     render(){
         this.date_uploaded = moment(this.props.date_uploaded).fromNow()
-        
+        let text = lang[this.props.lang].post
         return(
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
@@ -63,15 +70,15 @@ export default class UserPost extends Component {
 
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
-                            <Dropdown.Header content='Manage'/>
+                            <Dropdown.Header content={text.menu.manage}/>
                             {/* <Dropdown.Item disabled={this.props.commits.length === 0 ? true : false} as={Link} to={"model/" + this.props.id}> View </Dropdown.Item>                             */}
-                            <Dropdown.Item disabled> Edit </Dropdown.Item>
-                            <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeletePost.bind(this)}> Delete </Dropdown.Item>} id={this.state.modelID}/>                             
+                            <Dropdown.Item disabled> {text.menu.edit} </Dropdown.Item>
+                            <DeleteModal trigger={<Dropdown.Item name={this.props.id} onClick={this.handleDeletePost.bind(this)}> {text.menu.delete} </Dropdown.Item>} id={this.state.modelID}/>                             
                             <Dropdown.Header content='Version Control'/>
-                            <Dropdown.Item disabled> View Model </Dropdown.Item>                            
+                            <Dropdown.Item disabled> {text.menu.versionControl} </Dropdown.Item>                            
                             {/* <AddCommit trigger={<Dropdown.Item name={this.props.id} onClick={this.handleAddCommit.bind(this)}> Add Commit </Dropdown.Item>} id={this.state.modelID}/>  */}
-                            <Dropdown.Item disabled> Add Owner </Dropdown.Item>
-                            <Dropdown.Item disabled> Commit Chain </Dropdown.Item>                                                                 
+                            <Dropdown.Item disabled> {text.menu.addOwner} </Dropdown.Item>
+                            <Dropdown.Item disabled> {text.menu.commits} </Dropdown.Item>                                                                 
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>

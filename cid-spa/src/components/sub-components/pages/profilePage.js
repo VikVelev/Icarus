@@ -12,20 +12,21 @@ import { fetchUserData } from '../../../actions/profileActions.js'
 import { connect } from 'react-redux';
 
 import Loading from 'react-loading-animation'
-
+import lang from '../../../lang.js'
 @connect((store) => {
     return {
         user: store.userManagement,
         profile: store.profileManagement,
         page: store.pageManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class Profile extends Component {
 
     panes = [
-        { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
-        { menuItem: 'Contributions', render: () => <Tab.Pane><Contributions/></Tab.Pane> },
-        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts inProfile={true}/></Tab.Pane> },
+        { menuItem: lang[this.props.lang].profilePage.models_t, render: () => <Tab.Pane><ProfileModelsFeed/></Tab.Pane> },
+        { menuItem: lang[this.props.lang].profilePage.contrib_t, render: () => <Tab.Pane><Contributions/></Tab.Pane> },
+        { menuItem: lang[this.props.lang].profilePage.posts_t, render: () => <Tab.Pane><ProfilePosts inProfile={true}/></Tab.Pane> },
         // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
     ]
 
@@ -68,13 +69,17 @@ export default class Profile extends Component {
                             </div>
                             <div className="profileDetails">
                                 <Header size="huge">{this.props.profile.userData.username}</Header>
-                                <Header size="medium">{this.props.profile.userData.first_name} {this.props.profile.userData.last_name ? this.props.profile.userData.last_name + "," : null} {this.props.profile.userData.profile.country}</Header>                   
+                                <Header size="medium">
+                                    {this.props.profile.userData.first_name}{" "}
+                                    {this.props.profile.userData.last_name ? this.props.profile.userData.last_name + "," : null}{" "}
+                                    {this.props.profile.userData.profile.country}
+                                </Header>
                                 <p>{this.props.profile.userData.profile.description}</p>
                                 {
                                     this.props.profile.userData.profile.software !== null ?
-                                        <p>{"Using " + this.props.profile.userData.profile.software}</p> :
+                                        <p>{lang[this.props.lang].profilePage.using + " " + this.props.profile.userData.profile.software}</p> :
                                     null
-                                }                                                            
+                                }
                             </div>
                         </Segment>
                         <div className="settings_button" onClick={this.renderSettings.bind(this)}>

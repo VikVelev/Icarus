@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { addPost, fetchAll3DModels } from '../../../actions/profileActions.js'
 
 import Loading from 'react-loading-animation'
+import lang from '../../../lang.js'
 
 @connect((store) => {
     return {
         user: store.userManagement,
-        profile: store.profileManagement
+        profile: store.profileManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class AddPost extends Component{
@@ -82,15 +84,16 @@ export default class AddPost extends Component{
     }
 
     render(){
+        let text = lang[this.props.lang].createPost
         return (
             <Segment className="addPostContainer profileSettingsForm">
-            <Header size="huge">Add post</Header>
+            <Header size="huge">{text.header}</Header>
                 <Form size='large' name="add_model" onSubmit={this.handleSubmit}>
                     <Segment stacked>
-                        <Header>Title:</Header>
+                        <Header>{text.title}:</Header>
                         
                         <Form.Input
-                            placeholder='Write a title'
+                            placeholder={text.title_p}
                             value={this.state.title}
                             onChange={this.handleChange}
                             error={this.handleErrors("title") ? true : false}
@@ -98,16 +101,16 @@ export default class AddPost extends Component{
                             name="title"
                         />
                         {this.handleErrors("title")}
-                        <Header>Select a 3D Model:</Header>                    
+                        <Header>{text.selectModel}:</Header>                    
                         
                         { this.props.profile.allModels[0] !== undefined ? 
-                            <ModelDropdown options={this.props.profile.allModels} sendValue={this.receiveValue.bind(this)}/> 
+                            <ModelDropdown text={text} options={this.props.profile.allModels} sendValue={this.receiveValue.bind(this)}/> 
                         : <Loading/> }
                         {this.handleErrors("content")}
 
-                        <Header>Select a thumbnail:</Header>                                                
+                        <Header>{text.selectImage}:</Header>                                                
                         <label htmlFor="file-upload" className="file-upload">
-                            Upload picture
+                            {text.b_selectImage}
                         </label>                
                         <label className="selected_model">
                             { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
@@ -116,7 +119,7 @@ export default class AddPost extends Component{
                         {this.handleErrors("image")}
 
 
-                        <Header>Description:</Header>  
+                        <Header>{text.desc}:</Header>  
 
                         <Form.Input 
                             type="text"
@@ -127,20 +130,20 @@ export default class AddPost extends Component{
                             id="description"
                             rows='5' 
                             cols='50' 
-                            placeholder="Write a description"/>
+                            placeholder={text.desc_p}/>
                     </Segment>
                     {this.handleErrors("description")}
                     
                     {
                         this.props.profile.fetching ? 
                             <Message info className="processing">
-                                <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
+                                <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>{text.processing}</p>
                             </Message> 
                         : null 
-                    }                       
-                    {this.props.profile.postFetched ? <Message color="green" > Successfully added a new post. </Message> : null }
+                    }
+                    {this.props.profile.postFetched ? <Message color="green" > {text.success} </Message> : null }
 
-                    <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Add post</Button>
+                    <Button className="submitButton" type='submit 'color='blue' fluid size='large'>{text.b_addPost}</Button>
                 </Form>
             </Segment>
         )
@@ -199,7 +202,7 @@ class ModelDropdown extends Component {
                 options={options}
                 value={value}
                 name='content'
-                placeholder='Select from a list of all available models'
+                placeholder={this.props.text.selectModel_p}
                 onChange={this.handleChange}
                 onSearchChange={this.handleSearchChange}
                 disabled={isFetching}

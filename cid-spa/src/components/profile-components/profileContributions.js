@@ -10,13 +10,14 @@ import ContribPost from './post-templates/contribPost.js'
 import { fetchContributions } from '../../actions/profileActions.js'
 import { changeSubpage } from '../../actions/pageActions.js'
 import { fetchMyRevisions } from '../../actions/revisionActions.js'
-
+import lang from '../../lang.js'
 
 @connect((store)=>{
     return {
         user: store.userManagement,
         profile: store.profileManagement,
         rev: store.revisionManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class ContributionsFeed extends Component {
@@ -62,7 +63,7 @@ export default class ContributionsFeed extends Component {
     }
 
     renderPost(object, i){
-        return (          
+        return (
             <Segment id={object.id} key={i} className="profile-post-container contribPost">
                 <ContribPost {...object}/>
             </Segment>
@@ -123,13 +124,13 @@ export default class ContributionsFeed extends Component {
         }
 
         //Gotta put some data processing in the backend
-        //Or implement a worker
+        //Or implement a worker (but I prefer synchronious stuff and the performance hit isn't that huge)
 
-        // if this is not rendered on a profile page, but on a mdoel page.
+        // if this is not rendered on a profile page, but on a model page.
         if (this.props.isChain === undefined) {
             return (
                 <div>
-                    <Header size="huge">Activity</Header>
+                    <Header size="huge">{lang[this.props.lang].profilePage.contrib.activity}</Header>
                     <div className="contribStatistics" style={{height: "300px", marginBottom: '50px'}}>
                         <ResponsiveContainer width='100%' height="100%">
                             <AreaChart data={this.data} syncId="anyId"
@@ -183,7 +184,7 @@ export default class ContributionsFeed extends Component {
                             this.commits.map((object, i) => this.renderPost(object,i))
                         : this.props.profile.models.length === 0 && this.props.profile.fetched ? //else if
                         <Message info >
-                            You haven't done anything. You can add a commit from the model menu (the three dots sitting next to each model in your 3D Models tab).
+                            {lang[this.props.lang].profilePage.contrib.nothing}
                         </Message> 
                         :
                         <Loading/> 

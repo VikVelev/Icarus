@@ -9,12 +9,14 @@ import Canvas3D from '../../viewport/canvas3d.js'
 import { connect } from 'react-redux';
 import { approveRevision, rejectRevision } from '../../../actions/revisionActions.js'
 import ReviewWindow from './reviewWindow.js'
+import lang from '../../../lang.js'
 @connect((store) => {
     return {
         profile: store.profileManagement,
         page: store.pageManagement,
         user: store.userManagement,
         rev: store.revisionManagement,
+        lang: store.langManagement.lang
     }
 })
 export default class RevisionItem extends Component {
@@ -96,28 +98,28 @@ export default class RevisionItem extends Component {
 
     renderPost() {
         this.date_posted = moment(this.props.date_posted).fromNow()
-        
+        let text = lang[this.props.lang].revisionItem
         return(
             <Segment className={"postWrapper " + this.props.status}>
                 <Item onClick={this.renderHandler.bind(this)}>               
                     <Item.Content className="revisionItem">
                         <Item.Group className="groupItem">
                         <Item.Header style={{ fontSize: '1.3em' }}>{this.props.title}</Item.Header>
-                        <Item.Meta>Posted by{" "}
+                        <Item.Meta>{text.postedBy}{" "}
                             {
                                 <Link to={"/profile/" + this.props.posted_by.id}>
                                     {this.props.posted_by.username}
                                 </Link>
                             }
                         </Item.Meta>
-                        <Item.Meta>Model:{" "}
+                        <Item.Meta>{text.model}:{" "}
                             {
                                 <Link to={"/model/" + this.props.model.id}>
                                     {this.props.model.title}
                                 </Link>
                             }
                         </Item.Meta>
-                        <Item.Meta as='p'>Status: {this.props.status}</Item.Meta>                        
+                        <Item.Meta as='p'>{text.status}: {this.props.status}</Item.Meta>                        
                         <Item.Meta as='p'>{this.date_posted}</Item.Meta>
                         <Item.Description>
                             <p>{this.props.commit_details}</p>

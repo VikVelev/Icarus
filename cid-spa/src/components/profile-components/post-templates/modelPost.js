@@ -9,10 +9,12 @@ import AddCommit from '../addCommitForm.js'
 import DeleteModal from '../deleteModal.js' 
 
 import { connect } from 'react-redux'
+import lang from '../../../lang.js'
 
 @connect((store) => {
     return {
-        profile: store.profileManagement
+        profile: store.profileManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class ModelPost extends Component {
@@ -66,6 +68,8 @@ export default class ModelPost extends Component {
 
     returnPost() {
         let commitsLength = this.props.commits.length
+        let text = lang[this.props.lang].model
+
         return(
             <Segment id={this.props.id} className="contribPost">
             <div className="profilePostWrapper">
@@ -77,48 +81,48 @@ export default class ModelPost extends Component {
                                 {this.props.title}
                             </Link>
                         </Item.Header>
-                        <Item.Meta as='p'>Created by {<a>{this.props.owners[0].username}</a>}</Item.Meta>
+                        <Item.Meta as='p'>{text.createdBy} {<a>{this.props.owners[0].username}</a>}</Item.Meta>
                         <Item.Meta as='p'>{this.date_uploaded}</Item.Meta>
                     </Item.Content>
 
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
-                            <Dropdown.Header content='Manage'/>
+                            <Dropdown.Header content={text.menu.manage}/>
                             <Dropdown.Divider/>                                                                     
-                            {!this.props.isUser ? <Dropdown.Item disabled> Edit </Dropdown.Item> : null }
+                            {!this.props.isUser ? <Dropdown.Item disabled> {text.menu.edit} </Dropdown.Item> : null }
                             {!this.props.isUser ?  <DeleteModal trigger={
                                 <Dropdown.Item  name={this.props.id} 
                                                 onClick={this.handleDeleteModel.bind(this)}> 
-                                    Delete 
+                                    {text.menu.delete}
                                 </Dropdown.Item>
                             } type="model" id={this.state.modelID}/> : null }
                             <Dropdown.Divider/>
-                            <Dropdown.Header content='Version Control'/>
+                            <Dropdown.Header content={text.menu.versionControl}/>
                             <Dropdown.Divider/>                            
-                            <Dropdown.Item disabled={commitsLength === 0} as={Link} to={"/model/" + this.props.id}> Commit chain </Dropdown.Item> 
+                            <Dropdown.Item disabled={commitsLength === 0} as={Link} to={"/model/" + this.props.id}> {text.menu.commits} </Dropdown.Item> 
                             <AddCommit trigger={
                                 <Dropdown.Item name={this.props.id} 
                                                onClick={this.handleAddCommit.bind(this)}> 
-                                    Add Commit 
+                                    {text.menu.addCommit}
                                 </Dropdown.Item>
                             } id={this.state.modelID}/>
                             <Dropdown.Item disabled={commitsLength === 0} 
                                             as="a" 
                                             href={commitsLength !== 0 ? this.props.commits[0].new_version : "#"} 
-                                            download={this.props.title} > Download mesh
+                                            download={this.props.title} > {text.menu.downloadMesh}
                             </Dropdown.Item>   
                             <Dropdown.Item disabled={commitsLength === 0} 
                                             as="a" 
-                                            href={commitsLength !== 0 ? this.props.commits[0].new_textures : "#"} 
-                                            download={this.props.title} > Download textures
-                            </Dropdown.Item>   
-                            <Dropdown.Item disabled> Add Owner </Dropdown.Item>                                                                                        
+                                            href={commitsLength !== 0 ? this.props.commits[0].new_textures : "#"}
+                                            download={this.props.title} > {text.menu.downloadTex}
+                            </Dropdown.Item>
+                            <Dropdown.Item disabled> text.menu.addOwner </Dropdown.Item>                                                                                        
                             
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>
-                    {this.state.deletingModel && this.props.profile.deletedModel ?  this.callbackDeleteModel() : null}
-                    {commitsLength > 0 ? this.mountCanvas() : this.state.rendering ? <Message info> No commits available. You can add one by clicking the three dots on the right. </Message> : null}
+                    { this.state.deletingModel && this.props.profile.deletedModel ?  this.callbackDeleteModel() : null }
+                    { commitsLength > 0 ? this.mountCanvas() : this.state.rendering ? <Message info> {text.noCommitsInfo} </Message> : null }
             </div>
             </Segment>
         )

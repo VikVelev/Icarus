@@ -12,26 +12,27 @@ import ErrorPage from './clientErrors.js'
 import { connect } from 'react-redux';
 
 import Loading from 'react-loading-animation'
+import lang from '../../../lang.js'
 
 @connect((store) => {
     return {
         user: store.userManagement,
         profile: store.profileManagement,
         page: store.pageManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class UserProfile extends Component {
 
     panes = [
-        { menuItem: '3D Models', render: () => <Tab.Pane><ProfileModelsFeed user id={this.props.id}/></Tab.Pane> },
-        { menuItem: 'Contributions', render: () => <Tab.Pane><ProfileContributions user id={this.props.id}/></Tab.Pane> },
-        { menuItem: 'Posts', render: () => <Tab.Pane><ProfilePosts user id={this.props.id}/></Tab.Pane> },
-        // { menuItem: 'Favorites', render: () => <Tab.Pane><ProfileFavorites/></Tab.Pane> },
+        { menuItem: lang[this.props.lang].profilePage.models_t, render: () => <Tab.Pane><ProfileModelsFeed user id={this.props.id}/></Tab.Pane> },
+        { menuItem: lang[this.props.lang].profilePage.contrib_t, render: () => <Tab.Pane><ProfileContributions user id={this.props.id}/></Tab.Pane> },
+        { menuItem: lang[this.props.lang].profilePage.posts_t, render: () => <Tab.Pane><ProfilePosts user id={this.props.id}/></Tab.Pane> },
     ]
 
     constructor(props){
         super(props)
-        // TODO FIX, this overwrites the current user data. Only I will get this. 
+        // TODO FIX, this overwrites the current user data. Only I will get this.
         // NOTE: I am 2 months from the future and I don't get this
         this.props.dispatch(
             fetchUserData(
@@ -42,13 +43,15 @@ export default class UserProfile extends Component {
     }
 
     renderProfileOnFetch(){
-        console.log(this.props.profile)
         if (Object.keys(this.props.profile.userData).length !== 0) {
             if (this.props.profile.userData.profile !== undefined ) {
+                let text = lang[this.props.lang].profilePage
                 let picture = this.props.profile.userData.profile.profile_picture
+                
                 if(picture === null) {
                     picture = "/img/default.png"
                 }
+
                 return(
                     <Segment color="blue">
                     <Segment className="userHeader">
@@ -66,7 +69,7 @@ export default class UserProfile extends Component {
                             <p>{this.props.profile.userData.profile.description}</p>
                                 {
                                     this.props.profile.userData.profile.software !== null ?
-                                        <p>{"Using " + this.props.profile.userData.profile.software}</p> :
+                                        <p>{text.using + " " + this.props.profile.userData.profile.software}</p> :
                                     null
                                 }  
                         </div>
