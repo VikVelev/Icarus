@@ -53,14 +53,15 @@ const lang = {
             password_p: "Password",
             b_LogIn: "Log in",
             footer: "Don't have an account?",
-            footerLink: "Sign up"
+            footerLink: "Sign up",
+            loginSuccess: "Your registration has been successful. You can now log in.",
         },
         registerPage: {
             title: "Create a new account",
             username_p: "Username",
             email_p: "E-mail",            
             password_p: "Password",
-            password2_p: "Password",
+            password2_p: "Confirm password",
             b_SignUp: "Sign up",
             footer: "Already have an account?",
             footerLink: "Log in"
@@ -68,12 +69,12 @@ const lang = {
         mainNavbar: {
             home: "Home",
             trending: "Trending",
-            createPost: "Create Post",
-            createModel: "Create Model",
             search_p: "Type to start searching...",
             user: {
                 profile: "Profile",
                 revisions: "Revisions",
+                createPost: "Create Post",
+                createModel: "Create Model",
                 settings: "Settings",
                 signOut: "Sign Out",                                
             }
@@ -259,12 +260,12 @@ const lang = {
         mainNavbar: {
             home: "Home",
             trending: "Trending",
-            createPost: "Create Post",
-            createModel: "Create Model",
             search_p: "Type to start searching...",
             user: {
                 profile: "Profile",
                 revisions: "Revisions",
+                createPost: "Create Post",
+                createModel: "Create Model",
                 settings: "Settings",
                 signOut: "Sign Out",                                
             }

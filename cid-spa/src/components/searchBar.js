@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
+import lang from '../lang.js'
+@connect((store) => {
+    return {
+        lang: store.langManagement.lang,
+    }
+})
 export default class SearchBar extends Component {
     
     constructor(props) {
@@ -100,7 +107,7 @@ export default class SearchBar extends Component {
                     options={this.state.options}
                     icon="search"
                     name='content'
-                    placeholder='Type to start searching...'
+                    placeholder={lang[this.props.lang].mainNavbar.search_p}
                     onChange={this.handleChange}
                     onSearchChange={this.handleSearchChange}
                     disabled={this.state.isFetching}

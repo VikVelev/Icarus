@@ -6,10 +6,12 @@ import { connect } from 'react-redux';
 import { login } from '../../../actions/userActions'
 import { changePages } from '../../../actions/pageActions';
 
+import lang from '../../../lang.js'
 @connect((store) => {
 	return {
 		page: store.pageManagement,
-		user: store.userManagement
+		user: store.userManagement,
+		lang: store.langManagement.lang,
 	}
 })
 export class LoginForm extends Component {
@@ -37,8 +39,8 @@ export class LoginForm extends Component {
 		this.props.dispatch(changePages(""))
 	}
 
-	registerSuccess(){
-		return <Message positive>Your registration has been successful. You can now log in.</Message>
+	registerSuccess(text){
+		return <Message positive>{text.loginSuccess}</Message>
 	}
 
 	handleError(type){
@@ -57,6 +59,8 @@ export class LoginForm extends Component {
 	}
 
 	render() {
+
+		let text = lang[this.props.lang].loginPage
 		return (
 			<div className='login-form'>
 				<Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
@@ -64,7 +68,7 @@ export class LoginForm extends Component {
 
 						<Header as='h2' color='blue' textAlign='center'>
 							<Image src='/img/logo.png' href="/"/>
-							{' '}Log into your account
+							{' ' + text.title}
 						</Header>
 
 						<Form size='large' onSubmit={this.handleSubmit}>
@@ -77,7 +81,7 @@ export class LoginForm extends Component {
 									value={this.state.username}
 									onChange={this.handleChange}
 									iconPosition='left'
-									placeholder='Username'
+									placeholder={text.username_p}
 								/>	
 
 								<Form.Input
@@ -88,7 +92,7 @@ export class LoginForm extends Component {
 									value={this.state.password}
 									onChange={this.handleChange}							
 									iconPosition='left'
-									placeholder='Password'
+									placeholder={text.password_p}
 									type='password'
 								/>
 
@@ -97,7 +101,7 @@ export class LoginForm extends Component {
 									type='submit' 
 									color='blue' 
 									fluid 
-									size='large'>Log in</Button>
+									size='large'>{text.b_LogIn}</Button>
 							</Segment>
 						</Form>
 						
@@ -105,9 +109,9 @@ export class LoginForm extends Component {
 						{ this.state.error ? this.handleError("non_field_errors") : null }					
 						{
 							this.props.page.currentPage === 'login#successful' ? 
-							this.registerSuccess() : 
+							this.registerSuccess(text) : 
 							<Message>
-								Don't have an account? <Link to="register">Sign up</Link>
+								{text.footer + " "}<Link to="register">{text.footerLink}</Link>
 							</Message> 
 						}
 					</Grid.Column>
