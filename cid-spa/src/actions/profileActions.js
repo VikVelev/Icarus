@@ -224,7 +224,7 @@ export function fetchUserPosts(id, token){
     }
 }
 
-export function deletePost(id, token, deleteId) {
+export function deletePost(deleteId,  token) {
     return function(dispatch) {
         dispatch({ type: "DELETE_POST" })
         let saxios = axios.create({
@@ -232,10 +232,28 @@ export function deletePost(id, token, deleteId) {
                 'Authorization': 'Token ' + token,
             },
         })
-        saxios.delete(url + "/api/posts/" + deleteId + "/").then((response) => {
+
+        saxios.delete(url + "/api/posts/" + deleteId).then((response) => {
             dispatch({ type: "DELETE_POST_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "DELETE_POST_REJECTED", payload: error })          
+        })
+    }
+}
+
+export function editPost(postId, postData, token){
+    return function(dispatch) {
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+        dispatch({ type: "EDIT_POST" })
+
+        saxios.patch(url + "/api/posts/" + postId, postData).then((response) => {
+            dispatch({ type: "EDIT_POST_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "EDIT_POST_REJECTED", payload: error })
         })
     }
 }

@@ -35,9 +35,8 @@ export default class DeleteModal extends Component {
 
             this.props.dispatch(
                 deletePost(
-                    this.props.user.currentlyLoggedUser.username.id,
+                    this.props.id,
                     this.props.user.currentlyLoggedUser.username.token,
-                    this.props.id
                 )
             )
         }
@@ -52,6 +51,7 @@ export default class DeleteModal extends Component {
     render() { 
         return(
             <Modal open={this.state.open} onOpen={this.handleTrigger.bind(this)} trigger={this.props.trigger} basic size='small' >
+                {/*TODO: Translate this line*/}
                 <Header icon='trash' content='Are you sure you want to delete this?' />
                 <Modal.Actions>
                     <Button color='green' inverted onClick={this.handleDelete.bind(this)}>

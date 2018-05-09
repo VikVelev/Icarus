@@ -663,9 +663,41 @@ i.huge.icon {
 
 .langSwitcher .ui.compact.selection .item {
     border: unset !important;
-} 
+}
 
 .langSwitcher .ui.dropdown {
     background-color: red;
     border: 0 !important;
+}
+
+.post {
+    height: auto !important;
+}
+
+.buttons {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0px !important;    
+}
+
+.editMode {
+    height: auto !important;
+}
+
+.stopEdit {
+    margin: auto !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;    
+    margin-right: 0px !important;
+}
+
+textarea {
+    border-color: #ddd !important;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.loading.stopEdit {
+    position: relative !important;
 }

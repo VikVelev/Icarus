@@ -27,9 +27,7 @@ export default class Feed extends Component {
 
     renderPost(object, i){
         return (     
-            <Segment  id={object.id} key={i} className="post-container">
-                <Post {...object}/>
-            </Segment>
+            <Post className="post-container" key={i} {...object}/>
         )
     }
 

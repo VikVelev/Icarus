@@ -5,7 +5,7 @@
 let defaultState = {}
 
 defaultState = {
-    userData: {},  // TODO api optimizations
+    userData: {},
     models: {},
     allModels: {},
     posts: {},
@@ -16,11 +16,14 @@ defaultState = {
     postFetched: false,
     commitFetched: false,
     deletedModel: false,
+    deletedPost: false,
     contributionsFetched: false,
     modelFetched: false,
     userDataSet: false,
     fetching: false,
     fetched: false,
+    editing: true,
+    edited: false,
 }
 
 const profileManagement = (state=defaultState, action) => {
@@ -29,7 +32,8 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_POST": case "DELETE_POST":
         case "ADD_MODEL": case "DELETE_MODEL":
         case "ADD_COMMIT": case "FETCH_USER_DATA":
-        case "FETCH_FAVORITES": case "FETCH_ALL_MODELS":// DO the same thing for all these cases
+        case "FETCH_FAVORITES": case "FETCH_ALL_MODELS":
+        case "EDIT_POST":// DO the same thing for all these cases
             return {
                 ...state,
                 error: {},
@@ -37,6 +41,7 @@ const profileManagement = (state=defaultState, action) => {
                 userDataSet: false,
                 commitFetched: false,
                 deletedModel: false,
+                edited: false,
                 commitError: {},
                 contributionsFetched: false,
                 modelFetched: false,
@@ -141,7 +146,7 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 error: action.payload,
-                fetching: false,  
+                fetching: false,
                 fetched: false,
             } 
         case "SET_USER_DATA_FULFILLED":
@@ -176,16 +181,39 @@ const profileManagement = (state=defaultState, action) => {
                 fetching: false,  
                 fetched: false,
             } 
+        case "EDIT_POST_FULFILLED":
+            return {
+                ...state,
+                edited: true,
+                fetched: true,
+                fetching: false,
+            }
+        case "EDIT_POST_REJECTED":
+            return {
+                ...state,
+                edited: false,
+                error: action.payload,
+                fetched: false,
+                fetching: false,
+            }
+        case "EDIT_REFRESH":
+            return {
+                ...state,
+                edited: false,
+                editing: false,
+            }
         case "DELETE_POST_FULFILLED":                                
             return {
                 ...state,
-                fetched: true,                
+                fetched: true,    
+                deletedPost: true,                            
                 fetching: false, 
             } 
         case "DELETE_POST_REJECTED":
             return {
                 ...state,
                 error: action.payload,
+                deletedPost: false,
                 fetched: false,
                 fetching: false, 
             } 
@@ -215,6 +243,8 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 deletedModel: false,
+                deletedPost: false,
+                deletedCommit: false,
             }
         case "DELETE_MODEL_REJECTED":
             return {

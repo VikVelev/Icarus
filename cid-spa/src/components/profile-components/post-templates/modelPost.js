@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Item, Dropdown, Segment, Message } from 'semantic-ui-react'
 import * as moment from 'moment'
+import 'moment/locale/bg'
 
 import Canvas3D from '../../viewport/canvas3d.js'
 
@@ -20,6 +21,7 @@ import lang from '../../../lang.js'
 export default class ModelPost extends Component {
     constructor(props){
         super(props)
+        moment.locale(this.props.lang)
         this.state = {
             rendering: false,
             addingCommit: false,

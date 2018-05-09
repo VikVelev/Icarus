@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Item, Segment, Dropdown } from 'semantic-ui-react'
 import * as moment from 'moment'
+import 'moment/locale/bg'
 
 import AddCommit from '../addCommitForm.js'
 import Canvas3D from '../../viewport/canvas3d.js'
@@ -18,6 +19,7 @@ import { connect } from 'react-redux'
 export default class UserPost extends Component {
     constructor(props){
         super(props)
+        moment.locale(this.props.lang)
         this.state = {
             rendering: false,
             editingPost: false,

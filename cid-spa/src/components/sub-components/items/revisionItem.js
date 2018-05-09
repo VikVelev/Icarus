@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Item, Segment, Icon } from 'semantic-ui-react'
 
 import * as moment from 'moment'
+import 'moment/locale/bg'
 
 import { Link } from 'react-router-dom'
 import Canvas3D from '../../viewport/canvas3d.js'
@@ -22,6 +23,8 @@ import lang from '../../../lang.js'
 export default class RevisionItem extends Component {
     constructor(props){
         super(props)
+
+        moment.locale(this.props.lang)
         this.state = {
             status: props.status,
             rendering: false,
