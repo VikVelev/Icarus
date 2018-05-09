@@ -90,13 +90,6 @@ export default class Post extends Component {
         })
     }
 
-    callbackDelete() {
-        this.setState({ 
-            deleting: false, 
-            deleted: true, 
-        }) 
-    }
-
     handleEdit(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -149,12 +142,11 @@ export default class Post extends Component {
     }
 
     deleteThis(){
-        if(this.props.profile.deletedPost) {
-            this.props.dispatch({ type: "DELETE_REFRESH"})
-            this.setState({
-                deleted: true,
-            })
-        }
+        this.props.dispatch({ type: "DELETE_REFRESH"})
+        this.setState({
+            deleting: false,
+            deleted: true,
+        })
     }
 
     handleChange = (e, { name, value}) => {
@@ -300,7 +292,7 @@ export default class Post extends Component {
 
     render() {
 
-        if(this.props.profile.deletedPost) {
+        if(this.props.profile.deletedPost && this.state.deleting) {
             this.deleteThis()
         }
 

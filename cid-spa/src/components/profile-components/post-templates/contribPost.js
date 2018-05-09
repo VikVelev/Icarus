@@ -23,6 +23,7 @@ export default class ContribPost extends Component {
         moment.locale(this.props.lang)
         this.state = {
             rendering: false,
+            deleting: false,
             deleted: false,
         }
     }
@@ -40,6 +41,12 @@ export default class ContribPost extends Component {
         }
     }
 
+    startDeleting(){
+        this.setState({
+            deleting: true,
+        })
+    }
+
     clickHandler() {
         this.setState({ rendering: !this.state.rendering })
     }
@@ -48,6 +55,7 @@ export default class ContribPost extends Component {
         this.props.dispatch({ type: "DELETE_REFRESH" })
         this.setState({
             deleted: true,
+            deleting: false,            
         })
     }
 
@@ -73,13 +81,13 @@ export default class ContribPost extends Component {
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content={text.menu.manage}/>
-                            <DeleteModal type="commit" {...this.props} trigger={<Dropdown.Item> {text.menu.delete} </Dropdown.Item>}/>
+                            <DeleteModal type="commit" {...this.props} trigger={<Dropdown.Item onClick={this.startDeleting.bind(this)}> {text.menu.delete} </Dropdown.Item>}/>
                             <Dropdown.Header content={text.menu.versionControl}/>
                             <Dropdown.Item disabled> {text.menu.viewModel} </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>
-                {this.props.profile.deletedCommit ? this.callbackDeleted() : null}
+                {this.props.profile.deletedCommit && this.state.deleting ? this.callbackDeleted() : null}
                 {this.mountCanvas()}
             </div>
             </Segment>

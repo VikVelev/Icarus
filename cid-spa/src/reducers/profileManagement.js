@@ -23,7 +23,7 @@ defaultState = {
     userDataSet: false,
     fetching: false,
     fetched: false,
-    editing: true,
+    editing: false,
     edited: false,
 }
 
