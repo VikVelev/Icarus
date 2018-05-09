@@ -356,8 +356,28 @@ i.blue.icon:hover {
         width: auto !important;
     }
 
+    .postWrapper {
+        display: flex !important;
+        flex-direction: column !important; 
+    }
+    
     .revisionItem {
+        display: flex !important;
         flex-direction: column !important;
+    }
+    
+    .choices {
+        position: relative !important;
+        width: 100% !important;
+    }
+    
+    .choice {
+        margin: auto !important;
+    }
+    
+    .groupItem {
+        margin: auto !important;
+        margin-left: 10px !important;
     }
 }
 
@@ -450,7 +470,8 @@ div.selected.item[role="option"]{
 }
 
 .choices {
-    position: absolute !important;
+    position: absolute;
+    margin: auto;
     width: auto;
     right: 10px;
     display: flex;
@@ -458,7 +479,7 @@ div.selected.item[role="option"]{
 }
 
 .groupItem {
-    margin: 0 !important;
+    margin: 0;
     height: 80% !important;
 }
 
@@ -467,7 +488,7 @@ div.selected.item[role="option"]{
     height: auto;    
     margin: auto;
     margin-top: 35px !important;
-    margin-right: 20px !important;
+    margin-right: 20px;
 }
 
 .revisionContainer {
