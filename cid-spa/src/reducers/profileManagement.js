@@ -17,6 +17,7 @@ defaultState = {
     commitFetched: false,
     deletedModel: false,
     deletedPost: false,
+    deletedCommit: false,
     contributionsFetched: false,
     modelFetched: false,
     userDataSet: false,
@@ -26,6 +27,7 @@ defaultState = {
     edited: false,
 }
 
+//TODO: Remove different 'ADD's and 'DELETE's and refactor them into one
 const profileManagement = (state=defaultState, action) => {
     switch (action.type) {
         case "FETCH_MODELS": case "FETCH_POSTS":
@@ -33,7 +35,7 @@ const profileManagement = (state=defaultState, action) => {
         case "ADD_MODEL": case "DELETE_MODEL":
         case "ADD_COMMIT": case "FETCH_USER_DATA":
         case "FETCH_FAVORITES": case "FETCH_ALL_MODELS":
-        case "EDIT_POST":// DO the same thing for all these cases
+        case "EDIT": case "DELETE_COMMIT":// DO the same thing for all these cases
             return {
                 ...state,
                 error: {},
@@ -41,6 +43,7 @@ const profileManagement = (state=defaultState, action) => {
                 userDataSet: false,
                 commitFetched: false,
                 deletedModel: false,
+                deletedCommit: false,
                 edited: false,
                 commitError: {},
                 contributionsFetched: false,
@@ -181,14 +184,14 @@ const profileManagement = (state=defaultState, action) => {
                 fetching: false,  
                 fetched: false,
             } 
-        case "EDIT_POST_FULFILLED":
+        case "EDIT_FULFILLED":
             return {
                 ...state,
                 edited: true,
                 fetched: true,
                 fetching: false,
             }
-        case "EDIT_POST_REJECTED":
+        case "EDIT_REJECTED":
             return {
                 ...state,
                 edited: false,
@@ -266,6 +269,17 @@ const profileManagement = (state=defaultState, action) => {
                 commitFetched: false,                
                 fetching: false, 
                 fetched: false,    
+            }
+        case "DELETE_COMMIT_FULFILLED":                       
+            return {
+                ...state,
+                deletedCommit: true,
+            } 
+        case "DELETE_COMMIT_REJECTED":
+            return {
+                ...state,
+                commitError: action.payload,
+                deletedCommit: false,    
             }
         default:
             return state;                       

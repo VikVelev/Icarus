@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 import Post from '../post.js'

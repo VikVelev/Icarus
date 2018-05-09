@@ -64,9 +64,7 @@ export default class ContributionsFeed extends Component {
 
     renderPost(object, i){
         return (
-            <Segment id={object.id} key={i} className="profile-post-container contribPost">
-                <ContribPost {...object}/>
-            </Segment>
+            <ContribPost key={i} className="profile-post-container contribPost" {...object}/>
         )
     }
 

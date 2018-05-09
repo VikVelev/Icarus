@@ -10,7 +10,7 @@ export default class ItemTag extends Component {
             )
         } else if (this.props.type === "fork"){
             return (
-                <Message className="edited">Fork</Message>            
+                <Message color="blue" className="edited">Fork</Message>            
             )
         }
     }

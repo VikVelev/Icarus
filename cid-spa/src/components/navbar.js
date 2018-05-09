@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Image, Dropdown, Flag } from 'semantic-ui-react'
 
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 //import Logout from './sub-components/logout.js'
 import { connect } from 'react-redux';
 
@@ -64,21 +64,73 @@ export class Navbar extends Component {
           )
 
           const options = [
-            { key: 'user', name: 'profile', content: text.profile, as: Link, to:"/profile", text: 'Profile', icon: 'user', onClick: this.handleItemClick },
-            { key: 'notifications', name: 'revisions', content: text.revisions, as: Link, to:"/revisions", text: 'Revisions', icon: 'tasks', onClick: this.handleItemClick },
-            { key: 'create-post', name: 'create-post', content: text.createPost, as: Link, to:"/create-post", text: 'Create Post', icon: 'write', onClick: this.handleItemClick },
-            { key: 'create-model', name: 'create-model', content: text.createModel, as: Link, to:"/create-model", text: 'Create Model', icon: 'world', onClick: this.handleItemClick },                                
-            { key: 'settings', name: 'profile/settings', content: text.settings, as: Link, to:"/profile/settings", text: 'Settings', icon: 'settings', onClick: this.handleItemClick },
-            { key: 'sign-out', name: 'sign-out', content: text.signOut, text: 'Sign Out', icon: 'sign out', onClick: this.handleLogout.bind(this) },
-          ]     
+            { 
+                key: 'user', 
+                name: 'profile', 
+                content: text.profile, 
+                as: Link, 
+                to:"/profile", 
+                text: 'Profile', 
+                icon: 'user', 
+                onClick: this.handleItemClick 
+            },
+            { 
+                key: 'notifications', 
+                name: 'revisions', 
+                content: text.revisions, 
+                as: Link, to:"/revisions", 
+                text: 'Revisions', 
+                icon: 'tasks', 
+                onClick: this.handleItemClick 
+            },
+            { 
+                key: 'create-post',
+                name: 'create-post',
+                content: text.createPost,
+                as: Link, 
+                to:"/create-post",
+                text: 'Create Post', 
+                icon: 'write', 
+                onClick: this.handleItemClick 
+            },
+            { 
+                key: 'create-model', 
+                name: 'create-model', 
+                content: text.createModel, 
+                as: Link, to:"/create-model", 
+                text: 'Create Model', 
+                icon: 'world', 
+                onClick: this.handleItemClick 
+            },                                
+            { 
+                key: 'settings', 
+                name: 'profile/settings', 
+                content: text.settings, 
+                as: Link, 
+                to:"/profile/settings", 
+                text: 'Settings', 
+                icon: 'settings', 
+                onClick: this.handleItemClick 
+            },
+            { 
+                key: 'sign-out', 
+                name: 'sign-out', 
+                content: text.signOut, 
+                text: 'Sign Out', 
+                icon: 'sign out', 
+                onClick: this.handleLogout.bind(this) 
+            },
+          ]
         
         return (  
-            <Menu.Item id="profileBadge" 
-                       active={this.props.currentPage === "profile/settings" 
+            <Menu.Item id="profileBadge"
+                       active={
+                        this.props.currentPage === "profile/settings" 
                         || this.props.currentPage === "profile"
                         || this.props.currentPage === "revisions"
                         || this.props.currentPage === "create-post"
-                        || this.props.currentPage === "create-model" }>
+                        || this.props.currentPage === "create-model" 
+                        }>
                 <Dropdown trigger={trigger} pointing options={options} />
             </Menu.Item>
         )

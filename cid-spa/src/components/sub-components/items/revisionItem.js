@@ -5,7 +5,6 @@ import * as moment from 'moment'
 import 'moment/locale/bg'
 
 import { Link } from 'react-router-dom'
-import Canvas3D from '../../viewport/canvas3d.js'
 //import { getModelbyID } from '../../actions/profileActions.js';
 import { connect } from 'react-redux';
 import { approveRevision, rejectRevision } from '../../../actions/revisionActions.js'

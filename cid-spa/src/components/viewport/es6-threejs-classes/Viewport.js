@@ -166,7 +166,7 @@ export default class Viewport {
         event.preventDefault();
         event.clientX = event.touches[0].clientX;
         event.clientY = event.touches[0].clientY;
-        this.onDocumentMouseDown( event );
+        //this.onDocumentMouseDown( event );
     }
 
     onDocumentMouseDown( event ) {

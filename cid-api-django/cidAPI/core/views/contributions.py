@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -16,6 +17,7 @@ from django.contrib.auth.models import User
 from pprint import pprint
 class Contributions(mixins.ListModelMixin,
                     mixins.CreateModelMixin,
+                    mixins.DestroyModelMixin,
                     generics.GenericAPIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOCOrReadOnly)
@@ -29,8 +31,23 @@ class Contributions(mixins.ListModelMixin,
         else:
             return CommitSerializer
 
+    def get_object(self):
+        queryset = self.get_queryset()
+    
+        pk = self.request.query_params.get('id', None)
+        obj = get_object_or_404(queryset, pk=pk)
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
     def get_queryset(self):
         user_pk = self.kwargs["pk"]
+
+        commit_id = self.request.query_params.get('id', None)
+
+        if commit_id is not None:
+            return Commit.objects.filter(committed_by_id__in=[user_pk], id=commit_id)
+                
         return Commit.objects.filter(committed_by_id__in=[user_pk])
 
     def get(self, request, *args, **kwargs):
@@ -38,6 +55,9 @@ class Contributions(mixins.ListModelMixin,
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

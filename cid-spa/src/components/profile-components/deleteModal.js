@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { deleteModel } from '../../actions/profileActions'
 import { deletePost } from '../../actions/profileActions'
+import { deleteCommit } from '../../actions/profileActions'
 
 @connect((store) => {
     return {
@@ -39,6 +40,16 @@ export default class DeleteModal extends Component {
                     this.props.user.currentlyLoggedUser.username.token,
                 )
             )
+        } else if (this.props.type === "commit") {
+            
+            this.props.dispatch(
+                deleteCommit(
+                    this.props.user.currentlyLoggedUser.username.id,
+                    this.props.id,
+                    this.props.user.currentlyLoggedUser.username.token,
+                )
+            )
+
         }
 
         this.handleTrigger()

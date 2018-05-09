@@ -5,12 +5,14 @@ import * as moment from 'moment'
 import 'moment/locale/bg'
 
 import Canvas3D from '../../viewport/canvas3d.js'
+import DeleteModal from '../deleteModal.js'
 import { connect } from 'react-redux'
 
 import lang from '../../../lang.js'
 
 @connect((store)=> {
     return {
+        profile: store.profileManagement,
         lang: store.langManagement.lang
     }
 })
@@ -21,6 +23,7 @@ export default class ContribPost extends Component {
         moment.locale(this.props.lang)
         this.state = {
             rendering: false,
+            deleted: false,
         }
     }
     
@@ -41,10 +44,18 @@ export default class ContribPost extends Component {
         this.setState({ rendering: !this.state.rendering })
     }
 
-    render(){
+    callbackDeleted() {
+        this.props.dispatch({ type: "DELETE_REFRESH" })
+        this.setState({
+            deleted: true,
+        })
+    }
+
+    contribPost() {
         this.date_uploaded = moment(this.props.date).format("DD.MM.YY HH:mm:SS")
         let text = lang[this.props.lang].commit
         return(
+            <Segment className={this.props.className}>
             <div className="profilePostWrapper">
                 <Item className="post" onClick={this.clickHandler.bind(this)}>
                     <Item.Content>
@@ -62,14 +73,22 @@ export default class ContribPost extends Component {
                     <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                         <Dropdown.Menu>
                             <Dropdown.Header content={text.menu.manage}/>
-                            <Dropdown.Item disabled> {text.menu.delete} </Dropdown.Item>
+                            <DeleteModal type="commit" {...this.props} trigger={<Dropdown.Item> {text.menu.delete} </Dropdown.Item>}/>
                             <Dropdown.Header content={text.menu.versionControl}/>
                             <Dropdown.Item disabled> {text.menu.viewModel} </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Item>
+                {this.props.profile.deletedCommit ? this.callbackDeleted() : null}
                 {this.mountCanvas()}
             </div>
+            </Segment>
+        )
+    }
+
+    render(){
+        return(
+            this.state.deleted ? null : this.contribPost()
         )
     }
 

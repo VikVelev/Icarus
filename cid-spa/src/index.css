@@ -347,6 +347,18 @@ i.blue.icon:hover {
         transition: all 0.1s;        
         margin-right: 2% !important;
     }
+
+    .langSwitcher {
+        margin: auto !important;
+        margin: 0 !important;
+        padding-bottom: 0 !important;
+        height: auto !important;
+        width: auto !important;
+    }
+
+    .revisionItem {
+        flex-direction: column !important;
+    }
 }
 
 
@@ -542,7 +554,7 @@ div.selected.item[role="option"]{
 
 .edited {
     font-size: 0.7em !important;
-    width: 48px !important;
+    width: auto !important;
     padding: 5px !important;
     margin: 0 !important;    
     margin-left: 10px !important;

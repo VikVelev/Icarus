@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Message, TextArea, Input, Item, Icon, Button, Segment, Dropdown } from 'semantic-ui-react'
+import { Message, TextArea, Input, Item, Button, Segment, Dropdown } from 'semantic-ui-react'
 
 import * as moment from 'moment'
 
 import { Link } from 'react-router-dom'
 import Canvas3D from '../viewport/canvas3d.js'
 import { connect } from 'react-redux';
-import { editPost, deletePost } from '../../actions/profileActions.js'
+import { editPost } from '../../actions/profileActions.js'
 import ItemTag from './items/itemTag.js'
 import lang from '../../lang.js'
 import 'moment/locale/bg'
@@ -88,7 +88,6 @@ export default class Post extends Component {
             deleting: true, 
             deleted: false, 
         })
-        console.log("deleting")
     }
 
     callbackDelete() {
@@ -96,14 +95,12 @@ export default class Post extends Component {
             deleting: false, 
             deleted: true, 
         }) 
-        console.log("deleted")
     }
 
     handleEdit(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        console.log("Entering edit mode")
         this.setState({ edit: true })
     }
 
@@ -122,7 +119,6 @@ export default class Post extends Component {
                 this.props.user.currentlyLoggedUser.username.token
             )
         )
-        console.log(this.state.editMode)
         this.setState({ 
             editing: true,
             ...this.state.editMode

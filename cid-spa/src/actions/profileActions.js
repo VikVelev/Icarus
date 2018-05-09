@@ -204,6 +204,39 @@ export function deleteModel(id, token, deleteId) {
     }
 }
 
+export function editModel(owner, editId, modelData, token) {
+    return function(dispatch) {
+        dispatch({ type: "EDIT_MODEL" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.patch(url + "/api/user/" + owner + "/3d-models/?id=" + editId, modelData).then((response) => {
+            dispatch({ type: "EDIT_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "EDIT_REJECTED", payload: error })          
+        })
+    }
+}
+
+export function deleteCommit(owner, commitId, token) {
+    return function(dispatch) {
+        dispatch({ type: "DELETE_COMMIT" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+        
+        saxios.delete(url + "/api/user/" + owner + "/contributions/?id=" + commitId).then((response) => {
+            dispatch({ type: "DELETE_COMMIT_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "DELETE_COMMIT_REJECTED", payload: error })          
+        })
+    }
+}
 
 export function fetchUserPosts(id, token){
     return function(dispatch) {
@@ -248,12 +281,12 @@ export function editPost(postId, postData, token){
                 'Authorization': 'Token ' + token,
             },
         })
-        dispatch({ type: "EDIT_POST" })
+        dispatch({ type: "EDIT" })
 
         saxios.patch(url + "/api/posts/" + postId, postData).then((response) => {
-            dispatch({ type: "EDIT_POST_FULFILLED", payload: response.data })
+            dispatch({ type: "EDIT_FULFILLED", payload: response.data })
         }).catch((error) => {
-            dispatch({ type: "EDIT_POST_REJECTED", payload: error })
+            dispatch({ type: "EDIT_REJECTED", payload: error })
         })
     }
 }
