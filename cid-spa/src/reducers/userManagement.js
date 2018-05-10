@@ -41,6 +41,7 @@ const userManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 fetching: false,
+                redirecting: false,                                
                 fetched: true,
                 allUsers: action.payload,
             }
@@ -48,6 +49,7 @@ const userManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 fetching: false,
+                redirecting: false,                                                
                 fetched: false,
                 error: action.payload,
             }
@@ -56,6 +58,7 @@ const userManagement = (state=defaultState, action) => {
                 ...state,
                 currentlyLoggedUser: { username: action.payload },
                 logged: true,
+                redirecting: false,                
                 fetching: false,
                 fetched: true,
             }))
@@ -84,6 +87,7 @@ const userManagement = (state=defaultState, action) => {
             }))
             return {
                 ...state,
+                redirecting: false,                
                 logged: false,
                 currentlyLoggedUser: {},
                 token: "",
@@ -99,6 +103,7 @@ const userManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 logged: false,
+                redirecting: false,                
                 fetching: false,
                 fetched: false,
                 error: action.payload

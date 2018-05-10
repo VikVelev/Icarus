@@ -40,7 +40,7 @@ export class LoginForm extends Component {
 	}
 
 	registerSuccess(text){
-		return <Message positive>{text.loginSuccess}</Message>
+		return <Message positive>{text.registerSuccess}</Message>
 	}
 
 	handleError(type){
