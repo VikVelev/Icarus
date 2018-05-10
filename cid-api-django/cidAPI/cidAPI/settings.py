@@ -193,13 +193,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/admin/css'),
-    os.path.join(BASE_DIR, 'static/admin'),        
-)
-
 STATIC_ROOT = 'static'
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
