@@ -72,7 +72,6 @@ export default class ProfileSettings extends Component {
     }
 
     handleChange = (e, { name, value}) => {
-        console.log(this.state.software)
         this.setState({ [name]: value })
     }
 

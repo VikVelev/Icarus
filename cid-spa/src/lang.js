@@ -56,6 +56,7 @@ const lang = {
             username_p: "Потребителско име",
             password_p: "Парола",
             b_LogIn: "Влизане",
+            registerSuccess: "Успешна регистрация, можете да влезете в акаунта си.",
             footer: "Нямате акаунт?",
             footerLink: "Направете си"
         },
@@ -282,6 +283,7 @@ const lang = {
             username_p: "Username",
             password_p: "Password",
             b_LogIn: "Log in",
+            registerSuccess: "Registration successful, you can log in now.",            
             footer: "Don't have an account?",
             footerLink: "Sign up"
         },

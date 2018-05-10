@@ -88,10 +88,6 @@ export default class RevisionItem extends Component {
         )
     }
 
-    handleReview() {
-        console.log("Reviewing")
-    }
-
     // Implement the 3D Canvas to show the difference between this and the last model
 
     renderHandler() {

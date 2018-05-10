@@ -1,5 +1,5 @@
 import { VertexNormalsHelper, LineSegments, LineBasicMaterial, Box3 } from 'three'
-import { WireframeGeometry, Geometry, Group, MeshStandardMaterial }  from 'three'
+import { WireframeGeometry, Geometry, Group, MeshStandardMaterial, Mesh }  from 'three'
 
 
 //import FaceNormalsHelper from 'three'
@@ -29,6 +29,7 @@ export default class Model3D {
         this.model.children.forEach(element => {
             this.textures.push(element.material);
         })
+        console.log(this.model.children)
         this.extractedGeometry = this.extractGeometry( this.model )
         this.vertexNormals = new VertexNormalsHelper( this.model, 0.15 );
 
@@ -56,17 +57,26 @@ export default class Model3D {
     }
 
     extractGeometry(model){
+        try {
 
-        let mat = new LineBasicMaterial( { color: 0x2185d0, linewidth: 1.5 } );            
-        let allLines = new Group()
+            let mat = new LineBasicMaterial( { color: 0x2185d0, linewidth: 1.5 } );            
+            let allLines = new Group()
+            
+            model.children.forEach(mesh => {
+                if(mesh.geometry instanceof Mesh) {
+                    let edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
+                    let line = new LineSegments( edge, mat );
+                    allLines.add(line)
+                } else if (mesh.geometry instanceof LineSegments) {
+                    allLines.add(mesh.geometry)
+                }
+            });
+            
+            return allLines
 
-        model.children.forEach(mesh => {
-            let edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
-            let line = new LineSegments( edge, mat );
-            allLines.add(line)
-        });
-
-        return allLines
+        } catch(error) {
+            console.warn(error)
+        }
     }
     
     moveModel( x, y, z ) {

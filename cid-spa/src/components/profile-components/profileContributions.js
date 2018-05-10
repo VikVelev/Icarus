@@ -168,7 +168,6 @@ export default class ContributionsFeed extends Component {
                         this.renderStatistics()
                         : null
                     }
-                    {console.log(this.props.rev)}
                     {
                         Object.keys(this.props.rev.postedRevisions).length !== 0 ?
                         null //this.renderPending() // TODO: FINISH THIS

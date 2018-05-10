@@ -166,7 +166,6 @@ class ModelDropdown extends Component {
     
     getOptions(){
         let options = []
-        console.log(this.props.options)
         this.props.options.forEach((element)=>{
             if (element.commits.length > 0){
                 options.push({
