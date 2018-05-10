@@ -2,6 +2,9 @@ let defaultState = {
     currentPage: "",
     subPage: "",
     currentModel: {},
+    currrentPostsNum: 0,
+    from: 0,
+    to: 8,
     safeLimit: 3, //TOOD Implement a way to detect GPU and scale this accordingly
     renderingModelsId: [],
     stopSignal: false,

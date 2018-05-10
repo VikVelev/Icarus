@@ -24,10 +24,19 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
             return PostSerializer
 
     def get_queryset(self):
-        queryset = Post.objects.all()
+        queryset = Post.objects.all().order_by('date_posted')
         
         posted_by = self.request.query_params.get('posted_by', None)
         posted_model = self.request.query_params.get('posted_model', None)       
+        
+        from_post = self.request.query_params.get('from', None)
+        to_post = self.request.query_params.get('to', None)
+
+        if from_post is not None:
+            queryset = queryset[int(from_post):]
+
+        if to_post is not None:
+            queryset = queryset[:int(to_post)]
 
         if posted_by is not None:
             queryset = queryset.filter(posted_by=posted_by)
@@ -36,6 +45,9 @@ class ListCreatePosts(generics.ListAPIView, generics.CreateAPIView):
             queryset = queryset.filter(content=posted_model)
     
         return queryset
+    
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 class TrendingPosts(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, )

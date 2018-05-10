@@ -212,7 +212,7 @@ export default class ModelPost extends Component {
                         <Dropdown icon="ellipsis horizontal" button className='modelPostSettings icon'>
                             <Dropdown.Menu>
                                 <Dropdown.Header content={text.menu.manage}/>
-                                <Dropdown.Divider/>                                                                     
+                                <Dropdown.Divider/>  
                                 {!this.props.isUser ? 
                                     <Dropdown.Item onClick={this.handleEdit.bind(this)}> 
                                         {text.menu.edit}
