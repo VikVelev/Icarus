@@ -23,7 +23,7 @@ SECRET_KEY = 's@5idp4#w&%!=1$pi6d8)2_(e=1ku6q44d%%tmj+aiwl2hfoq='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [    
+ALLOWED_HOSTS = [
     'cid-platform.com',
     'cid-platform.myddns.me',
     'localhost',
