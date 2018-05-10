@@ -12,7 +12,7 @@ class Post(models.Model):
     # if Model3D is deleted all posts corresponding to it will be deleted
     content = models.ForeignKey("Model3D", on_delete=models.CASCADE)
 
-    is_relevant = models.BooleanField()
-    is_recent = models.BooleanField()
+    is_relevant = models.BooleanField(default=False)
+    is_recent = models.BooleanField(default=False)
     likes = models.IntegerField(blank=True, null=True)
-
+    edited = models.BooleanField(default=False)

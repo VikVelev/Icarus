@@ -26,8 +26,13 @@ class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     date_posted = serializers.DateTimeField(read_only=True)
     
+    is_relevant = serializers.BooleanField(read_only=True)
+    is_recent = serializers.BooleanField(read_only=True)
+
+    likes = serializers.IntegerField(read_only=True)    
+
     posted_by = UserSerializer(read_only=True)
-    content = Model3DSerializer()
+    content = Model3DSerializer(read_only=True)
 
     class Meta:
         model = Post
@@ -42,6 +47,7 @@ class PostSerializer(serializers.ModelSerializer):
             'is_relevant',
             'is_recent',
             'comments',
+            'edited',
             'likes',
         )
 

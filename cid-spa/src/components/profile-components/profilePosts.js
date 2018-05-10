@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Segment, Message } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 //import UserPost from './post-templates/userPost.js'
@@ -29,11 +29,19 @@ export default class ProfilePostsFeed extends Component {
             this.posts = {}
             if (props.id === undefined) {
                 // console.log(props.id)
-                this.props.dispatch(fetchUserPosts( this.props.user.currentlyLoggedUser.username.id, 
-                                                    this.props.user.currentlyLoggedUser.username.token))
-            } else {
-                // console.log(props.id, 2)                
-                this.props.dispatch(fetchUserPosts(this.props.id, this.props.user.currentlyLoggedUser.username.token))            
+                this.props.dispatch(
+                    fetchUserPosts( 
+                        this.props.user.currentlyLoggedUser.username.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
+            } else {            
+                this.props.dispatch(
+                    fetchUserPosts(
+                        this.props.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )            
             }
             this.props.dispatch(changeSubpage("profile_posts"))
         }
@@ -41,11 +49,12 @@ export default class ProfilePostsFeed extends Component {
 
     renderPost(object, i){
         return (
-            <Segment id={object.id} key={i} className="profile-post-container">
-                <Post inProfile={this.props.inProfile === undefined ? false : this.props.inProfile}
-                      inDiff={this.props.inDiff === undefined ? false : this.props.inDiff}
-                         {...object}/>
-            </Segment>
+            <Post id={object.id} 
+                  key={i}
+                  inProfile={this.props.inProfile === undefined ? false : this.props.inProfile}
+                  inDiff={this.props.inDiff === undefined ? false : this.props.inDiff}
+                  className="profile-post-container"
+                  {...object}/>
         )
     }
 

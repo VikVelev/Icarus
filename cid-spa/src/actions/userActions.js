@@ -19,6 +19,8 @@ export function fetchAllUsers(token) {
     }
 }
 
+//TODO: Convert to base 64 before sending and redo after receiving
+
 export function login(username, password) {
     return function(dispatch) {
         dispatch({ type: "LOG_IN" })

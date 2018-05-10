@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-import { addPost, fetchAll3DModels } from '../actions/profileActions.js'
-
-import Loading from 'react-loading-animation'
-
+import lang from '../lang.js'
+@connect((store) => {
+    return {
+        lang: store.langManagement.lang,
+    }
+})
 export default class SearchBar extends Component {
     
     constructor(props) {
@@ -44,7 +47,7 @@ export default class SearchBar extends Component {
         if(this.props.models.length > 0) {
             this.props.models.forEach((element)=>{
                 options.push({
-                    key: element.id,
+                    key: "m" + element.id,
                     text: element.title,
                     icon: {
                         name: "cubes"
@@ -60,7 +63,7 @@ export default class SearchBar extends Component {
         if(this.props.users.length > 0) {
             this.props.users.forEach((element)=>{
                 options.push({
-                    key: element.id,
+                    key: "u" + element.id,
                     text: element.username,
                     icon: {
                         name: "user"
@@ -93,9 +96,6 @@ export default class SearchBar extends Component {
     handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
     render() {
-
-        const { options, isFetching, value } = this.state
-
         return (
             <div style={{ width: '100%', fontSize: '0.9em' }}>
                 <Dropdown
@@ -104,18 +104,30 @@ export default class SearchBar extends Component {
                     search
                     scrolling
                     multiple={false}
-                    options={options}
+                    options={this.state.options}
                     icon="search"
                     name='content'
-                    placeholder='Type to start searching...'
+                    placeholder={lang[this.props.lang].mainNavbar.search_p}
                     onChange={this.handleChange}
                     onSearchChange={this.handleSearchChange}
-                    disabled={isFetching}
+                    disabled={this.state.isFetching}
                     loading={this.props.isFetching}
                 />
 
-                {this.state.type === "user" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickUserCallback(): null }
-                {this.state.type === "model" && this.state.clicked && this.state.currentlyClicked !== 0x000 ? this.clickModelCallback(): null }
+                {
+                    this.state.type === "user" 
+                    && this.state.clicked 
+                    && this.state.currentlyClicked !== 0x000 ? 
+                        this.clickUserCallback()
+                    : null 
+                }
+                {
+                    this.state.type === "model" 
+                    && this.state.clicked 
+                    && this.state.currentlyClicked !== 0x000 ? 
+                    this.clickModelCallback()
+                    : null 
+                }
                 
             </div>      
         )

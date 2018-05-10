@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Segment, Header, Tab } from 'semantic-ui-react'
+import { Segment, Header, Tab, Button, Icon } from 'semantic-ui-react'
 import Canvas3D from '../../viewport/canvas3d.js'
-import { fetchViewingData, fetchModelMentions } from '../../../actions/model3DActions.js'
+import { fetchViewingData, fetchModelMentions, viewModel, alreadyForked, fork } from '../../../actions/model3DActions.js'
 import { connect } from 'react-redux';
 
 import CommitChain from '../../diff/commitChain.js'
 import ProfilePosts from '../../profile-components/profilePosts.js'
+import ErrorPage from './clientErrors.js'
+import AddCommit from '../../profile-components/addCommitForm.js'
 
 import Loading from 'react-loading-animation'
+import lang from '../../../lang.js'
 
 @connect((store) => {
     return {
@@ -16,14 +19,51 @@ import Loading from 'react-loading-animation'
         profile: store.profileManagement,
         page: store.pageManagement,
         model3d: store.model3DManagement,
+        lang: store.langManagement.lang
     }
 })
 export default class ViewModel3D extends Component {
-    //TODO FIX inconsistencies with Post profile link
     constructor (props) {
         super(props)
-        this.props.dispatch(fetchViewingData(this.props.id, this.props.user.currentlyLoggedUser.username.token))
-        this.props.dispatch(fetchModelMentions(this.props.id, this.props.user.currentlyLoggedUser.username.token))     
+
+        this.props.dispatch(
+            fetchViewingData(
+                this.props.id, 
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
+
+        this.props.dispatch(
+            alreadyForked(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token,
+            )
+        )
+
+        this.props.dispatch(
+            fetchModelMentions(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )     
+    }
+
+    componentDidMount() {
+        this.props.dispatch(
+            viewModel(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token                
+            )
+        )
+    }
+
+    handleForking() {
+        this.props.dispatch(
+            fork(
+                this.props.id,
+                this.props.user.currentlyLoggedUser.username.token  
+            )
+        )
     }
 
     renderMentions() {
@@ -31,23 +71,25 @@ export default class ViewModel3D extends Component {
     }
 
     renderCommits() {
+        //Styling on the commits
         return <CommitChain commits={this.props.model3d.model[0].commits}/>
     }
 
-    renderCurrentlyComparing() {
+    renderCurrentlyComparing(text) {
+
         const AddedItem = (props) => (
             <div className="lookingContainer">
                 <Header>
                     {props.index + 1}. {props.title}
                 </Header>
                 <div id="lDetails" className="lItem">
-                    Details: {props.description}
+                    {text.currentlyLooking.details}: {props.description}
                 </div>
                 <div id="lVersion" className="lItem">
-                    Commited by: {props.commited_by.username}
+                    {text.currentlyLooking.committedBy}: {props.committed_by.username}
                 </div>
                 <div id="lVersion" className="lItem">
-                    Version: {props.version}.0
+                    {text.currentlyLooking.version} {props.version}.0
                 </div>
                 
             </div>
@@ -58,7 +100,7 @@ export default class ViewModel3D extends Component {
                 <Header>Currently looking at:</Header>
                 {this.props.model3d.comparing.length === 0 ?
                     <div className="lItem">
-                        Nothing.
+                        {text.currentlyLooking.nothing}
                     </div> : null}
                 {this.props.model3d.comparing.map((object, i) => <AddedItem {...object} key={i} index={i}/>)}
             </Segment>
@@ -66,26 +108,36 @@ export default class ViewModel3D extends Component {
     }
 
     panes = [
-        { menuItem: 'Commits', render: () => <Tab.Pane>{this.renderCommits()}</Tab.Pane> },
-        { menuItem: 'Mentions', render: () => <Tab.Pane>{this.renderMentions()}</Tab.Pane> },  
+        { menuItem: lang[this.props.lang].modelViewPage.commits, render: () => <Tab.Pane>{this.renderCommits()}</Tab.Pane> },
+        { menuItem: lang[this.props.lang].modelViewPage.mentions, render: () => <Tab.Pane>{this.renderMentions()}</Tab.Pane> },  
     ]
 
     render() {
-        if(this.props.model3d.fetched){
-            let picture = this.props.model3d.model[0].owners[0].profile.profile_picture
+        if(this.props.model3d.viewModelFetched && Object.keys(this.props.model3d.error).length === 0){
+            let model = this.props.model3d.model[0]
+            let picture = model.owners[0].profile.profile_picture
+            let text = lang[this.props.lang].modelViewPage
+            
+
             if (picture === null) {
                 picture = "/img/default.png"
             }
+
             return (
                 <div className="viewModelContainer">
-                    {this.renderCurrentlyComparing()}
+                    {this.renderCurrentlyComparing(text)}
                     <Segment color="blue">
-                        <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
-                            <Canvas3D modelPath={this.props.model3d.model[0].commits[0].new_version}
-                                      texturePath={this.props.model3d.model[0].commits[0].new_textures}
-                                      diff={true}
-                                />
-                        </Segment>
+                        {/* using index [0] means that I'm getting the latest version, the API sorts them from latest to oldest commit*/}
+                        { 
+                            model.commits[0] !== undefined ? 
+                                <Segment className="canvas3d medium" style={{width:'100%', height: "650px",padding: 0}}>
+                                    <Canvas3D modelPath={model.commits[0].new_version}
+                                            texturePath={model.commits[0].new_textures}
+                                            diff={true}
+                                        />
+                                </Segment>
+                            : "No commits"
+                        }
                         <Segment className="uploadedBy">
                             <div style={{
                                 backgroundImage: "url(" + picture + ")",
@@ -101,19 +153,54 @@ export default class ViewModel3D extends Component {
                             }}> 
                             </div>
                             <div>
-                                <Header size="huge">{this.props.model3d.model[0].title}</Header>
-                                <Header size="small">Uploaded by <Link to={"/profile/" + this.props.model3d.model[0].owners[0].id}>{this.props.model3d.model[0].owners[0].username}</Link></Header>                 
+                                <Header size="huge">{model.title}</Header>
+                                <Header size="small">{text.uploadedBy} <Link to={"/profile/" + model.owners[0].id}>{model.owners[0].username}</Link></Header>                 
+                                <Header style={{ marginTop: 0 }} size="tiny">{model.viewcount}{" "}{text.views}</Header>                            
+                            </div>
+                            <div className="intButtons">
+                                {/* Debugging purposes ===, should be !== otherwise */}
+                                { model.owners[0].id !== this.props.user.currentlyLoggedUser.username.id ?
+                                <Button size="big"
+                                        loading={this.props.model3d.checkingFork}
+                                        disabled={this.props.model3d.forked} 
+                                        className="forkButton" 
+                                        color="blue" 
+                                        onClick={this.handleForking.bind(this)}>
+                                    <Icon name="fork"/>
+                                    {this.props.model3d.forked ? text.b_fork.forked : text.b_fork.fork }
+                                </Button> : 
+                                <Button size="big" disabled className="forkButton" color="gray">
+                                    <Icon name="fork"/>
+                                    {text.b_fork.yours}
+                                </Button> }
+
+                                <AddCommit trigger={
+                                    <Button size="big" className="contribButton" color="green">
+                                        <Icon name="plus"/>
+                                        {text.b_contribute}
+                                    </Button>
+                                } id={model.id}/>
                             </div>
                         </Segment>
                         <Tab menu={{ stackable: true, size: "massive", color: "blue", secondary: true , pointing: true }} panes={this.panes} />
                     </Segment>
                 </div>
             );
+        } else if (Object.keys(this.props.model3d.error).length !== 0) {
+            if (this.props.model3d.error.request.status === 0) {
+                return(
+                    <ErrorPage type={404}/>
+                )
+            } else if (this.props.model3d.error.response.status === 404) {
+                return(
+                    <ErrorPage type={404}/>
+                )
+            }
         } else {
             return (
                 <div style={{height: 'auto'}}>
                     <Loading style={{marginTop: '10%'}} />
-                    <p style={{textAlign: 'center', marginTop: '25px', fontFamily: 'roboto'}}>Loading</p>
+                    <p style={{textAlign: 'center', marginTop: '25px', fontFamily: 'roboto'}}>{lang[this.props.lang].loading}</p>
                 </div>
             )
         }

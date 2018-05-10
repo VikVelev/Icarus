@@ -9,13 +9,15 @@ import Loading from 'react-loading-animation'
 import ContribPost from './post-templates/contribPost.js'
 import { fetchContributions } from '../../actions/profileActions.js'
 import { changeSubpage } from '../../actions/pageActions.js'
-
-
+import { fetchMyRevisions } from '../../actions/revisionActions.js'
+import lang from '../../lang.js'
 
 @connect((store)=>{
     return {
         user: store.userManagement,
-        profile: store.profileManagement
+        profile: store.profileManagement,
+        rev: store.revisionManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class ContributionsFeed extends Component {
@@ -29,10 +31,30 @@ export default class ContributionsFeed extends Component {
 
         if (props.isChain === undefined) {
             this.commits = {}
+
             if (props.id === undefined) {
-                this.props.dispatch(fetchContributions(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+
+                this.props.dispatch(
+                    fetchContributions(
+                        this.props.user.currentlyLoggedUser.username.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
+
+                this.props.dispatch(
+                    fetchMyRevisions(
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
+
             } else {
-                this.props.dispatch(fetchContributions(this.props.id, this.props.user.currentlyLoggedUser.username.token))
+
+                this.props.dispatch(
+                    fetchContributions(
+                        this.props.id, 
+                        this.props.user.currentlyLoggedUser.username.token
+                    )
+                )
                 
             }
             this.props.dispatch(changeSubpage("profile_contributions"))
@@ -41,10 +63,8 @@ export default class ContributionsFeed extends Component {
     }
 
     renderPost(object, i){
-        return (          
-            <Segment id={object.id} key={i} className="profile-post-container contribPost">
-                <ContribPost {...object}/>
-            </Segment>
+        return (
+            <ContribPost key={i} className="profile-post-container contribPost" {...object}/>
         )
     }
 
@@ -62,7 +82,7 @@ export default class ContributionsFeed extends Component {
             }
             
             for (let d = 0; d < days; d++) {
-                if(moment(((w + 1) + "-" + (d+1)).toString(), 'W-E').toDate() === "Invalid Date") {
+                if(moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
                     continue;
                 }
                 let currentDay = moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E')
@@ -84,7 +104,7 @@ export default class ContributionsFeed extends Component {
             }
 
             for (let d = 0; d < days; d++) {
-                if(moment(((w + 1)+ "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
+                if(moment(((w + 1) + "-" + (d + 1)).toString(), 'W-E').toDate() === "Invalid Date") {
                     continue;
                 }
                 wholeYearNormalized.push(wholeYear[w][d])
@@ -96,18 +116,19 @@ export default class ContributionsFeed extends Component {
     }
 
     renderStatistics() {
-        // TODO: Think
+        // Using already existing data if there is.
         if (this.data.length === 0 && this.props.isChain === undefined){
             this.data = this.dataProcessing(this.props.profile.contributions)
         }
 
         //Gotta put some data processing in the backend
+        //Or implement a worker (but I prefer synchronious stuff and the performance hit isn't that huge)
 
-        // if this is not rendered on a profile page, but on a mdoel page.
+        // if this is not rendered on a profile page, but on a model page.
         if (this.props.isChain === undefined) {
             return (
                 <div>
-                    <Header size="huge">Activity</Header>
+                    <Header size="huge">{lang[this.props.lang].profilePage.contrib.activity}</Header>
                     <div className="contribStatistics" style={{height: "300px", marginBottom: '50px'}}>
                         <ResponsiveContainer width='100%' height="100%">
                             <AreaChart data={this.data} syncId="anyId"
@@ -117,11 +138,24 @@ export default class ContributionsFeed extends Component {
                                 <Tooltip/>
                                 <Area type='monotone' dataKey='commits' stroke='#82ca9d' fill='#82ca9d' />
                                 {/*7 because I want the last week stats to be by default*/}
-                                <Brush startIndex={this.data.length < 7 ? 0 : this.data.length-7}/>
+                                <Brush startIndex={this.data.length < 7 ? 0 : this.data.length - 7}/>
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
+            );
+        }
+    }
+
+    renderPending(){
+        if (this.props.isChain === undefined) {
+            return (
+                <div>
+                    <Header size="huge">Pending</Header>
+                    {/*TODO: Implement this + a API query for every user's revisions*/}
+                    {/*TODO: Revamp post so it works here.*/}
+                    {this.props.rev.postedRevisions.map((object, i) => this.renderPost(object,i))}
+                    </div>
             );
         }
     }
@@ -134,6 +168,12 @@ export default class ContributionsFeed extends Component {
                         this.renderStatistics()
                         : null
                     }
+                    {console.log(this.props.rev)}
+                    {
+                        Object.keys(this.props.rev.postedRevisions).length !== 0 ?
+                        null //this.renderPending() // TODO: FINISH THIS
+                        : null
+                    }
                 <div className="feed">
                     { 
                         Object.keys(this.props.profile.contributions).length !== 0 ? //if
@@ -142,7 +182,7 @@ export default class ContributionsFeed extends Component {
                             this.commits.map((object, i) => this.renderPost(object,i))
                         : this.props.profile.models.length === 0 && this.props.profile.fetched ? //else if
                         <Message info >
-                            You haven't done anything. You can add a commit from the model menu (the three dots sitting next to each model in your 3D Models tab).
+                            {lang[this.props.lang].profilePage.contrib.nothing}
                         </Message> 
                         :
                         <Loading/> 

@@ -4,7 +4,7 @@ import axios from 'axios'
 export function fetchViewingData(id, token) {
     return function(dispatch) {
         dispatch({ type: "FETCH_DATA" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -21,7 +21,7 @@ export function fetchViewingData(id, token) {
 export function fetchModelMentions(id, token){
     return function(dispatch) {
         dispatch({ type: "FETCH_MENTIONS" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -31,6 +31,41 @@ export function fetchModelMentions(id, token){
             dispatch({ type: "FETCH_MENTIONS_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "FETCH_MENTIONS_REJECTED", payload: error })            
+        })
+    }
+}
+
+export function fork(modelId, token) {
+    return function(dispatch) {
+        dispatch({ type: "FORKING" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.post(url + "/api/3d-models/fork?model_id=" + modelId).then((response) => {
+            dispatch({ type: "FORKING_FULFILLED", payload: response.data })   
+        }).catch((error) => {
+            dispatch({ type: "FORKING_REJECTED", payload: error })   
+        })
+    }
+}
+
+
+export function alreadyForked(modelId, token) {
+    return function(dispatch) {
+        dispatch({ type: "IS_FORKED" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.get(url + "/api/3d-models/fork?model_id=" + modelId).then((response) => {
+            dispatch({ type: "IS_FORKED_FULFILLED", payload: response.data })   
+        }).catch((error) => {
+            dispatch({ type: "IS_FORKED_REJECTED", payload: error })   
         })
     }
 }
@@ -54,5 +89,24 @@ export function DiffMode(value) {
         } else {
             dispatch({ type: "EXIT_DIFF_MODE", payload: value  })            
         }
+    }
+}
+
+export function viewModel(modelId, token) {
+    return function(dispatch) {
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.patch(url + "/api/3d-models/view?model_id=" + modelId, {
+            id: modelId,
+            viewcount: 0
+        }).then((response) => {
+            dispatch({ type: "VIEWED_MODEL", payload: response.data})
+        }).catch((error) => {
+            dispatch({ type: "VIEWING_MODEL_ERROR", payload: error.data})            
+        })
     }
 }

@@ -87,7 +87,7 @@ export function fetchUserData(id, token) {
 export function setUserData(id, userData, token){
     return function(dispatch) {
         dispatch({ type: "SET_USER_DATA" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data'
@@ -104,7 +104,7 @@ export function setUserData(id, userData, token){
 export function addPost(id, userData, token) {
     return function(dispatch) {
         dispatch({ type: "ADD_POST" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data',
@@ -122,7 +122,7 @@ export function addPost(id, userData, token) {
 export function getModelbyID(id, token){
     return function(dispatch) {
         dispatch({ type: "GET_MODEL_BY_ID" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -140,7 +140,7 @@ export function getModelbyID(id, token){
 export function add3DModel(id, token, modelData, initialCommit, commitData) {
     return function(dispatch) {
         dispatch({ type: "ADD_MODEL" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data',
@@ -167,7 +167,7 @@ export function add3DModel(id, token, modelData, initialCommit, commitData) {
 export function addCommit(id, commitData, token, initData) {
     return function(dispatch) {
         dispatch({ type: "ADD_COMMIT" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'multipart/form-data',                
@@ -191,7 +191,7 @@ export function addCommit(id, commitData, token, initData) {
 export function deleteModel(id, token, deleteId) {
     return function(dispatch) {
         dispatch({ type: "DELETE_MODEL" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -204,13 +204,46 @@ export function deleteModel(id, token, deleteId) {
     }
 }
 
+export function editModel(owner, editId, modelData, token) {
+    return function(dispatch) {
+        dispatch({ type: "EDIT_MODEL" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+
+        saxios.patch(url + "/api/user/" + owner + "/3d-models/?id=" + editId, modelData).then((response) => {
+            dispatch({ type: "EDIT_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "EDIT_REJECTED", payload: error })          
+        })
+    }
+}
+
+export function deleteCommit(owner, commitId, token) {
+    return function(dispatch) {
+        dispatch({ type: "DELETE_COMMIT" })
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+        
+        saxios.delete(url + "/api/user/" + owner + "/contributions/?id=" + commitId).then((response) => {
+            dispatch({ type: "DELETE_COMMIT_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "DELETE_COMMIT_REJECTED", payload: error })          
+        })
+    }
+}
 
 export function fetchUserPosts(id, token){
     return function(dispatch) {
 
         dispatch({type: "FETCH_POSTS"})
 
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
@@ -224,18 +257,36 @@ export function fetchUserPosts(id, token){
     }
 }
 
-export function deletePost(id, token, deleteId) {
+export function deletePost(deleteId,  token) {
     return function(dispatch) {
         dispatch({ type: "DELETE_POST" })
-        var saxios = axios.create({
+        let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
             },
         })
-        saxios.delete(url + "/api/posts/" + deleteId + "/").then((response) => {
+
+        saxios.delete(url + "/api/posts/" + deleteId).then((response) => {
             dispatch({ type: "DELETE_POST_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "DELETE_POST_REJECTED", payload: error })          
+        })
+    }
+}
+
+export function editPost(postId, postData, token){
+    return function(dispatch) {
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            },
+        })
+        dispatch({ type: "EDIT" })
+
+        saxios.patch(url + "/api/posts/" + postId, postData).then((response) => {
+            dispatch({ type: "EDIT_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "EDIT_REJECTED", payload: error })
         })
     }
 }

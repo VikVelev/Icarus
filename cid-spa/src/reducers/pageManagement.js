@@ -1,8 +1,14 @@
 let defaultState = {
     currentPage: "",
     subPage: "",
-    canvasRendering: false,
     currentModel: {},
+    currrentPostsNum: 0,
+    from: 0,
+    to: 8,
+    safeLimit: 3, //TOOD Implement a way to detect GPU and scale this accordingly
+    renderingModelsId: [],
+    stopSignal: false,
+    lastRemoved: {},
 }
 
 //const myStorage = window.localStorage
@@ -14,21 +20,29 @@ const pageManagement = (state=defaultState, action) => {
                 ...state,
                 currentPage: action.payload
             }
+        case "START_CANVAS":
+            let ma_id = action.payload.id
+            state.renderingModelsId.push(ma_id)
+            return {
+                ...state,               
+            }
+        case "STOP_CANVAS":
+            let mr_id = action.payload.id
+            state.renderingModelsId.splice(state.renderingModelsId.indexOf(mr_id), 1)
+
+            return {
+                ...state,            
+            }
+        case "STOP_SIGNAL": 
+            return {
+                ...state,
+                lastRemoved: action.payload,
+                stopSignal: true,
+            }
         case "CHANGE_SUB_PAGE":
             return {
                 ...state,
                 subPage: action.payload
-            }
-        case "RENDERING_CANVAS3D":
-            return {
-                ...state,
-                canvasRendering: true,
-            }
-        case "STOPPING_CANVAS3D":
-            return {
-                ...state,
-                canvasRendering: false,
-                //currentModel: {},
             }
         case "GET_MODEL_BY_ID_FULFILLED":
             return {

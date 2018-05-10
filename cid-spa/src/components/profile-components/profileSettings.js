@@ -11,19 +11,44 @@ import { fetchUserData, setUserData } from '../../actions/profileActions.js'
 import { Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux';
+import lang from '../../lang.js'
 
 @connect((store) => {
     return {
         user: store.userManagement,
         profile: store.profileManagement,
         page: store.pageManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class ProfileSettings extends Component {
 
     constructor(props){
         super(props)
-        this.props.dispatch(fetchUserData(this.props.user.currentlyLoggedUser.username.id, this.props.user.currentlyLoggedUser.username.token))
+
+        this.softwareChoices = [
+            {
+                key: "c4d",
+                value: "Cinema4D"
+            },            
+            {
+                key: "bld",
+                value: "Blender"
+            },            
+            {
+                key: "cad",
+                value: "AutoCAD"
+            },            
+            {
+                key: "zbrs",
+                value: "Z-Brush"
+            },
+            {
+                key: "3dsmax",
+                value: "3DSMax"
+            },                     
+        ]
+
         this.state = {
             success: false,
             profile: false,
@@ -32,12 +57,22 @@ export default class ProfileSettings extends Component {
             email: "",
             country: "",
             profile_picture: "",
+            software: "",
             birth_date: moment(),
             description: '',
-        }      
+        }   
+        
+        this.props.dispatch(
+            fetchUserData(
+                this.props.user.currentlyLoggedUser.username.id, 
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
+        
     }
 
     handleChange = (e, { name, value}) => {
+        console.log(this.state.software)
         this.setState({ [name]: value })
     }
 
@@ -46,20 +81,23 @@ export default class ProfileSettings extends Component {
     }
     
     renderProcessing() {
-        // TODO: Make a cool loading animation
         return(
             <Message info>
-                Processing...
+                {lang[this.props.lang].profileSettings.processing}
             </Message>
         )
     }
 
     renderSuccess() {
-        return(<Message success attached="bottom" style={{ display: "block" }}> Your profile was updated successfully. </Message>)
+        return(
+            <Message success attached="bottom" style={{ display: "block" }}>
+                {lang[this.props.lang].profileSettings.saveChanges_success}
+            </Message>
+        )
     }
 
     handleSubmit = () => {
-        const { first_name, last_name, email, country, profile_picture, birth_date, description } = this.state
+        const { first_name, last_name, email, country, profile_picture, software, birth_date, description } = this.state
         
         this.setState({
             first_name: first_name,
@@ -67,6 +105,7 @@ export default class ProfileSettings extends Component {
             email: email,
             country: country,
             profile_picture: profile_picture,
+            software: software,
             birth_date: birth_date,
             description: description,
         })
@@ -77,18 +116,21 @@ export default class ProfileSettings extends Component {
         formData.append('first_name', first_name)
         formData.append('last_name', last_name)
         formData.append('profile.country', country)
-        formData.append('profile.birth_date', birth_date.format("YYYY-MM-DD"))
+        formData.append('profile.birth_date', birth_date !== null && birth_date !== "" ? birth_date.format("YYYY-MM-DD") : null) 
 
         if (this.state.profile_picture !== this.props.profile.userData.profile.profile_picture) {
             formData.append('profile.profile_picture', document.getElementById("file-upload").files[0])
         }
+        formData.append('profile.software', software)        
         formData.append('profile.description', description)        
 
-        this.props.dispatch(setUserData(
-            this.props.user.currentlyLoggedUser.username.id,
-            formData,
-            this.props.user.currentlyLoggedUser.username.token
-        ))    
+        this.props.dispatch(
+            setUserData(
+                this.props.user.currentlyLoggedUser.username.id,
+                formData,
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )    
     }
 
     handleErrors(type) {
@@ -114,9 +156,12 @@ export default class ProfileSettings extends Component {
     renderSettingsOnFetch(){
         if (this.props.profile.userData !== {}) {
             if (this.props.profile.userData.profile !== undefined ) {
+
+                let text = lang[this.props.lang].profileSettings
+
                 if (this.state.email === "") {
                     
-                    var state = {
+                    let state = {
                         ...this.props.profile.userData, 
                         ...this.props.profile.userData.profile, 
                         profile: false
@@ -128,31 +173,15 @@ export default class ProfileSettings extends Component {
                             birth_date: moment(state.birth_date)
                         }
                     }
-
-                    // This is retarded 
-                    if(state.country === null) {
-                        state.country = ""
+                    
+                    for (const key in state) {
+                        if (state.hasOwnProperty(key) && state[key] === null && key !== "profile_picture") {
+                            state[key] = "" 
+                        }
                     }
                     
-                    if(state.first_name === null) {
-                        state.first_name = ""
-                    }
-
-                    if(state.last_name === null) {
-                        state.last_name = ""
-                    }
-
-                    if(state.birth_date === null) {
-                        state.birth_date = ""
-                    }
-
-                    if(state.description === null) {
-                        state.description = ""
-                    }
-
-                    this.state = state
-
-                    // end of retardation - did this to eliminate warnings.
+                    // eslint-disable-next-line
+                    this.state = {...state}
                 }
                 let picture = this.props.profile.userData.profile.profile_picture
 
@@ -162,7 +191,9 @@ export default class ProfileSettings extends Component {
 
                 return(
                     <Segment color="blue">
-                        <Header size="huge">Settings</Header>                 
+                        <Header size="huge">
+                            {text.title}
+                        </Header>                 
                         <Segment className="settingsHeader">
                             <div className="profileImage" style={{
                                     backgroundImage: "url(" + picture + ")",
@@ -176,7 +207,7 @@ export default class ProfileSettings extends Component {
                             <div className="profileSettingsForm">
                                 <Form as="form" size='large' id="settings" name="settings" onSubmit={this.handleSubmit}>
                                     <label htmlFor="file-upload" className="file-upload">
-                                        <i className="fa fa-cloud-upload"></i> Upload picture
+                                        <i className="fa fa-cloud-upload"></i> {text.b_uploadPic}
                                     </label>
                                     <label className="selected_model">
                                         { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
@@ -188,8 +219,7 @@ export default class ProfileSettings extends Component {
                                         accept=".png,.jpg,.jpeg"
                                     />
                                     {this.handleErrors("profile_picture")}
-                                    
-                                    <Header size="small">First name</Header>                                                                        
+                                    <Header size="small">{text.firstName}</Header>                                                                        
                                     <Form.Input
                                             fluid
                                             icon='user'
@@ -197,9 +227,9 @@ export default class ProfileSettings extends Component {
                                             value={this.state.first_name}
                                             onChange={this.handleChange}
                                             iconPosition='left'
-                                            placeholder='Enter first name'
+                                            placeholder={text.firstName_p}
                                     />
-                                    <Header size="small">Last name</Header> 
+                                    <Header size="small">{text.lastName}</Header>
                                     <Form.Input
                                         fluid
                                         icon='user'
@@ -207,10 +237,10 @@ export default class ProfileSettings extends Component {
                                         value={this.state.last_name}
                                         onChange={this.handleChange}
                                         iconPosition='left'
-                                        placeholder='Enter last name'
+                                        placeholder={text.lastName_p}
                                         />
 
-                                    <Header size="small">E-mail</Header>                                     
+                                    <Header size="small">{text.email}</Header>                                     
                                     <Form.Input
                                         fluid
                                         icon='at'
@@ -219,11 +249,11 @@ export default class ProfileSettings extends Component {
                                         value={this.state.email}
                                         onChange={this.handleChange}
                                         iconPosition='left'
-                                        placeholder='Enter e-mail'
+                                        placeholder={text.email_p}
                                     />                                
                                     {this.handleErrors("email")}
                                     
-                                    <Header size="small">Country</Header>                                    
+                                    <Header size="small">{text.country}</Header>                                    
                                     <Form.Input
                                         fluid
                                         icon='world'
@@ -231,17 +261,29 @@ export default class ProfileSettings extends Component {
                                         name="country"
                                         value={this.state.country}
                                         onChange={this.handleChange}
-                                        placeholder='Country'
+                                        placeholder={text.country_p}
                                         type='text'
                                     />
                                     
-                                    <Header size="small">Birth date</Header>
+                                    <Header size="small">{text.software}</Header>                                    
+                                    <Form.Input
+                                        fluid
+                                        icon='world'
+                                        name="software"
+                                        iconPosition='left'
+                                        value={this.state.software}
+                                        onChange={this.handleChange}
+                                        placeholder={text.software_p}
+                                    />
+
+                                    <Header size="small">{text.birthDate}</Header>
                                     <DatePicker 
                                         onChange={this.handleDateChange.bind(this)}
                                         selected={typeof this.state.birth_date === "string" ? null : this.state.birth_date}
+                                        placeholderText="DD/MM/YY"
                                         name="birth_date"/>
                                     {this.handleErrors("birth_date")}
-                                    <Header size="small">Description</Header>                                    
+                                    <Header size="small">{text.description}</Header>                                    
                                     <Form.Input
                                         fluid
                                         icon='file text'
@@ -250,13 +292,13 @@ export default class ProfileSettings extends Component {
                                         type="textarea"
                                         onChange={this.handleChange}                                            
                                         value={this.state.description}                                            
-                                        placeholder="Write your description..."
+                                        placeholder={text.description_p}
                                     /> 
 
                                     {this.props.profile.userDataSet ? this.renderSuccess() : null}
-                                    {this.props.profile.fetching ? this.renderProcessing() : null}                                    
-                                    
-                                    <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Save changes</Button>
+                                    {this.props.profile.fetching ? this.renderProcessing() : null}
+
+                                    <Button className="submitButton" type='submit 'color='blue' fluid size='large'>{text.b_saveChanges}</Button>
                                 </Form>
                             </div>
                         </Segment>

@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment, Checkbox } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 
 import { Link, Redirect }  from 'react-router-dom'
 import { register } from '../../../actions/userActions';
 import { connect } from 'react-redux';
 
+import lang from '../../../lang.js'
 @connect((store) => {
 	return {
-		user: store.userManagement
+        user: store.userManagement,
+        lang: store.langManagement.lang,
 	}
 })
 
@@ -46,15 +48,17 @@ class RegisterForm extends Component {
         this.props.dispatch(register(username, email, password, password2))
     }
 
-    render() {     
+    render() {
+        let text = lang[this.props.lang].registerPage
+
         return(
             <div className='login-form'>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
 
                         <Header as='h2' color='blue' textAlign='center'>
-                            <Image src='/img/logo.png' />
-                            {' '}Create a new account
+							<Image src='/img/logo.png' href="/"/>
+                            {' '}{text.title}
                         </Header>
 
                         <Form size='large' onSubmit={this.handleSubmit}>
@@ -67,7 +71,7 @@ class RegisterForm extends Component {
 									value={this.state.username}
 									onChange={this.handleChange}
                                     iconPosition='left'
-                                    placeholder='Enter username'
+                                    placeholder={text.username_p}
                                 />
                                 {this.handleErrors("username")}                    
                                 <Form.Input
@@ -78,7 +82,7 @@ class RegisterForm extends Component {
 									value={this.state.email}
 									onChange={this.handleChange}
                                     iconPosition='left'
-                                    placeholder='Enter e-mail'
+                                    placeholder={text.email_p}
                                 />
                                 {this.handleErrors("email")}                                 
                                 <Form.Input
@@ -90,7 +94,7 @@ class RegisterForm extends Component {
 									onChange={this.handleChange}
                                     iconPosition='left'
                                     type='password'                                    
-                                    placeholder='Enter password'
+                                    placeholder={text.password_p}
                                 />
                                 {this.handleErrors("password")}                                 
                                 <Form.Input
@@ -101,23 +105,23 @@ class RegisterForm extends Component {
                                     name="password2"
 									value={this.state.password2}
 									onChange={this.handleChange}
-                                    placeholder='Confirm password'
+                                    placeholder={text.password2_p}
                                     type='password'
                                 />
                                 {this.handleErrors("password_confirm")}                                 
-                                <Form.Field>
+                                {/* <Form.Field>
                                     <Checkbox 
                                         toggle={this.state.agreed} 
                                         name="agreed" 
                                         onChange={this.handleChange} 
                                         label={<label> I agree to the <a href="/terms">terms and conditions</a>.</label>} />
-                                </Form.Field>
-                                <Button type='submit 'color='blue' fluid size='large'>Sign up</Button>
+                                </Form.Field> */}
+                                <Button type='submit 'color='blue' fluid size='large'>{text.b_SignUp}</Button>
                             </Segment>
                             { this.props.user.redirecting ? <Redirect to="/login#successful"/> : null }
                         </Form>
                         <Message>
-                            Already have an account? <Link to="login">Log in</Link>
+                            {text.footer + " "}<Link to="login">{text.footerLink}</Link>
                         </Message>
                     </Grid.Column>
                 </Grid>

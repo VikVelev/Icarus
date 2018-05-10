@@ -94,11 +94,13 @@ export default class Viewport {
         
         this.controls = new OrbitControls( this.camera, document.getElementById( this.index ) );
         this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.5;
+        this.controls.rotateSpeed = 0.4;
         this.controls.minDistance = 0; 
         this.controls.maxDistance = 9;
         this.controls.maxPolarAngle = Math.PI;
 
-        document.addEventListener( 'mousedown', this.onDocumentMouseDown.bind(this), false );
+        //document.addEventListener( 'mousedown', this.onDocumentMouseDown.bind(this), false );
         document.addEventListener( 'touchstart', this.onDocumentTouchStart, false );
 
         let params = {
@@ -164,7 +166,7 @@ export default class Viewport {
         event.preventDefault();
         event.clientX = event.touches[0].clientX;
         event.clientY = event.touches[0].clientY;
-        this.onDocumentMouseDown( event );
+        //this.onDocumentMouseDown( event );
     }
 
     onDocumentMouseDown( event ) {
@@ -181,11 +183,11 @@ export default class Viewport {
 
         // if ( intersects.length > 0 ) {
 
-        //     for ( var i = 0; i < intersects.length; i++ ) {
-        //         if (intersects[ i ].object.material.color !== undefined){
-        //             intersects[ i ].object.material.color.set( 0xff0000 );
-        //         }
-        //     }   
+            // for ( let i = 0; i < intersects.length; i++ ) {
+            //     if (intersects[ i ].object.material.color !== undefined){
+            //         intersects[ i ].object.material.color.set( 0xff0000 );
+            //     }
+            // }   
 
         //     intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
      
@@ -201,7 +203,7 @@ export default class Viewport {
         // }
         /*
         // Parse all the faces
-        for ( var i in intersects ) {
+        for ( let i in intersects ) {
             intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
         }
         */

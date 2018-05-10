@@ -5,7 +5,7 @@
 let defaultState = {}
 
 defaultState = {
-    userData: {},  // TODO api optimizations
+    userData: {},
     models: {},
     allModels: {},
     posts: {},
@@ -16,26 +16,36 @@ defaultState = {
     postFetched: false,
     commitFetched: false,
     deletedModel: false,
+    deletedPost: false,
+    deletedCommit: false,
     contributionsFetched: false,
     modelFetched: false,
     userDataSet: false,
     fetching: false,
     fetched: false,
+    editing: false,
+    edited: false,
 }
 
+//TODO: Remove different 'ADD's and 'DELETE's and refactor them into one
 const profileManagement = (state=defaultState, action) => {
     switch (action.type) {
         case "FETCH_MODELS": case "FETCH_POSTS":
         case "ADD_POST": case "DELETE_POST":
         case "ADD_MODEL": case "DELETE_MODEL":
         case "ADD_COMMIT": case "FETCH_USER_DATA":
-        case "FETCH_FAVORITES": case "FETCH_ALL_MODELS":// DO the same thing for all these cases
+        case "FETCH_FAVORITES": case "FETCH_ALL_MODELS":
+        case "EDIT": case "DELETE_COMMIT":// DO the same thing for all these cases
             return {
                 ...state,
                 error: {},
                 postFetched: false,
+                userDataSet: false,
                 commitFetched: false,
                 deletedModel: false,
+                deletedCommit: false,
+                edited: false,
+                commitError: {},
                 contributionsFetched: false,
                 modelFetched: false,
                 fetching: true,
@@ -139,7 +149,7 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 error: action.payload,
-                fetching: false,  
+                fetching: false,
                 fetched: false,
             } 
         case "SET_USER_DATA_FULFILLED":
@@ -174,16 +184,39 @@ const profileManagement = (state=defaultState, action) => {
                 fetching: false,  
                 fetched: false,
             } 
+        case "EDIT_FULFILLED":
+            return {
+                ...state,
+                edited: true,
+                fetched: true,
+                fetching: false,
+            }
+        case "EDIT_REJECTED":
+            return {
+                ...state,
+                edited: false,
+                error: action.payload,
+                fetched: false,
+                fetching: false,
+            }
+        case "EDIT_REFRESH":
+            return {
+                ...state,
+                edited: false,
+                editing: false,
+            }
         case "DELETE_POST_FULFILLED":                                
             return {
                 ...state,
-                fetched: true,                
+                fetched: true,    
+                deletedPost: true,                            
                 fetching: false, 
             } 
         case "DELETE_POST_REJECTED":
             return {
                 ...state,
                 error: action.payload,
+                deletedPost: false,
                 fetched: false,
                 fetching: false, 
             } 
@@ -213,6 +246,8 @@ const profileManagement = (state=defaultState, action) => {
             return {
                 ...state,
                 deletedModel: false,
+                deletedPost: false,
+                deletedCommit: false,
             }
         case "DELETE_MODEL_REJECTED":
             return {
@@ -234,6 +269,17 @@ const profileManagement = (state=defaultState, action) => {
                 commitFetched: false,                
                 fetching: false, 
                 fetched: false,    
+            }
+        case "DELETE_COMMIT_FULFILLED":                       
+            return {
+                ...state,
+                deletedCommit: true,
+            } 
+        case "DELETE_COMMIT_REJECTED":
+            return {
+                ...state,
+                commitError: action.payload,
+                deletedCommit: false,    
             }
         default:
             return state;                       

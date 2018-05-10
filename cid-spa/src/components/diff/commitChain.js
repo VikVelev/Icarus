@@ -1,12 +1,11 @@
+// If you are looking for the Diff functionality code, it's in the viewport folder, not here.
+// It is abstracted into chunks all around the Model3D, Viewport THREE.js classes I made.
+
 import React, { Component } from 'react'
 import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-//import * as moment from 'moment'
-
 import  CommitEntry from './commitEntry.js'
-//import { fetchContributions } from '../../actions/profileActions.js'
-//import { changeSubpage } from '../../actions/pageActions.js'
 
 @connect((store)=>{
     return {

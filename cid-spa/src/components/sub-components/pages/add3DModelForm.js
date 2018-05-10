@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { add3DModel } from '../../../actions/profileActions.js'
 
 import Loading from 'react-loading-animation'
+import lang from '../../../lang.js'
 
 @connect((store) => {
     return {
         user: store.userManagement,
-        profile: store.profileManagement
+        profile: store.profileManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class Add3DModel extends Component{
@@ -85,25 +87,29 @@ export default class Add3DModel extends Component{
             formDataCommit.append( "details", "Initial commit" )
         }
 
-        this.props.dispatch(add3DModel(this.props.user.currentlyLoggedUser.username.id, 
-                                        this.props.user.currentlyLoggedUser.username.token,
-                                        formDataModel,
-                                        this.state.initialCommit,
-                                        formDataCommit,
-                                    ))
+        this.props.dispatch(
+            add3DModel(
+                this.props.user.currentlyLoggedUser.username.id, 
+                this.props.user.currentlyLoggedUser.username.token,
+                formDataModel,
+                this.state.initialCommit,
+                formDataCommit,
+            )
+        )
     }
 
     render(){
+        let text = lang[this.props.lang].createModel
         return (
             <Segment className="addPostContainer profileSettingsForm">
-            <Header size="huge">Create a project</Header>
-            <Message info>You can create a project without uploading a model.</Message>
+            <Header size="huge">{text.header}</Header>
+            <Message info>{text.createInfo}</Message>
                 <Form size='large' name="add_model" onSubmit={this.handleSubmit}>
                     <Segment stacked>
-                        <Header>Title:</Header>
+                        <Header>{text.title}:</Header>
                         
                         <Form.Input
-                            placeholder='Write a title'
+                            placeholder={text.title_p}
                             value={this.state.title}
                             onChange={this.handleChange}
                             error={this.handleErrors("title") ? true : false}                            
@@ -113,7 +119,7 @@ export default class Add3DModel extends Component{
 
                         {this.handleErrors("title")}
 
-                        <Header>Description:</Header>  
+                        <Header>{text.desc}:</Header>  
 
                         <Form.Input 
                             type="text"
@@ -124,7 +130,7 @@ export default class Add3DModel extends Component{
                             error={this.handleErrors("description") ? true : false}
                             rows='5' 
                             cols='50' 
-                            placeholder="Write a description"/>
+                            placeholder={text.desc_p}/>
 
                         {this.handleErrors("description")}                        
                         <div>
@@ -132,17 +138,16 @@ export default class Add3DModel extends Component{
                             name="initialCommit"
                             onChange={this.handleChange}
                             id="initialCommitCheckbox" 
-                            label="Create an initial commit."
+                            label={text.initCommitCheck}
                         />
                         
-                        <Message info>Initial commit is required if you want to upload a model.</Message>                       
+                        <Message info>{text.initCommitInfo}</Message>                       
                         {this.state.initialCommit ?
-
                             <div className="initialCommmit">
-                                <Header size="huge">Initial commit</Header> 
-                                <Header>Select a model</Header>
+                                <Header size="huge">{text.initCommit.header}</Header> 
+                                <Header>{text.initCommit.selectModel}</Header>
                                 <label htmlFor="file-upload" className="file-upload">
-                                    Choose a model
+                                    {text.initCommit.b_selectModel}
                                 </label>
 
                                 <label className="selected_model">
@@ -157,9 +162,9 @@ export default class Add3DModel extends Component{
 
                                 {this.handleCommitErrors("new_version")}              
                                         
-                                <Header>Select textures</Header>
+                                <Header>{text.initCommit.selectTex}</Header>
                                 <label htmlFor="textures-upload" className="file-upload">
-                                    Choose textures
+                                    {text.initCommit.b_selectTex}
                                 </label>
 
                                 <label className="selected_model">
@@ -170,24 +175,24 @@ export default class Add3DModel extends Component{
                                 
                                 {this.handleCommitErrors("new_textures")}                                
                                 
-                                <Message color="yellow">Currently supporting only .obj models and .mtl textures.</Message>
+                                <Message color="yellow">{text.initCommit.initCommitWarn}</Message>
                             </div>
                         
                         : null}
                         </div>
-
+                        {this.handleCommitErrors("error")}                        
                         {this.props.profile.fetching ? 
                         <Message info className="processing">
                             <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
                         </Message> : null }       
-                        {console.log(this.props.profile.modelFetched)}
+                        {/* {console.log(this.props.profile.modelFetched)} */}
                         {this.props.profile.modelFetched ? 
                         <Message color="green">
-                            Model successfully created.
+                            {text.success}
                         </Message> : null }                   
 
                     </Segment>
-                    <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Create</Button>
+                    <Button className="submitButton" type='submit 'color='blue' fluid size='large'>{text.b_create}</Button>
                 </Form>
             </Segment>
         )

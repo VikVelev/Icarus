@@ -4,6 +4,7 @@ djangorestframework
 django_extensions
 django-cors-headers
 django-rest-registration
+django-minio-storage>=0.2.1
 django-spa
 psycopg2-binary
 packaging
@@ -12,4 +13,3 @@ pytz
 Pillow
 six
 coreapi
-django-minio-storage

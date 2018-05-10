@@ -15,6 +15,11 @@ let defaultState = {
     fetching: false,
     fetched: false,
     locked: false,
+    viewModelFetched: false,
+    forking: false,
+    forkData: {},
+    forked: false,
+    checkingFork: false,
     error: {},
 }
 
@@ -25,6 +30,7 @@ const model3DManagement = (state=defaultState, action) => {
                 ...state,
                 comparing: [],
                 rendering: false,
+                viewModelFetched: false,              
                 diffMode: false,
                 fetching: true,
                 fetched: false,
@@ -35,6 +41,7 @@ const model3DManagement = (state=defaultState, action) => {
                 ...state,
                 model: action.payload,
                 fetching: false,
+                viewModelFetched: true,                
                 fetched: true,
             }
         case "FETCH_DATA_REJECTED":
@@ -42,6 +49,7 @@ const model3DManagement = (state=defaultState, action) => {
                 ...state,
                 fetching: false,
                 fetched: false,
+                viewModelFetched: false,                
                 error: action.payload,
             }
         case "FETCH_MENTIONS":
@@ -57,7 +65,7 @@ const model3DManagement = (state=defaultState, action) => {
                 fetched: true,
                 mentions: action.payload,
             }
-        case "FETCH_MENTIONS_FULFILLED":
+        case "FETCH_MENTIONS_REJECTED":
             return {
                 ...state,
                 fetching: false,
@@ -117,6 +125,46 @@ const model3DManagement = (state=defaultState, action) => {
                     called: false,
                     query: {}
                 }
+            }
+        case "FORKING":
+            return {
+                ...state,
+                checkingFork: true,                
+                forking: true,
+            }
+        case "FORKING_FULFILLED":
+            return {
+                ...state,
+                checkingFork: false,                
+                forking: false,
+                forkData: action.payload,
+                forked: true,
+            }
+        case "FORKING_REJECTED":
+            return {
+                ...state,
+                checkingFork: false,                
+                forking: false,
+                error: action.payload,
+                forked: false,
+            }
+        case "IS_FORKED":
+            return {
+                ...state,
+                checkingFork: true,
+                forked: false,
+            }
+        case "IS_FORKED_FULFILLED":
+            return {
+                ...state,
+                checkingFork: false,                
+                forked: action.payload.is_forked_by_you,
+            }
+        case "IS_FORKED_REJECTED":
+            return {
+                ...state,
+                checkingFork: false,                
+                error: action.payload,
             }
         case "RENDERING":
             return {

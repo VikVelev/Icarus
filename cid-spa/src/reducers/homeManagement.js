@@ -1,6 +1,9 @@
 const defaultState = {
-    personalizedPosts: {},
+    personalizedPosts: [],
+    batches: [],
     fetching: false,
+    fetchingBatch: false,
+    fetchedBatch: false,
     fetched: false,
     error: {},
 }
@@ -25,6 +28,25 @@ const homeManagement = (state=defaultState, action) => {
                 fetching: false,
                 fetched: false,
                 error: action.payload
+            }
+        case "FETCH_NEXT_BATCH":
+            return {
+                fetchingBatch: true,
+                fetchedBatch: false,
+                ...state
+            }
+        case "FETCH_NEXT_BATCH_FULFILLED":
+            state.batches.push(action.payload)
+            return {
+                fetchingBatch: false,
+                fetchedBatch: true,
+                ...state
+            }
+        case "FETCH_NEXT_BATCH_REJECTED":
+            return {
+                fetchingBatch: false,                
+                fetchedBatch: false,
+                ...state
             }
         default: 
             return state

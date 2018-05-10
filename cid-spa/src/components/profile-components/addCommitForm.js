@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { addCommit } from '../../actions/profileActions.js'
 
 import Loading from 'react-loading-animation'
+import lang from '../../lang.js'
 
 @connect((store) => {
     return {
         user: store.userManagement,
-        profile: store.profileManagement
+        profile: store.profileManagement,
+        lang: store.langManagement.lang,
     }
 })
 export default class AddCommit extends Component {
@@ -38,7 +40,17 @@ export default class AddCommit extends Component {
                 )
             }
         }
-	}
+
+        if (this.props.profile.commitError.response) {
+            if (this.props.profile.commitError.response.data[type] !== undefined) {
+                return (
+                    <Message attached="bottom" color="red">
+                        {this.props.profile.commitError.response.data[type]}
+                    </Message>
+                )
+            }
+        }
+    }
 
     handleSubmit = (e) => {  
 
@@ -56,21 +68,28 @@ export default class AddCommit extends Component {
 
         formDataCommit.append( "details", this.state.details )
 
-        this.props.dispatch(addCommit(this.props.user.currentlyLoggedUser.username.id, formDataCommit, this.props.user.currentlyLoggedUser.username.token))
+        this.props.dispatch(
+            addCommit(
+                this.props.user.currentlyLoggedUser.username.id, 
+                formDataCommit,
+                this.props.user.currentlyLoggedUser.username.token
+            )
+        )
     }
 
     render() {
+        let text = lang[this.props.lang].addCommit
         return (
             <Modal className="addCommitModal" trigger={this.props.trigger} dimmer="blurring" closeIcon>
-                <Modal.Header>Add a commit</Modal.Header>
+                <Modal.Header>{text.header}</Modal.Header>
                 <Modal.Content>
                 <Segment className="profileSettingsForm">
                     <Form size='large' name="add_model" onSubmit={this.handleSubmit.bind(this)}>
                         <Segment stacked>
-                            <Header>Title:</Header>
+                            <Header>{text.title}:</Header>
                             
                             <Form.Input
-                                placeholder='Write a title'
+                                placeholder={text.title_p}
                                 value={this.state.title}
                                 onChange={this.handleChange}
                                 type="text"
@@ -79,24 +98,24 @@ export default class AddCommit extends Component {
                             />
                             {this.handleErrors("title")}
 
-                            <Header>Description:</Header>  
+                            <Header>{text.desc}:</Header>  
 
                             <Form.Input 
                                 type="text"
-                                name="details" 
+                                name="details"
                                 value={this.state.details}
                                 error={this.handleErrors("details") ? true : false}
                                 onChange={this.handleChange}
                                 id="details"
                                 rows='5' 
                                 cols='50' 
-                                placeholder="Write a description"/>
+                                placeholder={text.desc_p}/>
 
                             {this.handleErrors("details")}                 
                             {/* TODO: Create a component for upload button.*/}
-                            <Header>Select a new model</Header>
+                            <Header>{text.selectModel}</Header>
                             <label htmlFor="file-upload" className="file-upload">
-                                Choose a new model
+                                {text.b_selectModel}
                             </label>
                             <label className="selected_model">
                                 { document.getElementById("file-upload") ? document.getElementById("file-upload").files[0] ? document.getElementById("file-upload").files[0].name : null : null}
@@ -104,9 +123,9 @@ export default class AddCommit extends Component {
                             <Form.Input type="file" id="file-upload" name="thumbnail" onChange={this.handleChange} accept=".obj" />
                             {this.handleErrors("new_version")}
 
-                            <Header>Select new textures</Header>
+                            <Header>{text.selectTex}</Header>
                             <label htmlFor="textures-upload" className="file-upload">
-                                Choose new textures
+                                {text.b_selectTex}
                             </label>
                             <label className="selected_model">
                                 { document.getElementById("textures-upload") ? document.getElementById("textures-upload").files[0] ? document.getElementById("textures-upload").files[0].name : null : null}
@@ -114,19 +133,19 @@ export default class AddCommit extends Component {
                             <Form.Input type="file" id="textures-upload" name="thumbnail" onChange={this.handleChange} accept=".mtl" />
                             {this.handleErrors("new_textures")}               
                             
-                            <Message color="yellow">Currently supporting only .obj models and .mtl textures.</Message>
+                            <Message color="yellow">{text.supportWarn}</Message>
 
                             {
                                 this.props.profile.fetching ? 
                                     <Message info className="processing">
-                                        <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>Processing...</p>
+                                        <Loading style={{width: '50px', margin: 'unset'}}/> <p style={{marginLeft: '20px'}}>{text.processing}</p>
                                     </Message>
                                 : null
-                            }                            
-                            {this.props.profile.commitFetched ? <Message color="green" > Successfully added a new commit. </Message> : null }
-                            
+                            }
+                            {this.props.profile.commitFetched ? <Message color="green" > {text.success} </Message> : null }
+                            {this.handleErrors("error")}                                      
                         </Segment>
-                        <Button className="submitButton" type='submit 'color='blue' fluid size='large'>Commit</Button>
+                        <Button className="submitButton" type='submit 'color='blue' fluid size='large'>{text.b_commit}</Button>
                     </Form>
                 </Segment>
             </Modal.Content>

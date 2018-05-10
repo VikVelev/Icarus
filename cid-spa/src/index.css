@@ -1,3 +1,5 @@
+/* Refactor all this, sorry for the time being, tight deadlines :@ */
+
 body > div,
 body > div > div,
 body > #app > .content,
@@ -38,7 +40,7 @@ body {
     display: flex;
 }
 
-.dropdown.icon {
+#profileBadge .dropdown.icon {
     display: none !important;
 }
 
@@ -61,7 +63,7 @@ body {
     display: flex;
 }
 
-.userHeader, .settingsHeader {
+.userHeader, .settingsHeader, .postedRevisions, .toReview {
 
     border: 0px !important;
     box-shadow: none !important;
@@ -196,7 +198,11 @@ body {
     height: auto;
 }
 
-.userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
+.userContainer, 
+.settingsContainer, 
+.addPostContainer, 
+.viewModelContainer, 
+.revisionContainer {
     height: auto;
     margin-top: 5px !important;
     margin-left: 20% !important;
@@ -261,7 +267,7 @@ input[type="file"] {
 }
 
 .ui.modal.transition.visible.active {
-    margin-top: 5% !important;
+    margin-top: 25px !important;
     margin: auto;
     height: auto;
 }
@@ -315,11 +321,25 @@ i.blue.icon:hover {
     font-size: 1.15em;
 }
 
+.currentlyComparing{
+    position: fixed !important;
+    top: 60px !important;
+    right: 10% !important;   
+    z-index: 10;
+    transition: all 0.2s;
+}
+
 @media (max-width: 768px){
     .userContainer, .settingsContainer, .addPostContainer, .viewModelContainer {
         margin-left: 2% !important;
         transition: all 0.1s;
-        margin-right: 2% !important;  
+        margin-right: 2% !important; 
+    }
+
+    .currentlyComparing {
+        position: unset !important;
+        top: unset !important;
+        right: unset !important;
     }
 
     .post-container {
@@ -328,9 +348,36 @@ i.blue.icon:hover {
         margin-right: 2% !important;
     }
 
-    .currentlyComparing {
-        display: none !important;
-        position: unset !important;
+    .langSwitcher {
+        margin: auto !important;
+        margin: 0 !important;
+        padding-bottom: 0 !important;
+        height: auto !important;
+        width: auto !important;
+    }
+
+    .postWrapper {
+        display: flex !important;
+        flex-direction: column !important; 
+    }
+    
+    .revisionItem {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .choices {
+        position: relative !important;
+        width: 100% !important;
+    }
+    
+    .choice {
+        margin: auto !important;
+    }
+    
+    .groupItem {
+        margin: auto !important;
+        margin-left: 10px !important;
     }
 }
 
@@ -365,14 +412,6 @@ i.blue.icon:hover {
 
 .react-datepicker-wrapper{
     margin-bottom: 15px;
-}
-
-.currentlyComparing{
-    position: fixed !important;
-    top: 60px !important;
-    right: 10% !important;   
-    z-index: 10;
-    transition: all 0.2s;
 }
 
 .lookingContainer{
@@ -414,5 +453,284 @@ div.selected.item[role="option"]{
 }
 
 .ui.search {
-    font-size: 0.85em !important;
+    font-size: 1em !important;
+}
+
+.search.icon {
+    font-size: 1em;
+    padding-top: 0.7em !important;
+    margin-top: 0;
+}
+
+.revisionItem {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin: auto;
+}
+
+.choices {
+    position: absolute;
+    margin: auto;
+    width: auto;
+    right: 10px;
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.groupItem {
+    margin: 0;
+    height: 80% !important;
+}
+
+.choice {
+    width: auto;
+    height: auto;    
+    margin: auto;
+    margin-top: 35px !important;
+    margin-right: 20px;
+}
+
+.revisionContainer {
+    height: auto;
+}
+
+.revisionTab {
+    height: auto;
+    max-height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.loading.button[type="submit"], .loading.forkButton {
+    position: relative !important;
+    top: unset !important;
+    z-index: unset !important;
+    
+}
+
+.approving {
+    animation: appoving 0.3s forwards ease-in-out ; 
+}
+
+@keyframes appoving {
+    from {
+        height: 180px;
+        overflow: hidden;
+    }
+    to {
+        height: 0px;
+        padding: 0;
+        margin-bottom: 0;
+        border: none;       
+        overflow: hidden;
+    }
+}
+
+.check {
+    color: green;
+}
+
+.check:hover{
+    color: lightgreen;
+}
+
+.check:active{
+    color: rgb(44, 92, 44);
+}
+
+.close {
+    color: red;
+}
+
+.close:hover {
+    color: lightcoral;
+}
+
+.close:active {
+    color: rgb(134, 28, 28);
+}
+
+.PENDING {
+    transition: all 0.8s !important;
+    border-top: 3px solid #2185d0 !important;
+}
+
+.APPROVED {
+    transition: all 0.8s !important;
+    background-color: #EBF7E0 !important;
+    border-top: 3px solid #7EB75C !important; 
+}
+
+.REJECTED {
+    transition: all 0.8s !important;
+    background-color: #FFE7E7 !important;
+    border-top: 3px solid #D46A6A !important; 
+}
+
+.titleBox{
+    display: flex;
+    flex-direction: row;
+}
+
+.edited {
+    font-size: 0.7em !important;
+    width: auto !important;
+    padding: 5px !important;
+    margin: 0 !important;    
+    margin-left: 10px !important;
+    margin-top: -5px !important;    
+    height: auto !important;      
+}
+
+.minWidthImage {
+    min-width: 150px !important;
+}
+
+.errorPage {
+    background-color: #FFF;
+    z-index: 10;
+    width: 100% !important;
+    height: 90% !important;
+    position: absolute !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.errorHeader {
+    display: inline-block;
+    width: auto;
+    font-size: 10em !important;
+    margin: auto !important;
+    margin-bottom: 0 !important;
+}
+
+.errorText {
+    display: inline-block;
+    text-align: center;
+    font-size: 2em;    
+    margin: auto !important;
+    margin-top: 0 !important;
+}
+
+.forkButton {
+    width: 100%;
+    margin: auto !important;
+    margin-right: 0 !important; 
+    margin-bottom: 10px !important;
+}
+
+.intButtons {
+    margin: auto;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+
+}
+
+i.huge.icon {
+    font-size: 3em !important;
+}
+
+.eye {
+    color: #0e65a7;
+}
+
+.eye:hover {
+    color: #2185d0;
+}
+
+.eye:active {
+    color: #084472;
+}
+
+.reviewWindowModal {
+    height: 80% !important;
+    width: 80% !important;
+    padding: 0 !important;
+}
+
+.ui.modal>.content {
+    padding: 0 !important;
+}
+
+.limitReached{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.limitReached p {
+    text-align: center;
+    font-size: 1em;
+    margin: auto;
+    margin-top: 10px;    
+}
+
+.limitReached .limitHeader {
+    text-align: center;
+    font-size: 2em;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.dashboard {
+    margin: auto !important;
+    font-size: 5em !important;
+    margin-bottom: 20px !important;
+}
+
+.langSwitcher {
+    font-size: 0.9em;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 35px;
+    height: 30px;
+}
+
+.ui.compact.selection {
+    margin-bottom: 10px;
+}
+
+.langSwitcher .ui.compact.selection .item {
+    border: unset !important;
+}
+
+.langSwitcher .ui.dropdown {
+    background-color: red;
+    border: 0 !important;
+}
+
+.post {
+    height: auto !important;
+}
+
+.buttons {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0px !important;    
+}
+
+.editMode {
+    height: auto !important;
+}
+
+.stopEdit {
+    margin: auto !important;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;    
+    margin-right: 0px !important;
+}
+
+textarea {
+    border-color: #ddd !important;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.loading.stopEdit {
+    position: relative !important;
 }
