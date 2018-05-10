@@ -193,7 +193,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
+STATIC_URL = 'http://cid-platform.com/static/'
 STATIC_ROOT = 'cidAPI/static'
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
