@@ -195,16 +195,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'static/static'),
     os.path.join(BASE_DIR, 'static/media'),
     os.path.join(BASE_DIR, 'static/src'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = 'static'
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-MINIO_STORAGE_ENDPOINT = "172.20.0.3:9000"
+MINIO_STORAGE_ENDPOINT = "172.20.0.2:9000"
 MINIO_STORAGE_SECRET_KEY = "test_secret"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"
