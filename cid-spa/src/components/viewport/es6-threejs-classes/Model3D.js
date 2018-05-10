@@ -29,8 +29,7 @@ export default class Model3D {
         this.model.children.forEach(element => {
             this.textures.push(element.material);
         })
-        console.log(this.model.children)
-        this.extractedGeometry = this.extractGeometry( this.model )
+        //this.extractedGeometry = this.extractGeometry( this.model )
         this.vertexNormals = new VertexNormalsHelper( this.model, 0.15 );
 
         //Work out the issue with facenormals
@@ -57,11 +56,11 @@ export default class Model3D {
     }
 
     extractGeometry(model){
-        try {
 
-            let mat = new LineBasicMaterial( { color: 0x2185d0, linewidth: 1.5 } );            
-            let allLines = new Group()
-            
+        let mat = new LineBasicMaterial( { color: 0x2185d0, linewidth: 1.5 } );            
+        let allLines = new Group()
+        
+        try {
             model.children.forEach(mesh => {
                 if(mesh.geometry instanceof Mesh) {
                     let edge = new WireframeGeometry(new Geometry().fromBufferGeometry(mesh.geometry), 0xffffff);
@@ -76,6 +75,7 @@ export default class Model3D {
 
         } catch(error) {
             console.warn(error)
+            //return allLines
         }
     }
     

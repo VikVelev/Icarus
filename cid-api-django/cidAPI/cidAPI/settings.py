@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 's@5idp4#w&%!=1$pi6d8)2_(e=1ku6q44d%%tmj+aiwl2hfoq='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [    
     'cid-platform.com',
@@ -193,14 +193,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/static'),
-    os.path.join(BASE_DIR, 'static/media'),
-    os.path.join(BASE_DIR, 'static/src'),
-)
-
-STATIC_ROOT = 'static'
+STATIC_ROOT = 'cidAPI/static'
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
 MINIO_STORAGE_ENDPOINT = "172.20.0.3:9000"
