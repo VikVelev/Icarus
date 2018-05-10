@@ -8164,6 +8164,10 @@ three@^0.90.0:
   version "0.90.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.90.0.tgz#be478e7c0f82c5ae742c197db1e38e58b6190d1b"
 
+three@^0.92.0:
+  version "0.92.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.92.0.tgz#8d3d1f5af890e62da7f4cb45d20c09fa51057dcd"
+
 throat@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-3.2.0.tgz#50cb0670edbc40237b9e347d7e1f88e4620af836"
@@ -8863,6 +8867,12 @@ write@^0.2.1:
   resolved "https://registry.yarnpkg.com/write/-/write-0.2.1.tgz#5fc03828e264cea3fe91455476f7a3c566cb0757"
   dependencies:
     mkdirp "^0.5.1"
+
+wwobjloader2@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/wwobjloader2/-/wwobjloader2-2.4.1.tgz#b53544569f423feea5e15e8950760799f12b9f9e"
+  dependencies:
+    three "^0.92.0"
 
 xdg-basedir@^3.0.0:
   version "3.0.0"

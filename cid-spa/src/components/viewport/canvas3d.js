@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Progress, Icon, } from 'semantic-ui-react'
 
 /* Not written by me */
-import OBJLoader from 'three-react-obj-loader'
+
+
 import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 /* Not written by me */
 
@@ -11,6 +12,16 @@ import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
 /* Written by me 100% */
 import { connect } from 'react-redux';
+
+let THREE = require('three')
+
+let LoaderSupport = require('wwobjloader2/build/LoaderSupport.js')
+LoaderSupport(THREE)
+
+let OBJLoader2 = require('wwobjloader2/build/OBJLoader2.js')
+OBJLoader2(THREE)
+
+console.log(THREE.OBJLoader2)
 
 @connect((store) => {
     return {
@@ -28,7 +39,7 @@ export default class Canvas3D extends Component {
         this.canvasId = Math.round(Math.random()*(10**9)) 
         : this.canvasId = this.props.canvasId
         
-        this.loader = new OBJLoader()
+        //this.loader = new OBJLoader()
         this.texLoader = new MTLLoader()
         
         this.state = {
