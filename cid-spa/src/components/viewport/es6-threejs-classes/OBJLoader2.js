@@ -7,11 +7,16 @@
 
 'use strict';
 
+let THREE = require('three')
+let LoaderSupport = require('./LoaderSupport.js')
+LoaderSupport(THREE)
+
 module.exports = function(THREE, MTLLoader) {
 	if ( THREE.OBJLoader2 === undefined ) { THREE.OBJLoader2 = {} }
 
 	if ( THREE.LoaderSupport === undefined ) console.error( '"THREE.LoaderSupport" is not available. "THREE.OBJLoader2" requires it. Please include "LoaderSupport.js" in your HTML.' );
 
+	console.log(THREE.LoaderSupport.Validator)
 	/**
 	 * Use this class to load OBJ data from files or to parse OBJ data from an arraybuffer
 	 * @class
