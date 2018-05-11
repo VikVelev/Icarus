@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux';
@@ -7,6 +9,8 @@ import { fetchPersonalizedPosts, fetchNextBatch } from '../../../actions/homeAct
 
 import Loading from 'react-loading-animation'
 import { Button } from 'semantic-ui-react';
+
+import InfiniteScroll from 'react-infinite-scroller'
 
 @connect((store)=>{
     return {
@@ -22,59 +26,61 @@ export default class Feed extends Component {
         this.state = {
             posts: 0,
             fetched: false,
-            fetchBatch: true,
+            fetching: false,
             batches: [],
-            currentlyOn: 8,
+            currentlyOn: 0,
+            page: 0,
             update: true,
         }
+    }
 
-        this.props.dispatch(
-            fetchPersonalizedPosts(
-                this.props.user.currentlyLoggedUser.username.token
+    fetchBatch() {
+        if(!this.state.fetching && this.props.home.hasMore){
+            this.state.fetching = true
+
+            this.props.dispatch(
+                fetchNextBatch(
+                    this.state.page*10,
+                    this.props.user.currentlyLoggedUser.username.token
+                )
             )
-        )
+
+            this.setState({
+                update: true,
+                currentlyOn: this.state.currentlyOn + this.state.step,
+                page: this.state.page + 1
+            })
+        } else {
+
+        }
     }
 
-    // fetchBatch() {
-    //     this.props.dispatch(
-    //         fetchNextBatch(
-    //             this.state.currentlyOn, this.props.user.currentlyLoggedUser.username.token
-    //         )
-    //     )
-    //     this.setState({
-    //         update: true,
-    //         fetchBatch: true,
-    //         currentlyOn: this.state.currentlyOn + 8,
-    //     })
-    // }
-
-    renderPost(object, i){
-        return (     
-            <Post className="post-container" key={i} {...object}/>
-        )
+    callbackFetch() {
+        this.setState({ fetching: false, fetched: true })
     }
-
-    // renderBatches() {
-    //     this.props.home.batches.forEach((batch) => {
-    //         batch.map((object, i) => this.renderPost(object,i))
-    //     })
-    // }
 
     render(){
+        let items = [];
+        
+        this.props.home.personalizedPosts.forEach((batch, index) => {
+
+                batch.map((object, i) => {
+                    return items.push(<Post key={i  + 10 * index} className="post-container"  {...object}/>)
+                })
+        })
+
+        if (this.props.home.fetched && !this.state.fetched) {
+            this.callbackFetch()
+        }
+
         return(
-            <div className="feed">
-                {
-                    this.props.home.personalizedPosts.length !== 0 ? 
-                    this.props.home.personalizedPosts.map((object, i) => this.renderPost(object,i)) : 
-                    <Loading style={{marginTop: '10%'}}/>
-                }
-                {/* {
-                    this.props.home.batches.length !== 0 ? 
-                    this.renderBatches() :
-                    <div>Nothing</div>
-                }
-                <Button onClick={this.fetchBatch.bind(this)}>Fetch next batch</Button> */}
-            </div> 
+            <InfiniteScroll pageStart={0}
+                            loadMore={this.fetchBatch.bind(this)}
+                            hasMore={this.props.home.hasMore}
+                            loader={<Loading key={0} style={{marginTop: '10%'}}/>}
+            >
+                {items}
+            </InfiniteScroll>
             )
         }
     }

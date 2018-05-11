@@ -179,7 +179,7 @@ export default class ContributionsFeed extends Component {
                             this.props.profile.contributions.map((object, i) => this.renderPost(object,i)) 
                         : Object.keys(this.commits).length !== 0 ?  //else if
                             this.commits.map((object, i) => this.renderPost(object,i))
-                        : this.props.profile.models.length === 0 && this.props.profile.fetched ? //else if
+                        : this.props.profile.contributions.length === 0 && this.props.profile.fetched ? //else if
                         <Message info >
                             {lang[this.props.lang].profilePage.contrib.nothing}
                         </Message> 

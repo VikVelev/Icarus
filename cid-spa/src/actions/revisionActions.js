@@ -9,7 +9,7 @@ export function fetchMyRevisions(token) {
                 'Authorization': 'Token ' + token
             }
         }).then((response) => {
-            dispatch({ type: "FETCH_POSTED_REVISIONS_FULFILLED", payload: response.data })
+            dispatch({ type: "FETCH_POSTED_REVISIONS_FULFILLED", payload: response.data.results })
         }).catch((error) => {
             dispatch({ type: "FETCH_POSTED_REVISIONS_REJECTED", payload: error })            
         })
@@ -25,7 +25,7 @@ export function fetchUserRevisions(id, token){
                 'Authorization': 'Token ' + token
             }
         }).then((response) => {
-            dispatch({ type: "FETCH_REVISIONS_FULFILLED", payload: response.data })
+            dispatch({ type: "FETCH_REVISIONS_FULFILLED", payload: response.data.results })
         }).catch((error) => {
             dispatch({ type: "FETCH_REVISIONS_REJECTED", payload: error })            
         })
