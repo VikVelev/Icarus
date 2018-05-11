@@ -218,9 +218,11 @@ export default class Viewport {
         let green = 0x00ff00
         let red = 0xff0000
 
+        this.objectToRender = model3d
         model3d.import.forEach( element => {
             element.name = id
 
+            
             if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
                 
                 element.children.forEach(mesh => {              

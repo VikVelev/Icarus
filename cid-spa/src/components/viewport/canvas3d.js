@@ -94,9 +94,11 @@ export default class Canvas3D extends Component {
 
             if ( this.logging.enabled ) console.info( event );
             if ( this.workerDirector.objectsCompleted + 1 === maxQueueSize ) this.running = false;
+
             if (commitId === undefined) {
-                console.log(commitId)
+                //console.log(commitId)
             }
+            
             this.onModelLoad(event, commitId)
             this.setState({ loading: false, })
         };
@@ -140,7 +142,12 @@ export default class Canvas3D extends Component {
 
         if (modelPrepDatas.length === 0) {
             let prepData;
-            let modelName = this.props.modelPath.split("/")[4]
+            let modelName
+            if (this.props.demo) {
+                modelName = this.props.modelPath.split('/')[2]
+            } else {    
+                modelName = this.props.modelPath.split("/")[4]
+            }
             modelName = modelName.split(".")[0]
 
             if (modelPrepDatas.length === 0) {
@@ -216,7 +223,7 @@ export default class Canvas3D extends Component {
                 textures: (this.props.texturePath !== undefined && this.props.texturePath !== null)
             })
         }
-
+        
         if(this.props.type === 'revision') {
 
             let modelPrepDatas = []
