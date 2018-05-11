@@ -103,10 +103,7 @@ export default class Canvas3D extends Component {
             this.setState({ loading: false, })
         };
 
-        let callbackReportProgress = (event) => {
-            //console.log(event)
-        };
-
+        // This is called when a single mesh is loaded
         let callbackMeshAlter = (event, override) => {
             if ( ! this.Validator.isValid( override ) ) {
                 override = new THREE.LoaderSupport.LoadedMeshUserOverride( false, false );
@@ -133,7 +130,7 @@ export default class Canvas3D extends Component {
         };
 
         let callbacks = new THREE.LoaderSupport.Callbacks();
-        callbacks.setCallbackOnProgress( callbackReportProgress );
+        callbacks.setCallbackOnProgress( this.onProgress.bind(this) );
         callbacks.setCallbackOnLoad( callbackOnLoad );
         callbacks.setCallbackOnMeshAlter( callbackMeshAlter );
         callbacks.setCallbackOnLoadMaterials( callbackOnLoadMaterials );
@@ -141,8 +138,10 @@ export default class Canvas3D extends Component {
         this.workerDirector.prepareWorkers( callbacks, maxQueueSize, maxWebWorkers );
 
         if (modelPrepDatas.length === 0) {
+
             let prepData;
-            let modelName
+            let modelName;
+
             if (this.props.demo) {
                 modelName = this.props.modelPath.split('/')[2]
             } else {    
@@ -288,7 +287,7 @@ export default class Canvas3D extends Component {
 
     }
 
-    addModel(element) {
+    addModel( element ) {
         // I'm using the commit ID to refer to each model when removing them.
         //console.log(element)
         this.setState({ loading:true, precent: 0 })
@@ -322,15 +321,8 @@ export default class Canvas3D extends Component {
  
     }
 
-    onProgress( xhr ){
-        this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
-        if (this.state.precent === 100) {
-            setTimeout(this.setState({ loading: false }), 3000);
-        }
-        
-        if (this.state.precent === 100) {
-            this.setState({ counter: this.state.counter + 1 })
-        }
+    onProgress( event ){
+        this.setState({ precent: Math.round( event.detail.numericalValue * 100 )});
     }
 
 
@@ -364,7 +356,7 @@ export default class Canvas3D extends Component {
         } else {
             return ( 
                 <div className="loading">
-                    <Progress inverted percent={100} indicating></Progress>            
+                    <Progress inverted percent={this.state.precent} indicating></Progress>            
                 </div>
             )
         }
