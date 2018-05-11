@@ -270,7 +270,6 @@ module.exports = {
         // https://github.com/facebookincubator/create-react-app/issues/2376
         // Pending further investigation:
         // https://github.com/mishoo/UglifyJS2/issues/2011
-        parallel: true,
         comparisons: false,
       },
       mangle: {
