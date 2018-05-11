@@ -77,7 +77,7 @@ export default class Feed extends Component {
             <InfiniteScroll pageStart={0}
                             loadMore={this.fetchBatch.bind(this)}
                             hasMore={this.props.home.hasMore}
-                            loader={<Loading style={{marginTop: '10%'}}/>}
+                            loader={<Loading key={0} style={{marginTop: '10%'}}/>}
             >
                 {items}
             </InfiniteScroll>

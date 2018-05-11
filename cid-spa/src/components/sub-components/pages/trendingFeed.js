@@ -56,7 +56,6 @@ export default class TrendingFeed extends Component {
 
     render(){
         let items = [];
-        console.log(this.props.trending.hasMore)
 
         this.props.trending.trendingPosts.forEach((batch, index) => {
             batch.map((object, i) => items.push(<Post className="post-container" key={i + 10 * index} {...object}/>))
@@ -66,7 +65,7 @@ export default class TrendingFeed extends Component {
             <InfiniteScroll pageStart={0}
                             loadMore={this.fetchBatch.bind(this)}
                             hasMore={this.props.trending.hasMore}
-                            loader={<Loading style={{marginTop: '10%'}}/>}
+                            loader={<Loading key={0} style={{marginTop: '10%'}}/>}
             >
                 {items}
                 {this.props.trending.fetched && !this.state.fetched ? this.callbackFetch() : null}

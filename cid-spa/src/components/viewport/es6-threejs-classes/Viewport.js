@@ -239,7 +239,6 @@ export default class Viewport {
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
                         mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
-                        console.log(id, parseInt(this.currentlyRendering[0].import[0].name[0]))
                         if (id < parseInt(this.currentlyRendering[0].import[0].name[0], 10)) {
                             mesh.material.color = new Color(red)
                         } else {
@@ -268,7 +267,6 @@ export default class Viewport {
                 for (let i = 0; i < this.currentlyRendering.length; i++) {
                     for (let j = 0; j < this.currentlyRendering[i].import.length; j++) {
                         if(object.name === this.currentlyRendering[i].import[j].name && object.name === id ) {
-                            console.log(i)
                             this.currentlyRendering.splice(i,1)                       
                             spliced = true;
                             break
