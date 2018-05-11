@@ -1,6 +1,6 @@
 const defaultState = {
     personalizedPosts: [],
-    batches: [],
+    hasMore: true,
     fetching: false,
     fetchingBatch: false,
     fetchedBatch: false,
@@ -31,21 +31,22 @@ const homeManagement = (state=defaultState, action) => {
             }
         case "FETCH_NEXT_BATCH":
             return {
-                fetchingBatch: true,
-                fetchedBatch: false,
+                fetching: true,
+                fetched: false,
                 ...state
             }
         case "FETCH_NEXT_BATCH_FULFILLED":
-            state.batches.push(action.payload)
+            state.personalizedPosts.push(action.payload.results)
             return {
-                fetchingBatch: false,
-                fetchedBatch: true,
-                ...state
+                ...state,
+                hasMore: action.payload.next !== null,
+                fetching: false,
+                fetched: true,
             }
         case "FETCH_NEXT_BATCH_REJECTED":
             return {
-                fetchingBatch: false,                
-                fetchedBatch: false,
+                fetching: false,                
+                fetched: false,
                 ...state
             }
         default: 

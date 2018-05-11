@@ -221,7 +221,7 @@ export default class Post extends Component {
         }
 
         return(
-            <Segment  className={this.props.className}>
+            <Segment key={this.props.key} className={this.props.className}>
                 <div className="postWrapper">
                     {
                         this.state.edit ? this.editMode(image) :

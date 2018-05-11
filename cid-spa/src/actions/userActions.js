@@ -5,14 +5,14 @@ import url from './backendUrl.js'
 export function fetchAllUsers(token) {
     return function(dispatch) {
             dispatch({ type: "FETCH_ALL_USERS" })
-        axios.get(url + "/api/users/", {
+        axios.get(url + "/api/users/?limit=10000", {
             headers: {
                 'Authorization': 'Token ' + token,
                 'Content-Type': 'application/json',
                 
             }
         }).then((response) => {
-            dispatch({type: "FETCH_ALL_USERS_FULFILLED", payload: response.data})
+            dispatch({type: "FETCH_ALL_USERS_FULFILLED", payload: response.data.results})
         }).catch((error) => {
             dispatch({type: "FETCH_ALL_USERS_REJECTED", payload: error})
         })

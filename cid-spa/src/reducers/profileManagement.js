@@ -69,14 +69,14 @@ const profileManagement = (state=defaultState, action) => {
         case "FETCH_MODELS_FULFILLED":
             return {
                 ...state,
-                models: action.payload,
+                models: action.payload.results,
                 fetching: false,
                 fetched: true,                
             }
         case "FETCH_ALL_MODELS_FULFILLED":
             return {
                 ...state,
-                allModels: action.payload,
+                allModels: action.payload.results,
                 fetching: false,
                 fetched: true,                
             }

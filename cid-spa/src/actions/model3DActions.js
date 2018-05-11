@@ -11,7 +11,7 @@ export function fetchViewingData(id, token) {
         })
 
         saxios.get(url + "/api/3d-models/?id=" + id).then((response) => {
-            dispatch({ type: "FETCH_DATA_FULFILLED", payload: response.data })
+            dispatch({ type: "FETCH_DATA_FULFILLED", payload: response.data.results })
         }).catch((error) => {
             dispatch({ type: "FETCH_DATA_REJECTED", payload: error })            
         })
@@ -28,7 +28,7 @@ export function fetchModelMentions(id, token){
         })
 
         saxios.get(url + "/api/posts/?posted_model=" + id).then((response) => {
-            dispatch({ type: "FETCH_MENTIONS_FULFILLED", payload: response.data })
+            dispatch({ type: "FETCH_MENTIONS_FULFILLED", payload: response.data.results })
         }).catch((error) => {
             dispatch({ type: "FETCH_MENTIONS_REJECTED", payload: error })            
         })

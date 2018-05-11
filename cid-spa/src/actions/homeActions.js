@@ -28,11 +28,10 @@ export function fetchNextBatch(from, token){
         let saxios = axios.create({
             headers: {
                 'Authorization': 'Token ' + token,
-                'Content-Type': 'application/json',
             }
         })
 
-        saxios.get(url + "/api/posts/?from=" + from + "&to=" + (from + 8)).then((response) => {
+        saxios.get(url + "/api/posts/" + (from !== 0 ? "?offset=" + from : "")).then((response) => {
             dispatch({ type: "FETCH_NEXT_BATCH_FULFILLED", payload: response.data })
         }).catch((error) => {
             dispatch({ type: "FETCH_NEXT_BATCH_REJECTED", payload: error })            

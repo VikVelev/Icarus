@@ -1,9 +1,8 @@
 const defaultState = {
-    trendingPosts: {},
+    trendingPosts: [],
+    hasMore: true,
     fetching: false,
     fetched: false,
-    shuffled: false,
-    shuffledPosts: [],
     error: {},
 }
 
@@ -28,11 +27,25 @@ const trendingManagement = (state=defaultState, action) => {
                 fetched: false,
                 error: action.payload
             }
-        case "SHUFFLE":
+        case "FETCH_NEXT_TRENDING_BATCH":
+            return {
+                fetching: true,
+                fetched: false,
+                ...state
+            }
+        case "FETCH_NEXT_TRENDING_BATCH_FULFILLED":
+            state.trendingPosts.push(action.payload.results)
             return {
                 ...state,
-                shuffled: true,
-                shuffledPosts: action.payload
+                hasMore: action.payload.next !== null,
+                fetching: false,
+                fetched: true,
+            }
+        case "FETCH_NEXT_TRENDING_BATCH_REJECTED":
+            return {
+                fetching: false,                
+                fetched: false,
+                ...state
             }
         default:
             return state
