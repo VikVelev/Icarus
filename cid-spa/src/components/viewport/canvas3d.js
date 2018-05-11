@@ -93,6 +93,9 @@ export default class Canvas3D extends Component {
 
             if ( this.logging.enabled ) console.info( event );
             if ( this.workerDirector.objectsCompleted + 1 === maxQueueSize ) this.running = false;
+            if (commitId === undefined) {
+                console.log(commitId)
+            }
             this.onModelLoad(event, commitId)
             this.setState({ loading: false, })
         };
@@ -134,20 +137,23 @@ export default class Canvas3D extends Component {
 
         this.workerDirector.prepareWorkers( callbacks, maxQueueSize, maxWebWorkers );
 
-        let prepData;
-        let modelName = this.props.modelPath.split("/")[4]
-        modelName = modelName.split(".")[0]
-
         if (modelPrepDatas.length === 0) {
-            prepData = new THREE.LoaderSupport.PrepData( modelName );
-            prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath, 'OBJ ') );
-            if (textures) {
-                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.texturePath, 'MTL' ) );
-            }
-            prepData.setLogging( false, false );
-            modelPrepDatas.push( prepData );
-        }
+            let prepData;
+            let modelName = this.props.modelPath.split("/")[4]
+            modelName = modelName.split(".")[0]
 
+            if (modelPrepDatas.length === 0) {
+                prepData = new THREE.LoaderSupport.PrepData( modelName );
+                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath, 'OBJ ') );
+                if (textures) {
+                    prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.texturePath, 'MTL' ) );
+                }
+                prepData.setLogging( false, false );
+                modelPrepDatas.push( prepData );
+            }
+
+        }
+        
         let modelPrepDataIndex = 0;
         let modelPrepData;
 
@@ -192,12 +198,49 @@ export default class Canvas3D extends Component {
 
         this.canvasInit()
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
-        if (!this.props.diff) {
+        if (!this.props.diff && !this.props.type === "revision") {
             this.enqueueAllAssests({
                 maxQueueSize: 1,
                 maxWebWorkers: 4,
                 streamMeshes: false,
                 textures: (this.props.texturePath !== undefined && this.props.texturePath !== null)
+            })
+        }
+
+        if(this.props.type === 'revision') {
+
+            let modelPrepDatas = []
+            console.log(this.props.revisionData)
+            let modelName = this.props.revisionData.commit_mesh
+
+            modelName = modelName.split("/")[4].split(".")[0]
+            let prepData = new THREE.LoaderSupport.PrepData( modelName );
+
+            prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.commit_mesh, 'OBJ ') );
+            if (this.props.revisionData.commit_textures) {
+                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.commit_textures, 'MTL' ) );
+            }
+            prepData.setLogging( false, false );
+            modelPrepDatas.push( prepData );
+
+            let lastCommitName = this.props.revisionData.model.commits[0].new_version
+            
+            lastCommitName = lastCommitName.split("/")[4].split(".")[0]
+            prepData = new THREE.LoaderSupport.PrepData( lastCommitName );
+
+            prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_version, 'OBJ ') );
+            if (this.props.revisionData.model.commits[0].new_textures) {
+                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_textures, 'MTL' ) );
+            }
+            prepData.setLogging( false, false );
+            modelPrepDatas.push( prepData );
+
+            this.enqueueAllAssests({
+                maxQueueSize: 1,
+                maxWebWorkers: 4,
+                streamMeshes: false,
+                textures: (this.props.texturePath !== undefined && this.props.texturePath !== null),
+                modelPrepDatas: modelPrepDatas,
             })
         }
     }
@@ -231,6 +274,7 @@ export default class Canvas3D extends Component {
 
     addModel(element) {
         // I'm using the commit ID to refer to each model when removing them.
+        console.log(element)
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
         let modelPrepDatas = [];

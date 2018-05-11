@@ -126,7 +126,7 @@ export default class RevisionItem extends Component {
                         {!this.props.mine && ( this.props.status !== "APPROVED" && this.props.status !== "REJECTED" )?
                             <Item.Group className="groupItem choices">
                                 <ReviewWindow trigger={
-                                    <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                                    <Icon className="choice" name="eye" size="huge"/>                       
                                 } content={this.props}/>
                                 <Icon onClick={this.handleApprove.bind(this)} className="choice" name="check" size="huge"/>
                                 { this.props.rev.approving && this.state.approving && !this.state.approved ? this.approveCallback() : null }
