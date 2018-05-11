@@ -252,7 +252,7 @@ class HomepageLayout extends Component {
 				
 				<Segment style={{ height: "600px"}} vertical id="demo">
 					<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
-						<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
+						<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl" demo={true}/>
 					</Visibility>
 				</Segment>
 				

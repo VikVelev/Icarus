@@ -16,7 +16,6 @@ module.exports = function(THREE, MTLLoader) {
 
 	if ( THREE.LoaderSupport === undefined ) console.error( '"THREE.LoaderSupport" is not available. "THREE.OBJLoader2" requires it. Please include "LoaderSupport.js" in your HTML.' );
 
-	console.log(THREE.LoaderSupport.Validator)
 	/**
 	 * Use this class to load OBJ data from files or to parse OBJ data from an arraybuffer
 	 * @class
