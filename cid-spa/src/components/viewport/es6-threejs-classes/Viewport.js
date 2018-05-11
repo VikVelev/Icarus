@@ -231,9 +231,6 @@ export default class Viewport {
 
                     //console.log(mesh.name)
                     //console.log(mesh)                    
-                    if(mesh.name === "Mesh1_032Group2_032Group1_032Lamborghini_Aventador1_032Model") {
-                        mesh.geometry = new BufferGeometry()
-                    }
                 //TODO: Implement a newer version of the algorithm
                 // Convert faces to lines and check if lines intersect with each other, after that
                 // cut them out of the rest and create a shape geometry
@@ -266,12 +263,12 @@ export default class Viewport {
         let spliced = false
 
         this.scene.traverse( object => {
-
             if(!spliced) {
                 //Finds the id in this.currentlyRendering corresponding to the model I want to delete
                 for (let i = 0; i < this.currentlyRendering.length; i++) {
                     for (let j = 0; j < this.currentlyRendering[i].import.length; j++) {
                         if(object.name === this.currentlyRendering[i].import[j].name && object.name === id ) {
+                            console.log(i)
                             this.currentlyRendering.splice(i,1)                       
                             spliced = true;
                             break
