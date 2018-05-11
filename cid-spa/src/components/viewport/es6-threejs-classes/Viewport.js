@@ -234,8 +234,8 @@ export default class Viewport {
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.99"+id)
-
+                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
+                        console.log(id, parseInt(this.currentlyRendering[0].import[0].name[0]))
                         if (id < parseInt(this.currentlyRendering[0].import[0].name[0], 10)) {
                             mesh.material.color = new Color(red)
                         } else {

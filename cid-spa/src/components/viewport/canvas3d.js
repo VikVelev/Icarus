@@ -17,7 +17,7 @@ import OBJLoader from 'three-obj-loader'
 let THREE = require('three')
 
 let LoaderSupport = require('./es6-threejs-classes/LoaderSupport.js')
-LoaderSupport(THREE, MTLLoader)
+LoaderSupport(THREE)
 
 let OBJLoader2 = require('./es6-threejs-classes/OBJLoader2.js')
 OBJLoader2(THREE, MTLLoader)
