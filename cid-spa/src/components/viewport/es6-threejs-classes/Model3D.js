@@ -1,7 +1,6 @@
 import { VertexNormalsHelper, LineSegments, LineBasicMaterial, Box3 } from 'three'
 import { WireframeGeometry, Geometry, Group, MeshStandardMaterial, Mesh }  from 'three'
 
-
 //import FaceNormalsHelper from 'three'
 
 export default class Model3D {
@@ -49,8 +48,8 @@ export default class Model3D {
         let size = bounds.getSize();
         let max = size.x;
 
-        if(size.y>max) max=size.y;
-        if(size.z>max) max=size.z;
+        if(size.y > max) max=size.y;
+        if(size.z > max) max=size.z;
         
         this.model.scale.multiplyScalar(2/max);
     }
