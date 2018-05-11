@@ -169,7 +169,7 @@ export default class ViewModel3D extends Component {
                                     <Icon name="fork"/>
                                     {this.props.model3d.forked ? text.b_fork.forked : text.b_fork.fork }
                                 </Button> : 
-                                <Button size="big" disabled className="forkButton" color="gray">
+                                <Button size="big" disabled className="forkButton">
                                     <Icon name="fork"/>
                                     {text.b_fork.yours}
                                 </Button> }

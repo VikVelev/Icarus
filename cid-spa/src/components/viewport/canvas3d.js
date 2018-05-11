@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Progress, Icon, } from 'semantic-ui-react'
 
 /* Not written by me */
-
-
 import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 /* Not written by me */
 
@@ -11,6 +9,7 @@ import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
 /* Written by me 100% */
+
 import { connect } from 'react-redux';
 
 import OBJLoader from 'three-obj-loader'
@@ -23,10 +22,13 @@ LoaderSupport(THREE, MTLLoader)
 let OBJLoader2 = require('./es6-threejs-classes/OBJLoader2.js')
 OBJLoader2(THREE, MTLLoader)
 
+<<<<<<< HEAD
 let Validator = THREE.LoaderSupport.Validator;
 
 //console.log(THREE.OBJLoader2)
 
+=======
+>>>>>>> b35746ba486399ef80e96dfee76b2b0339312943
 @connect((store) => {
     return {
         page: store.pageManagement,
@@ -52,7 +54,8 @@ export default class Canvas3D extends Component {
         
 		this.workerDirector.setLogging( this.logging.enabled, this.logging.debug );
 		this.workerDirector.setCrossOrigin( 'anonymous' );
-		this.workerDirector.setForceWorkerDataCopy( true );
+        this.workerDirector.setForceWorkerDataCopy( true );
+        this.Validator = THREE.LoaderSupport.Validator;
 
         this.state = {
             loading: true,
@@ -73,17 +76,18 @@ export default class Canvas3D extends Component {
     }
 
     canvasInit(model){
+        this.model3d = null
         if( model !== undefined ) {
             this.model3d = new Model3D( model )
         }
-        this.viewport = new Viewport( this.canvasId, null, this.rootElement, this.props.diff )
+        this.viewport = new Viewport( this.canvasId, this.model3d, this.rootElement, this.props.diff )
         this.viewport.init()
         this.onWindowResize()
         this.animate()
         this.props.dispatch({ type: "RENDERING" })
     }
 
-    enqueueAllAssests ({ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas=[] }) {
+    enqueueAllAssests ({ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas=[], commitId }) {
 
         if (this.running) return;
         
@@ -92,12 +96,11 @@ export default class Canvas3D extends Component {
         this.workerDirector.objectsCompleted = 0;
 
         let callbackOnLoad = (event) => {
-            console.log("VERBOSE", event.detail );
             this.allAssets.push( event.detail.loaderRootNode );
 
             if ( this.logging.enabled ) console.info( event );
             if ( this.workerDirector.objectsCompleted + 1 === maxQueueSize ) this.running = false;
-            this.onModelLoad(event)
+            this.onModelLoad(event, commitId)
             this.setState({ loading: false, })
         };
 
@@ -106,12 +109,13 @@ export default class Canvas3D extends Component {
         };
 
         let callbackMeshAlter = (event, override) => {
-            if ( ! Validator.isValid( override ) ) override = new THREE.LoaderSupport.LoadedMeshUserOverride( false, false );
-
+            if ( ! this.Validator.isValid( override ) ) {
+                override = new THREE.LoaderSupport.LoadedMeshUserOverride( false, false );
+            }
             let material = event.detail.material;
             let meshName = event.detail.meshName;
 
-            if ( Validator.isValid( material ) && material.name === 'defaultMaterial' ) {
+            if ( this.Validator.isValid( material ) && material.name === 'defaultMaterial' ) {
 
                 let materialOverride = material;
                 materialOverride.color = new THREE.Color( 0, 0, 0 );
@@ -126,7 +130,6 @@ export default class Canvas3D extends Component {
         };
 
         let callbackOnLoadMaterials = ( materials ) => {
-            console.log( 'Materials loaded', materials );
             return materials;
         };
 
@@ -167,9 +170,9 @@ export default class Canvas3D extends Component {
         this.workerDirector.processQueue();
 	};
 
-    onModelLoad(event) {
+    onModelLoad(event, commitId) {
         let addingModel = new Model3D(event.detail.loaderRootNode)
-        this.viewport.addModel(addingModel)
+        this.viewport.addModel(addingModel, commitId)
         this.setState({ loading: false })
     }
 
@@ -228,6 +231,7 @@ export default class Canvas3D extends Component {
                 this.state.currentlyRendering.splice(this.state.currentlyRendering.indexOf(element), 1)        
             }
         })
+
         this.viewport.removeModel( name )
 
     }
@@ -236,7 +240,6 @@ export default class Canvas3D extends Component {
         // I'm using the commit ID to refer to each model when removing them.
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
-
         let modelPrepDatas = [];
 
         let modelName = element.mesh.split("/")[4]
@@ -252,8 +255,7 @@ export default class Canvas3D extends Component {
         }
         modelPrepDatas.push( prepData );
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
-        // Try starting the loading screen again
-        // With textures
+
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
         
         this.enqueueAllAssests({
@@ -262,6 +264,7 @@ export default class Canvas3D extends Component {
             streamMeshes: false,
             textures: (element.textures !== null),
             modelPrepDatas:  modelPrepDatas,
+            commitId: element.commitId
         })
  
     }
