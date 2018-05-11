@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Progress, Icon, } from 'semantic-ui-react'
 
 /* Not written by me */
-
-
 import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 /* Not written by me */
 
@@ -11,6 +9,7 @@ import MTLLoader from './es6-threejs-classes/MTLLoader.js'
 import Viewport from './es6-threejs-classes/Viewport'
 import Model3D from './es6-threejs-classes/Model3D';
 /* Written by me 100% */
+
 import { connect } from 'react-redux';
 
 let THREE = require('three')
@@ -20,8 +19,6 @@ LoaderSupport(THREE, MTLLoader)
 
 let OBJLoader2 = require('./es6-threejs-classes/OBJLoader2.js')
 OBJLoader2(THREE, MTLLoader)
-
-let Validator = THREE.LoaderSupport.Validator;
 
 @connect((store) => {
     return {
@@ -50,7 +47,8 @@ export default class Canvas3D extends Component {
         
 		this.workerDirector.setLogging( this.logging.enabled, this.logging.debug );
 		this.workerDirector.setCrossOrigin( 'anonymous' );
-		this.workerDirector.setForceWorkerDataCopy( true );
+        this.workerDirector.setForceWorkerDataCopy( true );
+        this.Validator = THREE.LoaderSupport.Validator;
 
         this.state = {
             loading: true,
@@ -104,12 +102,13 @@ export default class Canvas3D extends Component {
         };
 
         let callbackMeshAlter = (event, override) => {
-            if ( ! Validator.isValid( override ) ) override = new THREE.LoaderSupport.LoadedMeshUserOverride( false, false );
-
+            if ( ! this.Validator.isValid( override ) ) {
+                override = new THREE.LoaderSupport.LoadedMeshUserOverride( false, false );
+            }
             let material = event.detail.material;
             let meshName = event.detail.meshName;
 
-            if ( Validator.isValid( material ) && material.name === 'defaultMaterial' ) {
+            if ( this.Validator.isValid( material ) && material.name === 'defaultMaterial' ) {
 
                 let materialOverride = material;
                 materialOverride.color = new THREE.Color( 0, 0, 0 );
