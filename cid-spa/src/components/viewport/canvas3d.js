@@ -22,13 +22,6 @@ LoaderSupport(THREE, MTLLoader)
 let OBJLoader2 = require('./es6-threejs-classes/OBJLoader2.js')
 OBJLoader2(THREE, MTLLoader)
 
-<<<<<<< HEAD
-let Validator = THREE.LoaderSupport.Validator;
-
-//console.log(THREE.OBJLoader2)
-
-=======
->>>>>>> b35746ba486399ef80e96dfee76b2b0339312943
 @connect((store) => {
     return {
         page: store.pageManagement,

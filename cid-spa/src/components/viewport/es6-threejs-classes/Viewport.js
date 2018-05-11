@@ -226,12 +226,7 @@ export default class Viewport {
                     }
 
                     //console.log(mesh.name)
-<<<<<<< HEAD
-                    //console.log(mesh)
-
-=======
                     //console.log(mesh)                    
->>>>>>> b35746ba486399ef80e96dfee76b2b0339312943
                 //TODO: Implement a newer version of the algorithm
                 // Convert faces to lines (ExtractedGeometry) and check if lines intersect with each other, after that
                 // cut them out of the rest and create a shape geometry
