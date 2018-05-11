@@ -99,13 +99,13 @@ const profileManagement = (state=defaultState, action) => {
                 ...state,
                 posts: action.payload,
                 fetched: true,                
-                fetching: false, 
+                fetching: false,
             }
         case "FETCH_POSTS_REJECTED":
             return {
                 ...state,
                 error: action.payload,
-                fetching: false,  
+                fetching: false,
                 fetched: false,
             }
         case "FETCH_CONTRIBUTIONS_FULFILLED":

@@ -136,7 +136,7 @@ export default class RevisionItem extends Component {
                         : //else
                             <Item.Group className="groupItem choices">
                                 <ReviewWindow trigger={
-                                    <Icon onClick={this.handleReview.bind(this)}className="choice" name="eye" size="huge"/>                        
+                                    <Icon className="choice" name="eye" size="huge"/>                        
                                 } content={this.props}/>
                             </Item.Group>  
                         }

@@ -32,7 +32,7 @@ export default class Canvas3D extends Component {
         super(props)
         //TODO Fix this
         typeof(this.props.canvasId) ? 
-        //9 digits so we don't overflow 32 bit int
+        //9 digits so we don't overflow 32 bit int (jk)
         this.canvasId = Math.round(Math.random()*(10**9)) 
         : this.canvasId = this.props.canvasId
         
@@ -45,6 +45,7 @@ export default class Canvas3D extends Component {
 			debug: false
         };
         
+        this.globalId = 666;
 		this.workerDirector.setLogging( this.logging.enabled, this.logging.debug );
 		this.workerDirector.setCrossOrigin( 'anonymous' );
         this.workerDirector.setForceWorkerDataCopy( true );
@@ -170,7 +171,14 @@ export default class Canvas3D extends Component {
 	};
 
     onModelLoad(event, commitId) {
+
         let addingModel = new Model3D(event.detail.loaderRootNode)
+
+        if (commitId === undefined) {
+            this.globalId--;
+            commitId = this.globalId;
+        }
+
         this.viewport.addModel(addingModel, commitId)
         this.setState({ loading: false })
     }
@@ -198,10 +206,12 @@ export default class Canvas3D extends Component {
 
         this.canvasInit()
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
-        if (!this.props.diff && !this.props.type === "revision") {
+        //console.log(this.props.diff, this.props.type)
+
+        if (!this.props.diff && this.props.type !== "revision") {
             this.enqueueAllAssests({
                 maxQueueSize: 1,
-                maxWebWorkers: 4,
+                maxWebWorkers: 2,
                 streamMeshes: false,
                 textures: (this.props.texturePath !== undefined && this.props.texturePath !== null)
             })
@@ -210,7 +220,19 @@ export default class Canvas3D extends Component {
         if(this.props.type === 'revision') {
 
             let modelPrepDatas = []
-            console.log(this.props.revisionData)
+            
+            let lastCommitName = this.props.revisionData.model.commits[0].new_version
+            //console.log(lastCommitName)
+            lastCommitName = lastCommitName.split("/")[4].split(".")[0]
+            let prepCommitData = new THREE.LoaderSupport.PrepData( lastCommitName );
+
+            prepCommitData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_version, 'OBJ ') );
+            if (this.props.revisionData.model.commits[0].new_textures) {
+                prepCommitData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_textures, 'MTL' ) );
+            }
+            modelPrepDatas.push( prepCommitData );
+
+            //console.log(this.props.revisionData)
             let modelName = this.props.revisionData.commit_mesh
 
             modelName = modelName.split("/")[4].split(".")[0]
@@ -220,26 +242,13 @@ export default class Canvas3D extends Component {
             if (this.props.revisionData.commit_textures) {
                 prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.commit_textures, 'MTL' ) );
             }
-            prepData.setLogging( false, false );
-            modelPrepDatas.push( prepData );
-
-            let lastCommitName = this.props.revisionData.model.commits[0].new_version
-            
-            lastCommitName = lastCommitName.split("/")[4].split(".")[0]
-            prepData = new THREE.LoaderSupport.PrepData( lastCommitName );
-
-            prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_version, 'OBJ ') );
-            if (this.props.revisionData.model.commits[0].new_textures) {
-                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_textures, 'MTL' ) );
-            }
-            prepData.setLogging( false, false );
             modelPrepDatas.push( prepData );
 
             this.enqueueAllAssests({
-                maxQueueSize: 1,
-                maxWebWorkers: 4,
+                maxQueueSize: 2,
+                maxWebWorkers: 2,
                 streamMeshes: false,
-                textures: (this.props.texturePath !== undefined && this.props.texturePath !== null),
+                textures: null,
                 modelPrepDatas: modelPrepDatas,
             })
         }
@@ -274,7 +283,7 @@ export default class Canvas3D extends Component {
 
     addModel(element) {
         // I'm using the commit ID to refer to each model when removing them.
-        console.log(element)
+        //console.log(element)
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
         let modelPrepDatas = [];
@@ -297,7 +306,7 @@ export default class Canvas3D extends Component {
         
         this.enqueueAllAssests({
             maxQueueSize: 1,
-            maxWebWorkers: 4,
+            maxWebWorkers: 2,
             streamMeshes: false,
             textures: (element.textures !== null),
             modelPrepDatas:  modelPrepDatas,
