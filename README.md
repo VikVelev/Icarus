@@ -1,15 +1,11 @@
-# Currently hosted at: cid-platform.myddns.me
+# Currently hosted at: cid-platform.com
 
 
 # Notes before trying to use it.
 
 It is WIP so bugs are pretty common
  
-- Validation is acting pretty sketchy atm.
-
-- Commit comparing is under revision and is not working now.
-
-- There is a lot of small stuff that needs fixing.
+- Revision control is acting pretty sketchy.
 
 The project is in really active and rapid development.
 
