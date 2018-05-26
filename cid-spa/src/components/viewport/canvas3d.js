@@ -302,6 +302,14 @@ export default class Canvas3D extends Component {
 
         prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( element.mesh, 'OBJ ') );
         
+        let intersectingPoints = []
+
+        if ( element.type === "model" ) {
+            element.data.forEach((element) => {
+                intersectingPoints.push(element.intersects(this.currentlyRendering[element.index + 1]))
+            })
+        }
+
         if (element.textures !== null) {
             prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( element.textures, 'MTL' ) );
         }
