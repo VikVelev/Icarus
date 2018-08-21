@@ -8,6 +8,8 @@ import dat from 'dat.gui'
 import Model3D from './Model3D.js'
 //import Diff from './Diff.js'
 
+//TODO: Rewrite DIFF function, since atm it's just stupid.
+
 export default class Viewport {
     // ifDiff - diff object --> still not implemented will probably have
     // modelBefore, modelAfter, date, vertices, normals, surface difference
