@@ -30,7 +30,7 @@ class HomepageHeading extends Component {
 		return(
 			<Container text>
 
-			<Header as='h1' content='CiD' inverted
+			<Header as='h1' content='Icarus' inverted
 				style={{
 					fontSize: this.mobile ? '2em' : '4em',
 					fontWeight: 'normal',
@@ -252,7 +252,7 @@ class HomepageLayout extends Component {
 				
 				<Segment style={{ height: "600px"}} vertical id="demo">
 					<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
-						<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl"/>
+						<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl" demo={true}/>
 					</Visibility>
 				</Segment>
 				
@@ -280,7 +280,7 @@ class HomepageLayout extends Component {
 											</Grid.Column>
 
 											<Grid.Column width={7}>
-												<Header as='h4' inverted>CiD</Header>
+												<Header as='h4' inverted>Icarus</Header>
 												<p>{text.heroText}</p>
 											</Grid.Column>
 

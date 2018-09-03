@@ -61,7 +61,7 @@ export default class Post extends Component {
                     <Segment className="canvas3d" style={{width:'100%', height: "500px",padding: 0}}>
                         <Canvas3D modelPath={content.new_version} 
                                   texturePath={content.new_textures}
-                                  canvasId={this.props.id}/>
+                                  />
                     </Segment>
                 )
             } else {
@@ -221,7 +221,7 @@ export default class Post extends Component {
         }
 
         return(
-            <Segment  className={this.props.className}>
+            <Segment key={this.props.key} className={this.props.className}>
                 <div className="postWrapper">
                     {
                         this.state.edit ? this.editMode(image) :

@@ -34,7 +34,7 @@ export default class Canvas3D extends Component {
         super(props)
         //TODO Fix this
         typeof(this.props.canvasId) ? 
-        //9 digits so we don't overflow 32 bit int
+        //9 digits so we don't overflow 32 bit int (jk)
         this.canvasId = Math.round(Math.random()*(10**9)) 
         : this.canvasId = this.props.canvasId
         
@@ -45,6 +45,7 @@ export default class Canvas3D extends Component {
 			debug: false
         };
         
+        this.globalId = 666;
 		this.workerDirector.setLogging( this.logging.enabled, this.logging.debug );
 		this.workerDirector.setCrossOrigin( 'anonymous' );
         this.workerDirector.setForceWorkerDataCopy( true );
@@ -93,14 +94,16 @@ export default class Canvas3D extends Component {
 
             if ( this.logging.enabled ) console.info( event );
             if ( this.workerDirector.objectsCompleted + 1 === maxQueueSize ) this.running = false;
+
+            if (commitId === undefined) {
+                //console.log(commitId)
+            }
+            
             this.onModelLoad(event, commitId)
             this.setState({ loading: false, })
         };
 
-        let callbackReportProgress = (event) => {
-            //console.log(event)
-        };
-
+        // This is called when a single mesh is loaded
         let callbackMeshAlter = (event, override) => {
             if ( ! this.Validator.isValid( override ) ) {
                 override = new THREE.LoaderSupport.LoadedMeshUserOverride( false, false );
@@ -127,27 +130,37 @@ export default class Canvas3D extends Component {
         };
 
         let callbacks = new THREE.LoaderSupport.Callbacks();
-        callbacks.setCallbackOnProgress( callbackReportProgress );
+        callbacks.setCallbackOnProgress( this.onProgress.bind(this) );
         callbacks.setCallbackOnLoad( callbackOnLoad );
         callbacks.setCallbackOnMeshAlter( callbackMeshAlter );
         callbacks.setCallbackOnLoadMaterials( callbackOnLoadMaterials );
 
         this.workerDirector.prepareWorkers( callbacks, maxQueueSize, maxWebWorkers );
 
-        let prepData;
-        let modelName = this.props.modelPath.split("/")[4]
-        modelName = modelName.split(".")[0]
-
         if (modelPrepDatas.length === 0) {
-            prepData = new THREE.LoaderSupport.PrepData( modelName );
-            prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath, 'OBJ ') );
-            if (textures) {
-                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.texturePath, 'MTL' ) );
-            }
-            prepData.setLogging( false, false );
-            modelPrepDatas.push( prepData );
-        }
 
+            let prepData;
+            let modelName;
+
+            if (this.props.demo) {
+                modelName = this.props.modelPath.split('/')[2]
+            } else {    
+                modelName = this.props.modelPath.split("/")[4]
+            }
+            modelName = modelName.split(".")[0]
+
+            if (modelPrepDatas.length === 0) {
+                prepData = new THREE.LoaderSupport.PrepData( modelName );
+                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath, 'OBJ ') );
+                if (textures) {
+                    prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.texturePath, 'MTL' ) );
+                }
+                prepData.setLogging( false, false );
+                modelPrepDatas.push( prepData );
+            }
+
+        }
+        
         let modelPrepDataIndex = 0;
         let modelPrepData;
 
@@ -164,7 +177,14 @@ export default class Canvas3D extends Component {
 	};
 
     onModelLoad(event, commitId) {
+
         let addingModel = new Model3D(event.detail.loaderRootNode)
+
+        if (commitId === undefined) {
+            this.globalId--;
+            commitId = this.globalId;
+        }
+
         this.viewport.addModel(addingModel, commitId)
         this.setState({ loading: false })
     }
@@ -192,12 +212,50 @@ export default class Canvas3D extends Component {
 
         this.canvasInit()
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
-        if (!this.props.diff) {
+        //console.log(this.props.diff, this.props.type)
+
+        if (!this.props.diff && this.props.type !== "revision") {
             this.enqueueAllAssests({
                 maxQueueSize: 1,
-                maxWebWorkers: 4,
+                maxWebWorkers: 2,
                 streamMeshes: false,
                 textures: (this.props.texturePath !== undefined && this.props.texturePath !== null)
+            })
+        }
+        
+        if(this.props.type === 'revision') {
+
+            let modelPrepDatas = []
+            
+            let lastCommitName = this.props.revisionData.model.commits[0].new_version
+            //console.log(lastCommitName)
+            lastCommitName = lastCommitName.split("/")[4].split(".")[0]
+            let prepCommitData = new THREE.LoaderSupport.PrepData( lastCommitName );
+
+            prepCommitData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_version, 'OBJ ') );
+            if (this.props.revisionData.model.commits[0].new_textures) {
+                prepCommitData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.model.commits[0].new_textures, 'MTL' ) );
+            }
+            modelPrepDatas.push( prepCommitData );
+
+            //console.log(this.props.revisionData)
+            let modelName = this.props.revisionData.commit_mesh
+
+            modelName = modelName.split("/")[4].split(".")[0]
+            let prepData = new THREE.LoaderSupport.PrepData( modelName );
+
+            prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.commit_mesh, 'OBJ ') );
+            if (this.props.revisionData.commit_textures) {
+                prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.revisionData.commit_textures, 'MTL' ) );
+            }
+            modelPrepDatas.push( prepData );
+
+            this.enqueueAllAssests({
+                maxQueueSize: 2,
+                maxWebWorkers: 2,
+                streamMeshes: false,
+                textures: null,
+                modelPrepDatas: modelPrepDatas,
             })
         }
     }
@@ -229,8 +287,9 @@ export default class Canvas3D extends Component {
 
     }
 
-    addModel(element) {
+    addModel( element ) {
         // I'm using the commit ID to refer to each model when removing them.
+        //console.log(element)
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
         let modelPrepDatas = [];
@@ -243,6 +302,14 @@ export default class Canvas3D extends Component {
 
         prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( element.mesh, 'OBJ ') );
         
+        // let intersectingPoints = []
+
+        // if ( element.type === "model" ) {
+        //     element.data.forEach((element) => {
+        //         intersectingPoints.push(element.intersects(this.currentlyRendering[element.index + 1]))
+        //     })
+        // }
+
         if (element.textures !== null) {
             prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( element.textures, 'MTL' ) );
         }
@@ -253,7 +320,7 @@ export default class Canvas3D extends Component {
         
         this.enqueueAllAssests({
             maxQueueSize: 1,
-            maxWebWorkers: 4,
+            maxWebWorkers: 2,
             streamMeshes: false,
             textures: (element.textures !== null),
             modelPrepDatas:  modelPrepDatas,
@@ -262,15 +329,8 @@ export default class Canvas3D extends Component {
  
     }
 
-    onProgress( xhr ){
-        this.setState({ precent: Math.round( xhr.loaded / xhr.total * 100 )});
-        if (this.state.precent === 100) {
-            setTimeout(this.setState({ loading: false }), 3000);
-        }
-        
-        if (this.state.precent === 100) {
-            this.setState({ counter: this.state.counter + 1 })
-        }
+    onProgress( event ){
+        this.setState({ precent: Math.round( event.detail.numericalValue * 100 )});
     }
 
 
@@ -304,7 +364,7 @@ export default class Canvas3D extends Component {
         } else {
             return ( 
                 <div className="loading">
-                    <Progress inverted percent={100} indicating></Progress>            
+                    <Progress inverted percent={this.state.precent} indicating></Progress>            
                 </div>
             )
         }

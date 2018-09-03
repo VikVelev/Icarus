@@ -43,7 +43,7 @@ export function fetchContributions(id, token){
                 'Authorization': 'Token ' + token
             }
         }).then((response) => {
-            dispatch({ type: "FETCH_CONTRIBUTIONS_FULFILLED", payload: response.data })
+            dispatch({ type: "FETCH_CONTRIBUTIONS_FULFILLED", payload: response.data.results })
         }).catch((error) => {
             dispatch({ type: "FETCH_CONTRIBUTIONS_REJECTED", payload: error })            
         })
@@ -250,7 +250,7 @@ export function fetchUserPosts(id, token){
         })
 
         saxios.get(url + "/api/posts/?posted_by=" + id).then((response) => {
-            dispatch({ type: "FETCH_POSTS_FULFILLED", payload: response.data })                                 
+            dispatch({ type: "FETCH_POSTS_FULFILLED", payload: response.data.results })                                 
         }).catch((error) => {
             dispatch({ type: "FETCH_POSTS_REJECTED", payload: error})
         })

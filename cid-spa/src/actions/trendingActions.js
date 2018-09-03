@@ -20,3 +20,21 @@ export function fetchTrendingPosts(token){
         })
     }
 }
+
+export function fetchNextTrendingBatch(from, token){
+    return function(dispatch) {
+        dispatch({type: "FETCH_NEXT_TRENDING_BATCH"})
+
+        let saxios = axios.create({
+            headers: {
+                'Authorization': 'Token ' + token,
+            }
+        })
+
+        saxios.get(url + "/api/trending/" + (from !== 0 ? "?offset=" + from : "")).then((response) => {
+            dispatch({ type: "FETCH_NEXT_TRENDING_BATCH_FULFILLED", payload: response.data })
+        }).catch((error) => {
+            dispatch({ type: "FETCH_NEXT_TRENDING_BATCH_REJECTED", payload: error })            
+        })
+    }
+}

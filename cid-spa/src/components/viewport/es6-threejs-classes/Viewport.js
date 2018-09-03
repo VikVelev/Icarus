@@ -8,6 +8,8 @@ import dat from 'dat.gui'
 import Model3D from './Model3D.js'
 //import Diff from './Diff.js'
 
+//TODO: Rewrite DIFF function, since atm it's just stupid.
+
 export default class Viewport {
     // ifDiff - diff object --> still not implemented will probably have
     // modelBefore, modelAfter, date, vertices, normals, surface difference
@@ -214,9 +216,11 @@ export default class Viewport {
         let green = 0x00ff00
         let red = 0xff0000
 
+        this.objectToRender = model3d
         model3d.import.forEach( element => {
-            element.name = id + "model3d"
+            element.name = id
 
+            
             if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
                 
                 element.children.forEach(mesh => {              
@@ -234,9 +238,10 @@ export default class Viewport {
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
-                        console.log(id, parseInt(this.currentlyRendering[0].import[0].name[0]))
-                        if (id < parseInt(this.currentlyRendering[0].import[0].name[0], 10)) {
+                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.99"+id, 10)
+                        console.log(id, this.currentlyRendering[0])                        
+                        console.log(id, this.currentlyRendering[0].import[0].name)
+                        if (id < parseInt(this.currentlyRendering[0].import[0].name, 10)) {
                             mesh.material.color = new Color(red)
                         } else {
                             mesh.material.color = new Color(green)
@@ -255,7 +260,6 @@ export default class Viewport {
         //the idea is that I have this.currentlyRendering which represents the currents state and I can address every each one of the 
         //models in there
         let toRemove = []
-        id += "model3d"
         let spliced = false
 
         this.scene.traverse( object => {
@@ -264,7 +268,6 @@ export default class Viewport {
                 for (let i = 0; i < this.currentlyRendering.length; i++) {
                     for (let j = 0; j < this.currentlyRendering[i].import.length; j++) {
                         if(object.name === this.currentlyRendering[i].import[j].name && object.name === id ) {
-                            console.log(i)
                             this.currentlyRendering.splice(i,1)                       
                             spliced = true;
                             break
