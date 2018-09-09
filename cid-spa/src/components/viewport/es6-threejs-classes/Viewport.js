@@ -1,7 +1,7 @@
 import { Scene, PerspectiveCamera, GridHelper } from 'three'
 import  { WebGLRenderer, PointLight, AmbientLight, BufferGeometry, Mesh, Color } from 'three'
 import { Raycaster, Vector2, MeshNormalMaterial, CubeGeometry } from 'three'
-import OrbitControls from 'three-orbitcontrols'
+import OrbitControls from './OrbitControls'
 
 import dat from 'dat.gui'
 

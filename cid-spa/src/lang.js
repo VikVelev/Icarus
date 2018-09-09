@@ -262,7 +262,7 @@ const lang = {
                 title: "Accessible and fast", 
                 content: "Providing fast, reliable and responsive viewport for viewing your 3D models in the web, on the go from your phone or anywhere you want."
             },
-            heroText: "Collaboration in 3D Design made easier.",
+            heroText: "3D workflows redefined.",
             s_objRating: {
                 first: "\"MyProject000001a.obj\"",
                 second: "We've experienced it too."

@@ -57,6 +57,7 @@ export default class Canvas3D extends Component {
             currentlyRendering: [],
             counter: 0,
             limitReached: false,
+            ctrl: true,
         }
     }
 
@@ -189,6 +190,7 @@ export default class Canvas3D extends Component {
         this.setState({ loading: false })
     }
 
+
     componentDidMount(){
         //Return to default state
         this.setState({
@@ -198,11 +200,12 @@ export default class Canvas3D extends Component {
             counter: 0,
             limitReached: false,
         })
+        
 
         this.rootElement = document.getElementById(this.canvasId)
 
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
-        
+
         this.props.dispatch({
             type: "START_CANVAS",
             payload: {
@@ -355,6 +358,8 @@ export default class Canvas3D extends Component {
             counter: 0,
             limitReached: false,
         })
+
+        this.domEl.removeEventListener('wheel', this.scroll)
     }
 
 
@@ -368,6 +373,21 @@ export default class Canvas3D extends Component {
                 </div>
             )
         }
+    }
+
+    scroll = (event) => {
+        this.setState({ ctrl: event.ctrlKey })
+    }
+
+
+    // TODO: Fix this shit, make it look decent
+    v = (element) => {
+        element.addEventListener( 'wheel', this.scroll, false)
+        this.domEl = element
+    }
+
+    warnScroll = () => {
+        return <div className={(this.state.ctrl) ? "warn-ctrl hide" : "warn-ctrl show"}>To zoom in/out press Ctrl and Scroll</div>
     }
 
 
@@ -388,9 +408,10 @@ export default class Canvas3D extends Component {
             }
 
             return(
-                <div id={this.canvasId} className="viewport">
-                   {this.Loading()}
-                   {this.manageDiff()}
+                <div ref={this.v} id={this.canvasId} className="viewport">
+                    {this.warnScroll()}
+                    {this.Loading()}
+                    {this.manageDiff()}
                 </div>
             )
         //This if assumes that all ids in the renderingModelsId are ordered chronologically
@@ -411,7 +432,7 @@ export default class Canvas3D extends Component {
         }
         console.warn("Limit is surpassed")
         return(
-            <div id={this.canvasId} className="viewport warn">
+            <div ref={this.v} id={this.canvasId} className="viewport warn">
                {this.Loading()}
                {this.manageDiff()}
             </div>

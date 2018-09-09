@@ -108,6 +108,7 @@ body {
 }
 
 .viewport {
+    position: relative;
     width: 100% !important;
     height: 100% !important;
 }
@@ -733,4 +734,28 @@ textarea {
 
 .loading.stopEdit {
     position: relative !important;
+}
+
+.spaced {
+    padding: 6em 0em !important
+}
+
+.warn-ctrl {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 1.5em;
+    background-color: rgba(0,0,0,0.2);
+    padding: 1em;
+    border-bottom-left-radius: 20px;
+    z-index: 999;
+    transition: 0.3s ease-in opacity;
+}
+
+.warn-ctrl.hide {
+    opacity: 0;
+}
+
+.warn-ctrl.show {
+    opacity: 1;
 }
