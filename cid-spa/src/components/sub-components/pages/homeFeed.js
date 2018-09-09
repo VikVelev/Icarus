@@ -74,13 +74,17 @@ export default class Feed extends Component {
         }
 
         return(
-            <InfiniteScroll pageStart={0}
+            <div>
+            <InfiniteScroll pageStart={0} 
                             loadMore={this.fetchBatch.bind(this)}
                             hasMore={this.props.home.hasMore}
                             loader={<Loading key={0} style={{marginTop: '10%'}}/>}
             >
                 {items}
             </InfiniteScroll>
+            <br/>
+            {(!this.props.home.hasMore) ? <h3 style={{ paddingBottom: "100px", paddingTop: "20px", textAlign:"center" }}>No more posts... :(</h3> : null }
+            </div>
             )
         }
     }

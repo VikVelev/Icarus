@@ -51,18 +51,25 @@ export default class Canvas3D extends Component {
         this.workerDirector.setForceWorkerDataCopy( true );
         this.Validator = THREE.LoaderSupport.Validator;
 
-        this.state = {
-            loading: true,
-            precent: 0,
-            currentlyRendering: [],
-            counter: 0,
-            limitReached: false,
-        }
     }
 
-    animate() {
-        requestAnimationFrame( this.animate.bind(this) )
-        this.viewport.render();
+    state = {
+        loading: true,
+        precent: 0,
+        currentlyRendering: [],
+        counter: 0,
+        limitReached: false,
+        ctrl: true,
+    }
+
+    death = false
+
+    animate = () => {
+        if(!this.death){
+            requestAnimationFrame( this.animate )
+            console.log("render", new Date())
+            this.viewport.render();
+        }
     }
 
     onWindowResize() {
@@ -189,7 +196,9 @@ export default class Canvas3D extends Component {
         this.setState({ loading: false })
     }
 
+
     componentDidMount(){
+        this.death = false
         //Return to default state
         this.setState({
             loading: true,
@@ -198,11 +207,10 @@ export default class Canvas3D extends Component {
             counter: 0,
             limitReached: false,
         })
-
-        this.rootElement = document.getElementById(this.canvasId)
-
-        window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
         
+        this.rootElement = document.getElementById(this.canvasId)
+        window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
+
         this.props.dispatch({
             type: "START_CANVAS",
             payload: {
@@ -355,6 +363,12 @@ export default class Canvas3D extends Component {
             counter: 0,
             limitReached: false,
         })
+        
+        if(this.domEl){
+            this.domEl.removeEventListener('wheel', this.scroll)
+        }
+
+        this.death = true
     }
 
 
@@ -368,6 +382,27 @@ export default class Canvas3D extends Component {
                 </div>
             )
         }
+    }
+    timeout = 0
+    scroll = (event) => {
+        this.setState({ ctrl: event.ctrlKey })
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+            this.setState({ ctrl: true })
+        }, 1000 * 10)
+    }
+
+
+    // TODO: Fix this shit, make it look decent
+    v = (element) => {
+        if(element){
+            element.addEventListener( 'wheel', this.scroll, false)
+            this.domEl = element
+        }
+    }
+
+    warnScroll = () => {
+        return <div className={(this.state.ctrl) ? "warn-ctrl hide" : "warn-ctrl show"}>To zoom in/out press Ctrl and Scroll</div>
     }
 
 
@@ -388,9 +423,10 @@ export default class Canvas3D extends Component {
             }
 
             return(
-                <div id={this.canvasId} className="viewport">
-                   {this.Loading()}
-                   {this.manageDiff()}
+                <div ref={this.v} id={this.canvasId} className="viewport">
+                    {this.warnScroll()}
+                    {this.Loading()}
+                    {this.manageDiff()}
                 </div>
             )
         //This if assumes that all ids in the renderingModelsId are ordered chronologically
@@ -411,9 +447,10 @@ export default class Canvas3D extends Component {
         }
         console.warn("Limit is surpassed")
         return(
-            <div id={this.canvasId} className="viewport warn">
-               {this.Loading()}
-               {this.manageDiff()}
+            <div ref={this.v} id={this.canvasId} className="viewport warn">
+                {this.warnScroll()}
+                {this.Loading()}
+                {this.manageDiff()}
             </div>
         )
     }
