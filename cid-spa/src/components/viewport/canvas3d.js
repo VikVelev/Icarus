@@ -67,7 +67,7 @@ export default class Canvas3D extends Component {
     animate = () => {
         if(!this.death){
             requestAnimationFrame( this.animate )
-            console.log("render", new Date())
+            // console.log("render", new Date())
             this.viewport.render();
         }
     }
@@ -271,6 +271,7 @@ export default class Canvas3D extends Component {
     manageDiff() {
         // Actually thought of an intresting architecture to allow communicating between react components
         if (this.props.model3d.addModelCallback.called) {
+            console.log("diff: ", this.props.model3d.addModelCallback)
             this.addModel(this.props.model3d.addModelCallback.query)
         }
 
@@ -297,7 +298,7 @@ export default class Canvas3D extends Component {
 
     addModel( element ) {
         // I'm using the commit ID to refer to each model when removing them.
-        //console.log(element)
+        console.log(element)
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
         let modelPrepDatas = [];

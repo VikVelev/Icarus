@@ -17,6 +17,7 @@ import lang from '../../../lang.js'
 import "animate.css/animate.min.css"
 import ScrollAnimation from "react-animate-on-scroll"
 import ReactFullpage from '@fullpage/react-fullpage';
+import { addToCompare, removeFromCompare, DiffMode } from '../../../actions/model3DActions' 
 
 @connect((store) => {
 	return{
@@ -198,9 +199,42 @@ ResponsiveContainer.propTypes = {
 @connect((store) => {
 	return{
 		lang: store.langManagement.lang,
+		model3d: store.model3DManagement,
 	}
 })
 class HomepageLayout extends Component {
+
+	componentDidMount() {
+		let firstCommitData = { 
+			mesh: "http://127.0.0.1:3000/models/aventador/Avent0.obj",
+			textures: "http://127.0.0.1:3000/models/aventador/Avent0.mtl",
+			modelId: 12,
+			commitId: 96946,
+			version: 1,
+			description: "guz",
+			committed_by: "majkati",
+			title: "pedal",
+		}
+
+		this.props.dispatch( DiffMode(true) )
+		this.props.dispatch( addToCompare(firstCommitData) )
+
+		setTimeout(() => {
+		let latestCommitData = { 
+			mesh: "http://127.0.0.1:3000/models/aventador/Avent.obj",
+			textures: "http://127.0.0.1:3000/models/aventador/Avent.mtl",
+			modelId: 12,
+			commitId: 96945,
+			version: 0,
+			description: "guz",
+			committed_by: "majkati",
+			title: "pedal",
+		}
+
+		this.props.dispatch( addToCompare(latestCommitData) )
+		}, 5000)
+	}
+
 	render() {
 		let text = lang[this.props.lang].homePage
 
@@ -354,7 +388,7 @@ class HomepageLayout extends Component {
 				
 				<Segment style={{ height: "600px"}} vertical id="demo">
 					<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
-						<Canvas3D modelPath="/models/aventador/Avent.obj" texturePath="/models/aventador/Avent.mtl" demo={true}/>
+						<Canvas3D diff={true}/>
 					</Visibility>
 				</Segment>
 				
