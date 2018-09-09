@@ -737,7 +737,7 @@ textarea {
 }
 
 .spaced {
-    padding: 6em 0em !important
+    padding: 3em 0em !important
 }
 
 .warn-ctrl {
@@ -758,4 +758,34 @@ textarea {
 
 .warn-ctrl.show {
     opacity: 1;
+}
+
+.workflow-image {
+    margin: auto;
+}
+
+.vc.image {
+    position: absolute !important;
+    transition: 0.3s ease-in opacity;    
+    top: 0px !important;
+    opacity: 0;
+}
+
+.row:hover .vc.image {
+    opacity: 1;
+}
+
+.result {
+    transform: scale(1);
+    font-size: 1.3em;
+    /* font-weight: bold; */
+}
+
+.result .icon {
+    margin-top: 25px;
+}
+
+.ui.header>.image:not(.icon), .ui.header>img
+{
+    width: 3em !important;
 }

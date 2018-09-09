@@ -34,8 +34,12 @@ class HomepageHeading extends Component {
 		return(
 			<Container text>
 			
-
-			<Header as='h1' content='Icarus' inverted
+			<Image rounded
+				size='medium'
+				src='/img/LogoWhite.png'
+				style={{margin: "auto"}}
+			/>
+			{/* <Header as='h1' content='Icarus' inverted
 				style={{
 					fontSize: this.mobile ? '2em' : '4em',
 					fontWeight: 'normal',
@@ -43,7 +47,7 @@ class HomepageHeading extends Component {
 					marginTop: this.mobile ? '1.5em' : '3em',
 					zIndex: 100,
 				}}
-			/>
+			/> */}
 
 			<Header as='h2' content={text.heroText} inverted
 				style={{
@@ -210,21 +214,19 @@ class HomepageLayout extends Component {
 						<Grid.Row>
 						</Grid.Row>
 						<Grid.Row columns="equal">
-							<Grid.Column width={5} stretched={true}>
+							<Grid.Column  stretched={true}>
 								<ScrollAnimation animateIn="fadeIn" duration={0.4} delay={0} animateOnce={true}>
-								<p style={{ fontSize: '1.33em' ,height: "300px", backgroundColor: "rgb(233,233,233)", padding: "2em" }}>creating the needed 3D assets or buying expensive ones from stores (illustration)</p>
+									<Image className="workflow-image" rounded size='medium' src='/img/workflow/FirstGraphic.png'/>
 								</ScrollAnimation>
 							</Grid.Column>
-							<Grid.Column width={5} stretched={true}>
+							<Grid.Column  stretched={true}>
 								<ScrollAnimation animateIn="fadeIn" duration={0.4} delay={200} animateOnce={true}>
-								<p style={{ fontSize: '1.33em' ,height: "300px", backgroundColor: "rgb(233,233,233)", padding: "2em"}}>The cup with the filenames or similar</p>
+									<Image className="workflow-image" rounded size='medium' src='/img/workflow/SecondGraphic.png'/>
 								</ScrollAnimation>
 							</Grid.Column>
-							<Grid.Column width={6} stretched={true}>
+							<Grid.Column  stretched={true}>
 								<ScrollAnimation animateIn="fadeIn" duration={0.4} delay={400} animateOnce={true}>
-								<p style={{ fontSize: '1.33em' ,height: "300px", backgroundColor: "rgb(233,233,233)", padding: "2em"}}>Email to a colleague “Hey can you have a look and tell me what to change?”
-								Received email from colleague in 20 hours: “Yeah, I think that you should change the mirror up a bit”
-								Sent response: “Wait, which one and what exactly do you want?”</p>
+									<Image className="workflow-image" rounded size='medium' src='/img/workflow/ThirdGraphic.png'/>
 								</ScrollAnimation>
 							</Grid.Column>
 						</Grid.Row>
@@ -238,19 +240,25 @@ class HomepageLayout extends Component {
 						<Grid.Row className="spaced">
 
 							<Grid.Column width={8}>
-								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_keepTrack.title}</Header>
+								<Header as='h3' style={{ fontSize: '2em' }}>Version control system</Header>
 								<p style={{ fontSize: '1.33em' }}>
-									{text.s_keepTrack.content}				
+									Keep track of your changes. View differences.
 								</p>
 							</Grid.Column>
 
 							<Grid.Column floated='right' width={6}>
-								<ScrollAnimation animateIn='slideInRight' animateOnce={true} duration={1.5}>
+								<ScrollAnimation style={{ width: "500px" }} animateIn='slideInRight' animateOnce={true} duration={1.5}>
 								<ScrollAnimation animateIn='fadeIn' animateOnce={true}  duration={1.5}>
-								<Image rounded
-								size='large'
-								src='/img/trex.png'
-								/>
+								<div style={{position: "relative" }}>
+									<Image rounded
+										size='massive'
+										src='/img/vc/version1.png'
+									/>
+									<Image rounded className="vc"
+										size='massive'
+										src='/img/vc/version2.png'
+									/>
+								</div>
 								</ScrollAnimation>
 								</ScrollAnimation>
 							</Grid.Column>
@@ -262,78 +270,84 @@ class HomepageLayout extends Component {
 								<ScrollAnimation animateIn='slideInLeft' animateOnce={true} duration={1.5}>
 								<ScrollAnimation animateIn='fadeIn' animateOnce={true}  duration={1.5}>
 								<Image rounded
-								size='large'
-								src='/img/trex.png'
+									style={{ marginLeft: "-5.5em" }}
+									size='large'
+									src='/img/colaboration/Together.png'
 								/>
 								</ScrollAnimation>
 								</ScrollAnimation>
 							</Grid.Column>
 
 							<Grid.Column width={8}>
-								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_accessible.title}</Header>
+								<Header as='h3' style={{ fontSize: '2em' }}>Collaborative web platform</Header>
 								<p style={{ fontSize: '1.33em' }}>
-									{text.s_accessible.content}
+									Be productive, now with others. Work and communicate efficiently, together.
 								</p>
 							</Grid.Column>			
 
 						</Grid.Row >
 
-						<Grid.Row className="spaced">
-							
-
-							<Grid.Column width={8}>
+						<Grid.Row className="spaced" columns="equal">
+							<Grid.Column >
 								<Header as='h3' style={{ fontSize: '2em' }}>Automatic model generation</Header>
 								<p style={{ fontSize: '1.33em' }}>
 									State-of-the-art AI performance. Rapid prototyping accessible to everyone.
 								</p>
-							</Grid.Column>		
-
-							<Grid.Column floated='right' width={6}>
-								<ScrollAnimation animateIn='slideInRight' animateOnce={true}  duration={1.5}>
-								<ScrollAnimation animateIn='fadeIn' animateOnce={true}  duration={1.5}>
-
-									<Image rounded
-									size='large'
-									src='/img/trex.png'
-									/>
-									</ScrollAnimation>
-								</ScrollAnimation>
-
-							</Grid.Column>	
-
+							</Grid.Column>
 						</Grid.Row>
-					</Grid>
-				
 
-					
 
+						<Grid.Row columns="equal">
+							<Grid.Column >
+								<ScrollAnimation animateIn="fadeIn" duration={0.6} delay={0} animateOnce={true}>
+								<Image rounded
+									size='large'
+									src='/img/chart/FirstHalf.png'
+								/>
+								</ScrollAnimation>
+							</Grid.Column>
+							<Grid.Column >
+								<ScrollAnimation animateIn="fadeIn" duration={0.6} delay={600} animateOnce={true}>
+								<Image rounded size='large'	src='/img/chart/Engine.png'/>
+								</ScrollAnimation>
+							</Grid.Column>
+							<Grid.Column >
+								<ScrollAnimation animateIn="fadeIn" duration={0.6} delay={1200} animateOnce={true}>
+								<Image rounded
+									size='large'
+									src='/img/chart/LastHalf.png'
+								/>
+								</ScrollAnimation>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>	
 				</Segment>
 
-				<ScrollAnimation animateIn='fadeIn' animateOnce={true}>
 
 				<Segment style={{ padding: '0em' }} vertical>
 					<Grid celled='internally' columns='equal' stackable>
 						<Grid.Row textAlign='center'>
 
 							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_objRating.first}</Header>
-								<p style={{ fontSize: '1.33em' }}>{text.s_objRating.second}</p>
+								<Header as='h3' style={{ fontSize: '2em' }}>Version control system</Header>
+								<p className="result">Experimental <br/><Icon size="huge" name='exclamation' color="yellow" /></p>
+							
 							</Grid.Column>
 
 							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-
-								<Header as='h3' style={{ fontSize: '2em' }}>{text.s_clientRating.first}</Header>
-								
-								<p style={{ fontSize: '1.33em' }}>
-									<b>{text.s_clientRating.second}</b>
-								</p>
+								<Header as='h3' style={{ fontSize: '2em' }}>Collaborative web platform</Header>	
+								<p className="result">Finished <br/><Icon size="huge" name='check' color="green" /></p>
 
 							</Grid.Column>
 
+
+							<Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
+								<Header as='h3' style={{ fontSize: '2em' }}>AI model generation</Header>
+								<p className="result">Work in progress <br/><Icon size="huge" name='close' color="red" /></p>
+							</Grid.Column>
 						</Grid.Row>
 					</Grid>
 				</Segment>
-				</ScrollAnimation>
 				
 
 				<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>{text.demoText}</Header>
@@ -349,16 +363,15 @@ class HomepageLayout extends Component {
 					<Header as='h4' style={{ fontSize: '2em', align: 'center', alignText: 'center' }}>Try out the platform!</Header>
 					
 					
-					<Button id="get_started" as={ Link } to="register" primary size='medium'>
+					<Button as={ Link } to="register" primary size='massive'>
 						{text.b_hero}
 						<Icon name='right arrow' />
 					</Button>
 
 					<Header as='h4' style={{ fontSize: '2em', align: 'center', alignText: 'center' }}>Hyped yet? Give us your feedback for a free 3 month trial!</Header>
 					
-					<Button id="get_started" as={ "a" } href="https://docs.google.com/forms/d/1Jqd06-j9LD5VY5TC904S8L3s6Rgi3bIULjU-L9EZxGk/edit?ts=5b8d1843" primary size='medium'>
+					<Button as={ "a" } href="https://docs.google.com/forms/d/1Jqd06-j9LD5VY5TC904S8L3s6Rgi3bIULjU-L9EZxGk/edit?ts=5b8d1843" color="green" size='massive'>
 						Form
-						<Icon name='right arrow' />
 					</Button>
 
 

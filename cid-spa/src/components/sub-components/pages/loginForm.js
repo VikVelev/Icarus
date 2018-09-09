@@ -66,8 +66,8 @@ export class LoginForm extends Component {
 				<Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
 					<Grid.Column style={{ maxWidth: 450 }}>
 
-						<Header as='h2' color='blue' textAlign='center'>
-							<Image src='/img/logo.png' href="/"/>
+						<Header as='h1' color='blue' textAlign='center'>
+							<Image src='/img/LogoBlue.png'style={{margin: "auto"}}  href="/"/>
 							{' ' + text.title}
 						</Header>
 

@@ -51,19 +51,25 @@ export default class Canvas3D extends Component {
         this.workerDirector.setForceWorkerDataCopy( true );
         this.Validator = THREE.LoaderSupport.Validator;
 
-        this.state = {
-            loading: true,
-            precent: 0,
-            currentlyRendering: [],
-            counter: 0,
-            limitReached: false,
-            ctrl: true,
-        }
     }
 
-    animate() {
-        requestAnimationFrame( this.animate.bind(this) )
-        this.viewport.render();
+    state = {
+        loading: true,
+        precent: 0,
+        currentlyRendering: [],
+        counter: 0,
+        limitReached: false,
+        ctrl: true,
+    }
+
+    death = false
+
+    animate = () => {
+        if(!this.death){
+            requestAnimationFrame( this.animate )
+            console.log("render", new Date())
+            this.viewport.render();
+        }
     }
 
     onWindowResize() {
@@ -192,6 +198,7 @@ export default class Canvas3D extends Component {
 
 
     componentDidMount(){
+        this.death = false
         //Return to default state
         this.setState({
             loading: true,
@@ -201,9 +208,7 @@ export default class Canvas3D extends Component {
             limitReached: false,
         })
         
-
         this.rootElement = document.getElementById(this.canvasId)
-
         window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
         this.props.dispatch({
@@ -358,8 +363,12 @@ export default class Canvas3D extends Component {
             counter: 0,
             limitReached: false,
         })
+        
+        if(this.domEl){
+            this.domEl.removeEventListener('wheel', this.scroll)
+        }
 
-        this.domEl.removeEventListener('wheel', this.scroll)
+        this.death = true
     }
 
 
@@ -374,16 +383,22 @@ export default class Canvas3D extends Component {
             )
         }
     }
-
+    timeout = 0
     scroll = (event) => {
         this.setState({ ctrl: event.ctrlKey })
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+            this.setState({ ctrl: true })
+        }, 1000 * 10)
     }
 
 
     // TODO: Fix this shit, make it look decent
     v = (element) => {
-        element.addEventListener( 'wheel', this.scroll, false)
-        this.domEl = element
+        if(element){
+            element.addEventListener( 'wheel', this.scroll, false)
+            this.domEl = element
+        }
     }
 
     warnScroll = () => {
@@ -433,8 +448,9 @@ export default class Canvas3D extends Component {
         console.warn("Limit is surpassed")
         return(
             <div ref={this.v} id={this.canvasId} className="viewport warn">
-               {this.Loading()}
-               {this.manageDiff()}
+                {this.warnScroll()}
+                {this.Loading()}
+                {this.manageDiff()}
             </div>
         )
     }

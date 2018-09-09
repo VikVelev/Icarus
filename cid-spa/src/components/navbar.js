@@ -149,8 +149,8 @@ export class Navbar extends Component {
                 pointing
                 secondary>
 
-                <Menu.Item>
-                    <img src='/img/logo.png' alt="logo"/>
+                <Menu.Item style={{ padding: "4px" }}>
+					<img alt="logo" src='/img/LogoBlue.png' style={{margin: "auto", padding: "0"}}  href="/"/>
                 </Menu.Item>
                 
                 <Menu.Item 
