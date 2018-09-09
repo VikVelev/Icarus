@@ -242,7 +242,7 @@ export default class Viewport {
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.99"+id, 10)
+                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.994"+id, 10)
                         // console.log(id, this.currentlyRendering[0])                        
                         // console.log(id, this.currentlyRendering[0].import[0].name)
                         if (id < parseInt(this.currentlyRendering[0].import[0].name, 10)) {

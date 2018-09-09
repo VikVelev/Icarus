@@ -204,12 +204,12 @@ ResponsiveContainer.propTypes = {
 })
 class HomepageLayout extends Component {
 
-	componentDidMount() {
+	async componentDidMount() {
 		let firstCommitData = { 
 			mesh: "http://127.0.0.1:3000/models/aventador/Avent0.obj",
 			textures: "http://127.0.0.1:3000/models/aventador/Avent0.mtl",
 			modelId: 12,
-			commitId: 96946,
+			commitId: 96945,
 			version: 1,
 			description: "guz",
 			committed_by: "majkati",
@@ -217,22 +217,21 @@ class HomepageLayout extends Component {
 		}
 
 		this.props.dispatch( DiffMode(true) )
-		this.props.dispatch( addToCompare(firstCommitData) )
-
+		await this.props.dispatch( addToCompare(firstCommitData) )
 		setTimeout(() => {
-		let latestCommitData = { 
-			mesh: "http://127.0.0.1:3000/models/aventador/Avent.obj",
-			textures: "http://127.0.0.1:3000/models/aventador/Avent.mtl",
-			modelId: 12,
-			commitId: 96945,
-			version: 0,
-			description: "guz",
-			committed_by: "majkati",
-			title: "pedal",
-		}
+			let latestCommitData = { 
+				mesh: "http://127.0.0.1:3000/models/aventador/Avent.obj",
+				textures: "http://127.0.0.1:3000/models/aventador/Avent.mtl",
+				modelId: 12,
+				commitId: 96946,
+				version: 0,
+				description: "guz",
+				committed_by: "majkati",
+				title: "pedal",
+			}
 
-		this.props.dispatch( addToCompare(latestCommitData) )
-		}, 5000)
+			this.props.dispatch( addToCompare(latestCommitData) )
+		}, 4000)
 	}
 
 	render() {
