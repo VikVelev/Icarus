@@ -4,6 +4,7 @@ import { Raycaster, Vector2, MeshNormalMaterial, CubeGeometry } from 'three'
 import OrbitControls from './OrbitControls'
 
 import dat from 'dat.gui'
+import _ from "lodash"
 
 import Model3D from './Model3D.js'
 //import Diff from './Diff.js'
@@ -242,13 +243,17 @@ export default class Viewport {
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.994"+id, 10)
+                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("1.1"+id, 10)
+                        
+                        this.currentlyRendering[0].import[0].material.color = new Color(green)
+                        
+                        
                         // console.log(id, this.currentlyRendering[0])                        
                         // console.log(id, this.currentlyRendering[0].import[0].name)
                         if (id < parseInt(this.currentlyRendering[0].import[0].name, 10)) {
-                            mesh.material.color = new Color(red)
+                            // mesh.material.color = new Color(red)
                         } else {
-                            mesh.material.color = new Color(green)
+                            // mesh.material.color = new Color(green)
                         }
                     }
                 })

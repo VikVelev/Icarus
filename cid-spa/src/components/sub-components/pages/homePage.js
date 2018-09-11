@@ -249,16 +249,19 @@ class HomepageLayout extends Component {
 						<Grid.Row columns="equal">
 							<Grid.Column  stretched={true}>
 								<ScrollAnimation animateIn="fadeIn" duration={0.4} delay={0} animateOnce={true}>
+									<p></p>
 									<Image className="workflow-image" rounded size='medium' src='/img/workflow/FirstGraphic.png'/>
 								</ScrollAnimation>
 							</Grid.Column>
 							<Grid.Column  stretched={true}>
 								<ScrollAnimation animateIn="fadeIn" duration={0.4} delay={200} animateOnce={true}>
+									<p></p>									
 									<Image className="workflow-image" rounded size='medium' src='/img/workflow/SecondGraphic.png'/>
 								</ScrollAnimation>
 							</Grid.Column>
 							<Grid.Column  stretched={true}>
 								<ScrollAnimation animateIn="fadeIn" duration={0.4} delay={400} animateOnce={true}>
+									<p></p>
 									<Image className="workflow-image" rounded size='medium' src='/img/workflow/ThirdGraphic.png'/>
 								</ScrollAnimation>
 							</Grid.Column>
