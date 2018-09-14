@@ -67,7 +67,6 @@ export default class Canvas3D extends Component {
     animate = () => {
         if(!this.death){
             requestAnimationFrame( this.animate )
-            // console.log("render", new Date())
             this.viewport.render();
         }
     }
@@ -81,7 +80,7 @@ export default class Canvas3D extends Component {
         if( model !== undefined ) {
             this.model3d = new Model3D( model )
         }
-        this.viewport = new Viewport( this.canvasId, this.model3d, this.rootElement, this.props.diff )
+        this.viewport = new Viewport( this.canvasId, this.model3d, this.rootElement, this.props.diff, this.props.demo );
         this.viewport.init()
         this.onWindowResize()
         this.animate()
@@ -150,13 +149,13 @@ export default class Canvas3D extends Component {
             let modelName;
 
             if (this.props.demo) {
-                modelName = this.props.modelPath.split('/')[2]
+                modelName = this.props.modelPath.split('/')[3]
+
+                
             } else {    
                 modelName = this.props.modelPath.split("/")[4]
-            }
-            modelName = modelName.split(".")[0]
+                modelName = modelName.split(".")[0]
 
-            if (modelPrepDatas.length === 0) {
                 prepData = new THREE.LoaderSupport.PrepData( modelName );
                 prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath, 'OBJ ') );
                 if (textures) {
@@ -165,7 +164,6 @@ export default class Canvas3D extends Component {
                 prepData.setLogging( false, false );
                 modelPrepDatas.push( prepData );
             }
-
         }
         
         let modelPrepDataIndex = 0;
@@ -222,7 +220,8 @@ export default class Canvas3D extends Component {
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
         //console.log(this.props.diff, this.props.type)
 
-        if (!this.props.diff && this.props.type !== "revision") {
+        // if it's not a diff canvas, load a starting model, if its diff, add it
+        if (!this.props.diff && this.props.type !== "revision" && !this.props.demo) {
             this.enqueueAllAssests({
                 maxQueueSize: 1,
                 maxWebWorkers: 2,
@@ -231,6 +230,33 @@ export default class Canvas3D extends Component {
             })
         }
         
+        if(this.props.demo) {
+
+            let modelPrepDatas = []
+
+            let prepData1 = new THREE.LoaderSupport.PrepData( "demo1" );
+
+            prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".obj", 'OBJ ') );
+            prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".mtl", 'MTL' ) );
+
+            modelPrepDatas.push( prepData1 );
+
+            let prepData0 = new THREE.LoaderSupport.PrepData( "demo0" );
+
+            prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.obj", 'OBJ ') );
+            prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.mtl", 'MTL' ) );
+
+            modelPrepDatas.push( prepData0 );
+
+            this.enqueueAllAssests({
+                maxQueueSize: 2,
+                maxWebWorkers: 2,
+                streamMeshes: false,
+                textures: null,
+                modelPrepDatas: modelPrepDatas,
+            })
+        }
+
         if(this.props.type === 'revision') {
 
             let modelPrepDatas = []
@@ -271,7 +297,7 @@ export default class Canvas3D extends Component {
     manageDiff() {
         // Actually thought of an intresting architecture to allow communicating between react components
         if (this.props.model3d.addModelCallback.called) {
-            console.log("diff: ", this.props.model3d.addModelCallback)
+            //console.log("diff: ", this.props.model3d.addModelCallback)
             this.addModel(this.props.model3d.addModelCallback.query)
         }
 
@@ -296,15 +322,25 @@ export default class Canvas3D extends Component {
 
     }
 
-    addModel( element ) {
+    addModel( element, isAsync) {
         // I'm using the commit ID to refer to each model when removing them.
-        console.log(element)
+        //console.log(element)
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
         let modelPrepDatas = [];
+        let modelName;
 
-        let modelName = element.mesh.split("/")[4]
-        modelName = modelName.split(".")[0]
+        if (isAsync === undefined) {
+            modelName = element.mesh.split("/")[4]
+            modelName = modelName.split(".")[0]
+        } else {
+            modelName = element.mesh.split("/")[3]
+            modelName = modelName.split(".")[0]
+        }
+
+        // console.log(modelName)
+        // console.log(element)
+        
 
         let prepData = new THREE.LoaderSupport.PrepData( modelName );
         prepData.setLogging( false, false );
@@ -326,14 +362,14 @@ export default class Canvas3D extends Component {
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
 
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
-        
+        //console.log(modelPrepDatas)
         this.enqueueAllAssests({
             maxQueueSize: 1,
             maxWebWorkers: 2,
             streamMeshes: false,
             textures: (element.textures !== null),
             modelPrepDatas:  modelPrepDatas,
-            commitId: element.commitId
+            commitId: element.commitId,
         })
  
     }
