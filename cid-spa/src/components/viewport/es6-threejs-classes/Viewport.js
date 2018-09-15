@@ -231,7 +231,7 @@ export default class Viewport {
 
                 if(this.demo) {
                     this.currentlyRendering[0].model.children.forEach(child => {
-                        if(child.material.name !== "Glass") {
+                        if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
                             child.material.color = new Color(green);
                         }
                     })
