@@ -3,6 +3,7 @@ import { Progress, Icon, } from 'semantic-ui-react'
 
 /* Not written by me */
 import MTLLoader from './es6-threejs-classes/MTLLoader.js'
+import ScrollAnimation from 'react-animate-on-scroll'
 /* Not written by me */
 
 /* Written by me 100% */
@@ -11,6 +12,9 @@ import Model3D from './es6-threejs-classes/Model3D';
 /* Written by me 100% */
 
 import { connect } from 'react-redux';
+import CommitChain from '../diff/commitChain.js';
+
+import { fetchDemoData } from "../../actions/model3DActions"
 
 import OBJLoader from 'three-obj-loader'
 
@@ -62,12 +66,13 @@ export default class Canvas3D extends Component {
         ctrl: true,
     }
 
+    commits = []
+
     death = false
 
     animate = () => {
         if(!this.death){
             requestAnimationFrame( this.animate )
-            console.log("render", new Date())
             this.viewport.render();
         }
     }
@@ -81,7 +86,7 @@ export default class Canvas3D extends Component {
         if( model !== undefined ) {
             this.model3d = new Model3D( model )
         }
-        this.viewport = new Viewport( this.canvasId, this.model3d, this.rootElement, this.props.diff )
+        this.viewport = new Viewport( this.canvasId, this.model3d, this.rootElement, this.props.diff, this.props.demo );
         this.viewport.init()
         this.onWindowResize()
         this.animate()
@@ -150,13 +155,13 @@ export default class Canvas3D extends Component {
             let modelName;
 
             if (this.props.demo) {
-                modelName = this.props.modelPath.split('/')[2]
+                modelName = this.props.modelPath.split('/')[3]
+
+                
             } else {    
                 modelName = this.props.modelPath.split("/")[4]
-            }
-            modelName = modelName.split(".")[0]
+                modelName = modelName.split(".")[0]
 
-            if (modelPrepDatas.length === 0) {
                 prepData = new THREE.LoaderSupport.PrepData( modelName );
                 prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath, 'OBJ ') );
                 if (textures) {
@@ -165,7 +170,6 @@ export default class Canvas3D extends Component {
                 prepData.setLogging( false, false );
                 modelPrepDatas.push( prepData );
             }
-
         }
         
         let modelPrepDataIndex = 0;
@@ -222,7 +226,8 @@ export default class Canvas3D extends Component {
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
         //console.log(this.props.diff, this.props.type)
 
-        if (!this.props.diff && this.props.type !== "revision") {
+        // if it's not a diff canvas, load a starting model, if its diff, add it
+        if (!this.props.diff && this.props.type !== "revision" && !this.props.demo) {
             this.enqueueAllAssests({
                 maxQueueSize: 1,
                 maxWebWorkers: 2,
@@ -231,6 +236,87 @@ export default class Canvas3D extends Component {
             })
         }
         
+        if(this.props.demo) {
+
+            this.commits = []
+            
+            this.commits.push({
+                belongs_to_model: 1,
+                committed_by: {
+                    email: "yaskata@abv.bg",
+                    first_name: "",
+                    id: 1,
+                    last_name: "",
+                    profile: { 
+                        country: "", 
+                        birth_date: "2018-09-06", 
+                        profile_picture: "http://172.24.0.2:9000/media/16195797_550978245107579_768123003936312725_n.jpg", 
+                        description: "", 
+                        software: ""
+                    },
+                    username: "VikVelev",
+                },
+                date: "2018-09-15T01:57:46.477429+03:00",
+                details: "Uploaded model5",
+                id: 3,
+                new_textures: "http://localhost:3000/models/aventador/Avent.mtl",
+                new_version: "http://localhost:3000/models/aventador/Avent.obj",
+                title: "Added side view mirrors",
+                version_number: 2,
+            })
+
+            this.commits.push({
+                belongs_to_model: 1,
+                committed_by: {
+                    email: "yaskata@abv.bg",
+                    first_name: "",
+                    id: 1,
+                    last_name: "",
+                    profile: { 
+                        country: "", 
+                        birth_date: "2018-09-06", 
+                        profile_picture: "http://172.24.0.2:9000/media/16195797_550978245107579_768123003936312725_n.jpg", 
+                        description: "", 
+                        software: ""
+                    },
+                    username: "VikVelev",
+                },
+                date: "2018-09-15T01:57:46.477429+03:00",
+                details: "Uploaded model5",
+                id: 4,
+                new_textures: "http://localhost:3000/models/aventador/Avent0.mtl",
+                new_version: "http://localhost:3000/models/aventador/Avent0.obj",
+                title: "Initial Commit",
+                version_number: 1,
+            })
+
+            console.log(this.commits)
+
+            let modelPrepDatas = []
+
+            // let prepData1 = new THREE.LoaderSupport.PrepData( "demo1" );
+
+            // prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".obj", 'OBJ ') );
+            // prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".mtl", 'MTL' ) );
+
+            // modelPrepDatas.push( prepData1 );
+
+            // let prepData0 = new THREE.LoaderSupport.PrepData( "demo0" );
+
+            // prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.obj", 'OBJ ') );
+            // prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.mtl", 'MTL' ) );
+
+            // modelPrepDatas.push( prepData0 );
+
+            // this.enqueueAllAssests({
+            //     maxQueueSize: 2,
+            //     maxWebWorkers: 2,
+            //     streamMeshes: false,
+            //     textures: null,
+            //     modelPrepDatas: modelPrepDatas,
+            // })
+        }
+
         if(this.props.type === 'revision') {
 
             let modelPrepDatas = []
@@ -271,11 +357,12 @@ export default class Canvas3D extends Component {
     manageDiff() {
         // Actually thought of an intresting architecture to allow communicating between react components
         if (this.props.model3d.addModelCallback.called) {
-            this.addModel(this.props.model3d.addModelCallback.query)
+            //console.log("diff: ", this.props.model3d.addModelCallback)
+            this.addModel(this.props.model3d.addModelCallback.query, this.props.demo)
         }
 
         if (this.props.model3d.removeModelCallback.called) {
-            this.removeModel(this.props.model3d.removeModelCallback.query.commitId)
+            this.removeModel(this.props.model3d.removeModelCallback.query.commitId, this.props.demo)
         }
 
     }
@@ -295,15 +382,25 @@ export default class Canvas3D extends Component {
 
     }
 
-    addModel( element ) {
+    addModel( element, isAsync) {
         // I'm using the commit ID to refer to each model when removing them.
         //console.log(element)
         this.setState({ loading:true, precent: 0 })
         // this is concluding the callback
         let modelPrepDatas = [];
+        let modelName;
 
-        let modelName = element.mesh.split("/")[4]
-        modelName = modelName.split(".")[0]
+        if (isAsync === undefined) {
+            modelName = element.mesh.split("/")[4]
+            modelName = modelName.split(".")[0]
+        } else {
+            modelName = element.mesh.split("/")[3]
+            modelName = modelName.split(".")[0]
+        }
+
+        // console.log(modelName)
+        // console.log(element)
+        
 
         let prepData = new THREE.LoaderSupport.PrepData( modelName );
         prepData.setLogging( false, false );
@@ -325,14 +422,14 @@ export default class Canvas3D extends Component {
         this.props.dispatch({ type: "STOP_ADD_TO_COMPARE" })
 
         //{ maxQueueSize, maxWebWorkers, streamMeshes, textures, modelPrepDatas }
-        
+        //console.log(modelPrepDatas)
         this.enqueueAllAssests({
             maxQueueSize: 1,
             maxWebWorkers: 2,
             streamMeshes: false,
             textures: (element.textures !== null),
             modelPrepDatas:  modelPrepDatas,
-            commitId: element.commitId
+            commitId: element.commitId,
         })
  
     }
@@ -371,6 +468,23 @@ export default class Canvas3D extends Component {
         this.death = true
     }
 
+    loadDemoPanel(){
+
+        if(!this.props.model3d.viewModelFetched) {
+            this.props.dispatch(fetchDemoData());
+        }
+
+        return(
+            <div className="demoPanel">
+                <center>
+                    <h4>
+                        Versions available
+                    </h4>
+                    <CommitChain commits={this.commits} demo={true}/>
+                </center>
+            </div>
+        );
+    }
 
     Loading = () => {
         if (!this.state.loading) {
@@ -383,6 +497,7 @@ export default class Canvas3D extends Component {
             )
         }
     }
+
     timeout = 0
     scroll = (event) => {
         this.setState({ ctrl: event.ctrlKey })
@@ -391,7 +506,6 @@ export default class Canvas3D extends Component {
             this.setState({ ctrl: true })
         }, 1000 * 10)
     }
-
 
     // TODO: Fix this shit, make it look decent
     v = (element) => {
@@ -426,7 +540,9 @@ export default class Canvas3D extends Component {
                 <div ref={this.v} id={this.canvasId} className="viewport">
                     {this.warnScroll()}
                     {this.Loading()}
-                    {this.manageDiff()}
+                    {this.manageDiff()} 
+                    {/* ^ an event listener basically */}
+                    {this.props.demo ? this.loadDemoPanel() : null}
                 </div>
             )
         //This if assumes that all ids in the renderingModelsId are ordered chronologically
@@ -451,6 +567,7 @@ export default class Canvas3D extends Component {
                 {this.warnScroll()}
                 {this.Loading()}
                 {this.manageDiff()}
+                {this.props.demo ? this.loadDemoPanel() : null}
             </div>
         )
     }

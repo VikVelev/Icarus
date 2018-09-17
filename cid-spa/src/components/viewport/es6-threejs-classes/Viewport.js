@@ -4,6 +4,7 @@ import { Raycaster, Vector2, MeshNormalMaterial, CubeGeometry } from 'three'
 import OrbitControls from './OrbitControls'
 
 import dat from 'dat.gui'
+import _ from "lodash"
 
 import Model3D from './Model3D.js'
 //import Diff from './Diff.js'
@@ -13,13 +14,15 @@ import Model3D from './Model3D.js'
 export default class Viewport {
     // ifDiff - diff object --> still not implemented will probably have
     // modelBefore, modelAfter, date, vertices, normals, surface difference
-    constructor ( _index, _objectToRender, _objectToAppendTo, _diff ) {
+    constructor ( _index, _objectToRender, _objectToAppendTo, _diff, _demo ) {
 
         this.objectToRender = _objectToRender;
         this.objectToAppendTo = _objectToAppendTo;
         this.index = _index;
-        this.diff = _diff !== undefined ? _diff : false ;
+        this.diff = _diff !== undefined ? _diff : false;
         this.currentlyRendering = [];
+        this.renderingMeshes = [];
+        this.demo = _demo !== undefined ? _demo : false;
         // this.camera;
         // this.controls;
 
@@ -178,9 +181,18 @@ export default class Viewport {
         this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
         this.raycaster.setFromCamera( this.mouse, this.camera );
         
+<<<<<<< HEAD
         //console.log(this.currentlyRendering[0])
         //let intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );
        
+=======
+        let intersects = []
+        if (this.currentlyRendering[1] !== undefined) {
+            intersects = this.raycaster.intersectObjects( this.currentlyRendering[1].extractedGeometry.children );
+        } else {
+            intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );            
+        }
+>>>>>>> 0e84ac78389d4b549fba0725719c2d6cd61e61a0
         //console.log("Throwing a ray at ", this.mouse.x, this.mouse.y, intersects)
 
         // if ( intersects.length > 0 ) {
@@ -217,34 +229,44 @@ export default class Viewport {
         let red = 0xff0000
 
         this.objectToRender = model3d
+
         model3d.import.forEach( element => {
             element.name = id
+            //This runs only if there is one loaded already
+            if ( element.type === "Group" && this.currentlyRendering.length > 0) {
 
-            
-            if ( element.type === "Group" && this.currentlyRendering.length !== 0) {
-                
-                element.children.forEach(mesh => {              
+                if(this.demo) {
+                    this.currentlyRendering[0].model.children.forEach(child => {
+                        if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
+                            child.material.color = new Color(green);
+                        }
+                    })
+                } else {
+                    model3d.model.children[0].material.forEach(texture => {
+                        texture.color = new Color(green);
+                    })
+                }
 
-                    if(mesh.geometry.type !== "BufferGeometry") {
-                        mesh.geometry = new BufferGeometry().fromGeometry( mesh.geometry );
-                    }
 
-                    //console.log(mesh.name)
-                    //console.log(mesh)                    
-                //TODO: Implement a newer version of the algorithm
-                // Convert faces to lines (ExtractedGeometry) and check if lines intersect with each other, after that
-                // cut them out of the rest and create a shape geometry
-                // do what you want with that shape geometry
+                element.children.forEach(mesh => {
+                    // if(mesh.geometry.type !== "BufferGeometry") {
+                    //     mesh.geometry = new BufferGeometry().fromGeometry( mesh.geometry );
+                    // }
+
+                    //TODO: Implement a newer version of the algorithm
+                    // Convert faces to lines and check if lines intersect with each other, after that
+                    // cut them out of the rest and create a shape geometry
+                    // do what you want with that shape geometry
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.99"+id, 10)
-                        console.log(id, this.currentlyRendering[0])                        
-                        console.log(id, this.currentlyRendering[0].import[0].name)
-                        if (id < parseInt(this.currentlyRendering[0].import[0].name, 10)) {
-                            mesh.material.color = new Color(red)
+                        if(this.demo) {
+                            mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("1.006"+id, 10)
+
                         } else {
-                            mesh.material.color = new Color(green)
+                            mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
+                            
+                            console.log("not demo")
                         }
                     }
                 })
@@ -253,7 +275,7 @@ export default class Viewport {
             this.scene.add( element );
         })
 
-        this.currentlyRendering.push(model3d)
+        this.currentlyRendering.push( model3d );
     }
 
     removeModel(id){
@@ -280,12 +302,18 @@ export default class Viewport {
             if (object.name === id) {
                 toRemove.push(object)
             }
-            
         })
         
         toRemove.forEach(element => {
             this.scene.remove(element)
         })
+
+        // if(this.demo && this.currentlyRendering.length > 0) {
+        //         for (let j = 0; j < this.currentlyRendering[0].model.children.length; j++) {
+        //             delete this.currentlyRendering[0].model.children[j].material.color;
+        //             console.log(this.currentlyRendering[0].textures)
+        //         }
+        // }
     }
 
     clear() {

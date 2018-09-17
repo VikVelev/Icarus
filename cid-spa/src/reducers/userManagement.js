@@ -3,7 +3,6 @@ let defaultState = {}
 const myStorage = window.localStorage
 
 if(myStorage.getItem("userManagement") !== "undefined"){
-    console.log(myStorage.getItem("userManagement"))
     defaultState = JSON.parse(myStorage.getItem("userManagement"))
     defaultState = {
         ...defaultState, 
