@@ -176,39 +176,39 @@ export default class Viewport {
 
     onDocumentMouseDown( event ) {
         //TODO: Finish implementing this
-        event.preventDefault();
-        this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
-        this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
-        this.raycaster.setFromCamera( this.mouse, this.camera );
+        // event.preventDefault();
+        // this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
+        // this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+        // this.raycaster.setFromCamera( this.mouse, this.camera );
         
-        let intersects = []
-        if (this.currentlyRendering[1] !== undefined) {
-            intersects = this.raycaster.intersectObjects( this.currentlyRendering[1].extractedGeometry.children );
-        } else {
-            intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );            
-        }
-        //console.log("Throwing a ray at ", this.mouse.x, this.mouse.y, intersects)
+        // let intersects = []
+        // if (this.currentlyRendering[1] !== undefined) {
+        //     intersects = this.raycaster.intersectObjects( this.currentlyRendering[1].extractedGeometry.children );
+        // } else {
+        //     intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );            
+        // }
+        // //console.log("Throwing a ray at ", this.mouse.x, this.mouse.y, intersects)
 
-        if ( intersects.length > 0 ) {
+        // if ( intersects.length > 0 ) {
 
-            for ( let i = 0; i < intersects.length; i++ ) {
-                if (intersects[ i ].object.material.color !== undefined){
-                    intersects[ i ].object.material.color.set( 0xff0000 );
-                }
-            }   
+        //     for ( let i = 0; i < intersects.length; i++ ) {
+        //         if (intersects[ i ].object.material.color !== undefined){
+        //             intersects[ i ].object.material.color.set( 0xff0000 );
+        //         }
+        //     }   
 
-            intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+        //     intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
      
-            let particle = new Mesh( new CubeGeometry( 0.1, 0.1, 0.1 ), new MeshNormalMaterial() );
-            particle.colors = new Color(155,155,0);
-            //console.log("I just intersected with" ,intersects[0])
+        //     let particle = new Mesh( new CubeGeometry( 0.1, 0.1, 0.1 ), new MeshNormalMaterial() );
+        //     particle.colors = new Color(155,155,0);
+        //     //console.log("I just intersected with" ,intersects[0])
 
-            particle.position.x = intersects[ 0 ].point.x ;
-            particle.position.y = intersects[ 0 ].point.y ;
-            particle.position.z = intersects[ 0 ].point.z ;
+        //     particle.position.x = intersects[ 0 ].point.x ;
+        //     particle.position.y = intersects[ 0 ].point.y ;
+        //     particle.position.z = intersects[ 0 ].point.z ;
             
-            //this.scene.add( particle );
-        }
+        //     //this.scene.add( particle );
+        // }
         /*
         // Parse all the faces
         for ( let i in intersects ) {
@@ -223,22 +223,26 @@ export default class Viewport {
         let red = 0xff0000
 
         this.objectToRender = model3d
-
+        let meshContainer = []
+        let newer = false;
         model3d.import.forEach( element => {
             element.name = id
             //This runs only if there is one loaded already
             if ( element.type === "Group" && this.currentlyRendering.length > 0) {
 
-                if(this.demo) {
+                if (this.currentlyRendering[0].model.name < element.name) {
                     this.currentlyRendering[0].model.children.forEach(child => {
                         if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
                             child.material.color = new Color(green);
                         }
                     })
                 } else {
-                    model3d.model.children[0].material.forEach(texture => {
-                        texture.color = new Color(green);
+                    element.children.forEach(child => {
+                        if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
+                            child.material.color = new Color(green);
+                        }
                     })
+                    newer = true;
                 }
 
 
@@ -254,21 +258,32 @@ export default class Viewport {
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
-                        if(this.demo) {
+                        if(!newer) {
                             mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("1.006"+id, 10)
-
                         } else {
-                            mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.98"+id, 10)
-                            
-                            console.log("not demo")
+                            mesh.scale.x = mesh.scale.y = mesh.scale.z = parseFloat("0.994"+id, 10)
                         }
                     }
                 })
             }
-
             this.scene.add( element );
+            
+            let exists = false;
+
+            this.renderingMeshes.forEach(mesh => {
+                mesh.forEach(el => {
+                    if(el.name === element.name){
+                        exists = true;
+                    }
+                })
+            })
+
+            !exists ? meshContainer.push(element) : null;
         })
 
+        if(meshContainer.length > 0) {
+            this.renderingMeshes.push(meshContainer);
+        }
         this.currentlyRendering.push( model3d );
     }
 
@@ -302,12 +317,19 @@ export default class Viewport {
             this.scene.remove(element)
         })
 
-        // if(this.demo && this.currentlyRendering.length > 0) {
-        //         for (let j = 0; j < this.currentlyRendering[0].model.children.length; j++) {
-        //             delete this.currentlyRendering[0].model.children[j].material.color;
-        //             console.log(this.currentlyRendering[0].textures)
-        //         }
-        // }
+        this.scene.traverse(object => {
+            if(object.parent !== null){
+                if(object.parent.name !== undefined && object.parent.name !== "") {
+                    if(object.type === "Mesh" && this.currentlyRendering.length > 0) {
+                        for (let i = 0; i < this.currentlyRendering[0].textures.length; i++) {
+                            if(this.currentlyRendering[0].textures[i].uuid === object.material.uuid) {
+                                object.material.color = this.currentlyRendering[0].colors[i];
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     clear() {

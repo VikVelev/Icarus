@@ -243,24 +243,14 @@ export default class Canvas3D extends Component {
             this.commits.push({
                 belongs_to_model: 1,
                 committed_by: {
-                    email: "yaskata@abv.bg",
-                    first_name: "",
-                    id: 1,
-                    last_name: "",
-                    profile: { 
-                        country: "", 
-                        birth_date: "2018-09-06", 
-                        profile_picture: "http://172.24.0.2:9000/media/16195797_550978245107579_768123003936312725_n.jpg", 
-                        description: "", 
-                        software: ""
-                    },
-                    username: "VikVelev",
+                    id: -1,
+                    username: "alex4o",
                 },
                 date: "2018-09-15T01:57:46.477429+03:00",
                 details: "Uploaded model5",
                 id: 3,
-                new_textures: "http://localhost:3000/models/aventador/Avent.mtl",
-                new_version: "http://localhost:3000/models/aventador/Avent.obj",
+                new_textures: "/models/aventador/Avent.mtl",
+                new_version: "/models/aventador/Avent.obj",
                 title: "Added side view mirrors",
                 version_number: 2,
             })
@@ -268,29 +258,19 @@ export default class Canvas3D extends Component {
             this.commits.push({
                 belongs_to_model: 1,
                 committed_by: {
-                    email: "yaskata@abv.bg",
-                    first_name: "",
-                    id: 1,
-                    last_name: "",
-                    profile: { 
-                        country: "", 
-                        birth_date: "2018-09-06", 
-                        profile_picture: "http://172.24.0.2:9000/media/16195797_550978245107579_768123003936312725_n.jpg", 
-                        description: "", 
-                        software: ""
-                    },
+                    id: -1,
                     username: "VikVelev",
                 },
-                date: "2018-09-15T01:57:46.477429+03:00",
-                details: "Uploaded model5",
+                date: "2018-09-15T01:25:46.477429+03:00",
+                details: "Uploaded models",
                 id: 4,
-                new_textures: "http://localhost:3000/models/aventador/Avent0.mtl",
-                new_version: "http://localhost:3000/models/aventador/Avent0.obj",
+                new_textures: "/models/aventador/Avent0.mtl",
+                new_version: "/models/aventador/Avent0.obj",
                 title: "Initial Commit",
                 version_number: 1,
             })
 
-            console.log(this.commits)
+            //console.log(this.commits)
 
             let modelPrepDatas = []
 

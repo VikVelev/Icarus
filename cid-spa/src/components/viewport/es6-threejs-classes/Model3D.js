@@ -1,6 +1,6 @@
 import { VertexNormalsHelper, LineSegments, LineBasicMaterial, Box3 } from 'three'
 import { WireframeGeometry, Geometry, Group, MeshStandardMaterial, Mesh }  from 'three'
-
+import _ from 'lodash'
 //import FaceNormalsHelper from 'three'
 
 export default class Model3D {
@@ -24,10 +24,18 @@ export default class Model3D {
             }
         }
 
-        this.textures = []
+        this.textures = [];
+        this.colors = []
+
         this.model.children.forEach(element => {
             this.textures.push(element.material);
+            this.colors.push(element.material.color);
         })
+
+        this.textures = _.cloneDeep(this.textures);
+        this.colors = _.cloneDeep(this.colors);
+
+        console.log(this.textures);
         //this.extractedGeometry = this.extractGeometry( this.model )
         this.vertexNormals = new VertexNormalsHelper( this.model, 0.15 );
 
