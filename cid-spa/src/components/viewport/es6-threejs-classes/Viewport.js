@@ -217,6 +217,11 @@ export default class Viewport {
         */
     }
 
+    colorMesh(mesh, color) {
+        if(mesh.material.name !== "Glass" && mesh.material.name !== "Translucent_Glass_Gray") {
+            mesh.material.color = color;
+        }
+    }
 
     addModel(model3d, id){
         let green = 0x00ff00
@@ -229,22 +234,31 @@ export default class Viewport {
             element.name = id
             //This runs only if there is one loaded already
             if ( element.type === "Group" && this.currentlyRendering.length > 0) {
-
-                if (this.currentlyRendering[0].model.name < element.name) {
-                    this.currentlyRendering[0].model.children.forEach(child => {
-                        if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
-                            child.material.color = new Color(green);
-                        }
-                    })
+                
+                if(this.demo) {
+                    if (this.currentlyRendering[0].model.name < element.name) {
+                        this.currentlyRendering[0].model.children.forEach(child => {
+                            this.colorMesh(child, new Color(green));
+                        })
+                    } else {
+                        element.children.forEach(child => {
+                            this.colorMesh(child, new Color(green));                            
+                        })
+                        newer = true;
+                    }
                 } else {
-                    element.children.forEach(child => {
-                        if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
-                            child.material.color = new Color(green);
-                        }
-                    })
-                    newer = true;
+                    if (this.currentlyRendering[0].model.name > element.name) {
+                        this.currentlyRendering[0].model.children.forEach(child => {
+                            this.colorMesh(child, new Color(green));
+                        })
+                    } else {
+                        element.children.forEach(child => {
+                            this.colorMesh(child, new Color(green));
+                        })
+                        newer = true;
+                    }
                 }
-
+                
 
                 element.children.forEach(mesh => {
                     // if(mesh.geometry.type !== "BufferGeometry") {
@@ -255,6 +269,14 @@ export default class Viewport {
                     // Convert faces to lines and check if lines intersect with each other, after that
                     // cut them out of the rest and create a shape geometry
                     // do what you want with that shape geometry
+                    if (mesh.material.length > 1) {
+                        mesh.material.forEach(mat => {
+                            mat.color = new Color(green)
+                        })
+                    } else {
+                        mesh.material = new Color(green)
+                    }
+                    
 
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
@@ -318,7 +340,7 @@ export default class Viewport {
         })
 
         this.scene.traverse(object => {
-            if(object.parent !== null){
+            if(object.parent !== null && this.demo){
                 if(object.parent.name !== undefined && object.parent.name !== "") {
                     if(object.type === "Mesh" && this.currentlyRendering.length > 0) {
                         for (let i = 0; i < this.currentlyRendering[0].textures.length; i++) {

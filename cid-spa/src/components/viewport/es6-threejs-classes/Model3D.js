@@ -35,7 +35,6 @@ export default class Model3D {
         this.textures = _.cloneDeep(this.textures);
         this.colors = _.cloneDeep(this.colors);
 
-        console.log(this.textures);
         //this.extractedGeometry = this.extractGeometry( this.model )
         this.vertexNormals = new VertexNormalsHelper( this.model, 0.15 );
 
