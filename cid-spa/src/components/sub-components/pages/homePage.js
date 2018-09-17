@@ -388,7 +388,7 @@ class HomepageLayout extends Component {
 				<Header as='h3' id="demo_header" style={{ fontSize: '3em', align: 'center', alignText: 'center' }}>{text.demoText}</Header>
 				
 				<Segment style={{ height: "600px"}} vertical id="demo">
-					<Visibility style={{ height: '100%' }} onOnScreen={console.log("Render Canvas")}>
+					<Visibility style={{ height: '100%' }}>
 						<Canvas3D modelPath="/models/aventador/Avent" demo={true} diff={true}/>
 					</Visibility>
 				</Segment>

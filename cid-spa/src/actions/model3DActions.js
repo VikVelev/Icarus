@@ -11,7 +11,6 @@ export function fetchViewingData(id, token) {
         })
 
         saxios.get(url + "/api/3d-models/?id=" + id).then((response) => {
-            console.log(response.data.results)
             dispatch({ type: "FETCH_DATA_FULFILLED", payload: response.data.results })
         }).catch((error) => {
             dispatch({ type: "FETCH_DATA_REJECTED", payload: error })            

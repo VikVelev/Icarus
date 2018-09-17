@@ -74,7 +74,7 @@ export default class CommitEntry extends Component {
                 DiffMode(true)
             )
         }
-        console.log(this.props);
+        //console.log(this.props);
         let modelCommitData = { 
             mesh: this.props.new_version,
             textures: this.props.new_textures,
