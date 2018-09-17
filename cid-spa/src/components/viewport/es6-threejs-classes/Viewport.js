@@ -181,20 +181,6 @@ export default class Viewport {
         // this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
         // this.raycaster.setFromCamera( this.mouse, this.camera );
         
-<<<<<<< HEAD
-        //console.log(this.currentlyRendering[0])
-        //let intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );
-       
-        //console.log("Throwing a ray at ", this.mouse.x, this.mouse.y, intersects)
-
-        // if ( intersects.length > 0 ) {
-
-            // for ( let i = 0; i < intersects.length; i++ ) {
-            //     if (intersects[ i ].object.material.color !== undefined){
-            //         intersects[ i ].object.material.color.set( 0xff0000 );
-            //     }
-            // }   
-=======
         // let intersects = []
         // if (this.currentlyRendering[1] !== undefined) {
         //     intersects = this.raycaster.intersectObjects( this.currentlyRendering[1].extractedGeometry.children );
@@ -210,7 +196,6 @@ export default class Viewport {
         //             intersects[ i ].object.material.color.set( 0xff0000 );
         //         }
         //     }   
->>>>>>> 1074af5a62e0c710842dd73fcdab0b987afd9352
 
         //     intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
      
@@ -308,10 +293,6 @@ export default class Viewport {
                     }
                 })
             }
-<<<<<<< HEAD
-            
-=======
->>>>>>> 1074af5a62e0c710842dd73fcdab0b987afd9352
             this.scene.add( element );
             
             let exists = false;
