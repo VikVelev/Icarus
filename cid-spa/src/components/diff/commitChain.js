@@ -24,7 +24,7 @@ export default class CommitChain extends Component {
     renderPost(object, i){
         return (          
             <Segment id={object.id} key={i} className="profile-post-container">
-                <CommitEntry{...object}/>
+                <CommitEntry {...object} demo={this.props.demo}/>
             </Segment>
         )
     }

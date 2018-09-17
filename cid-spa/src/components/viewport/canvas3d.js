@@ -3,6 +3,7 @@ import { Progress, Icon, } from 'semantic-ui-react'
 
 /* Not written by me */
 import MTLLoader from './es6-threejs-classes/MTLLoader.js'
+import ScrollAnimation from 'react-animate-on-scroll'
 /* Not written by me */
 
 /* Written by me 100% */
@@ -11,6 +12,9 @@ import Model3D from './es6-threejs-classes/Model3D';
 /* Written by me 100% */
 
 import { connect } from 'react-redux';
+import CommitChain from '../diff/commitChain.js';
+
+import { fetchDemoData } from "../../actions/model3DActions"
 
 let THREE = require('three')
 
@@ -61,6 +65,8 @@ export default class Canvas3D extends Component {
         limitReached: false,
         ctrl: true,
     }
+
+    commits = []
 
     death = false
 
@@ -232,29 +238,83 @@ export default class Canvas3D extends Component {
         
         if(this.props.demo) {
 
+            this.commits = []
+            
+            this.commits.push({
+                belongs_to_model: 1,
+                committed_by: {
+                    email: "yaskata@abv.bg",
+                    first_name: "",
+                    id: 1,
+                    last_name: "",
+                    profile: { 
+                        country: "", 
+                        birth_date: "2018-09-06", 
+                        profile_picture: "http://172.24.0.2:9000/media/16195797_550978245107579_768123003936312725_n.jpg", 
+                        description: "", 
+                        software: ""
+                    },
+                    username: "VikVelev",
+                },
+                date: "2018-09-15T01:57:46.477429+03:00",
+                details: "Uploaded model5",
+                id: 3,
+                new_textures: "http://localhost:3000/models/aventador/Avent.mtl",
+                new_version: "http://localhost:3000/models/aventador/Avent.obj",
+                title: "Added side view mirrors",
+                version_number: 2,
+            })
+
+            this.commits.push({
+                belongs_to_model: 1,
+                committed_by: {
+                    email: "yaskata@abv.bg",
+                    first_name: "",
+                    id: 1,
+                    last_name: "",
+                    profile: { 
+                        country: "", 
+                        birth_date: "2018-09-06", 
+                        profile_picture: "http://172.24.0.2:9000/media/16195797_550978245107579_768123003936312725_n.jpg", 
+                        description: "", 
+                        software: ""
+                    },
+                    username: "VikVelev",
+                },
+                date: "2018-09-15T01:57:46.477429+03:00",
+                details: "Uploaded model5",
+                id: 4,
+                new_textures: "http://localhost:3000/models/aventador/Avent0.mtl",
+                new_version: "http://localhost:3000/models/aventador/Avent0.obj",
+                title: "Initial Commit",
+                version_number: 1,
+            })
+
+            console.log(this.commits)
+
             let modelPrepDatas = []
 
-            let prepData1 = new THREE.LoaderSupport.PrepData( "demo1" );
+            // let prepData1 = new THREE.LoaderSupport.PrepData( "demo1" );
 
-            prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".obj", 'OBJ ') );
-            prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".mtl", 'MTL' ) );
+            // prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".obj", 'OBJ ') );
+            // prepData1.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + ".mtl", 'MTL' ) );
 
-            modelPrepDatas.push( prepData1 );
+            // modelPrepDatas.push( prepData1 );
 
-            let prepData0 = new THREE.LoaderSupport.PrepData( "demo0" );
+            // let prepData0 = new THREE.LoaderSupport.PrepData( "demo0" );
 
-            prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.obj", 'OBJ ') );
-            prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.mtl", 'MTL' ) );
+            // prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.obj", 'OBJ ') );
+            // prepData0.addResource( new THREE.LoaderSupport.ResourceDescriptor( this.props.modelPath + "0.mtl", 'MTL' ) );
 
-            modelPrepDatas.push( prepData0 );
+            // modelPrepDatas.push( prepData0 );
 
-            this.enqueueAllAssests({
-                maxQueueSize: 2,
-                maxWebWorkers: 2,
-                streamMeshes: false,
-                textures: null,
-                modelPrepDatas: modelPrepDatas,
-            })
+            // this.enqueueAllAssests({
+            //     maxQueueSize: 2,
+            //     maxWebWorkers: 2,
+            //     streamMeshes: false,
+            //     textures: null,
+            //     modelPrepDatas: modelPrepDatas,
+            // })
         }
 
         if(this.props.type === 'revision') {
@@ -298,11 +358,11 @@ export default class Canvas3D extends Component {
         // Actually thought of an intresting architecture to allow communicating between react components
         if (this.props.model3d.addModelCallback.called) {
             //console.log("diff: ", this.props.model3d.addModelCallback)
-            this.addModel(this.props.model3d.addModelCallback.query)
+            this.addModel(this.props.model3d.addModelCallback.query, this.props.demo)
         }
 
         if (this.props.model3d.removeModelCallback.called) {
-            this.removeModel(this.props.model3d.removeModelCallback.query.commitId)
+            this.removeModel(this.props.model3d.removeModelCallback.query.commitId, this.props.demo)
         }
 
     }
@@ -408,6 +468,23 @@ export default class Canvas3D extends Component {
         this.death = true
     }
 
+    loadDemoPanel(){
+
+        if(!this.props.model3d.viewModelFetched) {
+            this.props.dispatch(fetchDemoData());
+        }
+
+        return(
+            <div className="demoPanel">
+                <center>
+                    <h4>
+                        Versions available
+                    </h4>
+                    <CommitChain commits={this.commits} demo={true}/>
+                </center>
+            </div>
+        );
+    }
 
     Loading = () => {
         if (!this.state.loading) {
@@ -420,6 +497,7 @@ export default class Canvas3D extends Component {
             )
         }
     }
+
     timeout = 0
     scroll = (event) => {
         this.setState({ ctrl: event.ctrlKey })
@@ -428,7 +506,6 @@ export default class Canvas3D extends Component {
             this.setState({ ctrl: true })
         }, 1000 * 10)
     }
-
 
     // TODO: Fix this shit, make it look decent
     v = (element) => {
@@ -463,7 +540,9 @@ export default class Canvas3D extends Component {
                 <div ref={this.v} id={this.canvasId} className="viewport">
                     {this.warnScroll()}
                     {this.Loading()}
-                    {this.manageDiff()}
+                    {this.manageDiff()} 
+                    {/* ^ an event listener basically */}
+                    {this.props.demo ? this.loadDemoPanel() : null}
                 </div>
             )
         //This if assumes that all ids in the renderingModelsId are ordered chronologically
@@ -488,6 +567,7 @@ export default class Canvas3D extends Component {
                 {this.warnScroll()}
                 {this.Loading()}
                 {this.manageDiff()}
+                {this.props.demo ? this.loadDemoPanel() : null}
             </div>
         )
     }

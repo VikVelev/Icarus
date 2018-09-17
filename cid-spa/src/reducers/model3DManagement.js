@@ -36,6 +36,14 @@ const model3DManagement = (state=defaultState, action) => {
                 fetched: false,
                 error: {},
             }
+        case "DEMO_DATA":
+            return {
+                ...state,
+                model: action.payload,
+                fetching: false,
+                viewModelFetched: true,                
+                fetched: true,
+            }
         case "FETCH_DATA_FULFILLED":
             return {
                 ...state,

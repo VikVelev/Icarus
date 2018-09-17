@@ -4,7 +4,6 @@ import url from './backendUrl.js'
 
 //TODO Find a smarter way to get Headers in there.
 
-
 export function fetch3DModels(id, token){
     return function(dispatch) {
         dispatch({type: "FETCH_MODELS"})

@@ -296,12 +296,18 @@ export default class Viewport {
             if (object.name === id) {
                 toRemove.push(object)
             }
-            
         })
         
         toRemove.forEach(element => {
             this.scene.remove(element)
         })
+
+        // if(this.demo && this.currentlyRendering.length > 0) {
+        //         for (let j = 0; j < this.currentlyRendering[0].model.children.length; j++) {
+        //             delete this.currentlyRendering[0].model.children[j].material.color;
+        //             console.log(this.currentlyRendering[0].textures)
+        //         }
+        // }
     }
 
     clear() {

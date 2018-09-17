@@ -789,3 +789,17 @@ textarea {
 {
     width: 3em !important;
 }
+
+.demoPanel{
+    background-color: #fff;
+    margin: auto;
+    margin-top: 5vh;
+    padding: 9px;
+    height: auto;
+    width: 20%;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 3px 0px 10px #666;
+    opacity: 0.9;
+    padding-top: 15px;
+}
