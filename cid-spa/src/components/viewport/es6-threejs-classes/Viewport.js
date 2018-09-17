@@ -249,11 +249,23 @@ export default class Viewport {
                 } else {
                     if (this.currentlyRendering[0].model.name > element.name) {
                         this.currentlyRendering[0].model.children.forEach(child => {
-                            this.colorMesh(child, new Color(green));
+                            if (child.material.length > 1) {
+                                child.material.forEach(mat => {
+                                    mat.color = new Color(green)
+                                })
+                            } else {
+                                child.material = new Color(green)
+                            }
                         })
                     } else {
                         element.children.forEach(child => {
-                            this.colorMesh(child, new Color(green));
+                            if (child.material.length > 1) {
+                                child.material.forEach(mat => {
+                                    mat.color = new Color(green)
+                                })
+                            } else {
+                                child.material = new Color(green)
+                            }
                         })
                         newer = true;
                     }
@@ -269,15 +281,8 @@ export default class Viewport {
                     // Convert faces to lines and check if lines intersect with each other, after that
                     // cut them out of the rest and create a shape geometry
                     // do what you want with that shape geometry
-                    if (mesh.material.length > 1) {
-                        mesh.material.forEach(mat => {
-                            mat.color = new Color(green)
-                        })
-                    } else {
-                        mesh.material = new Color(green)
-                    }
+                
                     
-
                     if (mesh.geometry !== undefined && mesh.geometry !== null ){
                         //if the version is older
                         if(!newer) {
