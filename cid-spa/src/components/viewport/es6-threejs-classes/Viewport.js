@@ -181,18 +181,9 @@ export default class Viewport {
         this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
         this.raycaster.setFromCamera( this.mouse, this.camera );
         
-<<<<<<< HEAD
         //console.log(this.currentlyRendering[0])
         //let intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );
        
-=======
-        let intersects = []
-        if (this.currentlyRendering[1] !== undefined) {
-            intersects = this.raycaster.intersectObjects( this.currentlyRendering[1].extractedGeometry.children );
-        } else {
-            intersects = this.raycaster.intersectObjects( this.currentlyRendering[0].extractedGeometry.children );            
-        }
->>>>>>> 0e84ac78389d4b549fba0725719c2d6cd61e61a0
         //console.log("Throwing a ray at ", this.mouse.x, this.mouse.y, intersects)
 
         // if ( intersects.length > 0 ) {
