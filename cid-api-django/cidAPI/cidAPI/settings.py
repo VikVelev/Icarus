@@ -199,12 +199,8 @@ STATIC_URL = 'http://cid-platform.com/static/'
 STATIC_ROOT = 'cidAPI/static'
 
 DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
-<<<<<<< HEAD
 MINIO_STORAGE_ENDPOINT = "cid-platform.com:9000"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
-=======
-MINIO_STORAGE_ENDPOINT = "172.24.0.3:9000"
->>>>>>> 96645fe1a3420fbbf014427acf8bce5999209248
 MINIO_STORAGE_SECRET_KEY = "test_secret"
 MINIO_STORAGE_ACCESS_KEY = "test_access"
 MINIO_STORAGE_MEDIA_BUCKET_NAME = "media"
