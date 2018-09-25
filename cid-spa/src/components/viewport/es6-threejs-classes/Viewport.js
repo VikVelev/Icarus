@@ -224,6 +224,7 @@ export default class Viewport {
     }
 
     addModel(model3d, id){
+
         let green = 0x00ff00
         let red = 0xff0000
 
@@ -242,20 +243,27 @@ export default class Viewport {
                         })
                     } else {
                         element.children.forEach(child => {
-                            this.colorMesh(child, new Color(green));                            
+                            this.colorMesh(child, new Color(green));                         
                         })
                         newer = true;
                     }
                 } else {
                     if (this.currentlyRendering[0].model.name > element.name) {
                         this.currentlyRendering[0].model.children.forEach(child => {
+
                             if (child.material.length > 1) {
                                 child.material.forEach(mat => {
                                     mat.color = new Color(green)
                                 })
+                                
+                                child.material.color = new Color(green);
                             } else {
-                                child.material = new Color(green)
+                                //TODO make this better
+                                if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
+                                    child.material.color = new Color(green);
+                                }
                             }
+
                         })
                     } else {
                         element.children.forEach(child => {
@@ -264,7 +272,9 @@ export default class Viewport {
                                     mat.color = new Color(green)
                                 })
                             } else {
-                                child.material = new Color(green)
+                                if(child.material.name !== "Glass" && child.material.name !== "Translucent_Glass_Gray") {
+                                    child.material.color = new Color(green);
+                                }
                             }
                         })
                         newer = true;
@@ -308,9 +318,12 @@ export default class Viewport {
             !exists ? meshContainer.push(element) : null;
         })
 
+        
         if(meshContainer.length > 0) {
             this.renderingMeshes.push(meshContainer);
         }
+
+
         this.currentlyRendering.push( model3d );
     }
 
@@ -326,7 +339,7 @@ export default class Viewport {
                 for (let i = 0; i < this.currentlyRendering.length; i++) {
                     for (let j = 0; j < this.currentlyRendering[i].import.length; j++) {
                         if(object.name === this.currentlyRendering[i].import[j].name && object.name === id ) {
-                            this.currentlyRendering.splice(i,1)                       
+                            this.currentlyRendering.splice(i,1)
                             spliced = true;
                             break
                         }
@@ -345,7 +358,7 @@ export default class Viewport {
         })
 
         this.scene.traverse(object => {
-            if(object.parent !== null && this.demo){
+            if(object.parent !== null){
                 if(object.parent.name !== undefined && object.parent.name !== "") {
                     if(object.type === "Mesh" && this.currentlyRendering.length > 0) {
                         for (let i = 0; i < this.currentlyRendering[0].textures.length; i++) {
