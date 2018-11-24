@@ -1,4 +1,4 @@
-# Currently hosted at: nowhere, ran out of gas. Contact me if interested.
+# Currently hosted at: cid-platform.com
 
 
 # Notes before trying to use it.
