@@ -104,7 +104,9 @@ export default class Content extends Component {
                         <Route exact path="/profile/model/:id" component={this.routes.ViewModel}/>
 
                         <Route exact path="/revisions" component={this.routes.Revisions}/>
-                        <Route path='*' type={404} exact={true} component={this.routes.Error404} />          
+                        <Route exact path="/*" type={404} exact={true} component={this.routes.Error404} />          
+                        <Route exact path="*" type={404} exact={true} component={this.routes.Error404} />          
+                        <Route path="*" type={404} exact={true} component={this.routes.Error404} />          
                     </Switch>
                 </div>
             </Router>

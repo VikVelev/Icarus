@@ -115,7 +115,14 @@ export default class ViewModel3D extends Component {
     render() {
         if(this.props.model3d.viewModelFetched && Object.keys(this.props.model3d.error).length === 0){
             let model = this.props.model3d.model[0]
-            let picture = model.owners[0].profile.profile_picture
+            let picture = null;
+
+            if (model.owners[0].profile !== undefined) {
+                if (model.owners[0].profile.profile_picture !== undefined) {
+                    picture = model.owners[0].profile.profile_picture
+                }
+            }
+
             let text = lang[this.props.lang].modelViewPage
             
 
