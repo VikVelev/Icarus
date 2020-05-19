@@ -3,14 +3,21 @@ Version control web platform for 3D models. Making collaborating in 3D design ea
 
 # Features
 
-You can upload 3D models (currently supporting obj and mtl for now, but adding blender support shouldn't be hard).
-You can view each one of them in the respective user's profile.
-You can fork different projects.
-You can contribute to other 3D projects. (By sending "pull requests" and awaiting approval from the creator)
-You can visualize the difference between two different versions.
-Features an optimized viewport written with the help of three.js. Running on any device supporting WebGL.
-Features a Home and Trending page where people post reviews of different models.
-Features a Profile page for each user containing statistics about their commits, models and interests.
+- You can upload 3D models (currently supporting obj and mtl for now, but adding blender support shouldn't be hard).
+
+- You can view each one of them in the respective user's profile.
+
+- You can fork different projects. 
+
+- You can contribute to other 3D projects. (By sending "pull requests" and awaiting approval from the creator)
+
+- You can visualize the difference between two different versions.
+
+- Features an optimized viewport written with the help of three.js. Running on any device supporting WebGL.
+
+- Features a Home and Trending page where people post reviews of different models.
+
+- Features a Profile page for each user containing statistics about their commits, models and interests.
 
 # Currently hosted at: {contact me to send you the link as it is in closed alpha}
 
