@@ -1,5 +1,5 @@
 # Icarus
-Version control web platform for 3D models. Making collaborating in 3D design easier. It was made for a couple of computer science competitions back in 2018 with big aspirations for the future, after receiving an overwhelmingly positive feedback.
+Version control web platform for 3D models. Making collaborating in 3D design easier. It was made for a couple of computer science competitions and conferences back in 2018 with big aspirations for the future, especially after receiving an overwhelmingly positive feedback there.
 
 # Features
 
