@@ -91,7 +91,7 @@
     "serve": "^6.5.2",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",
-    "three": "^0.90.0",
+    "three": "^0.125.0",
     "three-js": "^79.0.0",
     "three-obj": "^0.6.5",
     "three-obj-loader": "^1.1.3",
