@@ -59,7 +59,7 @@
     "gulp-watch": "^5.0.0",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "map-stream": "^0.0.7",
     "moment": "^2.21.0",
     "object-assign": "4.1.1",
